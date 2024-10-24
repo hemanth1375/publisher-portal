@@ -1,0 +1,15 @@
+.input-size{
+    width: 90%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.parameter-button{
+    background-color: rgba(101, 85, 143, 1) !important;
+    border-radius:15px;
+    height:35px;
+    width:180px;
+    color:white !important;
+}
+.parameter-span-text{
+    color:rgba(21, 20, 23, 0.74);
+}

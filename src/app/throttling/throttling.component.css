@@ -1,0 +1,16 @@
+.input-label{
+    font-size:13px;
+}
+.input-size{
+    width: 80%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.input-size1{
+    width: 100%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.cidr-span{
+    padding-left: 20px;
+}

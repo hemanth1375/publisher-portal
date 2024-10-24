@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Response Manipulation</h2>
+            <p>When you manipulate data at the endpoint level, you have the last chance to work with the aggregated data coming from all endpoints</p>
+            <hr>
+            <div class="col-sm-12">
+                <p>Static response <mat-slide-toggle (change)="onToggleChangeStaticResponse($event)"></mat-slide-toggle></p>
+                <p>When the backend fails you can still return the static data provided below to the user. The data is merged with any existing partial responses. If you still don't have a backend and want to have this data, add a fake one that cannot be resolved</p>
+                @if(isStaticResponseEnabled){
+                    <div class="d-flex">
+                        <div class="col-sm-6">
+                            <p>Response</p>
+                            <textarea class="static-text-area"></textarea><br>
+                            <span>Provide the JSON object you want to return (ensure to start and end with curly braces)</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Algorithm</p>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                              </select>
+                        </div>
+                    </div>
+                }
+            </div>
+            <hr class="mt-4">
+            <div class="col-sm-12">
+                <p>Advance Response Manipulation(JMESPath) <mat-slide-toggle (change)="onToggleChangeAdvanceResponse($event)"></mat-slide-toggle></p>
+                <p>Manipulate the response dataset after the aggregation layer using a JSON Query language</p>
+                @if(isAdvanceResponseEnabled){
+                    
+                    <div class="mt-3">
+                        <p>Expression</p>
+                        <div class="d-flex">
+                            <div class="col-sm-6">
+                            <input class="input-size" type="text"/>
+                        </div>
+                            <span class="col-sm-6 ">JMESpath query to execute on returned results of /v1/huge-fountain/&#123;id_fountain&#125;</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Example of how JMESPath works</p>
+                        <div class="d-flex">
+                            <div class="col-sm-6">
+                                <p>Server Response</p>
+                                <textarea class="static-text-area"></textarea><br>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Expression</p>
+                                <textarea class="static-text-area"></textarea><br>
+                            </div>
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <p>Return Response</p>
+                            <textarea class="static-text-area"></textarea><br>
+                        </div>
+                    </div>
+                }
+            </div>
+            <hr class="mt-4">
+            <div class="mb-4">
+                <p>RegExp Content Replacer<mat-slide-toggle (change)="onToggleChangeRegExp($event)"></mat-slide-toggle></p>
+                <p>The content replacer plugin allows you to modify the response of your services by doing literal replacements or more sophisticated replacements with regular expressions.</p>
+                @if(isAdvanceRegExpEnabled){
+                   
+                    <div class="d-flex">
+                        <div class="col-sm-12 col-md-6">
+                            <p>Find (in qqq)</p>
+                            <input type="text" class="input-size"/><br>
+                            <span class="input-label">The find expression or literal you want to use.</span>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <p>Replace by (in qqq)</p>
+                            <input type="text" class="input-size"/><br>
+                            <span class="input-label">The literal string or expression you want to use as a replacement. You can use capture groups with $1, $2, etc.</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Path</p>
+                        <input type="text" class="input-size"/>
+                        <p>You can load the response from an external file instead of editing the template</p>
+                    </div>
+                }
+            </div>
+            <hr>
+            <div class="mb-4">
+                <p>Response Manipulation with go templates<mat-slide-toggle (change)="onToggleChangeResponseGo($event)"></mat-slide-toggle></p>
+                <p>The response body generator lets you write a whole new payload using a template that has access to all the response data. In addition to the payload from the backend, you can incorporate other information such as headers, status codes, query strings, or URL parameters.</p>
+                @if(isAdvanceResponseGoEnabled){
+                    <div>
+                        <textarea class="static-text-area"></textarea>
+                        <p>The response body you will return to the end-user. You can introduce the variables .resp_headers.xxx, .resp_headers.xxx (with no-op), .resp_status.xxx (with no-op), .resp_body.xxx, .req_params.Xxx, .req_headers.xxx, .req_querystring.xxx, .req_path</p>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-sm-12 col-md-6">
+                            <p>Content type</p>
+                            <input type="text" class="input-size"/><br>
+                            <span class="input-label">The Content-Type that you are coding in the template. Defaults to<br>application/json</span>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <p>Enable Debug</p>
+                            <span class="input-label">shows useful information in the logs with DEBUG level about the input received and the body generated. Do not enable in production</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Path</p>
+                        <input type="text" class="input-size"/>
+                        <p>You can load the response from an external file instead of editing the template</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.static-text-area{
+    background-color: black;
+    width:80%;
+    color:white;
+}
+.input-size{
+    width: 90%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.exp-span{
+    padding-left: 20px;
+}

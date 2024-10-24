@@ -1,0 +1,166 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Throttling</h2>
+            <p>TimeOut and Cache TTL</p>
+            <p>All the settings below are defined in the Service configuration, setting one or several values here means overriding the settings for this specific endpoint only</p>
+            <p>Valid time units : ns, us (or µs), ms, s, m, h E.g: 1s</p>
+            <div class="d-flex">
+                <div class="col-sm-12 col-md-6">
+                    <p>TimeOut</p>
+                    <input type="text" class="input-size"/><br>
+                    <span class="input-label">Maximum time you'll wait for the slowest response</span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <p>Cache TTL</p>
+                    <input type="text" class="input-size"/><br>
+                    <span class="input-label">For how long a proxy can cache a request to<br> this endpoint</span>
+                </div>
+                
+            </div>
+
+        </div>
+        <hr class="mt-4">
+        <div class="col-sm-12">
+            <p>IP Filter <mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></p>
+            <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are authorized to use the API, or that are denied from using the AP</p>
+            @if(isIpFilterEnabled){
+                <div>
+                    <p>CIDR</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">The CIDR blocks (list of IPs) you want to allow or deny. Examples: 192.168.0.0/24, 172.17.2.56/32, 127.0.0.</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Trusted Proxies</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">A custom list of all the recognized machines/balancers that proxy the client to your application. This list is used to avoid spoofing when trying to get the real IP of the client.</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Client IP Headers</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">A custom ordered list of all headers that might contain the real IP of the client. The first matching IP in the list will be used</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <p>Allow mode</p>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Check to only allow connections in the CIDR list. Uncheck to deny all IPs from the list.</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr class="mt-4">
+
+        <div class="col-sm-12">
+            <p>End Point Rate Limit <mat-slide-toggle (change)="onToggleChangeEndPoint($event)"></mat-slide-toggle></p>
+            <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are authorized to use the API, or that are denied from using the AP</p>
+            @if(isEndPointRateLimitEnabled){
+                <div>
+                    <p>Rate Limit</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Maximum requests you want to let this endpoint handle in the specified time (every). Leave 0 for no default limit.</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Every</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Time window where this rate limit applies</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Capacity</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket. Traduces into maximum concurrent requests this endpoint will accept for all users</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Default User Quota</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Maximum requests per second you want to allow to each different API user. This value will be used as default for all the endpoints unless overridden in each of them. Use 0 for no limitation.</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p>Client Capacity</p>
+                    <div class="d-flex">
+                        <div class="col-sm-3">
+                        <input class="input-size1" type="text"/>
+                    </div>
+                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket for each individual user. Traduces into maximum concurrent requests this endpoint will accept for the connected user</span>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr class="mt-4">
+
+        <div class="col-sm-12 mb-5">
+            <p>Redis Rate Limit <mat-slide-toggle (change)="onToggleChangeRedis($event)"></mat-slide-toggle></p>
+            <p>The global rate limit functionality enables a Redis database store to centralize all KrakenD node counters. Instead of having each KrakenD node count its hits, the counters are global and stored in the database</p>
+            @if(isRedisRateLimitEnabled){
+                <div class="d-flex">
+                    <div class="col-sm-12 col-md-6">
+                        <p>Address</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">The host and port where your redis is using the format host:port, <br>e.g.: redis:6379</span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <p>Rate</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">Number of allowed requests during the observed period.</span>
+                    </div>
+                    
+                </div>
+                <div class="d-flex mt-3">
+                    <div class="col-sm-12 col-md-6">
+                        <p>Periods</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">Time window on which the counters take effect.</span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <p>Burst</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">How many requests a client can make above the rate specified <br>during a peak</span>
+                    </div>
+                    
+                </div>
+                <div class="d-flex mt-3">
+                    <div class="col-sm-12 col-md-6">
+                        <p>Tokenizer</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">The strategy to define users. How do you identify a user?</span>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <p>Tokenizer Field</p>
+                        <input type="text" class="input-size"/><br>
+                        <span class="input-label">A custom field that contains the tokenizer (e.g., extracting the token from a custom header other than Authorization or using a claim from a JWT other than jti)</span>
+                    </div>
+                    
+                </div>
+            }
+        </div>
+    </div>
+</div>

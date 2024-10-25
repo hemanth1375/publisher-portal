@@ -10,16 +10,17 @@ import { ViewapiPageComponent } from './viewapi-page/viewapi-page.component';
 import { ParameterForwardingComponent } from './parameter-forwarding/parameter-forwarding.component';
 import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
 import { ThrottlingComponent } from './throttling/throttling.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
 import { ResponseManipulationComponent } from './response-manipulation/response-manipulation.component';
 import { OpenapiComponent } from './openapi/openapi.component';
 import { ConnectivityOptionsComponent } from './connectivity-options/connectivity-options.component';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { PoliciesComponent } from './policies/policies.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     ThrottlingComponent,
     ResponseManipulationComponent,
     OpenapiComponent,
-    ConnectivityOptionsComponent
+    ConnectivityOptionsComponent,
+    PoliciesComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatButtonModule,
     MatIconModule,
     MatAutocompleteModule,
-    FormsModule,ReactiveFormsModule,
+    FormsModule, ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule
   ],

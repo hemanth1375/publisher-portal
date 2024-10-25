@@ -1,0 +1,194 @@
+<!-- <p>policies works!</p> -->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2>Policies</h2>
+      <h3>The policies engine lets you write custom rules validated on runtime during requests, responses,
+        and token
+        validation.</h3>
+    </div>
+    <hr class="mt-4">
+    <div class="col-sm-12">
+      <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></h3>
+      <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
+        Access Control) and ABAC (Attribute-Based Access Control) strategies</p>
+      @if(isSpFilterEnabled){
+      <div>
+        <h3>Request Policies</h3>
+        <div class="d-flex">
+          <div class="col-sm-12 col-md-4">
+            <p>Request Policies</p>
+            <input type="text" class="input-size form-control" placeholder="value" />
+            <button>+</button><br>
+            <span class="input-label">Policy. Example: hasQuerystring('q')</span>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <p>Eroor status code</p>
+            <input type="text" class="input-size form-control" placeholder="400" /><br>
+            <span class="input-label">Returned status on violated policy</span>
+          </div>
+
+        </div>
+      </div>
+      <br>
+
+
+      <div>
+        <div class="d-flex">
+          <div class="col-sm-12 col-md-4">
+            <p>Error body</p>
+            <input type="text" class="input-size form-control" placeholder="Policies violated" /><br>
+            <span class="input-label">Empty string to return the validation<br> error, or write a string with the
+              error<br>
+              response body. You can add escaped<br>JSON, XML, etc in the string and add a <br>Content-Type.</span>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <p>Errror content type</p>
+            <input type="text" class="input-size form-control" placeholder="Text/Plain" /><br>
+            <span class="input-label">The Content-Type header you'd like to<br> send with the error response. When
+              unset,<br>
+              uses text/plain by default.</span>
+          </div>
+
+        </div>
+      </div>
+      <br>
+      <div>
+        <h3>Response Policies</h3>
+        <div class="d-flex">
+          <div class="col-sm-12 col-md-4">
+            <p>Response Policies</p>
+            <input type="text" class="input-size form-control" placeholder="value" />
+            <button>+</button><br>
+            <span class="input-label">Policy. Example: hasQuerystring('q')</span>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <p>Eroor status code</p>
+            <input type="text" class="input-size form-control" placeholder="400" /><br>
+            <span class="input-label">Returned status on violated policy</span>
+          </div>
+
+        </div>
+      </div>
+      <br>
+
+
+      <div>
+        <div class="d-flex">
+          <div class="col-sm-12 col-md-4">
+            <p>Error body</p>
+            <input type="text" class="input-size form-control" placeholder="Policies violated" /><br>
+            <span class="input-label">Empty string to return the validation<br> error, or write a string with the
+              error<br>
+              response body. You can add escaped<br>JSON, XML, etc in the string and add a <br>Content-Type.</span>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <p>Errror content type</p>
+            <input type="text" class="input-size form-control" placeholder="Text/Plain" /><br>
+            <span class="input-label">The Content-Type header you'd like to<br> send with the error response. When
+              unset,<br>
+              uses text/plain by default.</span>
+          </div>
+
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div>
+        <h3>Jwt validation Policeis</h3>
+        <div class="col-sm-12 col-md-6">
+          <p>Request Policies</p>
+          <input type="text" class="input-size form-control" placeholder="value" />
+          <button>+</button><br>
+          <span class="input-label">Policy. Example:has(JWT.user_id) && 'legal' == JWT.department</span>
+        </div>
+
+      </div>
+      <br>
+      <br>
+      <div>
+        <h3>Debug and performance</h3>
+        <br>
+        <div class="d-flex">
+          <div class="col-sm-12 col-md-4">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1">&nbsp;&nbsp;&nbsp;
+              <h3 class="checkbox-text">Enable Debug</h3><br>
+            </div>
+            <span class="input-label">Evaluation results are printed in the<br> console.</span>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1">&nbsp;&nbsp;&nbsp;
+              <h3 class="checkbox-text">Auto Join Policies</h3><br>
+            </div>
+            <span class="input-label">All policies concatenate with an AND<br>operation to evaluate a single
+              expression.<br> Faster, but harder to debug.</span>
+
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1">&nbsp;&nbsp;&nbsp;
+              <h3 class="checkbox-text">Disable Macros</h3><br>
+            </div>
+
+            <span class="input-label">Advanced macros can be disabled when<br> not used for a faster evaluation.</span>
+          </div>
+
+        </div>
+      </div>
+
+      }
+    </div>
+    <hr class="mt-4">
+    <div class="col-sm-12">
+      <h3>Request schema validator &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange1($event)"></mat-slide-toggle>
+      </h3>
+      <p>The policies engine lets you write custom rules validated on runtime during requests, responses, and token
+        validation. The policies allow you to implement all sorts of validations and user access control, from parameter
+        compliance, to RBAC (Role-Based Access Control) and ABAC (Attribute-Based Access Control) strategies. </p>
+      @if(isRequestSchValidatorFiltrEnabled){
+      <div class="col-sm-12 col-md-9">
+        <textarea name="" id="" class="static-text-area">{}</textarea>
+
+      </div>
+
+      }
+    </div>
+    <hr class="mt-4">
+
+    <div class="col-sm-12">
+      <h3>Response schema validator &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange2($event)"></mat-slide-toggle>
+      </h3>
+      <p>The response schema validator plugin adds a schema validation before the gateway returns the response to the
+        end-user or before it's merged in the endpoint with the rest of the backends. </p>
+      @if(isResponseSchValidatorFiltrEnabled){
+      <div class="col-sm-12 col-md-9">
+        <textarea name="" id="" class="static-text-area">{}</textarea><br>
+        <p>Write your JSON schema directly in this field, with any number of fields or validations you need.</p>
+
+        <div class="d-flex col-sm-12">
+          <div class="col-sm-12 col-md-6">
+            <p>Error Message</p>
+            <input type="text" class="input-size form-control" placeholder="Policies violated" />
+            <span class="input-label">The error message you want to show<br> when the validation fails. Leave it
+              empty<br> to show the JSON-schema validation<br> error.</span>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <p>Errror status code</p>
+            <input type="text" class="input-size form-control" placeholder="Text/Plain" />
+            <span class="input-label">The HTTP status code you want to set<br> back in the response.</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      }
+    </div>
+
+  </div>
+
+</div>

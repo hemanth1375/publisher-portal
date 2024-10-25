@@ -14,6 +14,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import { ResponseManipulationComponent } from './response-manipulation/response-manipulation.component';
 import { OpenapiComponent } from './openapi/openapi.component';
+import { ConnectivityOptionsComponent } from './connectivity-options/connectivity-options.component';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -25,13 +31,19 @@ import { OpenapiComponent } from './openapi/openapi.component';
     SidenavbarComponent,
     ThrottlingComponent,
     ResponseManipulationComponent,
-    OpenapiComponent
+    OpenapiComponent,
+    ConnectivityOptionsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatSlideToggleModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    FormsModule,ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     provideAnimationsAsync()

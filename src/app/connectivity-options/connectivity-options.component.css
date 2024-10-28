@@ -1,0 +1,17 @@
+.input-size{
+    width: 60%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius:5px;
+    border: none;
+  }
+  .parameter-item mat-icon {
+    font-size: 16px;
+  }

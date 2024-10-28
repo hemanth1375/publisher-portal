@@ -10,8 +10,8 @@ import { ViewapiPageComponent } from './viewapi-page/viewapi-page.component';
 import { ParameterForwardingComponent } from './parameter-forwarding/parameter-forwarding.component';
 import { SidenavbarComponent } from './sidenavbar/sidenavbar.component';
 import { ThrottlingComponent } from './throttling/throttling.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
 import { ResponseManipulationComponent } from './response-manipulation/response-manipulation.component';
 import { OpenapiComponent } from './openapi/openapi.component';
 import { AuthPageComponent } from './auth-page/auth-page.component';
@@ -21,7 +21,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import { ConnectivityOptionsComponent } from './connectivity-options/connectivity-options.component';
+import { PoliciesComponent } from './policies/policies.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ThrottlingComponent,
     ResponseManipulationComponent,
     OpenapiComponent,
-    AuthPageComponent
+    AuthPageComponent,
+    ConnectivityOptionsComponent,
+    PoliciesComponent
   ],
   imports: [
     BrowserModule,
@@ -46,8 +49,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
-    MatFormFieldModule,MatCheckboxModule
-    
+    MatFormFieldModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     provideAnimationsAsync()

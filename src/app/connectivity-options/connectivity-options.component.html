@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="row">
+        <form [formGroup]="formGroup1">
+        <div class="col-sm-12">
+            <h2>Connectivity Options</h2>
+            <p> KrakenD connects to all backends in parallel. Here you can set special behaviors of this endpoint when
+                connecting to backends, like increasing the pressure to a backend to get better response times, connect
+                one by one, or use WebSockets.</p>
+
+        </div>
+        <hr class="mt-4">
+        <div class="col-sm-12">
+            <h3>Concurrent Calls</h3>
+            <p>The concurrent requests are an excellent technique to improve the response times and decrease error rates
+                by requesting in parallel the same information multiple time</p>
+            <h4>Concurrent Calls</h4>
+            <input type="text" class="input-size" value='400'>
+            <p>Number of parallel requests you want to send to the backend for the same request. Fastest request is
+                taken and the rest are discarded. Recommended values 1-3</p>
+        </div>
+        <hr class="mt-4">
+        <div class="col-sm-12">
+            <p>Web Sockets <mat-slide-toggle (change)="onToggleChangeWebSocketResponse($event)"></mat-slide-toggle></p>
+            @if(!isWebSocketEnabled){
+            <p>Communications using the WebSocket Protocol (RFC-6455) to enable two-way communication between a client
+                to a backend host through the API gateway.</p>
+            }
+            @if(isWebSocketEnabled){
+            <div class="d-flex">
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" id="notifyConnectionEvent" class="me-2">
+                        <h3 class="mb-0">Notify the connection event</h3>
+                    </div>
+                    <p>Notifies in the log when there is the client connect event</p>
+                    <h3>Backoff Strategy</h3>
+                    <select class="form-select form-select-sm" style="width: 300px;">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <p>When the connection to your event source gets interrupted for whatever reason, KrakenD keeps
+                        trying to reconnect until it succeeds or until it reaches the max_retries. The backoff strategy
+                        defines the delay in seconds in between consecutive failed retries</p>
+                    <h3>Read Buffer Size</h3>
+                    <input type="text" class="input-size" value='1024'>
+                    <p>The find expression or literal you want to use.Connections buffer network input and output to
+                        reduce the number of system calls when reading messages. You can set the maximum buffer size for
+                        reading (in bytes).</p>
+                    <h3>Write wait</h3>
+                    <input type="text" class="input-size" value='10s'>
+                    <p>Sets the maximum time KrakenD will wait until the write times out.</p>
+                    <h3>Max Retries</h3>
+                    <input type="text" class="input-size" value='10s'>
+                    <p>The maximum number of times you will allow KrakenD to retry reconnecting to a broken messaging
+                        system. Use a value h3= 0 for unlimited retries.</p>
+
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" id="notifyConnectionEvent" class="me-2">
+                        <h3 class="mb-0">Notify the disconnection event</h3>
+                    </div>
+                    <p>Notifies in the log when there is a client disconnect event</p>
+                    <h3>Input headers</h3>
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="input-size me-2" formControlName="inputHeader">
+                        <button type="button" class="btn btn-info" (click)="addParameter()">+</button>
+                    </div>
+                    <div class="mt-3 d-flex">
+                        <button *ngFor="let parameter of parameterArray; let i = index" class="parameter-item">
+                          {{ parameter }}<mat-icon (click)="removeParameter(i)" class="d-flex align-items-center justify-content-end">close</mat-icon>
+                        </button>
+                    </div>
+
+                    <p>Defines which input headers are allowed to pass to the backend. Leave * for all headers declared
+                        in the endpoint.</p>
+
+                    <h3>Write Buffer size</h3>
+                    <input type="text" class="input-size" value='1024'>
+                    <p>Connections buffer network input and output to reduce the number of system calls when writing
+                        messages. You can set the maximum buffer size for writing in bytes.</p>
+                    <h3>Pong Wait</h3>
+                    <input type="text" class="input-size" value='60s'>
+                    <p>Sets the maximum time KrakenD will wait until the pong times out.</p>
+                    <h3>Return error details</h3>
+                    <p>Provides an error &#123;"error":"reason here" &#125; to the client when KrakenD was unable to
+                        send the
+                        message to the backend.</p>
+                </div>
+            </div>
+            }
+        </div>
+        <hr class="mt-4">
+        <div class="col-sm-12">
+            <h3>Sequential proxy<mat-slide-toggle (change)="onToggleChangeSequencialproxy($event)"></mat-slide-toggle>
+            </h3>
+            @if(isSequencialproxy){
+            <p>Sequential proxy - enabled</p>
+            }
+            <p>Calls backends sequentially instead of in parallel, so you can inject data from a previous call in
+                the url_pattern of the next call. injecting variables like &#123;resp0_XXXX&#125; where 0 is the index
+                of the
+                backend and XXXX the attribute. E.g: &#123;resp1_hotel_id&#125; takes the field hotel_id from the first
+                backend
+                call (index starts at 0).</p>
+        </div>
+    </form>
+
+    </div>
+</div>

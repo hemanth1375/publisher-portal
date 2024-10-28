@@ -14,6 +14,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import { ResponseManipulationComponent } from './response-manipulation/response-manipulation.component';
 import { OpenapiComponent } from './openapi/openapi.component';
+import { AuthPageComponent } from './auth-page/auth-page.component';
+import {MatIconModule} from '@angular/material/icon';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @NgModule({
   declarations: [
@@ -25,13 +33,21 @@ import { OpenapiComponent } from './openapi/openapi.component';
     SidenavbarComponent,
     ThrottlingComponent,
     ResponseManipulationComponent,
-    OpenapiComponent
+    OpenapiComponent,
+    AuthPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatSlideToggleModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatInputModule,
+    MatFormFieldModule,MatCheckboxModule
+    
   ],
   providers: [
     provideAnimationsAsync()

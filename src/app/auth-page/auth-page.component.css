@@ -1,0 +1,36 @@
+.heading-with-toggle h3{
+    margin: 0px;
+}
+
+.main-con h2{
+    margin: 0px;
+}
+
+.input-with-helper-text{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;;
+}
+
+.input-with-helper-text p{
+    font-size: 13px;
+}
+
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius:5px;
+    border: none;
+  }
+
+  .parameter-item mat-icon {
+    font-size: 16px;
+  }
+
+  .fingerprint{
+    background: black;
+    color: white;
+  }

@@ -14,24 +14,32 @@
         </div>
         <div class="col-sm-10">
             <!-- <router-outlet></router-outlet> -->
+            @if(selectedItem.name==="EndPoint"){
+            <app-end-point-page (endPointFormSubmitted)="collectData('endPoint',$event)"></app-end-point-page>
+            }
             @if(selectedItem.name==="Parameter Forwarding"){
-            <app-parameter-forwarding></app-parameter-forwarding>
+            <app-parameter-forwarding (formSubmitted)="collectData('parameterForwarding',$event)"></app-parameter-forwarding>
             }
             @if(selectedItem.name==="Throttling"){
-            <app-throttling></app-throttling>
+            <app-throttling (throttlingFormSubmitted)="collectData('throttling',$event)"></app-throttling>
             }
             @if(selectedItem.name==="Response Manipulation"){
-            <app-response-manipulation></app-response-manipulation>
+            <app-response-manipulation (responseManipulationFormSubmitted)="collectData('responseManipulation',$event)"></app-response-manipulation>
             }
             @if(selectedItem.name==="Auth"){
-            <app-auth-page></app-auth-page>
+            <app-auth-page (authPageFormSubmitted)="collectData('auth',$event)"></app-auth-page>
             }
+
             @if(selectedItem.name==="Policies"){
-            <app-policies></app-policies>
+            <app-policies (policiesFormSubmitted)="collectData('policies',$event)"></app-policies>
             }
             @if(selectedItem.name==="connectivity Options"){
-            <app-connectivity-options></app-connectivity-options>
+            <app-connectivity-options (connectivityFormSubmitted)="collectData('connectivityOptions',$event)"></app-connectivity-options>
             }
+             @if(selectedItem.name==="Open Api"){
+        <app-openapi (openapiFormSubmitted)="collectData('openApi',$event)"></app-openapi>
+        }
         </div>
+        
     </div>
 </div>

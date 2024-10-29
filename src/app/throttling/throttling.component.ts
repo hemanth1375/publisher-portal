@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-throttling',
@@ -6,6 +7,34 @@ import { Component } from '@angular/core';
   styleUrl: './throttling.component.css'
 })
 export class ThrottlingComponent {
+
+  formGroupThrottling:FormGroup;
+  @Output() throttlingFormSubmitted =new EventEmitter<any>();
+  constructor(private formBuilder:FormBuilder){
+    this.formGroupThrottling=this.formBuilder.group({
+      timeout:[''],
+      cacheTtl:[''],
+      cidr:[''],
+      trustedProxies:[''],
+      clientIpHeaders:[''],
+      rateLimit:[''],
+      every:[''],
+      capacity:[''],
+      defaultUserQuota:[''],
+      clientCapacity:[''],
+      address:[''],
+      rate:[''],
+      periods:[''],
+      burst:[''],
+      tokenizer:[''],
+      tokenizerField:['']
+    })
+  }
+  saveForm(){
+    if(this.formGroupThrottling.valid){
+      this.throttlingFormSubmitted.emit(this.formGroupThrottling.value)
+    }
+  }
 
   isIpFilterEnabled = false; // Initially false
 

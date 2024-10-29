@@ -22,24 +22,24 @@
             <p>KrakenD is now in charge of token validation, but if you'd like to keep passing the JWT tokens to the
                 backend, add the Authorization header in the endpoint's parameter forwarding.</p>
             <p>Only the algorithm and the location of your jwk are mandatory fields.</p>
-            <form [formGroup]="formGroup1">
+            
                 <div class="col-sm-12 d-flex gap-3 p-3">
                     <div class="mb-3 col-sm-4">
-                        <label for="exampleselect" class="form-label">Algorithm</label>
+                        <label for="algorithmselect" class="form-label">Algorithm</label>
                         <div>
-                            <select class="form-select" aria-label="Default select example" id="exampleselect">
+                            <select class="form-select" aria-label="Default select example" id="algorithmselect" formControlName="algorithm">
                                 <option selected>Open this select menu</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div id="emailHelp" class="form-text">Digital signatures and MACs algorithm</div>
+                        <div class="form-text">Digital signatures and MACs algorithm</div>
                     </div>
                     <div class="mb-3 col-sm-4">
                         <label for="exampleInputEmail1" class="form-label">JWK URI</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">The URL to your JWK endpoint with the set of public keys
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="jwkUri">
+                        <div class="form-text">The URL to your JWK endpoint with the set of public keys
                             used to
                             verify the authenticity of JWT</div>
                     </div>
@@ -50,12 +50,12 @@
                         <div class="mb-3">
                             <label for="audience" class="form-label">Scopes to validate</label>
                             <div class="d-flex gap-2">
-                                <input type="email" class="form-control" formControlName="scopesToValidate"
+                                <input type="text" class="form-control" formControlName="scopesToValidate"
                                     id="audience" aria-describedby="audience">
                                 <button type="button" class="btn btn-outline-primary"
                                     (click)="addParameter('scopesToValidate')">Add</button>
                             </div>
-                            <div id="emailHelp" class="form-text">List of all the audiences supported by this endpoint
+                            <div class="form-text">List of all the audiences supported by this endpoint
                             </div>
                         </div>
                         <div class="mt-3 d-flex">
@@ -67,15 +67,15 @@
                     </div>
                     <div class="mb-3 col-sm-4">
                         <label for="exampleInputEmail1" class="form-label">Scopes key</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">The key name where the scopes can be found. The key can be
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="scopesKey">
+                        <div class="form-text">The key name where the scopes can be found. The key can be
                             a nested
                             object using the . dot notation, e.g.: data.data2.scopes</div>
                     </div>
                     <div class="mb-3 col-sm-2">
-                        <label for="exampleselect" class="form-label">Matcher</label>
+                        <label for="matcherselect" class="form-label">Matcher</label>
                         <div>
-                            <select class="form-select" aria-label="Default select example" id="exampleselect">
+                            <select class="form-select" aria-label="Default select example" id="matcherselect" formControlName="selectedMatcher">
                                 <option selected>Open this select menu</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -89,8 +89,8 @@
                 <div class="col-sm-12 p-3">
                     <div class="mb-3 col-sm-8">
                         <label for="exampleInputEmail1" class="form-label">Issuer</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">Who is the expected issuer of the claim</div>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="issuer">
+                        <div class="form-text">Who is the expected issuer of the claim</div>
                     </div>
                 </div>
 
@@ -99,12 +99,12 @@
                         <div class="mb-3">
                             <label for="audience" class="form-label">Audience</label>
                             <div class="d-flex gap-2">
-                                <input type="email" class="form-control" formControlName="audience"
+                                <input type="text" class="form-control" formControlName="audience"
                                     id="audience" aria-describedby="audience">
                                 <button type="button" class="btn btn-outline-primary"
                                     (click)="addParameter('audience')">Add</button>
                             </div>
-                            <div id="emailHelp" class="form-text">List of all the audiences supported by this endpoint
+                            <div class="form-text">List of all the audiences supported by this endpoint
                             </div>
                         </div>
                         <div class="mt-3 d-flex">
@@ -118,12 +118,12 @@
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Roles</label>
                             <div class="d-flex gap-2">
-                                <input type="email" class="form-control" formControlName="roles"
+                                <input type="text" class="form-control" formControlName="roles"
                                     id="exampleInputEmail1" aria-describedby="emailHelp">
                                 <button type="button" class="btn btn-outline-primary"
                                     (click)="addParameter('roles')">Add</button>
                             </div>
-                            <div id="emailHelp" class="form-text">List of all the roles allowed to access this endpoint
+                            <div class="form-text">List of all the roles allowed to access this endpoint
                             </div>
                         </div>
                         <div class="mt-3 d-flex">
@@ -138,31 +138,37 @@
                 <div class="col-sm-12 d-flex gap-3 p-3">
                     <div class="mb-3 col-sm-4">
                         <label for="exampleInputEmail1" class="form-label">Roles Key</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">Key name where the roles are stored</div>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="rolesKey">
+                        <div class="form-text">Key name where the roles are stored</div>
                     </div>
                     <div class="mb-3 col-sm-4">
-                        <label for="exampleInputEmail1" class="form-label">Cookie name</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">The key name of the cookie</div>
+                        <label for="cookieName" class="form-label">Cookie name</label>
+                        <input type="text" class="form-control" id="cookieName" aria-describedby="emailHelp" formControlName="cookieName">
+                        <div class="form-text">The key name of the cookie</div>
                     </div>
                 </div>
 
                 <div class="col-sm-12 heading-with-toggle gap-2 flex-column p-3">
                     <mat-checkbox class="example-margin">Roles key is nested</mat-checkbox>
-                    <div id="emailHelp" class="form-text">If the roles key is using a nested object using the . dot
+                    <div class="form-text">If the roles key is using a nested object using the . dot
                         notation, must be checked in order to traverse the object.</div>
                 </div>
 
                 <div class="col-sm-12 p-3 d-flex gap-3">
                     <div class="mb-3 col-sm-8 ">
                         <label for="exampleFormControlTextarea1" class="form-label">Fingerprints</label>
-                        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        <div id="emailHelp" class="form-text">All fingerprints must be in base64</div>
+                        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3" formControlName="fingerprint"></textarea>
+                        <div class="form-text">All fingerprints must be in base64</div>
                     </div>
                     <div class="col-sm-4 d-flex align-items-center">
-                        <button type="button" class="btn btn-outline-primary">Add Fingerprint</button>
+                        <button type="button" class="btn btn-outline-primary"(click)="addParameter('fingerprint')">Add Fingerprint</button>
                     </div>
+                </div>
+                <div class="mt-3 d-flex">
+                    <button *ngFor="let fingerprint of fingerprintsArray; let i = index" class="parameter-item">
+                        {{ fingerprint }} <mat-icon (click)="removeParameter(i,'fingerprint')"
+                            class="d-flex align-items-center justify-content-end">close</mat-icon>
+                    </button>
                 </div>
 
                 <div class="col-sm-12 p-3">
@@ -170,26 +176,26 @@
                         <mat-checkbox (change)="changeStatus()" class="example-margin">Custom Chiper Suite</mat-checkbox>
                     </div>
                     <div class="mb-3 col-sm-8" *ngIf="isCustomChiperSuiteActive">
-                        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3" formControlName="customChiperSuite"></textarea>
                     </div>
-                    <div id="emailHelp" class="form-text">Overrides the default cipher suites. Unless you have your
+                    <div class="form-text">Overrides the default cipher suites. Unless you have your
                         own legacy JWK you don't need to choose anything here</div>
                 </div>
 
                 <div class="col-sm-12 heading-with-toggle gap-2 d-flex p-3">
                     <div class="col-sm-5">
                         <mat-checkbox class="example-margin">Enable Caching</mat-checkbox>
-                        <div id="emailHelp" class="form-text">If this value is set to true validated tokens will be
+                        <div class="form-text">If this value is set to true validated tokens will be
                             stored in-memory for repeated validations</div>
                     </div>
                     <div class="col-sm-5">
                         <mat-checkbox class="example-margin">Disable JWK Security</mat-checkbox>
-                        <div id="emailHelp" class="form-text">When you are using an insecure connection (plain http)
+                        <div class="form-text">When you are using an insecure connection (plain http)
                         </div>
                     </div>
 
                 </div>
-            </form>
+            
             }
         </div>
     </div>
@@ -219,36 +225,36 @@
         @else {
             <div class="col-sm-12 d-flex p-3 gap-3">
                 <div class="mb-3 col-sm-4">
-                    <label for="exampleInputEmail1" class="form-label">JWK URI</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">Key name where the roles are storedThe URL to your JWK
+                    <label for="tokenSignJwkUri" class="form-label">JWK URI</label>
+                    <input type="text" class="form-control" id="tokenSignJwkUri" aria-describedby="emailHelp" formControlName="tokenSignJwkUri">
+                    <div class="form-text">Key name where the roles are storedThe URL to your JWK
                         endpoint with
                         the set of private keys used to sign the token</div>
                 </div>
                 <div class="mb-3 col-sm-4">
-                    <label for="exampleselect" class="form-label">Algorithm</label>
+                    <label for="tokenSignAlgorithmselect" class="form-label">Algorithm</label>
                     <div>
-                        <select class="form-select" aria-label="Default select example" id="exampleselect">
+                        <select class="form-select" aria-label="Default select example" id="tokenSignAlgorithmselect" formControlName="tokenSignAlgorithm">
                             <option selected>Open this select menu</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select>
                     </div>
-                    <div id="emailHelp" class="form-text">Digital signatures and MACs algorithm</div>
+                    <div class="form-text">Digital signatures and MACs algorithm</div>
                 </div>
             </div>
 
             <div class="col-sm-12 d-flex p-3 gap-3">
                 <div class="col-sm-5">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Keys to sign</label>
+                        <label for="keyToSign" class="form-label">Keys to sign</label>
                         <div class="d-flex gap-2">
-                            <input type="email" class="form-control" formControlName="keysToSign" id="exampleInputEmail1"
+                            <input type="text" class="form-control" formControlName="keysToSign" id="keyToSign"
                                 aria-describedby="emailHelp">
                             <button type="button" class="btn btn-outline-primary" (click)="addParameter('keysToSign')">Add</button>
                         </div>
-                        <div id="emailHelp" class="form-text">List of specific keys needing signing</div>
+                        <div class="form-text">List of specific keys needing signing</div>
                     </div>
                     <div class="mt-3 d-flex">
                         <button *ngFor="let key of keysToSignArray; let i = index" class="parameter-item">
@@ -258,20 +264,20 @@
                     </div>
                 </div>
                 <div class="mb-3 col-sm-5">
-                    <label for="exampleInputEmail1" class="form-label">Key ID</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="keyId" class="form-label">Key ID</label>
+                    <input type="text" class="form-control" id="keyId" formControlName="keyId" aria-describedby="emailHelp">
                 </div>
             </div>
 
             <div class="col-sm-12 heading-with-toggle gap-2 d-flex p-3">
                 <div class="col-sm-5">
                     <mat-checkbox class="example-margin">Full Serialization</mat-checkbox>
-                    <div id="emailHelp" class="form-text">Use JSON format instead of the compact form JWT is giving
+                    <div class="form-text">Use JSON format instead of the compact form JWT is giving
                     </div>
                 </div>
                 <div class="col-sm-5">
                     <mat-checkbox class="example-margin">Disable JWK Security</mat-checkbox>
-                    <div id="emailHelp" class="form-text">When you are using an insecure connection (plain http)
+                    <div class="form-text">When you are using an insecure connection (plain http)
                     </div>
                 </div>
 
@@ -314,6 +320,11 @@
             <div>
                 <p>Api keys are not enabled yet</p>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
         </div>
     </div>
 </form>

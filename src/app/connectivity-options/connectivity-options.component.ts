@@ -23,15 +23,24 @@ export class ConnectivityOptionsComponent {
   constructor(private formBuilder:FormBuilder){
     this.formGroup1=this.formBuilder.group({
       inputHeader:[null],
+      concurrentCalls:[null],
+      backoffStrategy:[null],
+      readBufferSize:[null],
+      writeWait:[null],
+      maxRetries:[null],
+      writeBufferSize:[null],
+      maxWriteBufferSize:[null],
+      pongWait:[null],
+      inputHeaderArray:[[]]
           })
   }
   queryParams:any;
   parameterHeader:any;
   formGroup1: FormGroup;
-  @Output() formSubmitted = new EventEmitter<any>();
-  submitForm() {
+  @Output() connectivityFormSubmitted = new EventEmitter<any>();
+  saveForm() {
     if (this.formGroup1.valid) {
-      this.formSubmitted.emit(this.formGroup1.value);
+      this.connectivityFormSubmitted.emit(this.formGroup1.value);
     }
   }
  
@@ -40,12 +49,14 @@ export class ConnectivityOptionsComponent {
    
     if (queryParamsValue) {
       this.parameterArray.push(queryParamsValue);
+      this.formGroup1.get('inputHeaderArray')?.setValue([...this.parameterArray]);
       this.formGroup1.get('inputHeader')?.reset();
     }
   }
  
 removeParameter(index: number) {
   this.parameterArray.splice(index, 1);
+  this.formGroup1.get('inputHeaderArray')?.setValue([...this.parameterArray]);
 }
   submit(){
     console.log(this.formGroup1.value.queryParams);

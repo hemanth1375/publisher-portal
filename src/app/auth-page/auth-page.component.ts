@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -20,15 +20,33 @@ export class AuthPageComponent {
   keysToSignArray:string[]=[];
   fingerprintsArray:string[]=[];
 
+  @Output() authPageFormSubmitted=new EventEmitter<any>();
+
   formGroup1: FormGroup;
   formgroup2:FormGroup;
   constructor(private formBuilder:FormBuilder){
     this.formGroup1=this.formBuilder.group({
+      algorithm:[null],
+      jwkUri:[null],
+      selectedMatcher:[null],
+      scopesKey:[null],
+      issuer:[null],
+      rolesKey:[null],
+      cookieName:[null],
+      customChiperSuite:[null],
+      tokenSignJwkUri:[null],
+      tokenSignAlgorithm:[null],
+      keyId:[null],
       audience:[null],
       roles:[null],
       scopesToValidate:[null],
       keysToSign:[null],
-      fingerprint:[null]
+      fingerprint:[null],
+      audienceArrayValue:[[]],
+      rolesArrayValue:[[]],
+      scopesToValidateArrayValue:[[]],
+      keysToSignArrayValue:[[]],
+      fingerprintArrayValue:[[]]
       
     })
 
@@ -54,17 +72,22 @@ export class AuthPageComponent {
     if (fieldName) {
       if(fieldName === 'audience'){
         this.audienceArray.push(fieldValue);
+        this.formGroup1.get('audienceArrayValue')?.setValue([...this.audienceArray]);
       }
       else if(fieldName ==='roles'){
         this.rolesArray.push(fieldValue);
+        this.formGroup1.get('rolesArrayValue')?.setValue([...this.rolesArray]);
       }
       else if(fieldName ==='scopesToValidate'){
         this.scopesArray.push(fieldValue);
+        this.formGroup1.get('scopesToValidateArrayValue')?.setValue([...this.scopesArray]);
       }
       else if(fieldName ==='fingerprint'){
         this.fingerprintsArray.push(fieldValue);
+        this.formGroup1.get('fingerprintArrayValue')?.setValue([...this.fingerprintsArray]);
       } else if(fieldName ==='keysToSign'){
         this.keysToSignArray.push(fieldValue);
+        this.formGroup1.get('keysToSignArrayValue')?.setValue([...this.keysToSignArray]);
       }
 
       this.formGroup1.get(fieldName)?.reset();
@@ -74,20 +97,28 @@ export class AuthPageComponent {
   removeParameter(index: number, fieldName:'audience' | 'roles' | 'scopesToValidate' | 'fingerprint' | 'keysToSign') {
     if(fieldName === "audience"){
       this.audienceArray.splice(index,1);
+      this.formGroup1.get('audienceArrayValue')?.setValue([...this.audienceArray]);
     }else if(fieldName === 'roles'){
       this.rolesArray.splice(index,1);
+      this.formGroup1.get('rolesArrayValue')?.setValue([...this.rolesArray]);
     }else if(fieldName === 'scopesToValidate'){
       this.scopesArray.splice(index,1);
+      this.formGroup1.get('scopesToValidateArrayValue')?.setValue([...this.scopesArray]);
     }else if(fieldName === 'fingerprint'){
       this.fingerprintsArray.splice(index,1);
+      this.formGroup1.get('fingerprintArrayValue')?.setValue([...this.fingerprintsArray]);
     }else if(fieldName === 'keysToSign'){
       this.keysToSignArray.splice(index,1);
+      this.formGroup1.get('keysToSignArrayValue')?.setValue([...this.keysToSignArray]);
     }
     
   }
 
-  submit(){
-    console.log("submitted")  
+  saveForm(){
+    console.log("submitted") 
+    console.log(this.formGroup1.value);
+    this.authPageFormSubmitted.emit(this.formGroup1.value)
+     
   }
 
 }

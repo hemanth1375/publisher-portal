@@ -13,6 +13,7 @@ export class ViewapiPageComponent {
     this.isIpFilterEnabled = event.checked; // Capture toggle state
   }
   items = [
+    {name:'EndPoint'},
     { name: 'Parameter Forwarding'},
     { name: 'Auth' },
     { name: 'Throttling'},
@@ -30,5 +31,28 @@ export class ViewapiPageComponent {
   }
   ngOnInit() {
     this.selectedItem = this.items[0];
+  }
+  onFormSubmit(formData: any) {
+    console.log("Form data received from child:", formData);
+    // Handle the form data, e.g., submit it to a service or API.
+  }
+  entireFormData:any = {
+    endPoint:null,
+    parameterForwarding: null,
+    throttling: null,
+    responseManipulation: null,
+    connectivityOptions:null,
+    policies:null,
+    auth:null,
+    openApi: null
+  };
+
+  collectData(formName: string, data: any) {
+    this.entireFormData[formName] = data;
+    console.log("Form data collected:", this.entireFormData);
+  }
+  submitForm(){
+    console.log(this.entireFormData);
+    
   }
 }

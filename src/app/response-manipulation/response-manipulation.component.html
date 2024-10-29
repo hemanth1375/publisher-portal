@@ -1,26 +1,29 @@
 <div class="container">
     <div class="row">
+        <form [formGroup]="formGroupResponseManipulation">
         <div class="col-sm-12">
             <h2>Response Manipulation</h2>
             <p>When you manipulate data at the endpoint level, you have the last chance to work with the aggregated data coming from all endpoints</p>
             <hr>
             <div class="col-sm-12">
-                <p>Static response <mat-slide-toggle (change)="onToggleChangeStaticResponse($event)"></mat-slide-toggle></p>
+                <h3>Static response <mat-slide-toggle (change)="onToggleChangeStaticResponse($event)"></mat-slide-toggle></h3>
                 <p>When the backend fails you can still return the static data provided below to the user. The data is merged with any existing partial responses. If you still don't have a backend and want to have this data, add a fake one that cannot be resolved</p>
                 @if(isStaticResponseEnabled){
                     <div class="d-flex">
                         <div class="col-sm-6">
-                            <p>Response</p>
-                            <textarea class="static-text-area"></textarea><br>
-                            <span>Provide the JSON object you want to return (ensure to start and end with curly braces)</span>
+                            <label for="response" class="form-label">Response</label>
+                            <textarea class="static-text-area form-control" formControlName="response"></textarea>
+                            <div class="form-text">Provide the JSON object you want to return (ensure to start and end with curly braces).</div>
+                            
                         </div>
                         <div class="col-sm-6">
-                            <p>Algorithm</p>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <label for="strategy" class="form-label">Strategy</label>
+                            <select class="form-select" aria-label="Default select example" id="strategy" formControlName="strategy">
+                                <option selected>Select Strategy</option>
+                                <option value="1">Always-Present in every response</option>
+                                <option value="2">Success-Present in every non-failed response</option>
+                                <option value="3">Errored-Present in Every failed response(error not nil)</option>
+                                <option value="3">Incomplete-Present in incomplete responses</option>
                               </select>
                         </div>
                     </div>
@@ -28,7 +31,7 @@
             </div>
             <hr class="mt-4">
             <div class="col-sm-12">
-                <p>Advance Response Manipulation(JMESPath) <mat-slide-toggle (change)="onToggleChangeAdvanceResponse($event)"></mat-slide-toggle></p>
+                <h3>Advance Response Manipulation(JMESPath) <mat-slide-toggle (change)="onToggleChangeAdvanceResponse($event)"></mat-slide-toggle></h3>
                 <p>Manipulate the response dataset after the aggregation layer using a JSON Query language</p>
                 @if(isAdvanceResponseEnabled){
                     
@@ -36,7 +39,7 @@
                         <p>Expression</p>
                         <div class="d-flex">
                             <div class="col-sm-6">
-                            <input class="input-size" type="text"/>
+                            <input class="input-size form-control" type="text" formControlName="expression"/>
                         </div>
                             <span class="col-sm-6 ">JMESpath query to execute on returned results of /v1/huge-fountain/&#123;id_fountain&#125;</span>
                         </div>
@@ -45,74 +48,84 @@
                         <p>Example of how JMESPath works</p>
                         <div class="d-flex">
                             <div class="col-sm-6">
-                                <p>Server Response</p>
-                                <textarea class="static-text-area"></textarea><br>
+                                <label for="serverResponse" class="form-label">Server Response</label>
+                                <textarea class="static-text-area form-control" id="serverResponse" formControlName="serverResponse"></textarea>
                             </div>
                             <div class="col-sm-6">
-                                <p>Expression</p>
-                                <textarea class="static-text-area"></textarea><br>
+                                <label for="expression" class="form-label">Expression</label>
+                                <textarea class="static-text-area form-control" id="expression" formControlName="expressionExample"></textarea>
                             </div>
                             
                         </div>
                         <div class="col-sm-6">
-                            <p>Return Response</p>
-                            <textarea class="static-text-area"></textarea><br>
+                            <label for="returnResponse" class="form-label">Return Response</label>
+                            <textarea class="static-text-area form-control" id="returnResponse" formControlName="returnResponse"></textarea><br>
                         </div>
                     </div>
                 }
             </div>
             <hr class="mt-4">
             <div class="mb-4">
-                <p>RegExp Content Replacer<mat-slide-toggle (change)="onToggleChangeRegExp($event)"></mat-slide-toggle></p>
+                <h3>RegExp Content Replacer<mat-slide-toggle (change)="onToggleChangeRegExp($event)"></mat-slide-toggle></h3>
                 <p>The content replacer plugin allows you to modify the response of your services by doing literal replacements or more sophisticated replacements with regular expressions.</p>
                 @if(isAdvanceRegExpEnabled){
                    
                     <div class="d-flex">
                         <div class="col-sm-12 col-md-6">
-                            <p>Find (in qqq)</p>
-                            <input type="text" class="input-size"/><br>
-                            <span class="input-label">The find expression or literal you want to use.</span>
+                            <label for="find" class="form-label">Find (in qqq)</label>
+                            <input type="text" class="input-size form-control" id="find" formControlName="find"/>
+                            <div class="form-text">The find expression or literal you want to use.</div>
+                           
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <p>Replace by (in qqq)</p>
-                            <input type="text" class="input-size"/><br>
-                            <span class="input-label">The literal string or expression you want to use as a replacement. You can use capture groups with $1, $2, etc.</span>
+                            <label for="replace" class="form-label">Replace by (in qqq)</label>
+                            <input type="text" class="input-size form-control" id="replace" formControlName="replace"/>
+                            <div class="form-text">The literal string or expression you want to use as a replacement. You can use capture groups with $1, $2, etc.</div>
+                           
                         </div>
                     </div>
                     <div>
-                        <p>Path</p>
-                        <input type="text" class="input-size"/>
-                        <p>You can load the response from an external file instead of editing the template</p>
+                        <label for="path" class="form-label">Path</label>
+                        <input type="text" class="input-size form-control" id="path" formControlName="path"/>
+                        <div class="form-text">You can load the response from an external file instead of editing the template.</div>
+                        
                     </div>
                 }
             </div>
             <hr>
             <div class="mb-4">
-                <p>Response Manipulation with go templates<mat-slide-toggle (change)="onToggleChangeResponseGo($event)"></mat-slide-toggle></p>
+                <h3>Response Manipulation with go templates<mat-slide-toggle (change)="onToggleChangeResponseGo($event)"></mat-slide-toggle></h3>
                 <p>The response body generator lets you write a whole new payload using a template that has access to all the response data. In addition to the payload from the backend, you can incorporate other information such as headers, status codes, query strings, or URL parameters.</p>
                 @if(isAdvanceResponseGoEnabled){
                     <div>
-                        <textarea class="static-text-area"></textarea>
-                        <p>The response body you will return to the end-user. You can introduce the variables .resp_headers.xxx, .resp_headers.xxx (with no-op), .resp_status.xxx (with no-op), .resp_body.xxx, .req_params.Xxx, .req_headers.xxx, .req_querystring.xxx, .req_path</p>
+                        <textarea class="static-text-area form-control" formControlName="responseBody"></textarea>
+                        <div class="form-text">The response body you will return to the end-user. You can introduce the variables .resp_headers.xxx, .resp_headers.xxx (with no-op), .resp_status.xxx (with no-op), .resp_body.xxx, .req_params.Xxx, .req_headers.xxx, .req_querystring.xxx, .req_path.</div>
+                        
                     </div>
-                    <div class="d-flex">
+                    <div class="d-flex mt-3">
                         <div class="col-sm-12 col-md-6">
-                            <p>Content type</p>
-                            <input type="text" class="input-size"/><br>
-                            <span class="input-label">The Content-Type that you are coding in the template. Defaults to<br>application/json</span>
+                            <label for="contentType" class="form-label">Content type</label>
+                            <input type="text" class="input-size form-control" id="contentType" formControlName="contentType"/>
+                            <div id="periodHelp" class="form-text">The Content-Type that you are coding in the template. Defaults to application/json.</div>
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            <p>Enable Debug</p>
-                            <span class="input-label">shows useful information in the logs with DEBUG level about the input received and the body generated. Do not enable in production</span>
+                            <mat-checkbox class="example-margin">Enable Debug</mat-checkbox>
+                            <div id="periodHelp" class="form-text">shows useful information in the logs with DEBUG level about the input received and the body generated. Do not enable in production.</div>
+                            
                         </div>
                     </div>
                     <div>
-                        <p>Path</p>
-                        <input type="text" class="input-size"/>
-                        <p>You can load the response from an external file instead of editing the template</p>
+                        <label for="pathGo" class="form-label">Path</label>
+                        <input type="text" class="input-size form-control" id="pathGo" formControlName="pathGo"/>
+                        <div id="periodHelp" class="form-text">You can load the response from an external file instead of editing the template.</div>
+                        
                     </div>
                 }
             </div>
         </div>
+        <div class="col-sm-12">
+            <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+        </div>
+    </form>
     </div>
 </div>

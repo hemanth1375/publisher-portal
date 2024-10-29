@@ -35,11 +35,9 @@ export class PoliciesComponent {
 
   formGroupPolicies: FormGroup;
 
-  @Output() formSubmitted = new EventEmitter<any>();
+  @Output() policiesFormSubmitted = new EventEmitter<any>();
   submitForm() {
-    if (this.formGroupPolicies.valid) {
-      this.formSubmitted.emit(this.formGroupPolicies.value);
-    }
+    
   }
 
   parameterArraySecReqPolicy: any = [];
@@ -84,6 +82,9 @@ export class PoliciesComponent {
 
   saveForm() {
     console.log(this.formGroupPolicies.value);
+    if (this.formGroupPolicies.valid) {
+      this.policiesFormSubmitted.emit(this.formGroupPolicies.value);
+    }
   }
 
   isSpFilterEnabled = false; // Initially false

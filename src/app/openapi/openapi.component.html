@@ -1,1 +1,55 @@
-<p>openapi works!</p>
+<div class="container">
+    <div class="row">
+        <form [formGroup]="formGroupOpenapi">
+        <div class="col-sm-12">
+            <h2>Open APi</h2>
+            <p>The OpenAPI generator is a command-line utility embedded in the KrakenD binary, offering OpenAPI import and export capabilities (for both Swagger v2 and OAS3)</p>
+        </div>
+        <div class="col-sm-12 mb-5">
+            <h3>Documentation (Open Api) <mat-slide-toggle (change)="onToggleChangeOpenDocumentation($event)"></mat-slide-toggle></h3>
+            <p>When the backend fails you can still return the static data provided below to the user. The data is merged with any existing partial responses. If you still don't have a backend and want to have this data, add a fake one that cannot be resolved.</p>
+            @if(isDocumentationEnabled){
+                <p>General OpenAPI information for your developers. All fields are optional.</p>
+                <div class="d-flex">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="summary" class="form-label">Summary or Title</label>
+                        <input type="text" class="input-size form-control" id="summary" formControlName="summary"/>
+                        <div class="form-text">The title or summary of this endpoint.</div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="input-size form-control" formControlName="description"/>
+                        <div class="form-text">Long description for this endpoint</div>
+                    </div>
+                    
+                </div>
+                <div class="d-flex mt-3">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="tags" class="form-label">Tags</label>
+                        <input type="text" class="input-size form-control" id="tags" formControlName="tags"/>
+                        <div class="form-text">OpenAPI segments the endpoints in different tag.</div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="audience" class="form-label" id="audience">Audience</label>
+                        <input type="text" class="input-size form-control" formControlName="audiences"/>
+                        <div class="form-text">To which audiences you will document this endpoint (e.g.: silver if you have plans like gold, silver, bronze.)</div>
+                        
+                    </div>
+                    
+                </div>
+                <hr class="mt-4">
+                <h2>Global Settings</h2>
+                <a>go to openapi settings</a>
+                <div>
+                <label for="example" class="form-label">Example</label>
+                <textarea class="static-text-area form-control" id="example" formControlName="example"></textarea>
+                <div class="form-text">Deprecated in OAS3. Write an example response in JSON format to show as an example in the documentation</div>
+            </div>
+            }
+        </div>
+        <div class="col-sm-12 d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+        </div>
+    </form>
+    </div>
+</div>

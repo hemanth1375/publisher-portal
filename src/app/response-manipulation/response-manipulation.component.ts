@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-response-manipulation',
@@ -7,7 +8,29 @@ import { Component } from '@angular/core';
 })
 export class ResponseManipulationComponent {
   isStaticResponseEnabled = false; // Initially false
-
+  formGroupResponseManipulation:FormGroup;
+  @Output() responseManipulationFormSubmitted=new EventEmitter<any>();
+  constructor(private formBuilder:FormBuilder){
+    this.formGroupResponseManipulation=this.formBuilder.group({
+      response:[''],
+      strategy:[''],
+      expression:[''],
+      serverResponse:[''],
+      expressionExample:[''],
+      returnResponse:[''],
+      find:[''],
+      replace:[''],
+      path:[''],
+      responseBody:[''],
+      contentType:[''],
+      pathGo:['']
+    })
+  }
+  saveForm(){
+if(this.formGroupResponseManipulation.valid){
+  this.responseManipulationFormSubmitted.emit(this.formGroupResponseManipulation.value)
+}
+  }
   onToggleChangeStaticResponse(event: any) {
     this.isStaticResponseEnabled = event.checked; // Capture toggle state
   }

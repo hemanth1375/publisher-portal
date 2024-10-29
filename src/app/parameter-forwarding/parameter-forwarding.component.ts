@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-parameter-forwarding',
@@ -7,4 +8,61 @@ import { Component } from '@angular/core';
 })
 export class ParameterForwardingComponent {
 
+  constructor(private formBuilder:FormBuilder){
+    this.formGroup1=this.formBuilder.group({
+      queryParams:[null],
+      parameterHeader:[null],
+      parameterArrays:[[]],
+      parameterHeaderArrays:[[]]
+    })
+  }
+  queryParams:any;
+  parameterHeader:any;
+  formGroup1: FormGroup;
+  @Output() formSubmitted = new EventEmitter<any>();
+  submitForm() {
+    if (this.formGroup1.valid) {
+      this.formSubmitted.emit(this.formGroup1.value);
+    }
+  }
+  parameterArray:any=[];
+  parameterHeaderArray:any=[];
+  updateParametersArray() {
+    this.formGroup1.get('parameterArrays')?.setValue([...this.parameterArray]);
+  }
+  addParameter() {
+    const queryParamsValue = this.formGroup1.get('queryParams')?.value;
+    
+    if (queryParamsValue) {
+      this.parameterArray.push(queryParamsValue);
+      this.updateParametersArray();
+      this.formGroup1.get('queryParams')?.reset();
+    }
+  }
+
+removeParameterHeader(index: number) {
+  this.parameterHeaderArray.splice(index, 1);
+  this.updateParametersHeaderArray();
+}
+  updateParametersHeaderArray() {
+    this.formGroup1.get('parameterHeaderArrays')?.setValue([...this.parameterArray]);
+  }
+  addParameterHeader() {
+    const queryParamsValue = this.formGroup1.get('parameterHeader')?.value;
+    
+    if (queryParamsValue) {
+      this.parameterHeaderArray.push(queryParamsValue);
+      this.updateParametersHeaderArray();
+      this.formGroup1.get('parameterHeader')?.reset();
+    }
+  }
+
+removeParameter(index: number) {
+  this.parameterArray.splice(index, 1);
+  this.updateParametersArray();
+}
+  submit(){
+    console.log(this.formGroup1.value.queryParams);
+    
+  }
 }

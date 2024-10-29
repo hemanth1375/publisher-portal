@@ -1,0 +1,13 @@
+.input-size{
+    width: 90%;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}
+.static-text-area{
+    background-color: black;
+    width:80%;
+    color:white;
+}
+.example-span-text{
+    color:rgba(21, 20, 23, 0.74);
+}

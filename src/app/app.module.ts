@@ -23,6 +23,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { ConnectivityOptionsComponent } from './connectivity-options/connectivity-options.component';
 import { PoliciesComponent } from './policies/policies.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { EndPointPageComponent } from './end-point-page/end-point-page.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,10 @@ import { PoliciesComponent } from './policies/policies.component';
     OpenapiComponent,
     AuthPageComponent,
     ConnectivityOptionsComponent,
-    PoliciesComponent
+    PoliciesComponent,
+    DashboardComponent,
+    EndPointPageComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -46,14 +53,15 @@ import { PoliciesComponent } from './policies/policies.component';
     MatButtonModule,
     MatIconModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,
     FormsModule,
+    MatFormFieldModule,
     MatInputModule,
-    MatFormFieldModule,
-    MatCheckboxModule,
+    MatAutocompleteModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatCheckboxModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -12,9 +12,23 @@ export class PoliciesComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupPolicies = this.formBuilder.group({
-      requestPolicies: [null],
-      requestPolicies1: [null],
-      responsePolicies: [null]
+      securityReqPolicy: [null],
+      secReqErrorStCode: [null],
+      secReqErrorBody: [null],
+      secReqErrorContentType: [null],
+      securityResPolicy: [null],
+      secResErrorStCode: [null],
+      secResErrorBody: [null],
+      secResErrorContentType: [null],
+      jwtReqPolicy: [null],
+      enableDebug: [false],
+      autoJoinPolicies: [false],
+      disableMacros: [false],
+      resSchemaValErrorMsg: [null],
+      resSchemaValErrorStCode: [null],
+      secReqPolicyArrayValue: [[]],
+      secResPolicyArrayValue: [[]],
+      jwtReqPolicyArrayValue: [[]]
     })
   }
 
@@ -28,50 +42,49 @@ export class PoliciesComponent {
     }
   }
 
-  parameterArray1: any = [];
+  parameterArraySecReqPolicy: any = [];
+  parameterArraySecResPolicy: any = [];
+  parameterArrayJwtValReqPolicy: any = [];
 
-  addParameterReqP1() {
-    const queryParamsValue = this.formGroupPolicies.get('requestPolicies1')?.value;
 
-    if (queryParamsValue) {
-      this.parameterArray1.push(queryParamsValue);
-      this.formGroupPolicies.get('requestPolicies1')?.reset();
+  addParameter(fieldName: 'securityReqPolicy' | 'securityResPolicy' | 'jwtReqPolicy') {
+    const fieldValue = this.formGroupPolicies.get(fieldName)?.value;
+    if (fieldName) {
+      if (fieldName === 'securityReqPolicy') {
+        this.parameterArraySecReqPolicy.push(fieldValue);
+        this.formGroupPolicies.get('secReqPolicyArrayValue')?.setValue([...this.parameterArraySecReqPolicy]);
+      }
+      else if (fieldName === 'securityResPolicy') {
+        this.parameterArraySecResPolicy.push(fieldValue);
+        this.formGroupPolicies.get('secResPolicyArrayValue')?.setValue([...this.parameterArraySecResPolicy]);
+      }
+      else if (fieldName === 'jwtReqPolicy') {
+        this.parameterArrayJwtValReqPolicy.push(fieldValue);
+        this.formGroupPolicies.get('jwtReqPolicyArrayValue')?.setValue([...this.parameterArrayJwtValReqPolicy]);
+      }
+      this.formGroupPolicies.get(fieldName)?.reset();
+    }
+
+  }
+
+  removeParameter(index: number, fieldName: 'securityReqPolicy' | 'securityResPolicy' | 'jwtReqPolicy') {
+    if (fieldName === 'securityReqPolicy') {
+      this.parameterArraySecReqPolicy.splice(index, 1);
+      this.formGroupPolicies.get('secReqPolicyArrayValue')?.setValue([...this.parameterArraySecReqPolicy]);
+    }
+    else if (fieldName === 'securityResPolicy') {
+      this.parameterArraySecResPolicy.splice(index, 1);
+      this.formGroupPolicies.get('secResPolicyArrayValue')?.setValue([...this.parameterArraySecResPolicy]);
+    }
+    else if (fieldName === 'jwtReqPolicy') {
+      this.parameterArrayJwtValReqPolicy.splice(index, 1);
+      this.formGroupPolicies.get('jwtReqPolicyArrayValue')?.setValue([...this.parameterArrayJwtValReqPolicy]);
     }
   }
-  removeParameterReqP1(index: number) {
-    this.parameterArray1.splice(index, 1);
+
+  saveForm() {
+    console.log(this.formGroupPolicies.value);
   }
-
-  parameterArray2: any = [];
-
-  addParameterResP() {
-    const queryParamsValue = this.formGroupPolicies.get('responsePolicies')?.value;
-
-    if (queryParamsValue) {
-      this.parameterArray2.push(queryParamsValue);
-      this.formGroupPolicies.get('responsePolicies')?.reset();
-    }
-  }
-  removeParameterResP(index: number) {
-    this.parameterArray2.splice(index, 1);
-  }
-
-
-
-  parameterArray3: any = [];
-
-  addParameterReqP() {
-    const queryParamsValue = this.formGroupPolicies.get('requestPolicies')?.value;
-
-    if (queryParamsValue) {
-      this.parameterArray3.push(queryParamsValue);
-      this.formGroupPolicies.get('requestPolicies')?.reset();
-    }
-  }
-  removeParameterReqP(index: number) {
-    this.parameterArray3.splice(index, 1);
-  }
-
 
   isSpFilterEnabled = false; // Initially false
 

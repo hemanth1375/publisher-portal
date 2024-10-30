@@ -27,6 +27,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EndPointPageComponent } from './end-point-page/end-point-page.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,7 @@ import { EndPointPageComponent } from './end-point-page/end-point-page.component
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
-    MatCheckboxModule
+    MatCheckboxModule,HttpClientModule
   ],
   providers: [
     provideAnimationsAsync()

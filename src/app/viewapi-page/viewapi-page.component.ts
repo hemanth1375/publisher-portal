@@ -10,27 +10,28 @@ export class ViewapiPageComponent {
   // throttle
   isIpFilterEnabled = false; // Initially false
 
-  constructor(private viewapiPageService:ViewapiPageService){
+  constructor(private viewapiPageService: ViewapiPageService) {
 
   }
   onToggleChange(event: any) {
     this.isIpFilterEnabled = event.checked; // Capture toggle state
   }
   items = [
-    {name:'EndPoint'},
-    { name: 'Parameter Forwarding'},
+    { name: 'EndPoint' },
+    { name: 'Parameter Forwarding' },
     { name: 'Auth' },
-    { name: 'Throttling'},
-    { name: 'Policies'},
-    { name: 'Response Manipulation'},
-    { name: 'connectivity Options'},
-    { name: 'Open Api'}
+    { name: 'Throttling' },
+    { name: 'Policies' },
+    { name: 'Response Manipulation' },
+    { name: 'connectivity Options' },
+    { name: 'Open Api' },
+    { name: 'Backends(Upstream)' }
   ];
   selectedItem: any;
 
   selectItem(item: any) {
     console.log(item);
-    
+
     this.selectedItem = item;
   }
   ngOnInit() {
@@ -40,14 +41,14 @@ export class ViewapiPageComponent {
     console.log("Form data received from child:", formData);
     // Handle the form data, e.g., submit it to a service or API.
   }
-  entireFormData:any = {
-    endPoint:null,
+  entireFormData: any = {
+    endPoint: null,
     parameterForwarding: null,
     throttling: null,
     responseManipulation: null,
-    connectivityOptions:null,
-    policies:null,
-    auth:null,
+    connectivityOptions: null,
+    policies: null,
+    auth: null,
     openApi: null
   };
 
@@ -55,8 +56,8 @@ export class ViewapiPageComponent {
     this.entireFormData[formName] = data;
     console.log("Form data collected:", this.entireFormData);
   }
-  submitForm(){
-    const resultantFormData={
+  submitForm() {
+    const resultantFormData = {
       "$schema": "string",
       "version": 0,
       "name": "string",
@@ -451,12 +452,16 @@ export class ViewapiPageComponent {
       }
     }
     console.log(this.entireFormData);
-    
+
     this.viewapiPageService.createEndPoint(resultantFormData).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(res);
-        
+
       }
     })
+    // submitForm() {
+    //   console.log(this.entireFormData);
+
+    // }
   }
 }

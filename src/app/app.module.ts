@@ -15,19 +15,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { ResponseManipulationComponent } from './response-manipulation/response-manipulation.component';
 import { OpenapiComponent } from './openapi/openapi.component';
 import { AuthPageComponent } from './auth-page/auth-page.component';
-import {MatIconModule} from '@angular/material/icon';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ConnectivityOptionsComponent } from './connectivity-options/connectivity-options.component';
 import { PoliciesComponent } from './policies/policies.component';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EndPointPageComponent } from './end-point-page/end-point-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BackendsUpstreamComponent } from './backends-upstream/backends-upstream.component';
+import { UpstreamRequestComponent } from './upstream-request/upstream-request.component';
 
 @NgModule({
   declarations: [
@@ -44,8 +46,10 @@ import { HttpClientModule } from '@angular/common/http';
     ConnectivityOptionsComponent,
     PoliciesComponent,
     DashboardComponent,
-    EndPointPageComponent
-    
+    EndPointPageComponent,
+    BackendsUpstreamComponent,
+    UpstreamRequestComponent
+
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
-    MatCheckboxModule,HttpClientModule
+    MatCheckboxModule, HttpClientModule
   ],
   providers: [
     provideAnimationsAsync()

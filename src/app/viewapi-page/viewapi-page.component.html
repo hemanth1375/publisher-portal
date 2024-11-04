@@ -18,13 +18,15 @@
             <app-end-point-page (endPointFormSubmitted)="collectData('endPoint',$event)"></app-end-point-page>
             }
             @if(selectedItem.name==="Parameter Forwarding"){
-            <app-parameter-forwarding (formSubmitted)="collectData('parameterForwarding',$event)"></app-parameter-forwarding>
+            <app-parameter-forwarding
+                (formSubmitted)="collectData('parameterForwarding',$event)"></app-parameter-forwarding>
             }
             @if(selectedItem.name==="Throttling"){
             <app-throttling (throttlingFormSubmitted)="collectData('throttling',$event)"></app-throttling>
             }
             @if(selectedItem.name==="Response Manipulation"){
-            <app-response-manipulation (responseManipulationFormSubmitted)="collectData('responseManipulation',$event)"></app-response-manipulation>
+            <app-response-manipulation
+                (responseManipulationFormSubmitted)="collectData('responseManipulation',$event)"></app-response-manipulation>
             }
             @if(selectedItem.name==="Auth"){
             <app-auth-page (authPageFormSubmitted)="collectData('auth',$event)"></app-auth-page>
@@ -34,14 +36,19 @@
             <app-policies (policiesFormSubmitted)="collectData('policies',$event)"></app-policies>
             }
             @if(selectedItem.name==="connectivity Options"){
-            <app-connectivity-options (connectivityFormSubmitted)="collectData('connectivityOptions',$event)"></app-connectivity-options>
+            <app-connectivity-options
+                (connectivityFormSubmitted)="collectData('connectivityOptions',$event)"></app-connectivity-options>
             }
-             @if(selectedItem.name==="Open Api"){
-        <app-openapi (openapiFormSubmitted)="collectData('openApi',$event)"></app-openapi>
-        }
+            @if(selectedItem.name==="Open Api"){
+            <app-openapi (openapiFormSubmitted)="collectData('openApi',$event)"></app-openapi>
+            }
+            @if(selectedItem.name==="Backends(Upstream)"){
+            <app-backends-upstream></app-backends-upstream>
+            }
         </div>
         <div class="col-sm-12 d-flex justify-content-end">
             <button mat-raised-button color="primary" (click)="submitForm()">Submit</button>
         </div>
+
     </div>
 </div>

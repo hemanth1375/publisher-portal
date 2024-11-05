@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-backends-upstream',
@@ -8,6 +8,7 @@ import { AfterViewInit, Component } from '@angular/core';
 export class BackendsUpstreamComponent {
   isIpFilterEnabled = false; // Initially false
 
+  @Output() backendUpStreamSubmitted =new EventEmitter<any>();
   onToggleChange(event: any) {
     this.isIpFilterEnabled = event.checked; // Capture toggle state
   }
@@ -70,9 +71,10 @@ export class BackendsUpstreamComponent {
   collectData(formName: string, data: any) {
     this.entireFormData[formName] = data;
     console.log("Form data collected:", this.entireFormData);
+   
   }
   submitForm() {
     console.log(this.entireFormData);
-
+    this.backendUpStreamSubmitted.emit(this.entireFormData)
   }
 }

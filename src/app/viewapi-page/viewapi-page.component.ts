@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 import { ViewapiPageService } from '../services/viewapi-page.service';
+import { OpenapiComponent } from '../openapi/openapi.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-viewapi-page',
@@ -9,9 +11,14 @@ import { ViewapiPageService } from '../services/viewapi-page.service';
 export class ViewapiPageComponent {
   // throttle
   isIpFilterEnabled = false; // Initially false
+  
 
-  constructor(private viewapiPageService: ViewapiPageService) {
+  constructor(private viewapiPageService:ViewapiPageService,private dataService: ViewapiPageService,private router:Router){
 
+  }
+  sendData() {
+    this.dataService.sendData(this.entireFormData);
+    this.router.navigate(['apis'])
   }
   onToggleChange(event: any) {
     this.isIpFilterEnabled = event.checked; // Capture toggle state
@@ -35,7 +42,7 @@ export class ViewapiPageComponent {
     this.selectedItem = item;
   }
   ngOnInit() {
-    this.selectedItem = this.items[0];
+    this.selectedItem = this.items[8];
   }
   onFormSubmit(formData: any) {
     console.log("Form data received from child:", formData);
@@ -49,7 +56,8 @@ export class ViewapiPageComponent {
     connectivityOptions: null,
     policies: null,
     auth: null,
-    openApi: null
+    openApi: null,
+    backend:null
   };
 
   collectData(formName: string, data: any) {

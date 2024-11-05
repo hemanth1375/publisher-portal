@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row mb-4">
-    <div class="col-sm-10 menu-card">
+    <div class="col-sm-12 menu-card">
       <div class="mt-3">
         <h4>Backend Upstreams for v1/basal-forect/&#123;id_forest&#125;</h4>
       </div>
@@ -12,40 +12,22 @@
         }
       </ul>
     </div>
-    <div class="col-sm-10">
-      <!-- <router-outlet></router-outlet> -->
+    <div class="col-sm-12">
       @if(selectedItem.name==="Request"){
-      <app-upstream-request></app-upstream-request>
-      <!-- <app-end-point-page (endPointFormSubmitted)="collectData('request',$event)"></app-end-point-page> -->
-      }
-      <!-- @if(selectedItem.name==="Parameter Forwarding"){
-      <app-parameter-forwarding (formSubmitted)="collectData('parameterForwarding',$event)"></app-parameter-forwarding>
+      <app-upstream-request (upstreamRequestFormSubmitted)="collectData('request',$event)"></app-upstream-request>
       }
       @if(selectedItem.name==="Throttling"){
-      <app-throttling (throttlingFormSubmitted)="collectData('throttling',$event)"></app-throttling>
-      }
-      @if(selectedItem.name==="Response Manipulation"){
-      <app-response-manipulation
-        (responseManipulationFormSubmitted)="collectData('responseManipulation',$event)"></app-response-manipulation>
-      }
-      @if(selectedItem.name==="Auth"){
-      <app-auth-page (authPageFormSubmitted)="collectData('auth',$event)"></app-auth-page>
-      }
-
+        <app-upstream-throttling (upstreamThrottlingFormSubmitted)="collectData('throttling',$event)"></app-upstream-throttling>
+        }
+      @if(selectedItem.name==="Autentication"){
+        <app-upstream-auth (upstreamAuthFormSubmitted)="collectData('auth',$event)"></app-upstream-auth>
+        }
       @if(selectedItem.name==="Policies"){
-      <app-policies (policiesFormSubmitted)="collectData('policies',$event)"></app-policies>
-      }
-      @if(selectedItem.name==="connectivity Options"){
-      <app-connectivity-options
-        (connectivityFormSubmitted)="collectData('connectivityOptions',$event)"></app-connectivity-options>
-      }
-      @if(selectedItem.name==="Open Api"){
-      <app-openapi (openapiFormSubmitted)="collectData('openApi',$event)"></app-openapi>
-      }
-      @if(selectedItem.name==="Backends(Upstream)"){
-      <app-backends-upstream></app-backends-upstream>
-      } -->
+        <app-upstream-policies (upstreamPoliciesFormSubmitted)="collectData('policies',$event)"></app-upstream-policies>
+        }
     </div>
-
+    <div class="col-sm-12">
+      <button mat-raised-button color="primary" (click)="submitForm()">submit Backend Form</button>
+    </div>
   </div>
 </div>

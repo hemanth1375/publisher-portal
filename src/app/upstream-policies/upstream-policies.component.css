@@ -1,0 +1,39 @@
+.input-label {
+    font-size: 13px;
+  }
+  
+  .input-size {
+    width: 80%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+  }
+  
+  .input-size1 {
+    width: 5%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+  }
+  
+  .checkbox-text {
+    margin-bottom: 0;
+  }
+  
+  .static-text-area {
+    background-color: black;
+    width: 80%;
+    color: white;
+  }
+  
+  .parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .parameter-item mat-icon {
+    font-size: 16px;
+  }

@@ -30,6 +30,9 @@ import { EndPointPageComponent } from './end-point-page/end-point-page.component
 import { HttpClientModule } from '@angular/common/http';
 import { BackendsUpstreamComponent } from './backends-upstream/backends-upstream.component';
 import { UpstreamRequestComponent } from './upstream-request/upstream-request.component';
+import { UpstreamThrottlingComponent } from './upstream-throttling/upstream-throttling.component';
+import { UpstreamAuthComponent } from './upstream-auth/upstream-auth.component';
+import { UpstreamPoliciesComponent } from './upstream-policies/upstream-policies.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { UpstreamRequestComponent } from './upstream-request/upstream-request.co
     DashboardComponent,
     EndPointPageComponent,
     BackendsUpstreamComponent,
-    UpstreamRequestComponent
+    UpstreamRequestComponent,
+    UpstreamThrottlingComponent,
+    UpstreamAuthComponent,
+    UpstreamPoliciesComponent
 
   ],
   imports: [

@@ -1,11 +1,202 @@
 <!-- <p>upstream-request works!</p> -->
 <div class="container">
   <div class="row">
+    <form [formGroup]="formGroupUpstreamRequest">
+  <div class="row">
     <!-- <form [formGroup]="formGroupUpstreamRequest">
 
     </form> -->
-    <p>upstream-request works!</p>
+    <div class="col-sm-12">
+      <h3>The request options define how KrakenD interacts with the upstream service.</h3>
+      <h2>Connection</h2>
+      <p>Connect to host(s)</p>
+      <div class="hostname-div">
+        <button mat-raised-button class="addhost-btn">Add host</button>
+      </div>
+    </div>
+    <div class="row mt-3">
+    <div class="col-sm-12 col-md-3">
+      <div class="mb-3">
+        <label for="method" class="form-label">Method</label>
+                    <select class="form-select" aria-label="Default select example" id="method" formControlName="method">
+                        <option selected>Select Method</option>
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="PATCH">PATCH</option>
+                        <option value="DELETE">DELETE</option>
+                      </select>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+      <div class="mb-3">
+        <label for="url" class="form-label">URL</label>
+        <input type="text" class="form-control" id="url" formControlName="endpointUrl">
+        <div class="form-text">The endpoint of the backend server to query. Reuse here any &#123;parameters&#125; defined in the parent endpoint. Also see Header routing</div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+      <div class="mb-3">
+        <label for="decodeas" class="form-label">Decode as</label>
+        <select class="form-select" aria-label="Default select example" id="decodeas" formControlName="decodeAs">
+          <option selected>Select Format</option>
+          <option value="json">JSON</option>
+          <option value="xml">XML</option>
+          <option value="rss">RSS</option>
+          <option value="string">String</option>
+          <option value="No-Op">No-Op(Leave as is)</option>
+        </select>
+        <div class="form-text">How to decode the response of the backend.</div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+      <div class="mb-3">
+        <label class="form-label">Resolution</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+          <label class="form-check-label" for="flexCheckChecked">
+            Disable Sanitization
+          </label>
+        </div>
+        <div  class="form-text">For non-HTTP hosts. If unsure, leave the proposed value.</div>
+      </div>
+    </div>
+  </div>
 
   </div>
+  <hr/>
+  <div class="row">
+    <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+      <div>
+          <h3>Static Server</h3>
+      </div>
+      <div>
+          <mat-slide-toggle #tokenValidation id="isStaticServerActive"
+              (change)="onToggleChangeStaticResponse($event, tokenValidation.id)"></mat-slide-toggle>
+      </div>
+  </div>
+  <div>
+    <p>Enables validation of JWT tokens (OAuth) that have been issued by a third party identity provider (e.g.:
+      OpenID Connect)
+    </p>
+    @if (isStaticServerActive) {
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div class="mb-3">
+          <label for="staticUrl" class="form-label">URL</label>
+          <input type="text" class="form-control" id="staticUrl" formControlName="staticUrl">
+          <div class="form-text">The folder in the filesystem containing the static files. Relative to the working dir where KrakenD config is (e.g.: ./assets) or absolute (e.g.: /etc/krakend/assets).</div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div class="mb-3">
+          <!-- <label class="form-label">Resolution</label> -->
+          <div class="form-check mt-4">
+            <input class="form-check-input" type="checkbox" value="" id="directory">
+            <label class="form-check-label" for="directory">
+              Directory Listing
+            </label>
+          </div>
+          <div  class="form-text">For non-HTTP hosts. If unsure, leave the proposed value.</div>
+          
+        </div>
+      </div>
+    </div>
+      }
+  </div>
+ 
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+      <div>
+          <h3>Body Manipulation and Generation</h3>
+      </div>
+      <div>
+          <mat-slide-toggle #bodyValidation id="isBodymanipulationActive"
+              (change)="onToggleChangeStaticResponse($event, bodyValidation.id)"></mat-slide-toggle>
+      </div>
+    </div>
+      <p>The body generator modifier allows you to craft the body you send to a backend through templates, and enables injecting other values from the user request such as the original body, headers, querystrings or URL parameters.</p>
+      @if(isBodymanipulationActive){
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="inline" id="inline">
+              <label class="form-check-label" for="inline">
+                Use the inline body editor
+              </label>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="external" id="external">
+              <label class="form-check-label" for="external">
+                External File
+              </label>
+            </div>
+          </div>
+          
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Body editor</h3>
+            <textarea class="static-text-area form-control" formControlName="bodyEditorTextarea"></textarea>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="contentType" class="form-label">Content type</label>
+              <input type="text" class="form-control" id="contentType" formControlName="contentType">
+              <div class="form-text">The Content-Type belonging to the request to the server. Defaults to application/json</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" value="" id="debug">
+                <label class="form-check-label" for="debug">
+                  Enable Debug
+                </label>
+              </div>
+              <div  class="form-text">shows useful information in the logs with DEBUG level about the input received and the body generated. Do not enable in production.</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="path" class="form-label">Path</label>
+              <input type="text" class="form-control" id="path" formControlName="path">
+              <div class="form-text">You can load the request from an external file instead of editing the template.</div>
+            </div>
+          </div>
+        </div>
+      }
+  
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+      <div>
+          <h3>Martian (Req/Resp static manipulation)</h3>
+      </div>
+      <div>
+          <mat-slide-toggle #martianValidation id="isMartianActive"
+              (change)="onToggleChangeStaticResponse($event, martianValidation.id)"></mat-slide-toggle>
+      </div>
+    </div>
+    <p>Transform requests and responses through a simple DSL definition. The input must be a JSON object with Martian format</p>
+    @if(isMartianActive){
+<h3>Martian DSL</h3>
+<textarea class="static-text-area form-control" formControlName="martianDslTextarea"></textarea>
+<div class="form-text">Paste here your JSON configuration to be used in the martian modifier.</div>
+
+    }
+    <div class="col-sm-12 d-flex justify-content-end">
+      <button mat-raised-button color="primary" (click)="saveForm()">
+        Save
+      </button>
+    </div>
+  </div>
+</form>
+</div>
 
 </div>

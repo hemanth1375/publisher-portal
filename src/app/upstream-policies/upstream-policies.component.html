@@ -1,0 +1,236 @@
+<!-- <p>policies works!</p> -->
+<div class="container">
+    <div class="row">
+      <form [formGroup]="formGroupUpstreamPolicies">
+        <div class="col-sm-12">
+          <h2>Policies</h2>
+          <h3>The policies engine lets you write custom rules validated on runtime during requests, responses,
+            and token
+            validation.</h3>
+        </div>
+        <hr class="mt-4">
+        <div class="col-sm-12">
+          <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></h3>
+          <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
+            Access Control) and ABAC (Attribute-Based Access Control) strategies</p>
+          @if(isSpFilterEnabled){
+          <div>
+            <h3>Request Policies</h3>
+            <div class="d-flex">
+              <div class="col-sm-12 col-md-6">
+                <label for="reqp1" class="form-label">Request Policies</label>
+                <!-- <p>Request Policies</p> -->
+                <div class="d-flex align-items-center">
+                  <input id="reqp1" type="text" class="input-size me-2 form-control" placeholder="value"
+                    formControlName="securityReqPolicy">
+                  <!-- <button type="button" class="btn btn-info" (click)="addParameterReqP1()">+</button> -->
+                  <!-- edited -->
+                  <button type="button" class="btn btn-info" (click)="addParameter('securityReqPolicy')">+</button>
+  
+                </div>
+                <div class="form-text">Policy. Example: hasQuerystring('q')</div>
+  
+                <div class="mt-3 d-flex">
+                  <button *ngFor="let parameter of parameterArraySecReqPolicy; let i = index" class="parameter-item">
+                    {{ parameter }}<mat-icon (click)="removeParameter(i,'securityReqPolicy')"
+                      class="d-flex align-items-center justify-content-end">close</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <label for="errorStCode1" class="form-label">Error status code</label>
+  
+                <input id="errorStCode1" type="number" class="input-size form-control" formControlName="secReqErrorStCode"
+                  placeholder="400" />
+                <div class="form-text">Returned status on violated policy</div>
+              </div>
+  
+            </div>
+          </div>
+          <br>
+  
+  
+          <div>
+            <div class="d-flex">
+              <div class="col-sm-12 col-md-6">
+                <!-- <p>Error body</p> -->
+                <label for="errorBody1" class="form-label">Error body</label>
+                <input id="errorBody1" type="text" class="input-size form-control" formControlName="secReqErrorBody"
+                  placeholder="Policies violated" />
+  
+                <div class="form-text">Empty string to return the validation <br>error, or write a string with the
+                  error <br>response body. You can add escaped <br>JSON, XML, etc in the string and add a
+                  <br>Content-Type.
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <label for="errorContentType1" class="form-label">Error content type</label>
+                <input id="errorContentType1" type="text" class="input-size form-control"
+                  formControlName="secReqErrorContentType" placeholder="Text/Plain" />
+                <div class="form-text">The Content-Type header you'd like to<br> send with the error response. When
+                  unset,<br>
+                  uses text/plain by default.</div>
+              </div>
+  
+            </div>
+          </div>
+          <br>
+          <div>
+            <h3>Response Policies</h3>
+            <div class="d-flex">
+              <div class="col-sm-12 col-md-6">
+                <label for="resP" class="form-label">Response Policies</label>
+                <div class="d-flex align-items-center">
+                  <input id="resP" type="text" class="input-size me-2 form-control" formControlName="securityResPolicy">
+                  <!-- <button type="button" class="btn btn-info" (click)="addParameterResP()">+</button> -->
+                  <!-- edited -->
+                  <button type="button" class="btn btn-info" (click)="addParameter('securityResPolicy')">+</button>
+  
+                </div>
+                <div class="form-text">Policy. Example: hasQuerystring('q')</div>
+                <div class="mt-3 d-flex">
+                  <button *ngFor="let parameter of parameterArraySecResPolicy; let i = index" class="parameter-item">
+                    {{ parameter }}<mat-icon (click)="removeParameter(i,'securityResPolicy')"
+                      class="d-flex align-items-center justify-content-end">close</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <label for="errorStCode2" class="form-label">Error status code</label>
+                <input id="errorStCode2" type="number" class="input-size form-control" formControlName="secResErrorStCode"
+                  placeholder="400" />
+                <div class="form-text">Returned status on violated policy</div>
+              </div>
+  
+            </div>
+          </div>
+          <br>
+  
+  
+          <div>
+            <div class="d-flex">
+              <div class="col-sm-12 col-md-6">
+                <label for="errorBody2" class="form-label">Error body</label>
+                <input id="errorBody2" type="text" class="input-size form-control" formControlName="secResErrorBody"
+                  placeholder="Policies violated" />
+                <div class="form-text">mpty string to return the validation<br> error, or write a string with the
+                  error<br>
+                  response body. You can add escaped<br>JSON, XML, etc in the string and add a <br>Content-Type.</div>
+  
+              </div>
+              <div class="col-sm-12 col-md-6">
+  
+                <label for="errorContentType2" class="form-label">Error content type</label>
+                <input id="errorContentType2" type="text" class="input-size form-control"
+                  formControlName="secResErrorContentType" placeholder="Text/Plain" />
+                <div class="form-text">The Content-Type header you'd like to<br> send with the error response. When
+                  unset,<br>
+                  uses text/plain by default.</div>
+  
+              </div>
+  
+            </div>
+          </div>
+  
+          <br>
+          <br>
+  
+          <div>
+            <h3>Jwt validation Policeis</h3>
+            <label for="reqp2" class="form-label">Request Policies</label>
+            <div class="d-flex col-sm-12 col-md-6">
+              <input id="reqp2" type="text" class="input-size me-2 form-control" placeholder="value"
+                formControlName="jwtReqPolicy" />
+              <!-- <button type="button" class="btn btn-info" (click)="addParameterReqP()">+</button><br> -->
+              <!-- edited -->
+              <button type="button" class="btn btn-info" (click)="addParameter('jwtReqPolicy')">+</button><br>
+  
+            </div>
+            <div class="form-text">Policy. Example:has(JWT.user_id) && 'legal' == JWT.department</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let parameter of parameterArrayJwtValReqPolicy; let i = index" class="parameter-item">
+                {{ parameter }}<mat-icon (click)="removeParameter(i,'jwtReqPolicy')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+  
+          </div>
+          <br>
+          <br>
+          <div>
+            <h3>Debug and performance</h3>
+            <br>
+            <div class="d-flex">
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex">
+                  <input type="checkbox" class="input-size1" formControlName="enableDebug">&nbsp;&nbsp;&nbsp;
+                  <h3 class="checkbox-text">Enable Debug</h3><br>
+                </div>
+                <div class="form-text">Evaluation results are printed in the<br> console.</div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex">
+                  <input type="checkbox" class="input-size1" formControlName="autoJoinPolicies">&nbsp;&nbsp;&nbsp;
+                  <h3 class="checkbox-text">Auto Join Policies</h3><br>
+                </div>
+                <div class="form-text">All policies concatenate with an AND<br>operation to evaluate a single
+                  expression.<br> Faster, but harder to debug.</div>
+  
+  
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex">
+                  <input type="checkbox" class="input-size1" formControlName="disableMacros">&nbsp;&nbsp;&nbsp;
+                  <h3 class="checkbox-text">Disable Macros</h3><br>
+                </div>
+                <div class="form-text">Advanced macros can be disabled when<br> not used for a faster
+                  evaluation.</div>
+              </div>
+  
+            </div>
+          </div>
+  
+          }
+        </div>
+        <hr class="mt-4">
+  
+        <div class="col-sm-12">
+          <h3>Response schema validator &nbsp;&nbsp;<mat-slide-toggle
+              (change)="onToggleChange2($event)"></mat-slide-toggle>
+          </h3>
+          <p>The response schema validator plugin adds a schema validation before the gateway returns the response to the
+            end-user or before it's merged in the endpoint with the rest of the backends. </p>
+          @if(isResponseSchValidatorFiltrEnabled){
+          <div class="col-sm-12 col-md-9">
+            <textarea name="" id="" class="static-text-area">{}</textarea><br>
+            <p>Write your JSON schema directly in this field, with any number of fields or validations you need.</p>
+  
+            <div class="d-flex col-sm-12">
+              <div class="col-sm-12 col-md-6">
+                <label for="errorMessage" class="form-label">Error Message</label>
+                <input id="errorMessage" type="text" class="input-size form-control"
+                  formControlName="resSchemaValErrorMsg" placeholder="Policies violated" />
+                <div class="form-text">The error message you want to show<br> when the validation fails. Leave it
+                  empty<br> to show the JSON-schema validation<br> error.</div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <label for="errorStCode3" class="form-label">Error status code</label>
+                <input id="errorStCode3" type="number" class="input-size form-control"
+                  formControlName="resSchemaValErrorStCode" placeholder="Text/Plain" />
+                <div class="form-text">The HTTP status code you want to set<br> back in the response.</div>
+              </div>
+  
+            </div>
+  
+          </div>
+  
+          }
+        </div>
+        <div class="col-sm-12 d-flex justify-content-end">
+          <button (click)="saveForm()" mat-raised-button color="primary">save</button>
+        </div>
+      </form>
+  
+    </div>
+  
+  </div>

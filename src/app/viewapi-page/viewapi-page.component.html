@@ -43,11 +43,12 @@
             <app-openapi (openapiFormSubmitted)="collectData('openApi',$event)"></app-openapi>
             }
             @if(selectedItem.name==="Backends(Upstream)"){
-            <app-backends-upstream></app-backends-upstream>
+            <app-backends-upstream (backendUpStreamSubmitted)="collectData('backend',$event)"></app-backends-upstream>
             }
         </div>
+        
         <div class="col-sm-12 d-flex justify-content-end">
-            <button mat-raised-button color="primary" (click)="submitForm()">Submit</button>
+            <button mat-raised-button color="primary" (click)="sendData()">Submit</button>
         </div>
 
     </div>

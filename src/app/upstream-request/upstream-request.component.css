@@ -1,0 +1,16 @@
+.hostname-div{
+    background-color: rgba(184, 122, 245, 0.1);
+    padding:20px;
+}
+.addhost-btn{
+    background-color: black;
+    color:white;
+}
+.heading-with-toggle h3{
+    margin:0px !important;
+}
+.static-text-area{
+    background-color: black;
+    width:80%;
+    color:white;
+}

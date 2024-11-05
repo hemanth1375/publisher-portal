@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="row">
+        <form [formGroup]="formGroupUpstreamThrottling">
+    <div class="row">
+        <h3>Control and limit the interaction between KrakenD and your service.</h3>
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+            <div>
+                <h3>Circuit Breaker</h3>
+            </div>
+            <div>
+                <mat-slide-toggle #circuitBraker id="isCircuitBreakerActive"
+                    (change)="onToggleChangeStaticResponse($event, circuitBraker.id)"></mat-slide-toggle>
+            </div>
+        </div>
+        
+            @if(!isCircuitBreakerActive){
+          <p>Watches the state of the connections to your backend and when it sees more than the configured number of consecutive failures within an interval it stops temporarily all the interaction with the backend.
+          </p>
+        }@else{
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" class="form-control" id="name" formControlName="circuitBreakerName">
+                      <div class="form-text">How this circuit breaker is shown in the logging.</div>
+                    </div>
+                  </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="maxerr" class="form-label">Maximum Errors</label>
+                      <input type="number" class="form-control" id="maxerr" formControlName="maxError">
+                      <div class="form-text">Consecutive failures from the backend to stop sending traffic to it</div>
+                    </div>
+                  </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="inteval" class="form-label">Interval</label>
+                      <input type="number" class="form-control" id="interval" formControlName="interval">
+                      <div class="form-text">Time window where this circuit breaker counts errors</div>
+                    </div>
+                  </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="timeout" class="form-label">Timeout</label>
+                      <input type="number" class="form-control" id="timeout">
+                      <div class="form-text">Time to wait before stressing again a failing backend</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <!-- <label class="form-label">Resolution</label> -->
+                      <div class="form-check mt-4">
+                        <input class="form-check-input" type="checkbox" value="" id="logState">
+                        <label class="form-check-label" for="logState">
+                          Log state changes
+                        </label>
+                      </div>
+                      <div  class="form-text">Write in the logs when the circuit changes its state (open/closed).</div>
+                      
+                    </div>
+                  </div>
+            </div>
+        }
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+            <div>
+                <h3>Proxy Rate limit</h3>
+            </div>
+            <div>
+                <mat-slide-toggle #proxyrate id="isProxyRateLimitActive"
+                    (change)="onToggleChangeStaticResponse($event, proxyrate.id)"></mat-slide-toggle>
+            </div>
+        </div>
+        @if(!isProxyRateLimitActive){
+            <p>Limits the number of requests KrakenD can do to your backend service /</p>
+        }@else{
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="maxrateLimit" class="form-label">MaxRateLimit</label>
+                      <input type="number" class="form-control" id="maxrateLimit">
+                      <div class="form-text">Maximum requests you want to let this backend handle in the specified time (every)</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Every</label>
+                      <input type="text" class="form-control" id="name">
+                      <div class="form-text">Time window where this rate limit applies.</div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Capacity(Burst size)</label>
+                      <input type="number" class="form-control" id="name">
+                      <div class="form-text">Recommended value capacity=max_rate. A token bucket algorithm is used with a bucket capacity == tokens added per second. KrakenD is able to allow bursting on the request rates.</div>
+                    </div>
+                  </div>
+            </div>
+        }
+        <div class="col-sm-12 d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+        </div>
+    </div>
+</form>
+</div>
+</div>

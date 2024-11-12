@@ -45,31 +45,31 @@
             <div class="tab-content mt-3" id="myTabContent">
                 <div class="tab-pane fade show active" id="endpoint" role="tabpanel" aria-labelledby="endpoint-tab">
                     <app-end-point-page [formData]="endPointData" 
-                    (endPointFormSubmitted)="onEndPointFormChange($event)"></app-end-point-page>
+                    (endPointFormSubmitted)="onFormChange('endpoint',$event)"></app-end-point-page>
                 </div>
                 <div class="tab-pane fade" id="parameterforwarding" role="tabpanel" aria-labelledby="parameterforwarding-tab">
                     <app-parameter-forwarding [formData]="parameterForwardingData"
-                    (formSubmitted)="onParameterForwardingFormChange($event)"></app-parameter-forwarding>
+                    (formSubmitted)="onFormChange('parameter',$event)"></app-parameter-forwarding>
                 </div>
                 <div class="tab-pane fade" id="auth" role="tabpanel" aria-labelledby="auth-tab">
-                    <app-auth-page [formData]="authPageData" (authPageFormSubmitted)="onAuthPageFormChange($event)"></app-auth-page>
+                    <app-auth-page [formData]="authPageData" (authPageFormSubmitted)="onFormChange('auth',$event)"></app-auth-page>
                 </div>
                 <div class="tab-pane fade" id="throttling" role="tabpanel" aria-labelledby="throttling-tab">
-                    <app-throttling [formData]="throttlingData" (throttlingFormSubmitted)="onThrottlingFormChange($event)"></app-throttling>
+                    <app-throttling [formData]="throttlingData" (throttlingFormSubmitted)="onFormChange('throttling',$event)"></app-throttling>
                 </div>
                 <div class="tab-pane fade" id="policies" role="tabpanel" aria-labelledby="policies-tab">
-                    <app-policies [formData]="policiesData" (policiesFormSubmitted)="onPoliciesFormChange($event)"></app-policies>
+                    <app-policies [formData]="policiesData" (policiesFormSubmitted)="onFormChange('policies',$event)"></app-policies>
                 </div>
                 <div class="tab-pane fade" id="response" role="tabpanel" aria-labelledby="response-tab">
                     <app-response-manipulation [formData]="responseData"
-                (responseManipulationFormSubmitted)="onResponseFormChange($event)"></app-response-manipulation>
+                (responseManipulationFormSubmitted)="onFormChange('response',$event)"></app-response-manipulation>
                 </div>
                 <div class="tab-pane fade" id="connectivity" role="tabpanel" aria-labelledby="connectivity-tab">
                     <app-connectivity-options [formData]="connectivityData"
-                (connectivityFormSubmitted)="onConnectivityFormChange($event)"></app-connectivity-options>
+                (connectivityFormSubmitted)="onFormChange('connectivity',$event)"></app-connectivity-options>
                 </div>
                 <div class="tab-pane fade" id="openapi" role="tabpanel" aria-labelledby="openapi-tab">
-                    <app-openapi [formData]="openApiData" (openapiFormSubmitted)="onOpenApiFormChange($event)"></app-openapi>
+                    <app-openapi [formData]="openApiData" (openapiFormSubmitted)="onFormChange('openapi',$event)"></app-openapi>
                 </div>
                 <div class="tab-pane fade" id="backend" role="tabpanel" aria-labelledby="backend-tab">
                   <!-- <app-backends-upstream></app-backends-upstream> -->
@@ -96,20 +96,20 @@
                     <div class="tab-content mt-3" id="myTabContent1">
                       <div class="tab-pane fade show active" id="upstreamRequest" role="tabpanel" aria-labelledby="upstreamRequest-tab">
                         <app-upstream-request [formData]="upstreamRequestData" 
-                          (upstreamRequestFormSubmitted)="onUpstreamRequestFormChange($event)"></app-upstream-request>
+                          (upstreamRequestFormSubmitted)="onFormChange('upstreamRequest',$event)"></app-upstream-request>
                       </div>
                       <div class="tab-pane fade" id="upstreamThrottling" role="tabpanel" aria-labelledby="upstreamThrottling-tab">
                          <app-upstream-throttling [formData]="upstreamThrottlingData"
-                          (upstreamThrottlingFormSubmitted)="onUpstreamThrottleFormChange($event)"></app-upstream-throttling>
+                          (upstreamThrottlingFormSubmitted)="onFormChange('upstreamThrottling',$event)"></app-upstream-throttling>
                       </div>
                       <div class="tab-pane fade" id="upstreamAuth" role="tabpanel" aria-labelledby="upstreamAuth-tab">
-                         <app-upstream-auth [formData]="upstreamAuthData" (upstreamAuthFormSubmitted)="onUpstreamAuthFormChange($event)"></app-upstream-auth>
+                         <app-upstream-auth [formData]="upstreamAuthData" (upstreamAuthFormSubmitted)="onFormChange('upstreamAuth',$event)"></app-upstream-auth>
                       </div>
                       <div class="tab-pane fade" id="upstreamPolicies" role="tabpanel" aria-labelledby="upstreamPolicies-tab">
-                         <app-upstream-policies [formData]="upstreamPoliciesData" (upstreamPoliciesFormSubmitted)="onUpstreamPoliciesFormChange($event)"></app-upstream-policies>
+                         <app-upstream-policies [formData]="upstreamPoliciesData" (upstreamPoliciesFormSubmitted)="onFormChange('upstreamPolicies',$event)"></app-upstream-policies>
                       </div>
                       <div class="tab-pane fade" id="upstreamResponse" role="tabpanel" aria-labelledby="upstreamResponse-tab">
-                         <app-upstream-response-manipulation [formData]="upstreamResponseData" (upstreamResponseFormSubmitted)="onUpstreamResponseFormChange($event)"></app-upstream-response-manipulation>
+                         <app-upstream-response-manipulation [formData]="upstreamResponseData" (upstreamResponseFormSubmitted)="onFormChange('upstreamResponse',$event)"></app-upstream-response-manipulation>
                       </div>
                       
                     </div>

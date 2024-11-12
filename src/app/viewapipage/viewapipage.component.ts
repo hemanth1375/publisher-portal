@@ -164,66 +164,24 @@ export class ViewapipageComponent {
    upstreamRequestData:any;
    upstreamThrottlingData:any;
    upstreamResponseData:any;
-  //  onEndPointFormChange(form:any,updatedData: any) {
-  //   console.log('End Point Form Updated Data:', updatedData);
-  //   switch(form){
-  //     case 'endpoint': this.endPointData = updatedData;break;
-  //     case 'parameterforwarding':this.parameterForwardingData=updatedData;break;
-  //   }
-  //    
-  // }
-  onEndPointFormChange(updatedData: any) {
-    console.log('End Point Form Updated Data:', updatedData);
-    this.endPointData = updatedData; 
-  }
 
-  onParameterForwardingFormChange(updatedData: any) {
-    console.log('Parameter Forwarding Form Updated Data:', updatedData);
-    this.parameterForwardingData = updatedData; 
-  }
-  onAuthPageFormChange(updatedData: any) {
-    console.log('Auth Form Updated Data:', updatedData);
-    this.authPageData = updatedData; 
-  }
-  onConnectivityFormChange(updatedData: any) {
-    console.log('connectivity Updated Data:', updatedData);
-    this.connectivityData = updatedData; 
-  }
-  onOpenApiFormChange(updatedData: any) {
-    console.log('openApi Updated Data:', updatedData);
-    this.openApiData = updatedData; 
-  }
-  onThrottlingFormChange(updatedData: any) {
-    console.log('throttling Updated Data:', updatedData);
-    this.throttlingData = updatedData; 
-  }
-  onPoliciesFormChange(updatedData: any) {
-    console.log('policies Updated Data:', updatedData);
-    this.policiesData = updatedData; 
-  }
-  onResponseFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.responseData = updatedData; 
-  }
-  onUpstreamAuthFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.upstreamAuthData = updatedData; 
-  }
-  onUpstreamPoliciesFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.upstreamPoliciesData = updatedData; 
-  }
-  onUpstreamRequestFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.upstreamRequestData = updatedData; 
-  }
-  onUpstreamThrottleFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.upstreamThrottlingData = updatedData; 
-  }
-  onUpstreamResponseFormChange(updatedData: any) {
-    console.log('response Updated Data:', updatedData);
-    this.upstreamResponseData = updatedData; 
+
+  onFormChange(form:any,updatedData:any){
+    switch(form){
+      case 'endpoint': this.endPointData = updatedData;break;
+      case 'parameter': this.parameterForwardingData=updatedData;break;
+      case 'auth': this.authPageData = updatedData;break;
+      case 'connectivity': this.connectivityData = updatedData;break;
+      case 'throttling': this.throttlingData = updatedData;break;
+      case 'policies': this.policiesData = updatedData;break;
+      case 'openapi': this.openApiData = updatedData;break;
+      case 'response': this.responseData = updatedData;break;
+      case 'upstreamRequest': this.upstreamRequestData = updatedData;break;
+      case 'upstreamResponse': this.upstreamResponseData = updatedData;break;
+      case 'upstreamAuth': this.upstreamAuthData = updatedData;break;
+      case 'upstreamThrottling': this.upstreamThrottlingData = updatedData;break;
+      case 'upstreamPolicies': this.upstreamPoliciesData = updatedData;break;
+    }
   }
    submitForm() {
     const endPointFormData = this.endPointPageComponent.formGroupEndPoint.value;
@@ -237,7 +195,7 @@ export class ViewapipageComponent {
     console.log('throttling Data:', this.throttlingData);
     console.log('policies Data:', this.policiesData);
     console.log('response Data:', this.responseData);
-    console.log('response Data:', this.upstreamRequestData);
+    console.log('upstreamReq Data:', this.upstreamRequestData);
 
    }
 

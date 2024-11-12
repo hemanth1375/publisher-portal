@@ -163,62 +163,67 @@ export class ViewapipageComponent {
    upstreamPoliciesData:any;
    upstreamRequestData:any;
    upstreamThrottlingData:any;
+   upstreamResponseData:any;
   //  onEndPointFormChange(form:any,updatedData: any) {
   //   console.log('End Point Form Updated Data:', updatedData);
   //   switch(form){
   //     case 'endpoint': this.endPointData = updatedData;break;
   //     case 'parameterforwarding':this.parameterForwardingData=updatedData;break;
   //   }
-  //    // Sync data with parent
+  //    
   // }
   onEndPointFormChange(updatedData: any) {
     console.log('End Point Form Updated Data:', updatedData);
-    this.endPointData = updatedData; // Sync data with parent
+    this.endPointData = updatedData; 
   }
 
   onParameterForwardingFormChange(updatedData: any) {
     console.log('Parameter Forwarding Form Updated Data:', updatedData);
-    this.parameterForwardingData = updatedData; // Sync data with parent
+    this.parameterForwardingData = updatedData; 
   }
   onAuthPageFormChange(updatedData: any) {
     console.log('Auth Form Updated Data:', updatedData);
-    this.authPageData = updatedData; // Sync data with parent
+    this.authPageData = updatedData; 
   }
   onConnectivityFormChange(updatedData: any) {
     console.log('connectivity Updated Data:', updatedData);
-    this.connectivityData = updatedData; // Sync data with parent
+    this.connectivityData = updatedData; 
   }
   onOpenApiFormChange(updatedData: any) {
     console.log('openApi Updated Data:', updatedData);
-    this.openApiData = updatedData; // Sync data with parent
+    this.openApiData = updatedData; 
   }
   onThrottlingFormChange(updatedData: any) {
     console.log('throttling Updated Data:', updatedData);
-    this.throttlingData = updatedData; // Sync data with parent
+    this.throttlingData = updatedData; 
   }
   onPoliciesFormChange(updatedData: any) {
     console.log('policies Updated Data:', updatedData);
-    this.policiesData = updatedData; // Sync data with parent
+    this.policiesData = updatedData; 
   }
   onResponseFormChange(updatedData: any) {
     console.log('response Updated Data:', updatedData);
-    this.responseData = updatedData; // Sync data with parent
+    this.responseData = updatedData; 
   }
   onUpstreamAuthFormChange(updatedData: any) {
     console.log('response Updated Data:', updatedData);
-    this.upstreamAuthData = updatedData; // Sync data with parent
+    this.upstreamAuthData = updatedData; 
   }
   onUpstreamPoliciesFormChange(updatedData: any) {
     console.log('response Updated Data:', updatedData);
-    this.upstreamPoliciesData = updatedData; // Sync data with parent
+    this.upstreamPoliciesData = updatedData; 
   }
   onUpstreamRequestFormChange(updatedData: any) {
     console.log('response Updated Data:', updatedData);
-    this.upstreamRequestData = updatedData; // Sync data with parent
+    this.upstreamRequestData = updatedData; 
   }
   onUpstreamThrottleFormChange(updatedData: any) {
     console.log('response Updated Data:', updatedData);
-    this.upstreamThrottlingData = updatedData; // Sync data with parent
+    this.upstreamThrottlingData = updatedData; 
+  }
+  onUpstreamResponseFormChange(updatedData: any) {
+    console.log('response Updated Data:', updatedData);
+    this.upstreamResponseData = updatedData; 
   }
    submitForm() {
     const endPointFormData = this.endPointPageComponent.formGroupEndPoint.value;

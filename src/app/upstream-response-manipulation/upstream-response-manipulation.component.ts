@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 
@@ -17,7 +17,9 @@ export class UpstreamResponseManipulationComponent implements OnInit{
   formGroupResManipulation:FormGroup;
   objectMap: Map<string, string> = new Map();
   isKeyCreated: boolean = false;
-
+  @Input() formData: any;
+  @Output() upstreamResponseFormSubmitted =new EventEmitter<any>();
+  
   constructor(private formBuilder:FormBuilder){
     this.items = [
       { name: 'Deny' },
@@ -57,6 +59,7 @@ export class UpstreamResponseManipulationComponent implements OnInit{
     })
 
   }
+
 
   jsonData = {
     "students": [
@@ -184,6 +187,12 @@ export class UpstreamResponseManipulationComponent implements OnInit{
 
 
   ngOnInit(): void {
+
+    this.formGroupResManipulation.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.upstreamResponseFormSubmitted.emit(value); // Emit form data on every change
+    });
 
     this.selectedItem = this.items[0];
     this.formGroupResManipulation.get('path')?.disable();

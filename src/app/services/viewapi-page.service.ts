@@ -23,4 +23,10 @@ export class ViewapiPageService {
   sendData(data: string) {
     this.dataSubject.next(data);
   }
+  private dataSubjectBackend = new Subject<string>();
+  dataBackend$ = this.dataSubjectBackend.asObservable();
+
+  sendBackendData(data: string) {
+    this.dataSubjectBackend.next(data);
+  }
 }

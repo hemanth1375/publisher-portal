@@ -20,8 +20,14 @@ this.router.navigate(['/dashboard']);
 
 constructor(private router:Router ,private elementRef: ElementRef, private renderer: Renderer2) {}
 
+showSidebar: boolean = true;
+
+
   ngOnInit(): void {
    this. isExpanded = false;
+   this.router.events.subscribe(() => {
+    this.showSidebar = this.router.url !== '/apicards';
+  });
   }
 
   isExpanded = false;

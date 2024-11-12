@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ResponseManipulationComponent {
   isStaticResponseEnabled = false; // Initially false
   formGroupResponseManipulation:FormGroup;
+  @Input() formData: any;
   @Output() responseManipulationFormSubmitted=new EventEmitter<any>();
   constructor(private formBuilder:FormBuilder){
     this.formGroupResponseManipulation=this.formBuilder.group({
@@ -25,6 +26,13 @@ export class ResponseManipulationComponent {
       contentType:[''],
       pathGo:['']
     })
+  }
+  ngOnInit(){
+    this.formGroupResponseManipulation.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.responseManipulationFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
   saveForm(){
 if(this.formGroupResponseManipulation.valid){

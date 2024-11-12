@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 import { ViewapiPageComponent } from '../viewapi-page/viewapi-page.component';
 import { ViewapiPageService } from '../services/viewapi-page.service';
+import { ApiPageService } from '../services/api-page.service';
 
 @Component({
   selector: 'app-api-page',
@@ -16,7 +17,7 @@ showParent:any=true;
   childData: Array<any> = [];
 
   // button trial
-  buttonLabels: string[] = []; // Array to store button labels
+  buttonLabels: any[] = []; // Array to store button labels
   buttonCount: number = 1; 
   
 
@@ -31,7 +32,7 @@ showParent:any=true;
     //   this.childData.push(data);
     // });
   }
-constructor(private router:Router,private route:ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver,private dataService: ViewapiPageService){
+constructor(private router:Router,private route:ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver,private dataService: ViewapiPageService,private apiPageService:ApiPageService){
   this.router.events.subscribe((event) => {
      
     if (event instanceof NavigationEnd) {
@@ -50,6 +51,16 @@ constructor(private router:Router,private route:ActivatedRoute, private componen
 }
 collectedData: string[] = [];
 ngOnInit(){
+  this.apiPageService.getEndpoints().subscribe({
+    next:(res:any)=>{
+      this.buttonCount=res.endpoints.length
+      for(let i=0; i<res.endpoints.length;i++){
+        this.buttonLabels.push(...res.endpoints)
+        console.log(this.buttonLabels);
+        
+      }
+    }
+  })
   this.dataService.data$.subscribe(data => {
     this.collectedData.push(data);
     console.log('Data received from child:', data);
@@ -248,6 +259,79 @@ submitFinalData(){
     ],
     "endpoints1":this.collectedData.map((item?:any)=>{
       return {
+        "backend":item.backend.map((item1?:any)=>{
+          return {
+              "host": [
+                "string"
+              ],
+              "url_pattern": "string",
+              "allow": [
+                "string"
+              ],
+              "mapping": {
+                "blog": "string",
+                "collection": "string",
+                "CapitalCityResult": "string"
+              },
+              "group": "string",
+              "is_collection": true,
+              "encoding": "string",
+              "extra_config": {
+                "plugin/req-resp-modifier": {
+                  "name": [
+                    "string"
+                  ],
+                  "content-replacer": {}
+                },
+                "qos/ratelimit/proxy": {
+                  "max_rate": 0,
+                  "capacity": item1?.throttling?.capacity
+                },
+                "qos/http-cache": {
+                  "shared": true
+                },
+                "backend/graphql": {
+                  "type": "string",
+                  "query": "string",
+                  "variables": {}
+                },
+                "backend/soap": {
+                  "@comment": "string",
+                  "path": "string"
+                },
+                "backend/grpc": {
+                  "input_mapping": {
+                    "lat": "string",
+                    "lon": "string",
+                    "Id_flight": "string",
+                    "Main_passenger": "string"
+                  },
+                  "response_naming_convention": "string",
+                  "output_enum_as_string": true,
+                  "output_timestamp_as_string": true,
+                  "output_duration_as_string": true,
+                  "client_tls": {
+                    "allow_insecure_connections": true
+                  },
+                  "output_remove_unset_values": true,
+                  "use_request_body": true
+                },
+                "backend/static-filesystem": {
+                  "directory_listing": true,
+                  "path": "string"
+                }
+              },
+              "target": "string",
+              "method": item1.request.method,
+              "deny": [
+                "string"
+              ],
+              "@comment": "string",
+              "@test_with": "string",
+              "disable_host_sanitize": true
+            
+          }
+        }),
         "extra_config": {
           "documentation/openapi": {
             "summary": item?.openApi?.summary,
@@ -549,9 +633,14 @@ submitFinalData(){
   
   
 }
-goToViewApipage(){
+goToViewApipage(value:any){
   // alert("ok")
   this.showParent=false;
-this.router.navigate(['viewapi'],{relativeTo:this.route})
+  this.apiPageService.setData(value);
+this.router.navigate(['viewapi'],{state:{res:value},relativeTo:this.route})
 }
+// sendData(): void {
+//   const data = 'Hello, Component B!';
+//   this.apiPageService.setData(data);
+// }
 }

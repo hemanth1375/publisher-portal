@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -34,10 +34,17 @@ export class PoliciesComponent {
 
 
   formGroupPolicies: FormGroup;
-
+  @Input() formData: any;
   @Output() policiesFormSubmitted = new EventEmitter<any>();
   submitForm() {
     
+  }
+  ngOnInit(){
+    this.formGroupPolicies.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.policiesFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
 
   parameterArraySecReqPolicy: any = [];

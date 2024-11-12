@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './connectivity-options.component.css'
 })
 export class ConnectivityOptionsComponent {
+  @Input() formData: any;
   isWebSocketEnabled = false; // Initially false
   
 
@@ -38,6 +39,13 @@ export class ConnectivityOptionsComponent {
   parameterHeader:any;
   formGroup1: FormGroup;
   @Output() connectivityFormSubmitted = new EventEmitter<any>();
+  ngOnInit(){
+    this.formGroup1.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.connectivityFormSubmitted.emit(value); // Emit form data on every change
+    });
+  }
   saveForm() {
     if (this.formGroup1.valid) {
       this.connectivityFormSubmitted.emit(this.formGroup1.value);

@@ -42,7 +42,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="mb-3">
                       <label for="timeout" class="form-label">Timeout</label>
-                      <input type="number" class="form-control" id="timeout">
+                      <input type="number" class="form-control" id="timeout" formControlName="timeout">
                       <div class="form-text">Time to wait before stressing again a failing backend</div>
                     </div>
                   </div>
@@ -79,29 +79,29 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <div class="mb-3">
-                      <label for="maxrateLimit" class="form-label">MaxRateLimit</label>
-                      <input type="number" class="form-control" id="maxrateLimit">
+                      <label for="maxRateLimit" class="form-label">MaxRateLimit</label>
+                      <input type="number" class="form-control" id="maxRateLimit" formControlName="maxRateLimit">
                       <div class="form-text">Maximum requests you want to let this backend handle in the specified time (every)</div>
                     </div>
                   </div>
                   <div class="col-sm-12 col-md-6">
                     <div class="mb-3">
-                      <label for="name" class="form-label">Every</label>
-                      <input type="text" class="form-control" id="name">
+                      <label for="every" class="form-label">Every</label>
+                      <input type="text" class="form-control" id="every" formControlName="every">
                       <div class="form-text">Time window where this rate limit applies.</div>
                     </div>
                   </div>
                   <div class="col-sm-12 col-md-6">
                     <div class="mb-3">
-                      <label for="name" class="form-label">Capacity(Burst size)</label>
-                      <input type="number" class="form-control" id="name">
+                      <label for="capacity" class="form-label">Capacity(Burst size)</label>
+                      <input type="number" class="form-control" id="capacity" formControlName="capacity">
                       <div class="form-text">Recommended value capacity=max_rate. A token bucket algorithm is used with a bucket capacity == tokens added per second. KrakenD is able to allow bursting on the request rates.</div>
                     </div>
                   </div>
             </div>
         }
         <div class="col-sm-12 d-flex justify-content-end">
-            <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+            <!-- <button mat-raised-button color="primary" (click)="saveForm()">Save</button> -->
         </div>
     </div>
 </form>

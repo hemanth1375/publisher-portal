@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './auth-page.component.css'
 })
 export class AuthPageComponent {
+
+  @Input() formData: any;
 
   isTokenValidationActive=false;
   isTokenSigningActive=false;
@@ -55,6 +57,13 @@ export class AuthPageComponent {
     })
   }
 
+  ngOnInit(){
+    this.formGroup1.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.authPageFormSubmitted.emit(value); // Emit form data on every change
+    });
+  }
   changeStatus(){
     this.isCustomChiperSuiteActive = !this.isCustomChiperSuiteActive
     console.log(this.isCustomChiperSuiteActive);

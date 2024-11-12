@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './parameter-forwarding.component.css'
 })
 export class ParameterForwardingComponent {
-
+  @Input() formData: any; 
   constructor(private formBuilder:FormBuilder){
     this.formGroup1=this.formBuilder.group({
       queryParams:[null],
@@ -20,6 +20,15 @@ export class ParameterForwardingComponent {
   parameterHeader:any;
   formGroup1: FormGroup;
   @Output() formSubmitted = new EventEmitter<any>();
+
+  ngOnInit(){
+    this.formGroup1.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.formSubmitted.emit(value); // Emit form data on every change
+    });
+  }
+
   submitForm() {
     if (this.formGroup1.valid) {
       this.formSubmitted.emit(this.formGroup1.value);

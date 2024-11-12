@@ -4,15 +4,63 @@
       <div class="mt-3">
         <h4>Backend Upstreams for v1/basal-forect/&#123;id_forest&#125;</h4>
       </div>
-      <ul class="menu-list d-flex">
+      <!-- <ul class="menu-list d-flex">
         @for(item of items;track item){
         <li class="nav-item" (click)="selectItem(item)" [class.selected]="item === selectedItem">
           <a class="nav-link active" class="nav-link-inserted">{{item.name}}</a>
         </li>
         }
-      </ul>
+      </ul> -->
+      <!-- <ul class="nav nav-tabs menu-list" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="upstreamRequest-tab" data-bs-toggle="tab" href="#upstreamRequest" role="tab" aria-controls="upstreamRequest" aria-selected="true">Request</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="upstreamThrottling-tab" data-bs-toggle="tab" href="#upstreamThrottling" role="tab" aria-controls="upstreamThrottling" aria-selected="false">Throttling</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="upstreamAuth-tab" data-bs-toggle="tab" href="#upstreamAuth" role="tab" aria-controls="upstreamAuth" aria-selected="false">Auth</a>
+          </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="throttling-tab" data-bs-toggle="tab" href="#throttling" role="tab" aria-controls="throttling" aria-selected="false">Throttling</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="policies-tab" data-bs-toggle="tab" href="#policies" role="tab" aria-controls="policies" aria-selected="false">Policies</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="response-tab" data-bs-toggle="tab" href="#response" role="tab" aria-controls="response" aria-selected="false">Response Manipulation</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="connectivity-tab" data-bs-toggle="tab" href="#connectivity" role="tab" aria-controls="connectivity" aria-selected="false">Connectivity Options</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="openapi-tab" data-bs-toggle="tab" href="#openapi" role="tab" aria-controls="openapi" aria-selected="false">Open Api</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="backend-tab" data-bs-toggle="tab" href="#backend" role="tab" aria-controls="backend" aria-selected="false">Backends (Upstream)</a>
+        </li>
+      </ul> -->
     </div>
-    <div class="col-sm-12">
+    <!-- <div class="col-sm-12">
+      <div class="tab-content mt-3" id="myTabContent">
+        <div class="tab-pane fade show active" id="upstreamRequest" role="tabpanel" aria-labelledby="upstreamRequest-tab">
+          <app-upstream-request [formData]="upstreamRequestData" 
+            (upstreamRequestFormSubmitted)="onUpstreamRequestFormChange($event)"></app-upstream-request>
+        </div>
+        <div class="tab-pane fade" id="upstreamThrottling" role="tabpanel" aria-labelledby="upstreamThrottling-tab">
+           <app-upstream-throttling [formData]="upstreamThrottlingData"
+            (formSubmitted)="onUpstreamThrottlingFormChange($event)"></app-upstream-throttling>
+        </div>
+        <div class="tab-pane fade" id="upstreamAuth" role="tabpanel" aria-labelledby="upstreamAuth-tab">
+           <app-upstream-auth [formData]="upstreamAuthPageData" (upstreamAuthPageFormSubmitted)="onupstreamAuthPageFormChange($event)"></app-upstream-auth>
+        </div>
+        <div class="tab-pane fade" id="upstreamPolicies" role="tabpanel" aria-labelledby="policies-tab">
+           <app-upstream-policies [formData]="upstreamPoliciesData" (upstreamPoliciesFormSubmitted)="onThrottlingFormChange($event)"></app-upstream-policies>
+        </div>
+        
+      </div>
+    </div> -->
+    <!-- <div class="col-sm-12">
       @if(selectedItem.name==="Request"){
       <app-upstream-request (upstreamRequestFormSubmitted)="collectData('request',$event)"></app-upstream-request>
       }
@@ -23,14 +71,17 @@
         <app-upstream-throttling (upstreamThrottlingFormSubmitted)="collectData('throttling',$event)"></app-upstream-throttling>
         }
       @if(selectedItem.name==="Autentication"){
-        <app-upstream-auth (upstreamAuthFormSubmitted)="collectData('auth',$event)"></app-upstream-auth>
+        <app-upstream-upstreamAuth (upstreamupstreamAuthFormSubmitted)="collectData('upstreamAuth',$event)"></app-upstream-upstreamAuth>
         }
       @if(selectedItem.name==="Policies"){
         <app-upstream-policies (upstreamPoliciesFormSubmitted)="collectData('policies',$event)"></app-upstream-policies>
         }
-    </div>
+    </div> -->
+    <div #childContainer></div>
     <div class="col-sm-12">
-      <button mat-raised-button color="primary" (click)="submitForm()">submit Backend Form</button>
+      <!-- <button mat-raised-button color="primary" (click)="addChild()">Add Backend Form</button> -->
+      <!-- <button mat-raised-button color="primary" (click)="submitForm()">submit Backend Form</button> -->
+      <!-- <button mat-raised-button color="primary" (click)="sendData()">submit Backend Form</button> -->
     </div>
   </div>
 </div>

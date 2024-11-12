@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="row">
+        <form [formGroup]="formGroupService">
+        <div class="col-sm-12">
+            <h3>HTTP Server Settings</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="input-size form-control" id="name" formControlName="name"/>
+                    <div class="form-text">A friendly name, title, date, version or any other short description that helps you recognize this configuration when reporting to your metrics and traces systems.</div>
+                </div>
+                <div class="col-sm-6">
+                    <label for="port" class="form-label">Port</label>
+                    <input type="number" class="input-size form-control" id="port" formControlName="port"/>
+                    <div class="form-text">Port where KrakenD listens to connections, defaults to 8080.</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <h3>Hosts (Upstream services or backends)</h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="host" class="form-label">Add here the hosts KrakenD can use as upstream services to retrieve the data.</label>
+                    <input type="text" class="input-size form-control" id="name" formControlName="host"/>
+                    <div class="form-text">The address where KrakenD connects to. Some valid examples can be https://myapi, amqp://host, 192.0.2.1:25, my.service.tld. When using gRPC use the syntax host:port</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button mat-raised-button (click)="submitForm()">Submit</button>
+        </div>
+    </form>
+    </div>
+</div>

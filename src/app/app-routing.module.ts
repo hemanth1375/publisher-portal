@@ -5,11 +5,15 @@ import { ViewapiPageComponent } from './viewapi-page/viewapi-page.component';
 import { ThrottlingComponent } from './throttling/throttling.component';
 import { ParameterForwardingComponent } from './parameter-forwarding/parameter-forwarding.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ViewapipageComponent } from './viewapipage/viewapipage.component';
+import { ApiCardsComponent } from './api-cards/api-cards.component';
+import { ServiceSettingsComponent } from './service-settings/service-settings.component';
 
 const routes: Routes = [
+  {path:"apicards",component:ApiCardsComponent},
   {path:"dashboard",component:DashboardComponent},
   {path:"apis",component:ApiPageComponent,children:[
-    {path:"viewapi",component:ViewapiPageComponent
+    {path:"viewapi",component:ViewapipageComponent
     //   ,children:[
     //   {path:"parameterforwarding",component:ParameterForwardingComponent},
     // {path:"auth",component:ViewapiPageComponent},
@@ -23,7 +27,8 @@ const routes: Routes = [
   }
     
   ]},
-  {path:'',redirectTo:'/dashboard', pathMatch:'full'}
+  {path:"service",component:ServiceSettingsComponent},
+  {path:'',redirectTo:'/apicards', pathMatch:'full'}
 ];
 
 @NgModule({

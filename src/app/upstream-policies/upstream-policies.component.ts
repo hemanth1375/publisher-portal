@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class UpstreamPoliciesComponent {
 
-
+  @Input() formData: any;
   constructor(private formBuilder: FormBuilder) {
     this.formGroupUpstreamPolicies = this.formBuilder.group({
       securityReqPolicy: [null],
@@ -37,6 +37,13 @@ export class UpstreamPoliciesComponent {
   @Output() upstreamPoliciesFormSubmitted = new EventEmitter<any>();
   submitForm() {
     
+  }
+  ngOnInit(){
+    this.formGroupUpstreamPolicies.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.upstreamPoliciesFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
 
   parameterArraySecReqPolicy: any = [];

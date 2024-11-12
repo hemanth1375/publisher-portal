@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -11,6 +11,7 @@ export class UpstreamRequestComponent {
   isBodymanipulationActive=false;
   isMartianActive=false;
   formGroupUpstreamRequest:FormGroup;
+  @Input() formData: any;
   @Output() upstreamRequestFormSubmitted =new EventEmitter<any>();
   constructor(private formBuilder:FormBuilder){
     this.formGroupUpstreamRequest=formBuilder.group({
@@ -25,6 +26,13 @@ export class UpstreamRequestComponent {
       
     })
 
+  }
+  ngOnInit(){
+    this.formGroupUpstreamRequest.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.upstreamRequestFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
   saveForm(){
     if(this.formGroupUpstreamRequest.valid){

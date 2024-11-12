@@ -138,12 +138,13 @@
 
       <div class="row w-100 ">
         <div class="col-7 d-flex align-items-center p-0 m-0">
-          
+          @if(showSidebar){
           <button mat-icon-button class="example-icon1 " aria-label="Example icon-button with menu icon"
           (click)="toggleSidebar()">
             <mat-icon *ngIf="!isExpanded">menu</mat-icon>
             <mat-icon *ngIf="isExpanded">close</mat-icon>
           </button>
+        }
           <img class="img-massil" src="./../../assets/images/Massil Logo 1.svg" alt="Krakend">
 
           
@@ -182,6 +183,7 @@
 </div>
 <div class="wrapper">
   <div>
+    @if(showSidebar){
   <aside id="sidebar" [ngClass]="{'expand': sidebarHovered}" class="content-margin">
       <div class="d-flex">
           <!-- <button class="toggle-btn" type="button" (click)="toggleSidebar()">
@@ -205,7 +207,7 @@
               </a>
           </li>
           <li class="sidebar-item">
-              <a href="#" class="sidebar-link" routerLinkActive="active">
+              <a href="#" class="sidebar-link" routerLinkActive="active" routerLink="service">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
                                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
                               </svg> 
@@ -282,6 +284,7 @@
       </ul>
       
   </aside>
+}
 </div>
   <div class="main p-3 content-margin">
       <div>

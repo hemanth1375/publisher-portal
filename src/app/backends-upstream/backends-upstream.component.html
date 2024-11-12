@@ -16,6 +16,9 @@
       @if(selectedItem.name==="Request"){
       <app-upstream-request (upstreamRequestFormSubmitted)="collectData('request',$event)"></app-upstream-request>
       }
+      @if(selectedItem.name==="Response Manipulation"){
+        <app-upstream-response-manipulation (upstreamRequestFormSubmitted)="collectData('responseManipulation',$event)"></app-upstream-response-manipulation>
+        }
       @if(selectedItem.name==="Throttling"){
         <app-upstream-throttling (upstreamThrottlingFormSubmitted)="collectData('throttling',$event)"></app-upstream-throttling>
         }

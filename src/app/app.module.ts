@@ -33,6 +33,7 @@ import { UpstreamRequestComponent } from './upstream-request/upstream-request.co
 import { UpstreamThrottlingComponent } from './upstream-throttling/upstream-throttling.component';
 import { UpstreamAuthComponent } from './upstream-auth/upstream-auth.component';
 import { UpstreamPoliciesComponent } from './upstream-policies/upstream-policies.component';
+import { UpstreamResponseManipulationComponent } from './upstream-response-manipulation/upstream-response-manipulation.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { UpstreamPoliciesComponent } from './upstream-policies/upstream-policies
     UpstreamRequestComponent,
     UpstreamThrottlingComponent,
     UpstreamAuthComponent,
-    UpstreamPoliciesComponent
+    UpstreamPoliciesComponent,
+    UpstreamResponseManipulationComponent
 
   ],
   imports: [

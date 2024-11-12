@@ -1,0 +1,433 @@
+<div class="container">
+  <form [formGroup]="formGroupResManipulation">
+    <div class="row">
+
+      <div class="col-sm-12">
+        <h3>You can modify the structure of the data before you return it to the endpoint where is aggregated with other
+          endpoints.</h3>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="rootObject" class="form-label">Root Object</label>
+          <input type="text" id="rootObject" class="form-control" formControlName="rootObject">
+          <div id="rootObjectHelpBlock" class="form-text">
+            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces,
+            special
+            characters, or emoji.
+          </div>
+        </div>
+        <div class="col-sm-6 menu-card">
+          <label class="form-label">is it a collection?</label>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"
+              formControlName="isCollection">
+            <label class="form-check-label" for="flexCheckChecked">
+              Response is a array.
+            </label>
+          </div>
+          <div class="form-text">KrakenD expects an object as a response in json inside brackets, e.g: &#123;
+            "status":"OK" &#125; but if the backend returns a collection instead (e.g: [ "a", "b" ]) check this option.
+            The collection will be returned inside the collection attribute. Use the renaming below to rename it to
+            anything else.</div>
+        </div>
+      </div>
+      @if (!formGroupResManipulation.value.isCollection) {
+      <div class="row mb-3">
+
+        <div class="col-sm-12 mt-3">
+          <h4>Backend Upstreams for v1/basal-forect/&#123;id_forest&#125;</h4>
+        </div>
+        <div class="col-sm-6">
+          <ul class="menu-list d-flex">
+            @for(item of items;track item){
+            <li class="nav-item" (click)="selectItem(item)" [class.selected]="item === selectedItem">
+              <a class="nav-link active" class="nav-link-inserted">{{item.name}}</a>
+            </li>
+            }
+          </ul>
+        </div>
+
+        <div class="col-sm-12">
+          @if (selectedItem.name ==='Deny') {
+          <p>Attributes that you will NOT pick from the response:</p>
+          <div class="col-sm-6">
+            <div class="mb-3">
+              <div class="d-flex gap-2">
+                <input type="text" class="form-control" formControlName="deniedAttr" id="audience"
+                  aria-describedby="audience">
+                <button type="button" class="btn btn-outline-primary" (click)="addParameter('deniedAttr')">Add</button>
+              </div>
+              <div class="form-text">If you want to filter the response, choose between allowing or denying attributes.
+                If both are set, allowing will be used. If it's the same for you, denying performs much better.
+              </div>
+            </div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of deniedAttributesArr; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'deniedAttr')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          }@else if (selectedItem.name==='Allow') {
+          <p>Attributes that you will pick from the response</p>
+          <div class="col-sm-6">
+            <div class="mb-3">
+              <div class="d-flex gap-2">
+                <input type="text" class="form-control" formControlName="allowedAttr" id="audience"
+                  aria-describedby="audience">
+                <button type="button" class="btn btn-outline-primary" (click)="addParameter('allowedAttr')">Add</button>
+              </div>
+              <div class="form-text">If you want to filter the response, choose between allowing or denying attributes.
+                If both are set, allowing will be used. If it's the same for you, denying performs much better.
+              </div>
+            </div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of allowedAttributesArr; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'allowedAttr')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          }
+
+        </div>
+      </div>
+      }
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <label for="rootObject" class="form-label">Wrapping Group</label>
+          <input type="text" id="rootObject" class="form-control" formControlName="wrappingGroup">
+          <div id="rootObjectHelpBlock" class="form-text">
+            Fill only if you want to capture all the response and encapsulate inside an attribute name.
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-sm-12">
+          <h4>Renaming</h4>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <label for="rootObject" class="form-label">Original Object</label>
+          <input type="text" class="form-control" formControlName="originalObj" id="originalObject"
+            aria-describedby="audience">
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <label for="rootObject" class="form-label">Renamed Object</label>
+          <input type="text" class="form-control" formControlName="renamedObj" id="renamedObject"
+            aria-describedby="audience">
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <button type="button" class="btn btn-outline-primary" (click)="addParameter('renaming')">Add</button>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="form-text">You can rename any attributes returned by the backend and use a name more convenient
+            for you.
+          </div>
+        </div>
+
+        <div class=" col-sm-12 mt-3 d-flex">
+          <button *ngFor="let attr of objectMap | keyvalue" class="parameter-item">
+            {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'renaming')"
+              class="d-flex align-items-center justify-content-end">close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <!-- Caching section -->
+    <div class="row gap-3">
+      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+        <div>
+          <h3>Caching</h3>
+        </div>
+        <div>
+          <mat-slide-toggle #tokenValidation formControlName="isCachingActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+      @if (formGroupResManipulation.value.isCachingActive) {
+      <div class="col-sm-12">
+        <p>All responses from the backend are stored in-memory honoring the time specified in the Cache-Control header
+          sent by the server</p>
+      </div>
+      <div class="col-sm-12">
+        <p> Memory consumption and CPU usage will increase proportionally to the amount and size of cached entries.</p>
+      </div>
+      <div class="col-sm-12">
+        <mat-checkbox class="example-margin" formControlName="isSharedCacheActive">Shared Cache</mat-checkbox>
+        <div class="form-text">Allow cached entries to be reused in different backend definitions when possible.
+        </div>
+      </div>
+      }
+    </div>
+
+    <hr>
+
+    <div class="row gap-3">
+      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+        <div>
+          <h3>Advance Response Manipulation (JMESPath)</h3>
+        </div>
+        <div>
+          <mat-slide-toggle formControlName="AdvResManipulationActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+      @if (formGroupResManipulation.value.AdvResManipulationActive) {
+      <div class="col-sm-12">
+        <p>Manipulate the response dataset after the aggregation layer using a JSON Query language.</p>
+      </div>
+
+      <div class="col-sm-6">
+        <label for="exp" class="form-label">Expression</label>
+        <input type="text" id="exp" class="form-control" formControlName="expression">
+        <div id="expHelpBlock" class="form-text">
+          JMESpath query to execute on returned results of /
+        </div>
+      </div>
+
+
+      <div class="col-sm-12 exp-main">
+        <h4>Example of how JMESpath works</h4>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 exp-main">
+          <h4>Server Response</h4>
+          <div class="exp-info">
+            <h4>
+              <pre>{{ jsonData | json }}</pre>
+            </h4>
+          </div>
+        </div>
+        <div class="col-sm-6 exp-main d-flex flex-column gap-2">
+          <div>
+            <h4>Expression</h4>
+            <div class="exp-info">
+              <h4>
+                <pre>students[?age > `18` ].name</pre>
+              </h4>
+            </div>
+          </div>
+          <div>
+            <h4>Returned Response</h4>
+            <div class="exp-info">
+              <h4>
+                <pre>["Bill", "Jessica"]</pre>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <hr>
+
+    <div class="row gap-3">
+      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+        <div>
+          <h3>Response Manipulation with Go templates</h3>
+        </div>
+        <div>
+          <mat-slide-toggle formControlName="resManiWithGoTemplActive"></mat-slide-toggle>
+        </div>
+      </div>
+
+      @if (formGroupResManipulation.value.resManiWithGoTemplActive) {
+      <div class="row">
+        <div class="col-md-5 col-sm-12 form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="bodyEditor" id="inlineRadio1"
+            value="bodyeditor">
+          <label class="form-check-label" for="inlineRadio1">Use the inline body editor</label>
+        </div>
+
+        <div class="col-md-5 col-sm-12 form-check form-check-inline">
+          <input class="form-check-input" type="radio" formControlName="bodyEditor" id="inlineRadio2" value="external">
+          <label class="form-check-label" for="inlineRadio2">An external file</label>
+        </div>
+      </div>
+
+      <div class="col-sm-8">
+        <label for="exampleFormControlTextarea1" class="form-label">Body Editor</label>
+        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"
+          formControlName="template"></textarea>
+        <div class="form-text">The response body you will return to the end-user. You can introduce the variables
+          .resp_headers.xxx, .resp_headers.xxx (with no-op), .resp_status.xxx (with no-op), .resp_body.xxx,
+          .req_params.Xxx, .req_headers.xxx, .req_querystring.xxx, .req_path</div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="conType" class="form-label">Content Type</label>
+          <input type="text" id="conType" class="form-control" formControlName="contentType">
+          <div id="conTypeBlock" class="form-text">
+            The Content-Type that you are coding in the template. Defaults to application/json
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <mat-checkbox class="example-margin" formControlName="debug">Enable Debug</mat-checkbox>
+          <div class="form-text">shows useful information in the logs with DEBUG level about the input received and the
+            body generated. Do not enable in production.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-sm-6">
+        <label for="path" class="form-label">Path</label>
+        <input type="text" id="path" class="form-control" formControlName="path">
+        <div id="conTypeBlock" class="form-text">
+          The Content-Type that you are coding in the template. Defaults to application/json
+        </div>
+      </div>
+
+
+      }
+    </div>
+
+    <hr>
+
+    <div class="row gap-3">
+
+      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+        <div>
+          <h3>Regexp Content Replacer</h3>
+        </div>
+        <div>
+          <mat-slide-toggle formControlName="regexConReplacerActive"></mat-slide-toggle>
+        </div>
+      </div>
+      @if (formGroupResManipulation.value.regexConReplacerActive) {
+
+      <div class="row align-items-center">
+        <div class="col-sm-4">
+          <label for="findkey" class="form-label">Enter Key Name for Content Replacer</label>
+          <input type="text" id="findkey" class="form-control" formControlName="contentReplacerKey"
+            placeholder="e.g., 'hem'">
+          <div id="keyHelperBlock" class="form-text">
+            The find expression or literal you want to use
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-dark" (click)="createContentReplacerKey()">Create Key</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Display find, replace, and regexp controls for the created key -->
+      <div *ngIf="isKeyCreated">
+
+        <div [formGroupName]="'contentReplacer'">
+          <div class="row align-items-center gap-2" [formGroupName]="formGroupResManipulation.value.contentReplacerKey">
+
+
+            <div class="col-sm-3">
+              <label for="findkey" class="form-label">Key to replace</label>
+              <input type="text" id="findkey" class="form-control" formControlName="find">
+              <div id="keyHelperBlock" class="form-text">
+                The find expression or literal you want to use
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <label for="replace" class="form-label">Replace by</label>
+              <input type="text" id="replace" class="form-control" formControlName="replace">
+              <div id="replaceHelperBlock" class="form-text">
+                The find expression or literal you want to use
+              </div>
+            </div>
+
+            <div class="col-sm-3">
+              <mat-checkbox class="example-margin" formControlName="regexp">Regexp mode</mat-checkbox>
+              <div class="form-text">Check if you want to use regular expression instead of a literal string (faster).
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <button type="button" class="btn btn-dark" (click)="resetFields()">Delete</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <hr>
+
+    <div class="row gap-1">
+        <div class="col-sm-12">
+          <h4>Flatmap Manipulation</h4>
+        </div>
+        <div class="col-sm-12">
+          <p>Responses using arrays need a special treatment. Add here your desired manipulations</p>
+        </div>
+
+        <div class="row gap-3">
+          <div class="col-sm-3">
+            <label for="opType" class="form-label">Operation Type</label>
+            <select class="form-select" aria-label="Default select example" formControlName="operationType" id="opType">
+              <option selected>Open this select menu</option>
+              <option value="move">Move</option>
+              <option value="delete">Delete</option>
+              <option value="append">Append</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <label for="originlObj" class="form-label" >Original Object</label>
+            <input type="text" id="originlObj" class="form-control" aria-describedby="passwordHelpBlock" formControlName="flatmapOriginalObj">
+          </div>
+          @if (!(formGroupResManipulation.value.operationType === 'delete')) {
+            <div class="col-sm-3">
+              <label for="targetObj" class="form-label">Target Object</label>
+              <input type="text" id="targetObj" class="form-control" aria-describedby="passwordHelpBlock" formControlName="flatmapTargetObj">
+            </div>
+          }
+         
+        </div>
+
+        <div class=" col-sm-12 mt-3 d-flex">
+          <button *ngFor="let attr of faltMapArr ; let i = index" class="parameter-item">
+            {{ attr?.type }} -> [ "{{ attr?.args[0] !== null && attr?.args[0] !== undefined ? attr.args[0] : '' }}" 
+            @if (attr?.args[1] !== null && attr?.args[1]!== undefined) {
+              ,
+              "{{ attr?.args[1] !== null && attr?.args[1] !== undefined ? attr.args[1] : '' }}"
+            }
+            ]<mat-icon (click)="removeParameter(i,'flatMap')"
+              class="d-flex align-items-center justify-content-end">close</mat-icon>
+        </button>
+
+        </div>
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-dark" (click)="addParameter('flatMap')">Add Operation</button>
+        </div>
+
+    </div>
+    <div class="row gap-3">
+
+      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+        <div>
+          <h3>Martian (Req/resp static manipulation)</h3>
+        </div>
+        <div>
+          <mat-slide-toggle formControlName="martianActive"></mat-slide-toggle>
+        </div>
+      </div>
+      @if (formGroupResManipulation.value.martianActive) {
+        <div class="col-sm-8">
+          <label for="exampleFormControlTextarea1" class="form-label">Body Editor</label>
+          <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"
+            formControlName="martian"></textarea>
+          <div class="form-text">Paste here your JSON configuration to be used in the martian modifier.</div>
+        </div>
+      }@else {
+        <p>Transform requests and responses through a simple DSL definition. The input must be a JSON object with Martian format</p>
+      }
+    </div>
+
+    <div class="row mb-3">
+      {{formGroupResManipulation.value | json}}
+    </div>
+  </form>
+</div>

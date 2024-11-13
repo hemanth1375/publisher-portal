@@ -34,10 +34,12 @@ import { UpstreamThrottlingComponent } from './upstream-throttling/upstream-thro
 import { UpstreamAuthComponent } from './upstream-auth/upstream-auth.component';
 import { UpstreamPoliciesComponent } from './upstream-policies/upstream-policies.component';
 import { UpstreamResponseManipulationComponent } from './upstream-response-manipulation/upstream-response-manipulation.component';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ViewapipageComponent } from './viewapipage/viewapipage.component';
 import { ApiCardsComponent } from './api-cards/api-cards.component';
 import { ServiceSettingsComponent } from './service-settings/service-settings.component';
+import { UpstreamConnectivityComponent } from './upstream-connectivity/upstream-connectivity.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { ServiceSettingsComponent } from './service-settings/service-settings.co
     UpstreamResponseManipulationComponent,
     ViewapipageComponent,
     ApiCardsComponent,
-    ServiceSettingsComponent
+    ServiceSettingsComponent,
+    UpstreamConnectivityComponent
 
   ],
   imports: [
@@ -81,7 +84,8 @@ import { ServiceSettingsComponent } from './service-settings/service-settings.co
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
-    MatCheckboxModule, HttpClientModule, MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule, HttpClientModule, MatRadioModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -1,0 +1,720 @@
+<!-- <p>upstream-connectivity works!</p>  bnnb -->
+<div class="container">
+  <div class="row">
+    <form [formGroup]="formGroupUpstreamConnectivity">
+      <div class="row">
+        <h3> Interaction with services beyond regular REST. Queues, lambdas, GraphQL and other services plugged as
+          backend servers.</h3>
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>REST to SOAP</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #restToSoap id="isRestToSoapActive"
+              (change)="onToggleChangeStaticResponse($event, restToSoap.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isRestToSoapActive){
+        <p>The SOAP integration crafts the body and XML content you will send to a SOAP service, injecting dynamic
+          variables from places like the body sent by the user, headers, query strings, or parameters of the URL.
+        </p>
+        }@else{
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="mb-3">
+              <mat-radio-group>
+                <mat-radio-button value="1">Use the inline body editor</mat-radio-button>
+                <mat-radio-button value="2">An external file</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col-sm-12 col-md-9">
+              <label for="restToSoapBodyEditor" class="form-label">Body Editor</label>
+              <textarea name="" id="restToSoapBodyEditor" class="static-text-area form-control"></textarea>
+              <div id="restToSoapBodyEditorHelp" class="form-text">The request body you will send to the SOAP server.
+                You can introduce the variables <span class="text-edit">.req_body.xxx, .req_params.Xxx,
+                  .req_headers.xxx,
+                  .req_querystring.xxx, .req_path</span></div>
+            </div>
+            <br>
+            <div class="d-flex col-sm-12">
+              <div class="col-sm-12 col-md-6">
+                <label for="restToSoapContentType" class="form-label">Content Type</label>
+                <input type="text" class="input-size form-control" id="restToSoapContentType"
+                  formControlName="contentTypeRestToSoap">
+                <div id="restToSoapContentTypeHelp" class="form-text">The Content-Type belonging to the request to the
+                  SOAP server.<br>
+                  Defaults to text/xml</div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="d-flex">
+                  <input type="checkbox" class="input-size1" formControlName="enableDebugRestToSoap">&nbsp;&nbsp;&nbsp;
+                  <div class="checkbox-text">Enable Debug</div>
+                </div>
+                <div class="form-text">shows useful information in the logs with DEBUG level <br> about the input
+                  received and the body generated. <br> Do not enable in production.</div>
+              </div>
+
+            </div>
+            <br>
+            <div class="col-sm-12 col-md-9">
+              <label for="restToSoapPath" class="form-label">Path</label>
+              <input type="text" class="input-size form-control" id="restToSoapPath"
+                formControlName="pathRestToSoapForm">
+              <div id="pathRestToSoapHelp" class="form-text">You can load the request from an external file instead of
+                editing the template.</div>
+
+            </div>
+
+          </div>
+        </div>
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>HTTP client settings, no redirect, and web proxy</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #httpClientSetting id="isHttpClientSetting"
+              (change)="onToggleChangeStaticResponse($event, httpClientSetting.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isHttpClientSetting){
+        <p>Configure the no-redirect behavior, or connect through an external proxy.</p>
+        }@else{
+        <div class="d-flex col-sm-12">
+          <div class="col-sm-12 col-md-6">
+            <label for="connectvWebProxy" class="form-label">Connect via Web Proxy</label>
+            <input type="text" class="input-size form-control" id="connectvWebProxy"
+              formControlName="connectvWebProxyForm">
+            <div id="emailHelp" class="form-text">The proxy address used to forward the traffic. The address must
+              contain the protocol and the port.</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="donotFollowRedirectsForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Don't follow redirects</div>
+            </div>
+            <div class="form-text">Check if you don't want KrakenD to follow redirects and let <br> the consuming user
+              to receive the 30x status code.</div>
+          </div>
+
+        </div>
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>REST to GraphQL</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #restToGraphql id="isRestToGraphql"
+              (change)="onToggleChangeStaticResponse($event, restToGraphql.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isRestToGraphql){
+        <p>Translates a REST call into a GraphQL operation.</p>
+        }@else{
+        <div class="d-flex col-sm-12 mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="restTographQLOpType" class="form-label">Operation Type</label>
+            <select class="form-select input-size" id="restTographQLOpType" formControlName="restTographQLOpTypeForm">
+              <option selected></option>
+              <option value="query" selected>query</option>
+              <option value="mutation">mutation</option>
+
+            </select>
+            <div id="restToGraphqlOpTypeHelp" class="form-text">The type of query you are declaring.</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+
+            <label for="restTographQLOpName" class="form-label">Operation Name</label>
+            <input type="text" class="input-size form-control" id="restTographQLOpName"
+              formControlName="restToGraphqlOpNameForm">
+
+            <div id="restTographQLOpNameHelp" class="form-text">Path to the file containing the query. This file is
+              loaded <br> during startup and never checked again, if it changes <br> KrakenD will be unaware of it.
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="d-flex col-sm-12 mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="restTographQLQueryPath" class="form-label">Query path</label>
+            <input type="text" class="input-size form-control" id="restTographQLQueryPath"
+              formControlName="restTographQLQueryPathForm">
+            <div id="restTographQLQueryPathHelp" class="form-text"></div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+
+            <label for="restTographQLInlineQuery" class="form-label">... or Inline Query</label>
+            <input type="text" class="input-size form-control" id="restTographQLInlineQuery"
+              formControlName="restTographQLInlineQueryForm">
+            <div id="restTographQLInlineQueryhelp" class="form-text">An inline GraphQL query you want to send to the
+              server. <br> Use this attribute for simple and inline queries, use <br> query_path instead for larger
+              queries. Use escaping when <br> needed.</div>
+
+          </div>
+
+        </div>
+
+
+        <div class="row align-items-end mb-3">
+
+          <div class="col-sm-12 col-md-4">
+            <label for="restTographQLVariable" class="form-label">Variable</label>
+            <input type="text" class="input-size form-control" id="restTographQLVariable"
+              formControlName="restTographQLVariableForm">
+
+          </div>
+          <div class="col-sm-12 col-md-4">
+
+            <label for="restTographQLValue" class="form-label">Value</label>
+            <input type="text" class="input-size form-control me-4" id="restTographQLValue"
+              formControlName="restTographQLValueForm">
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <button type="button" class="btn btn-info" (click)="addParameter('restToGraphQLMap')"><b>+</b> Add
+              Variable</button>
+          </div>
+
+        </div>
+        <div *ngFor="let attr of objectMap | keyvalue" class="row mb-3 d-flex align-items-center">
+          <div class="col-sm-12 col-md-4">
+            {{attr.key}}
+          </div>
+          <div class="col-sm-12 col-md-4">
+            {{attr.value}}
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <button type="button" class="btn btn-dark delete-btn"
+              (click)="removeParameter(attr.key ,'restToGraphQLMap')"><b>X</b></button>
+          </div>
+        </div>
+        <div id="restTographQLValueHelp" class="col-sm-12 form-text">A dictionary defining all the variables sent to the
+          GraphQL
+          server. You can use &#123;placeholders&#125; to inject parameters from the endpoint URL. In the example
+          above, the
+          GraphQL server receives a variable user with the &#123;user_id&#125; declared in the endpoint. The
+          dictionary can have
+          any nesting level you need, but nested variables cannot contain &#123;placeholders&#125;.</div>
+
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>AMQP consumer</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #AMQPconsumer id="isAMQPconsumer"
+              (change)="onToggleChangeStaticResponse($event, AMQPconsumer.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isAMQPconsumer){
+        <p>Enables consumption of messages using the Advanced Message Queuing Protocol in servers such as RabbitMQ</p>
+        }@else{
+        <div class="d-flex col-sm-12 mb-3">
+          <div class="col-sm-12 col-md-4">
+
+            <label for="amqpConsumerQueueName" class="form-label">Queue Name</label>
+            <input type="text" class="input-size form-control" id="amqpConsumerQueueName"
+              formControlName="amqpConsumerQueueNameForm">
+
+            <div id="amqpConsumerQueueNameHelp" class="form-text">The name of the queue you want to <br> connect to
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-4">
+
+            <label for="amqpConsumerExchange" class="form-label">Exchange</label>
+            <input type="text" class="input-size form-control" id="amqpConsumerExchange"
+              formControlName="amqpConsumerExchangeForm">
+
+            <div id="amqpConsumerExchangeHelp" class="form-text">The entity name where messages are <br> sent for
+              routing
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <label for="amqpConsumerBackOffStratgy" class="form-label">Operation Type</label>
+            <select class="form-select input-size" id="amqpConsumerBackOffStratgy"
+              formControlName="amqpConsumerBackOffStratgyForm">
+              <option selected>query</option>
+              <option value="query">Linear - Delay time between attemps grows linearly</option>
+              <option value="mutation">Linear Jitter - Linear plus r ± random</option>
+              <option value="mutation">Exponential - 2s, 4s, 8s, 16s...</option>
+              <option value="mutation">Exponential Jitter - Exponential ± random</option>
+              <option value="mutation">Fallback - Retry every 1 second</option>
+
+            </select>
+            <div id="restToGraphqlOpTypeHelp" class="form-text">The type of query you are declaring.</div>
+          </div>
+        </div>
+        <div class="d-flex col-sm-12 mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="amqpConsumerRoutingKeys" class="form-label">Routing Keys</label>
+            <div class="d-flex">
+              <input type="text" class="input-size me-2 form-control" id="amqpConsumerRoutingKeys"
+                formControlName="amqpConsumerRoutingKeysForm">
+              <button type="button" class="btn btn-info"
+                (click)="addParameter('amqpConsumerRoutingKeysForm')">+</button>
+            </div>
+            <div id="amqpConsumerRoutingKeysHelp" class="form-text">List of all the routing keys or pattern to bind the
+              queue to <br> the exchange
+            </div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of amqpRoutingKeysArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'amqpConsumerRoutingKeysForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="amqpConsumerPrefetchCnt" class="form-label">Prefetch Count</label>
+            <div class="d-flex">
+              <input type="number" class="input-size2 form-control" id="amqpConsumerPrefetchCnt"
+                formControlName="amqpConsumerPrefetchCntForm">
+              <button class="fixed-button">msgs</button>
+            </div>
+            <div id="amqpConsumerPrefetchCntHelp" class="form-text">Specifies a prefetch window in terms of whole
+              messages
+            </div>
+
+          </div>
+
+
+        </div>
+        <div class="d-flex col-sm-12">
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="amqpConsumerDurableForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Durable</div>
+            </div>
+            <div class="form-text">Durable exchanges survive broker restart (persist to disk) <br> whereas transient
+              exchanges do not</div>
+
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="amqpConsumerNoLocalForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">No-local</div>
+            </div>
+            <div class="form-text">The server will not send messages to the connection that <br> published them.</div>
+
+          </div>
+
+        </div>
+
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>AWS Lambda</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #AWSlambda id="isAWSlambda"
+              (change)="onToggleChangeStaticResponse($event, AWSlambda.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isAWSlambda){
+        <p>Calls a Lambda function in AWS as its backend.</p>
+        }@else{
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="awsLambdaFunctionName" class="form-label">Function name</label>
+            <input type="text" class="input-size form-control" id="awsLambdaFunctionName"
+              formControlName="awsLambdaFunctionNameForm">
+            <div id="awsLambdaFunctionNameHelp" class="form-text">Name of the lambda function as saved in the AWS
+              service. <br> Leave EMPTY if taken from a parameter.</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="awsLambdaFunctionParamName" class="form-label">Function param name</label>
+            <input type="text" class="input-size form-control" id="awsLambdaFunctionParamName"
+              formControlName="awsLambdaFunctionParamNameForm">
+            <div id="awsLambdaFunctionParamNameHelp" class="form-text">When the lambda function name comes in a
+              &#123;placeholder&#125; <br> inside the endpoint.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="awsLambdaRegion" class="form-label">Region</label>
+            <input type="text" class="input-size form-control" id="awsLambdaRegion"
+              formControlName="awsLambdaRegionForm">
+            <div id="awsLambdaRegionHelp" class="form-text">The AWS identifier region (e.g.: us-east-1, eu-west-2, etc.
+              )</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="awsLambdaMaxRetries" class="form-label">Max retries</label>
+            <div class="d-flex">
+              <input type="number" class="input-size2 form-control" id="awsLambdaMaxRetries"
+                formControlName="awsLambdaMaxRetriesForm">
+              <button class="fixed-button">retries</button>
+            </div>
+            <div id="awsLambdaMaxRetriesHelp" class="form-text">Maximum times you want to execute the function until you
+              <br> have a successful response.
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="col-sm-12">
+          <label for="awsLambdaEndpoint" class="form-label">Endpoint</label>
+          <input type="text" class="input-size form-control" id="awsLambdaEndpoint"
+            formControlName="awsLambdaEndpointForm">
+          <div id="awsLambdaEndpointHelp" class="form-text">An optional parameter to customize the Lambda endpoint to
+            call. Useful when Localstack is used for testing.</div>
+
+        </div>
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>REST to gRPC</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #restToGRPC id="isrestToGRPC"
+              (change)="onToggleChangeStaticResponse($event, restToGRPC.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isrestToGRPC){
+        <p>This backend is a gRPC server and will connect to a service defined in the <span class="text-edit1">gRPC
+            catalog</span></p>
+        }@else{
+        <p>Set in the URL of this backend the full name of the gRPC service and method call, for instance <span
+            class="text-edit">/flight_finder.Flights/FindFlight</span>. The service must be declared in the <span
+            class="text-edit1">gRPC catalog</span>
+        </p>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="restTogrpcReqNamingConvention" class="form-label">Request naming convention</label>
+            <select id="restTogrpcReqNamingConvention" class="form-select input-size"
+              formControlName="restTogrpcReqNamingConventionForm">
+              <option selected></option>
+              <option value="snake_case">snake_case</option>
+              <option value="camelCase">camelCase</option>
+            </select>
+            <div id="restTogrpcReqNamingConventionHelp" class="form-text">Defines the naming convention used to format
+              the data.</div>
+
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="restTogrpcResNamingConvention" class="form-label">Request naming convention</label>
+            <select id="restTogrpcResNamingConvention" class="form-select input-size"
+              formControlName="restTogrpcResNamingConventionForm">
+              <option selected></option>
+              <option value="snake_case">snake_case</option>
+              <option value="camelCase">camelCase</option>
+            </select>
+            <div id="restTogrpcResNamingConventionHelp" class="form-text">Defines the naming convention used to format
+              the data.</div>
+
+          </div>
+
+        </div>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="restTogrpcUseReqBodyForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Use request body</div>
+            </div>
+            <div class="form-text" id="restTogrpcUseReqBodyHelp">Enables the use of the sent body to fill the gRPC
+              request.</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1"
+                formControlName="restTogrpcAllowInsecureConForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Allow insecure connections</div>
+            </div>
+            <div class="form-text" id="restTogrpcAllowInsecureConHelp">Allow untrusted certificates in development
+              stage.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1"
+                formControlName="restTogrpcRemoveUnsetValForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Remove unset values</div>
+            </div>
+            <div class="form-text" id="restTogrpcRemoveUnsetValHelp">When the response has missing fields from the
+              definition,<br> they are returned with default values. Setting this flag to <br> true removes those fields
+              from the response, while setting <br> it to false or not setting it, returns all the fields in the <br>
+              definition.</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="restTogrpcEnumsAsStrgsForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Enums as Strings</div>
+            </div>
+            <div class="form-text" id="restTogrpcEnumsAsStrgsHelp">Enum types are returned as numeric values (flag set
+              to <br> false). Set this flag to true to return the string <br> representation of the enum value. For
+              instance, an enum <br> representing allergies, such as ['NUTS', 'MILK', ' SOY', <br> 'WHEAT'] would return
+              a value SOY when this flag is true,<br> or 2 when false.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1"
+                formControlName="restTogrpcTimestmpAsStrgsForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Timestamp as strings</div>
+            </div>
+            <div class="form-text" id="restTogrpcTimestmpAsStrgsHelp">Well-known Timestamp types <br> (<span
+                class="text-edit">google.protobuf.Timestamp</span>) are returned as a struct <br> containing fields with
+              seconds and nanos fields (flag set to <br> false). Setting this flag to true transforms the timestamps
+              <br> into a string representation in RFC3999 format.
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1"
+                formControlName="restTogrpcDurationAsStrgsForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text"> Duration as strings</div>
+            </div>
+            <div class="form-text" id="restTogrpcDurationAsStrgsHelp">Well-known Duration types
+              (google.protobuf.Duration) are <br> returned as a struct containing fields with seconds and <br> nanos
+              fields (flag set to false). Setting this flag to true <br> transforms the timestamps into a string
+              representation in <br> seconds.</div>
+          </div>
+
+        </div>
+        <div class="col-sm-12 mb-3">
+          <div class="d-flex">
+            <input type="checkbox" class="input-size1" formControlName="restTogrpcDisableQueryParamForm">
+            <div class="checkbox-text">Disable query parameters</div>
+          </div>
+          <div class="form-text" id="restTogrpcDisableQueryParamHelp">When checked it does not use URL parameters or
+            query strings to fill the gRPC payload to send. If you don't set request <br> body, there will be no input
+            used for the gRPC message (it's fine if you want an <span class="text-edit1">empty message</span>)</div>
+
+        </div>
+        <div class="row align-items-end mb-3">
+          <h3 class="checkbox-text mb-3">Input Mapping</h3>
+          <div class="col-sm-12 col-md-4">
+            <label for="restTogprcInputMappingField">Field</label>
+            <input type="text" class="form-control input-size mt-2" id="restTogprcInputMappingField"
+              formControlName="restTogprcInputMappingFieldForm">
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <label for="restTogprcInputMappingMapAs">Map as</label>
+            <input type="text" class="form-control input-size mt-2" id="restTogprcInputMappingMapAs"
+              formControlName="restTogprcInputMappingMapAsForm">
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <button type="button" class="btn btn-info" (click)="addParameter('inputMappingFieldAndMapAs')"><b>+</b> Add
+              mapping</button>
+          </div>
+        </div>
+        <div *ngFor="let attr of objectMap | keyvalue" class="row mb-3 d-flex align-items-center">
+          <div class="col-sm-12 col-md-4">
+            {{attr.key}}
+          </div>
+          <div class="col-sm-12 col-md-4">
+            {{attr.value}}
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <button type="button" class="btn btn-dark delete-btn"
+              (click)="removeParameter(attr.key ,'restToGraphQLMap')"><b>X</b></button>
+          </div>
+        </div>
+        <div id="restTogprcInputMappingHelp" class="form-text">A dictionary that converts the user input into a
+          different field during the backend request.</div>
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>Pub/Sub: Subscriber</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #publicSubscriber id="isPublicSubscriber"
+              (change)="onToggleChangeStaticResponse($event, publicSubscriber.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isPublicSubscriber){
+        <p>Read events from a queue</p>
+        }@else{
+        <div class="col-sm-12 mb-3">
+          <label for="publicSubSubscriptionType">Subscription type</label>
+          <!-- <input type="text" class="form-control input-size" id="publicSubSubscriptionType" formControlName="publicSubSubscriptionTypeForm"> -->
+          <select name="" id="publicSubSubscriptionType" class="form-select input-size"
+            formControlName="publicSubSubscriptionTypeForm">
+            <option value="GCP PubSub
+              ">GCP PubSub
+            </option>
+            <option value="NATS
+              ">NATS
+            </option>
+            <option value="AWS SNS
+              ">AWS SNS
+            </option>
+            <option value="AWS SQS
+              ">AWS SQS
+            </option>
+            <option value="Azure Service Bus Topic and Subscription
+              ">Azure Service Bus Topic and Subscription
+            </option>
+            <option value="RabbitMQ
+              ">RabbitMQ
+            </option>
+            <option value="Kafka
+              ">Kafka
+            </option>
+          </select>
+          <div id="publicSubSubscriptionTypeHelp" class="form-text">Click on a subscription_url type to load an example
+            URL.</div>
+
+        </div>
+        <div class="col-sm-12 mb-3">
+          <label for="publicSubSubscriptionURL">Subscription URL</label>
+          <input type="text" id="publicSubSubscriptionURL" class="form-control input-size"
+            formControlName="publicSubSubscriptionURLForm">
+          <div class="form-text">The subscription URL. See <span class="text-edit1">the pub/sub documentation</span> for
+            all supported protocols</div>
+
+        </div>
+
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3>Pub/Sub: Publisher</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #publicPublisher id="isPublicPublisher"
+              (change)="onToggleChangeStaticResponse($event, publicPublisher.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isPublicPublisher){
+        <p>Pushes events to a queue</p>
+        }@else{
+        <div class="col-sm-12 mb-3">
+          <label for="publicPubSubscriptionType">Subscription type</label>
+          <!-- <input type="text" class="form-control input-size" id="publicSubSubscriptionType" formControlName="publicSubSubscriptionTypeForm"> -->
+          <select name="" id="publicPubSubscriptionType" class="form-select input-size"
+            formControlName="publicPubSubscriptionTypeForm">
+            <option value="GCP PubSub
+                ">GCP PubSub
+            </option>
+            <option value="NATS
+                ">NATS
+            </option>
+            <option value="AWS SNS
+                ">AWS SNS
+            </option>
+            <option value="AWS SQS
+                ">AWS SQS
+            </option>
+            <option value="Azure Service Bus Topic and Subscription
+                ">Azure Service Bus Topic and Subscription
+            </option>
+            <option value="RabbitMQ
+                ">RabbitMQ
+            </option>
+            <option value="Kafka
+                ">Kafka
+            </option>
+          </select>
+          <div id="publicPubSubscriptionTypeHelp" class="form-text">Click on a subscription_url type to load an example
+            URL.</div>
+
+        </div>
+        <div class="col-sm-12 mb-3">
+          <label for="publicPubSubscriptionURL">Topic URL</label>
+          <input type="text" id="publicPubTopicURL" class="form-control input-size"
+            formControlName="publicPubTopicURLForm">
+          <div class="form-text">The subscription URL. See <span class="text-edit1">the pub/sub documentation</span> for
+            all supported protocols</div>
+
+        </div>
+
+        }
+      </div>
+      <br>
+      <hr><br>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+          <div>
+            <h3> AMQP producer</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #AMQPproducer id="isAMQPproducer"
+              (change)="onToggleChangeStaticResponse($event, AMQPproducer.id)"></mat-slide-toggle>
+          </div>
+        </div>
+        @if(!isAMQPproducer){
+        <p>Pushes events to a queue</p>
+        }@else{
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="amqpProducerQueueName">Queue name</label>
+            <input type="text" id="amqpProducerQueueName" class="form-control input-size"
+              formControlName="amqpProducerQueueNameForm">
+            <div class="form-text" id="amqpProducerQueueNameHelp">The name of the queue you want to connect to</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="amqpProducerExchange">Exchange</label>
+            <input type="text" id="amqpProducerExchange" class="form-control input-size"
+              formControlName="amqpProducerExchangeForm">
+            <div class="form-text" id="amqpProducerExchangeHelp">The entity name where messages are sent for routing
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="amqpProducerBackoffStrategy">Backoff Strategy</label>
+            <select class="form-select input-size" id="amqpProducerBackoffStrategy"
+              formControlName="amqpProducerBackoffStrategyForm">
+              <option value="Linear - Delay time between attemps grows linearly">Linear - Delay time between attemps
+                grows linearly</option>
+              <option value="Linear Jitter - Linear plus r ± random">Linear Jitter - Linear plus r ± random</option>
+              <option value="Exponential - 2s, 4s, 8s, 16s...">Exponential - 2s, 4s, 8s, 16s...</option>
+              <option value="Exponential Jitter - Exponential ± random">Exponential Jitter - Exponential ± random
+              </option>
+              <option value="Fallback - Retry every 1 second">Fallback - Retry every 1 second</option>
+            </select>
+            <div class="form-text" id="amqpProducerQueueNameHelp">When the connection to your event source gets
+              interrupted <br> for whatever reason, KrakenD keeps trying to reconnect <br> after a delay</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="amqpProducerDurableForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Durable</div>
+            </div>
+            <div class="form-text" id="amqpProducerDurableHelp">Durable exchanges survive broker restart whereas <br>
+              transient exchanges do not</div>
+          </div>
+        </div>
+
+        }
+      </div>
+    </form>
+
+  </div>
+</div>

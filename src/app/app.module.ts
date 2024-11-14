@@ -41,6 +41,8 @@ import { ServiceSettingsComponent } from './service-settings/service-settings.co
 import { UpstreamConnectivityComponent } from './upstream-connectivity/upstream-connectivity.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { HttpSecurityComponent } from './http-security/http-security.component';
+import { ApiMonetizationAndGovernanceComponent } from './api-monetization-and-governance/api-monetization-and-governance.component';
+import { OpenApiComponent } from './open-api/open-api.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { HttpSecurityComponent } from './http-security/http-security.component';
     ApiCardsComponent,
     ServiceSettingsComponent,
     UpstreamConnectivityComponent,
-    HttpSecurityComponent
+    HttpSecurityComponent,
+    ApiMonetizationAndGovernanceComponent,
+    OpenApiComponent
 
   ],
   imports: [

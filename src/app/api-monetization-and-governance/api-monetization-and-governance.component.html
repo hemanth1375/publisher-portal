@@ -1,0 +1,92 @@
+<!-- <p>api-monetization-and-governance works!</p> -->
+
+<div class="container">
+  <div class="row">
+    <form [formGroup]="formGroupApiMonetization">
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>API Monetization and API Governance (Moesif partnership)</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #apiMonetization id="isApiMonetization"
+              (change)="onToggleChangeStaticResponse($event, apiMonetization.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isApiMonetization){
+        <p>Enable the API Monetization module and start generating revenue from your APIs. The monetization integration
+          is
+          possible thanks to our partnership with Moesif.
+        </p>
+        }@else{
+        <div class="row gap-2">
+          <p>Check the documentation for more advanced usages and company identification</p>
+          <div class="row d-flex">
+            <div class="col-sm-12 col-md-6 gap-2">
+              <label for="apiMonetizationAppID" class="form-label"><b>Application ID</b></label>
+              <input type="text" placeholder="XXXX" class="form-control input-size" id="apiMonetizationAppID"
+                formControlName="apiMonetizationAppIDForm">
+              <div>The Collector Application ID is used to send events, actions, <br> users, and companies to Moesif's
+                Collector API. Moesif <br> provides it under the 'API Keys' section.</div>
+
+            </div>
+            <div class="col-sm-12 col-md-6 gap-2">
+              <div class="d-flex">
+                <input type="checkbox" class="input-size1" formControlName="apiMonetizationDebugForm">
+                <div class="checkbox-text"><b>Debug</b></div>
+              </div>
+              <div>Set to true when configuring Moesif for the first time while in <br> development, to see the activity
+                in the logs. Set to false in <br> production.</div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row gap-2 mt-3">
+          <div class="d-flex">
+            <div class="col-sm-12 col-md-6 gap-2">
+              <label for="apiMonetizationHeaders"><b>Headers to identify user ID</b></label>
+              <div class="d-flex">
+                <input type="text" placeholder="my-indexing" id="apiMonetizationHeaders"
+                  class="form-control input-size input-with-button" formControlName="apiMonetizationHeadersForm">
+                <button class="btn btn-info button-with-input" type="button"
+                  (click)="addParameter('apiMonetizationHeadersForm')"><b>+</b></button>
+              </div>
+              <div>Defines the list of possible headers that can identify a user uniquely. When the <br> header is
+                Authorization, it automatically extracts the username if it contains an <br> Authorization: Basic value
+                with no additional configuration. If, on the other <br> hand, you use tokens and pass an Authorization:
+                Bearer, it will extract the <br> user ID from the JWT claim defined under user_id_jwt_claim. If there
+                are <br> multiple headers in the list, all of them are tested in the given order, and the first <br>
+                existing header in the list is used to extract the user ID (successfully or not).</div>
+
+              <div class="mt-3 d-flex">
+                <button *ngFor="let attr of apiMonetizationHeadersArray; let i = index" class="parameter-item">
+                  {{ attr }}<mat-icon (click)="removeParameter(i,'apiMonetizationHeadersForm')"
+                    class="d-flex align-items-center justify-content-end">close</mat-icon>
+                </button>
+              </div>
+
+            </div>
+            <div class="col-sm-12 col-md-6 gap-2">
+              <label for="apiMonetizationClaim" class="form-label"><b>Claim with User ID</b></label>
+              <input type="text" placeholder="sub" class="form-control input-size" id="apiMonetizationClaim"
+                formControlName="apiMonetizationClaimForm">
+              <div>When using JWT tokens, it defines <br> which claim contains the user ID.</div>
+
+            </div>
+
+          </div>
+        </div>
+
+
+        }
+
+      </div>
+    </form>
+
+  </div>
+
+</div>

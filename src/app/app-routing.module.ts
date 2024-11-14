@@ -9,6 +9,8 @@ import { ViewapipageComponent } from './viewapipage/viewapipage.component';
 import { ApiCardsComponent } from './api-cards/api-cards.component';
 import { ServiceSettingsComponent } from './service-settings/service-settings.component';
 import { HttpSecurityComponent } from './http-security/http-security.component';
+import { ApiMonetizationAndGovernanceComponent } from './api-monetization-and-governance/api-monetization-and-governance.component';
+import { OpenApiComponent } from './open-api/open-api.component';
 
 const routes: Routes = [
   { path: "apicards", component: ApiCardsComponent },
@@ -33,7 +35,10 @@ const routes: Routes = [
   },
   { path: "service", component: ServiceSettingsComponent },
   { path: "httpSecurity", component: HttpSecurityComponent },
+  { path: "apiMonetization", component: ApiMonetizationAndGovernanceComponent },
+  { path: "openAPI", component: OpenApiComponent },
   { path: '', redirectTo: '/apicards', pathMatch: 'full' }
+
 ];
 
 @NgModule({

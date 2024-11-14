@@ -40,6 +40,7 @@ import { ApiCardsComponent } from './api-cards/api-cards.component';
 import { ServiceSettingsComponent } from './service-settings/service-settings.component';
 import { UpstreamConnectivityComponent } from './upstream-connectivity/upstream-connectivity.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { HttpSecurityComponent } from './http-security/http-security.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { MatRadioModule } from '@angular/material/radio';
     ViewapipageComponent,
     ApiCardsComponent,
     ServiceSettingsComponent,
-    UpstreamConnectivityComponent
+    UpstreamConnectivityComponent,
+    HttpSecurityComponent
 
   ],
   imports: [

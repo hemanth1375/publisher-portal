@@ -1,0 +1,576 @@
+<!-- <p>http-security works!</p> -->
+
+<div class="container">
+  <div class="row">
+    <form [formGroup]="formGroupHttpSecurity">
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>Cross-origin resource sharing (CORS)</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #cors id="isCors"
+              (change)="onToggleChangeStaticResponse($event, cors.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isCors){
+        <p>Enable Cross-Origin Resource Sharing (CORS) module when the API is consumed by browsers in different domains.
+        </p>
+        }@else{
+        <div class="row">
+          <div class="col-sm-12 gap-2">
+            <label for="corsAllowedMethods" class="form-label">Allowed methods</label>
+            <p>Select which methods will be allowed</p>
+
+            <textarea class="static-text-area input-size form-control mb-2" id="corsAllowedMethods"></textarea>
+
+          </div>
+
+        </div>
+        <div class="row mb-2">
+          <label for="corsAllowedOrigins" class="form-label">Allowed origins</label>
+          <div class="col-sm-12 d-flex">
+            <input type="text" class="form-control input-size input-with-button" id="corsAllowedOrigins"
+              formControlName="corsAllowedOriginsForm" placeholder="https://example.com">
+            <button type="button" class="btn btn-info button-with-input"
+              (click)="addParameter('corsAllowedOriginsForm')">+</button>
+          </div>
+          <div id="corsAllowedOriginsHelp" class="form-text">Add those origins you would like to accept. Or use * for
+            any origin.</div>
+          <div class="mt-3 d-flex">
+            <button *ngFor="let attr of corsAllowedOriginsArray; let i = index" class="parameter-item">
+              {{ attr }}<mat-icon (click)="removeParameter(i,'corsAllowedOriginsForm')"
+                class="d-flex align-items-center justify-content-end">close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row  mb-4 d-flex">
+          <div class="col-sm-12 col-md-6">
+            <label for="corsAllowedHeaders" class="form-label">Allowed headers</label>
+            <div class="col-sm-12 d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="corsAllowedHeaders"
+                formControlName="corsAllowedHeadersForm" placeholder="e.g: Accept-Language">
+              <button type="button" class="btn btn-info button-with-input"
+                (click)="addParameter('corsAllowedHeadersForm')">+</button>
+            </div>
+            <div id="corsAllowedHeadersHelp" class="form-text">Only the headers added here will be allowed</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of corsAllowedHeadersArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'corsAllowedHeadersForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="corsExposeHeaders" class="form-label">Expose headers</label>
+            <div class="col-sm-12 d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="corsExposeHeaders"
+                formControlName="corsExposeHeadersForm" placeholder="e.g: Accept-Language">
+              <button type="button" class="btn btn-info button-with-input"
+                (click)="addParameter('corsExposeHeadersForm')">+</button>
+            </div>
+            <div id="corsExposeHeadersHelp" class="form-text">Headers that are safe to expose to the API of a CORS API
+              specification</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of corsExposeHeadersArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'corsExposeHeadersForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3 d-flex">
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="corsAllowCredentialsForm">
+              <div class="checkbox-text">Allow credentials</div>
+            </div>
+            <div class="form-text" id="corsAllowCredentialsHelp">When requests can include user credentials like
+              cookies,
+              HTTP authentication or client side SSL certificates</div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="corsMaxAge" class="form-label">Max age</label>
+            <div class="col-sm-12 d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="corsMaxAge"
+                formControlName="corsMaxAgeForm" placeholder="12h">
+              <button type="button" class="btn btn-info button-with-input"
+                (click)="addParameter('corsMaxAgeForm')">+</button>
+            </div>
+            <div id="corsMaxAgeHelp" class="form-text">For how long the response can be cached</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of corsMaxAgeArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'corsMaxAgeForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        }
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>Bot detector</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #botDetector id="isBotDetector"
+              (change)="onToggleChangeStaticResponse($event, botDetector.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isBotDetector){
+        <p>Detect and reject bots carrying out scraping, content theft, and form spam.
+        </p>
+        }@else{
+        <div class="row d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="botDetectorAllow" class="form-label">Allow</label>
+            <div class="d-flex">
+              <input type="text" id="botDetectorAllow" class="form-control input-size input-with-button"
+                formControlName="botDetectorAllowForm" placeholder="MyAndroidClient/1.0">
+              <button type="button" class="btn btn-info button-with-input"
+                (click)="addParameter('botDetectorAllowForm')">+</button>
+            </div>
+            <div class="form-text" id="botDetectorAllowHelp">An array with EXACT MATCHES of trusted user agents that can
+              <br> connect.
+            </div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of botDetectorAllowArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'botDetectorAllowForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="botDetectorDeny" class="form-label">Deny</label>
+            <div class="d-flex">
+              <input type="text" id="botDetectorDeny" class="form-control input-size input-with-button"
+                formControlName="botDetectorDenyForm" placeholder="axios/0.17.1">
+              <button class="btn btn-info button-with-input" type="button"
+                (click)="addParameter('botDetectorDenyForm')">+</button>
+            </div>
+            <div class="form-text" id="botDetectorDenyHelp">An array of EXACT MATCHES of undesired bots, to reject
+              immediately.</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of botDetectorDenyArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'botDetectorDenyForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="row mb-3">
+          <label for="botDetectorPatterns" class="form-label">Patterns</label>
+          <div class="d-flex">
+            <input type="text" name="" id="botDetectorPatterns" class="form-control input-size input-with-button"
+              formControlName="botDetectorPatternsForm" placeholder="(facebookexternalhit)/.*">
+            <button type="button" class="btn btn-info button-with-input"
+              (click)="addParameter('botDetectorPatternsForm')">+</button>
+          </div>
+          <div class="form-text" id="botDetectorPatternsHelp">An array with all the <b>regular expressions</b> that
+            define bots. Matching bots are rejected.</div>
+          <div class="mt-3 d-flex">
+            <button *ngFor="let attr of botDetectorPatternsArray; let i = index" class="parameter-item">
+              {{ attr }}<mat-icon (click)="removeParameter(i,'botDetectorPatternsForm')"
+                class="d-flex align-items-center justify-content-end">close</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="botDetectorCacheSize" class="form-label">Cache size</label>
+            <input type="text" id="botDetectorCacheSize" class="form-control input-size"
+              formControlName="botDetectorCacheSizeForm" placeholder="1000">
+            <div class="form-text">Number of user agents cached to speed up repetitive bot <br> detection. Use 0 for no
+              cache.</div>
+
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1" formControlName="botDetectorEmptyUsersForm">
+              <div class="checkbox-text">Empty user agents are bots</div>
+            </div>
+            <div id="botDetectorEmptyUsersHelp" class="form-text">Whether to consider an empty user-agent a bot (and
+              reject it) <br> or
+              not.</div>
+          </div>
+
+        </div>
+        }
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>Multiple Identity Providers</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #multipleIdentityProvider id="isMultipleIdentityProvider"
+              (change)="onToggleChangeStaticResponse($event, multipleIdentityProvider.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isMultipleIdentityProvider){
+        <p>The JWK aggregator plugin allows KrakenD to validate tokens issued by multiple Identity Providers.
+        </p>
+        }@else{
+        <div class="row mb-3 d-flex">
+          <div class="col-sm-12 col-md-6">
+            <label for="multipleIdentityProviderOrigins" class="form-label">Identity Provider origins</label>
+            <div class="d-flex">
+              <input type="text" id="multipleIdentityProviderOrigins" class="input-size form-control input-with-button"
+                formControlName="multipleIdentityProviderOriginsForm" placeholder="http://foo.bar/public_keys">
+              <button class="btn btn-info button-with-input" type="button"
+                (click)="addParameter('multipleIdentityProviderOriginsForm')">+</button>
+            </div>
+            <div class="form-text" id="multipleIdentityProviderOriginsForm">The list of all JWK URLs recognized as valid
+              Identity Providers by the <br> gateway.</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of multipleIdentityProviderOriginsArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'multipleIdentityProviderOriginsForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-3">
+            <label for="multipleIdentityProviderPort" class="form-label">Port</label>
+            <input type="text" id="multipleIdentityProviderPort" class="form-control"
+              formControlName="multipleIdentityProviderPortForm">
+            <div id="multipleIdentityProviderPortHelp" class="form-text">The port of the local key <br> server</div>
+          </div>
+          <div class="col-sm-12 col-md-3">
+            <div class="d-flex">
+              <input type="checkbox" class="input-size1"
+                formControlName="multipleIdentityProviderCacheForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Cache</div>
+            </div>
+            <div id="multipleIdentityProviderCache" class="form-text">Cache keys</div>
+
+          </div>
+
+        </div>
+
+
+        }
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>IP Filter</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #ipFilter id="isIpFilter"
+              (change)="onToggleChangeStaticResponse($event, ipFilter.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isIpFilter){
+        <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It
+          works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are
+          authorized to use the API, or that are denied from using the API.
+        </p>
+        }@else{
+        <div class="row d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="ipFilterCIDR" class="form-label">CIDR</label>
+            <div class="d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="ipFilterCIDR"
+                formControlName="ipFilterCIDRForm" placeholder="192.168.0.0/24">
+              <button class="btn btn-info button-with-input" type="button"
+                (click)="addParameter('ipFilterCIDRForm')">+</button>
+            </div>
+            <div class="form-text" id="ipFilterCIDRHelp">The CIDR blocks (list of IPs) you want to allow or deny. <br>
+              Examples: 192.168.0.0/24, 172.17.2.56/32, <br> 127.0.0.1</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of ipFilterCIDRArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'ipFilterCIDRForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <label for="ipFilterTrustedProxies" class="form-label">Trusted Proxies</label>
+            <div class="d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="ipFilterTrustedProxies"
+                formControlName="ipFilterTrustedProxiesForm" placeholder="10.0.0.0/16">
+              <button class="btn btn-info button-with-input" type="button"
+                (click)="addParameter('ipFilterTrustedProxiesForm')">+</button>
+            </div>
+            <div class="form-text" id="ipFilterTrustedProxiesHelp">A custom list of all the recognized
+              machines/balancers that <br> proxy the client to your application. This list is used to avoid <br>
+              spoofing when trying to get the real IP of the client.</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of ipFilterTrustedProxiesArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'ipFilterTrustedProxiesForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div class="row d-flex mb-3">
+          <div class="col-sm-12 col-md-6">
+            <label for="ipFilterClientIPHeaders" class="form-label">Client IP Headers</label>
+            <div class="d-flex">
+              <input type="text" class="form-control input-size input-with-button" id="ipFilterClientIPHeaders"
+                formControlName="ipFilterClientIPHeadersForm" placeholder="X-Forwarded-For">
+              <button class="btn btn-info button-with-input" type="button"
+                (click)="addParameter('ipFilterClientIPHeadersForm')">+</button>
+            </div>
+            <div class="form-text" id="ipFilterClientIPHeadersHelp">A custom ordered list of all headers that might
+              contain the <br> real IP of the client. The first matching IP in the list will be <br> used</div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of ipFilterClientIPHeadersArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'ipFilterClientIPHeadersForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="d-flex align-items-centers">
+              <input type="checkbox" name="" id="ipFilterAllowMode"
+                formControlName="ipFilterAllowModeForm">&nbsp;&nbsp;&nbsp;
+              <div class="checkbox-text">Allow mode</div>
+            </div>
+            <div class="form-text" id="ipFilterAllowModeHelp">Check to only allow connections in the CIDR list. Uncheck
+              to <br> deny all IPs from the list.</div>
+          </div>
+
+        </div>
+
+
+
+        }
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>HTTP Security</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #httpSecurity id="isHttpSecurity"
+              (change)="onToggleChangeStaticResponse($event, httpSecurity.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isHttpSecurity){
+        <p>Enforces HTTP security policies such as AllowedHosts, SSL Options, HSTS, XSS, HPKP
+        </p>
+        }@else{
+        <div class="row">
+          <div class="row mb-3">
+            <label for="httpSecurityAllowedHosts" class="form-label">Allowed hosts</label>
+            <div class="d-flex">
+              <input type="text" id="httpSecurityAllowedHosts" class="form-control input-size input-with-button"
+                formControlName="httpSecurityAllowedHostsForm" placeholder="hostname:port">
+              <button class="btn btn-info button-with-input" id="httpSecurityAllowedHosts"
+                (click)="addParameter('httpSecurityAllowedHostsForm')"><b>+</b>Add host</button>
+            </div>
+            <div class="form-text" id="httpSecurityAllowedHostsHelp">
+              List of fully qualified domain names that are allowed, along with the origin port. Format: hostname:port.
+              When the list is empty accepts any host name to connect.
+            </div>
+            <div class="mt-3 d-flex">
+              <button *ngFor="let attr of httpSecurityAllowedHostsArray; let i = index" class="parameter-item">
+                {{ attr }}<mat-icon (click)="removeParameter(i,'httpSecurityAllowedHostsForm')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="row gap-2 mb-3">
+            <label for="httpSecuritySSLOpt" class="form-label">SSL Options</label>
+            <div class="col-sm-12 d-flex">
+              <div class="col-sm-12 col-md-9">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon3">
+                    <div class="d-flex">
+                      <input type="checkbox" formControlName="httpSecuritySSLOptForceSSLForm">&nbsp;&nbsp;
+                      <div class="checkbox-text">Force SSL</div>
+                    </div>
+                  </span>
+                  <input type="text" class="form-control input-with-button" id="basic-url"
+                    aria-describedby="basic-addon3" placeholder="ssl.host.domain">
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3 align-items-end">
+                <input type="text" class="form-control input-size button-with-input"
+                  formControlName="httpSecuritySSLOptPortForm" placeholder="port">
+              </div>
+            </div>
+            <div class="form-text">If set to true all HTTP requests are redirected to HTTPS. If the hostname used to
+              redirect to https differs from the current host, specify it in the box, otherwise leave it blank.</div>
+
+          </div>
+          <div class="row mb-3">
+            <div class="d-flex mb-3 align-items-end">
+              <div class="col-sm-12 col-md-5">
+                <label for="httpSecuritySSLProxyHeader" class="form-label">
+                  SSL Proxy header</label>
+                <input type="text" id="httpSecuritySSLProxyHeader" class="form-control input-size"
+                  formControlName="httpSecuritySSLProxyHeaderForm" placeholder="X-Forwarded-Proto">
+              </div>
+              <div class="col-sm-12 col-md-5">
+                <label for="httpSecurityHeaderValue" class="form-label">
+                  Header value</label>
+                <input type="text" id="httpSecurityHeaderValue" class="form-control input-size"
+                  formControlName="httpSecurityHeaderValueForm" placeholder="https">
+              </div>
+              <div class="col-sm-12 col-md-2">
+                <button class="btn btn-info" type="button"
+                  (click)="addParameter('httpSecurityHeaderAndHearValue')"><b>+</b>Add header</button>
+
+              </div>
+
+            </div>
+            <div *ngFor="let attr of objectMap | keyvalue" class="row mb-3 d-flex align-items-center">
+              <div class="col-sm-12 col-md-4">
+                {{attr.key}}
+              </div>
+              <div class="col-sm-12 col-md-4">
+                {{attr.value}}
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <button type="button" class="btn btn-dark delete-btn"
+                  (click)="removeParameter(attr.key ,'httpSecurityHeaderAndHearValue')"><b>X</b></button>
+              </div>
+            </div>
+            <div class="form-text">SSLProxyHeaders is set of header keys with associated values that would indicate a
+              valid https request. Useful when using Nginx, e.g: "X-Forwarded-Proto": "https"</div>
+
+          </div>
+          <div class="row mb-3">
+            <label for="httpSecurityHSTS" class="form-label">HTTP Strict Transport Security (HSTS)</label>
+            <div id="httpSecurityHSTS" class="form-text">HSTS is a web security policy mechanism which helps to protect
+              websites against protocol downgrade attacks and cookie hijacking. It allows web servers to declare that
+              web browsers (or other complying user agents) should only interact with it using secure HTTPS connections,
+              and never via the insecure HTTP protocol. When used the incoming links with http will be converted to
+              https before accessing the server.</div>
+
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text">max-age</span>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+              formControlName="httpSecurityHSTSForm">
+            <span class="input-group-text">seconds</span>
+          </div>
+          <div class="form-text mb-3">The max-age of the Strict-Transport-Security header. Setting to 0 disables HSTS!
+          </div>
+
+          <div class="row">
+            <div class="d-flex mb-3">
+              <input type="checkbox" id="httpSecurityIncSubdomain" class="input-size1"
+                formControlName="httpSecurityIncSubdomainForm">
+              <div class="checkbox-text">Include also subdomains</div>
+            </div>
+            <div class="form-text">If this value is set to true, the includeSubdomains directive will be appended to the
+              Strict-Transport-Security header.</div>
+          </div>
+          <div class="row mt-3 gap-2">
+            <label for="httpSecurityClickjackProtect" class="form-label" style="font-size: large;">Clickjacking</label>
+            <div class="d-flex ">
+              <input type="checkbox" id="httpSecurityClickjackProtect" class="input-size1"
+                formControlName="httpSecurityClickjackProtectForm">
+              <div class="checkbox-text">Enable clickjacking protection</div>
+            </div>
+            <div class="form-text">Offers server-side partial protection against clickjacking when set to true, by
+              adding the header X-Frame-Options: DENY.</div>
+          </div>
+          <div class="row mt-3 gap-2">
+            <label for="httpSecurityHPKP" class="form-label">HTTP Public Key Pinning (HPKP)</label>
+            <div class="input-group mb-3" id="httpSecurityHPKP">
+              <span class="input-group-text" id="basic-addon3">Public-Key-Pins:</span>
+              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"
+                formControlName="httpSecurityHPKPForm"
+                placeholder="pin-sha256=&quot;base64==&quot;; max-age=expireTime [; includeSubDomains][; report-uri=&quot;reportURI&quot;]">
+            </div>
+            <div class="form-text" id="httpSecurityHPKPHelp">Allows HTTPS websites to resist impersonation by attackers
+              using mis-issued or otherwise fraudulent certificates.
+            </div>
+          </div>
+          <div class="row mt-3 gap-2">
+            <label for="httpSecuritySniffing" class="form-label">Sniffing</label>
+            <div class="d-flex" id="httpSecuritySniffing">
+              <input type="checkbox" class="input-size1" formControlName="httpSecuritySniffingForm">
+              <div class="checkbox-text">MIME-sniffing prevention</div>
+            </div>
+            <div class="form-text">When set prevents Internet Explorer from MIME-sniffing a response away from the
+              declared content-type. This also applies to Google Chrome, when downloading extensions. Sets
+              X-Content-Type-Options: nosniff</div>
+          </div>
+          <div class="row mt-3 gap-2">
+            <label for="httpSecurityXSSProtection" class="form-label">Cross-site scripting (XSS) protection</label>
+            <div class="d-flex" id="httpSecurityXSSProtection">
+              <input type="checkbox" class="input-size1" formControlName="httpSecurityXSSProtectionForm">
+              <div class="checkbox-text">Browser cross-site scripting (XSS) filter</div>
+            </div>
+            <div class="form-text">When set adds the header X-XSS-Protection: 1; mode=block
+            </div>
+          </div>
+          <div class="row mt-3 gap-2">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon3">Content-Security-Policy:</span>
+              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"
+                placeholder="default-src 'self';" formControlName="httpSecurityConSecPolicyForm">
+            </div>
+            <div class="form-text">Enable Content Security Policy (CSP) by writing your policies in the header (see
+              reference).</div>
+          </div>
+
+
+        </div>
+
+
+        }
+
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2 mb-3">
+          <div>
+            <h3>Basic Authentication</h3>
+          </div>
+          <div>
+            <mat-slide-toggle #basicAuth id="isBasicAuth"
+              (change)="onToggleChangeStaticResponse($event, basicAuth.id)"></mat-slide-toggle>
+          </div>
+
+        </div>
+        @if(!isBasicAuth){
+        <p>The Basic Authentication plugin protects the access to selected endpoints using basic username and password
+          credentials via <b>htpasswd</b>.
+        </p>
+        }@else{
+        <div class="row gap-2">
+          <label for="basicAuthHtpasswd">Remember to mark which endpoints need basic auth in their configuration</label>
+
+          <div class="col-sm-12" id="basicAuthHtpasswd">
+            <label for="basicAuthHtpasswdPath" class="form-label">Htpasswd path</label>
+            <input type="text" name="" id="basicAuthHtpasswdPath" class="form-control input-size"
+              formControlName="basicAuthHtpasswdPathForm" placeholder="/etc/krakend/.htpasswd">
+            <div class="form-text">Absolute Path to the htpasswd filename (recommended) or relative ./ to the workdir.
+            </div>
+          </div>
+        </div>
+
+
+        }
+
+      </div>
+      <hr>
+    </form>
+
+  </div>
+</div>

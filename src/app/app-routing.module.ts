@@ -8,27 +8,32 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ViewapipageComponent } from './viewapipage/viewapipage.component';
 import { ApiCardsComponent } from './api-cards/api-cards.component';
 import { ServiceSettingsComponent } from './service-settings/service-settings.component';
+import { HttpSecurityComponent } from './http-security/http-security.component';
 
 const routes: Routes = [
-  {path:"apicards",component:ApiCardsComponent},
-  {path:"dashboard",component:DashboardComponent},
-  {path:"apis",component:ApiPageComponent,children:[
-    {path:"viewapi",component:ViewapipageComponent
-    //   ,children:[
-    //   {path:"parameterforwarding",component:ParameterForwardingComponent},
-    // {path:"auth",component:ViewapiPageComponent},
-    // {path:"throttling",component:ThrottlingComponent},
-    // {path:"policies",component:ViewapiPageComponent},
-    // {path:"responsemanipulation",component:ViewapiPageComponent},
-    // {path:"connectivityoptions",component:ViewapiPageComponent},
-    // {path:"openapi",component:ViewapiPageComponent}
-    
-    // ]
-  }
-    
-  ]},
-  {path:"service",component:ServiceSettingsComponent},
-  {path:'',redirectTo:'/apicards', pathMatch:'full'}
+  { path: "apicards", component: ApiCardsComponent },
+  { path: "dashboard", component: DashboardComponent },
+  {
+    path: "apis", component: ApiPageComponent, children: [
+      {
+        path: "viewapi", component: ViewapipageComponent
+        //   ,children:[
+        //   {path:"parameterforwarding",component:ParameterForwardingComponent},
+        // {path:"auth",component:ViewapiPageComponent},
+        // {path:"throttling",component:ThrottlingComponent},
+        // {path:"policies",component:ViewapiPageComponent},
+        // {path:"responsemanipulation",component:ViewapiPageComponent},
+        // {path:"connectivityoptions",component:ViewapiPageComponent},
+        // {path:"openapi",component:ViewapiPageComponent}
+
+        // ]
+      }
+
+    ]
+  },
+  { path: "service", component: ServiceSettingsComponent },
+  { path: "httpSecurity", component: HttpSecurityComponent },
+  { path: '', redirectTo: '/apicards', pathMatch: 'full' }
 ];
 
 @NgModule({

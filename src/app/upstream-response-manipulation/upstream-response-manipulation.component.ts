@@ -29,36 +29,37 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
     this.formGroupResManipulation = this.formBuilder.group({
       isCollection:[false],
       rootObject:[{value:'', disabled:false}],
-      deniedAttr:[],
-      allowedAttr:[],
+      deniedAttr:[[]],
+      allowedAttr:[[]],
       deniedAttributesArrValue:[[]],
       allowedAttributesArrValue:[[]],
-      wrappingGroup:[],
+      wrappingGroup:[''],
       originalObj:[''],
       renamedObj:[''],
       objectMapValue:[[]],
       isCachingActive:[false],
-      isSharedCacheActive:[true],
-      AdvResManipulationActive:[true],
-      resManiWithGoTemplActive:[true],
+      isSharedCacheActive:[false],
+      AdvResManipulationActive:[false],
+      resManiWithGoTemplActive:[false],
       expression:[''],
       bodyEditor:['bodyeditor'],
-      template:[],
-      contentType:[],
-      debug:[],
-      path:[],
+      template:[''],
+      contentType:[''],
+      debug:[false],
+      path:[''],
       contentReplacer: this.formBuilder.group({}),
-      contentReplacerKey:[],
+      contentReplacerKey:[''],
       regexConReplacerActive:[true],
-      operationType:[],
-      flatmapTargetObj:[],
-      flatmapOriginalObj:[],
-      flatmapFilterArr:[],
+      operationType:[''],
+      flatmapTargetObj:[''],
+      flatmapOriginalObj:[''],
+      flatmapFilterArr:[[]],
       martianActive:[true],
-      martian:[]
+      martian:[''] 
     })
 
   }
+  
   ngAfterViewInit(): void {
     this.formGroupResManipulation.valueChanges.subscribe(value => {
       console.log(value);
@@ -196,6 +197,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
   ngOnInit(): void {
 
     
+   
 
     this.selectedItem = this.items[0];
     this.formGroupResManipulation.get('path')?.disable();

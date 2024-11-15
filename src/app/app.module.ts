@@ -43,6 +43,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { HttpSecurityComponent } from './http-security/http-security.component';
 import { ApiMonetizationAndGovernanceComponent } from './api-monetization-and-governance/api-monetization-and-governance.component';
 import { OpenApiComponent } from './open-api/open-api.component';
+import { TelemetryComponent } from './telemetry/telemetry.component';
+import { ApiKeysComponent } from './api-keys/api-keys.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -72,7 +75,9 @@ import { OpenApiComponent } from './open-api/open-api.component';
     UpstreamConnectivityComponent,
     HttpSecurityComponent,
     ApiMonetizationAndGovernanceComponent,
-    OpenApiComponent
+    OpenApiComponent,
+    TelemetryComponent,
+    ApiKeysComponent
 
   ],
   imports: [

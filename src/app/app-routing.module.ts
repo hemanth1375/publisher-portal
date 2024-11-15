@@ -11,6 +11,8 @@ import { ServiceSettingsComponent } from './service-settings/service-settings.co
 import { HttpSecurityComponent } from './http-security/http-security.component';
 import { ApiMonetizationAndGovernanceComponent } from './api-monetization-and-governance/api-monetization-and-governance.component';
 import { OpenApiComponent } from './open-api/open-api.component';
+import { TelemetryComponent } from './telemetry/telemetry.component';
+import { ApiKeysComponent } from './api-keys/api-keys.component';
 
 const routes: Routes = [
   { path: "apicards", component: ApiCardsComponent },
@@ -37,6 +39,8 @@ const routes: Routes = [
   { path: "httpSecurity", component: HttpSecurityComponent },
   { path: "apiMonetization", component: ApiMonetizationAndGovernanceComponent },
   { path: "openAPI", component: OpenApiComponent },
+  {path:"telemetry",component:TelemetryComponent},
+  {path:"apikeys",component:ApiKeysComponent},
   { path: '', redirectTo: '/apicards', pathMatch: 'full' }
 
 ];

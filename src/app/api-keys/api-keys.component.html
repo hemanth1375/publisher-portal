@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <form [formGroup]="apikeyFormGroup">
+
+           <div class="row gap-3">
+                <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+                    <div>
+                        <h3>API- Key Authentication</h3>
+                    </div>
+                    <div>
+                        <mat-slide-toggle #logging formControlName="isAPIKeyAuthActive"></mat-slide-toggle>
+                    </div>
+                </div>
+
+                @if (apikeyFormGroup.value.isAPIKeyAuthActive) {
+                <div class="row">
+                    
+                </div>
+                }@else {
+                    <p>The API key authentication enables a Role-Based Access Control (RBAC) mechanism by reading the Authorization header of incoming requests. For all your desired endpoints, KrakenD rejects requests from users that do not provide a valid key or are trying to access a resource with insufficient permissions for the user's role.</p>
+                }
+            </div>
+        </form>
+    </div>
+</div>

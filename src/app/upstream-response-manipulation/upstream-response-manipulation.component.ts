@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 
@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-response-manipulation.component.html',
   styleUrl: './upstream-response-manipulation.component.css'
 })
-export class UpstreamResponseManipulationComponent implements OnInit{
+export class UpstreamResponseManipulationComponent implements OnInit, AfterViewInit{
 
   // contentReplacerKey: string = '';
   deniedAttributesArr:any[]=[];
@@ -58,6 +58,13 @@ export class UpstreamResponseManipulationComponent implements OnInit{
       martian:[]
     })
 
+  }
+  ngAfterViewInit(): void {
+    this.formGroupResManipulation.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.upstreamResponseFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
 
 
@@ -188,11 +195,7 @@ export class UpstreamResponseManipulationComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.formGroupResManipulation.valueChanges.subscribe(value => {
-      console.log(value);
-      
-      this.upstreamResponseFormSubmitted.emit(value); // Emit form data on every change
-    });
+    
 
     this.selectedItem = this.items[0];
     this.formGroupResManipulation.get('path')?.disable();

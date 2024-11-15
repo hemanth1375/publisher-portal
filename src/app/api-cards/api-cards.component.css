@@ -1,0 +1,9 @@
+ul li{
+    list-style-type: none;
+}
+.apiname{
+    font-size: 25px;
+    color: rgb(83, 83, 170);
+    cursor: pointer;
+    border:1px solid lightgray;
+}

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-request.component.html',
   styleUrl: './upstream-request.component.css'
 })
-export class UpstreamRequestComponent {
+export class UpstreamRequestComponent implements AfterViewInit {
   isStaticServerActive=false;
   isBodymanipulationActive=false;
   isMartianActive=false;
@@ -27,12 +27,15 @@ export class UpstreamRequestComponent {
     })
 
   }
-  ngOnInit(){
+  ngAfterViewInit(): void {
     this.formGroupUpstreamRequest.valueChanges.subscribe(value => {
       console.log(value);
       
-      this.upstreamRequestFormSubmitted.emit(value); // Emit form data on every change
+      this.upstreamRequestFormSubmitted.emit(value); 
     });
+  }
+  ngOnInit(){
+   
   }
   saveForm(){
     if(this.formGroupUpstreamRequest.valid){

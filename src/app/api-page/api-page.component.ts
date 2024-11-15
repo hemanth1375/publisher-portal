@@ -4,6 +4,9 @@ import {ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/c
 import { ViewapiPageComponent } from '../viewapi-page/viewapi-page.component';
 import { ViewapiPageService } from '../services/viewapi-page.service';
 import { ApiPageService } from '../services/api-page.service';
+import { ApicardsService } from '../services/apicards.service';
+import { switchMap } from 'rxjs';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-api-page',
@@ -32,7 +35,7 @@ showParent:any=true;
     //   this.childData.push(data);
     // });
   }
-constructor(private router:Router,private route:ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver,private dataService: ViewapiPageService,private apiPageService:ApiPageService){
+constructor(private router:Router,private route:ActivatedRoute, private componentFactoryResolver: ComponentFactoryResolver,private dataService: ViewapiPageService,private apiPageService:ApiPageService,private apiCardsService:ApicardsService,private sharedService:SharedDataService){
   this.router.events.subscribe((event) => {
      
     if (event instanceof NavigationEnd) {
@@ -50,17 +53,48 @@ constructor(private router:Router,private route:ActivatedRoute, private componen
   }});
 }
 collectedData: string[] = [];
+apiData:any;
+endPointData:any;
+entireJsondata:any;
 ngOnInit(){
-  this.apiPageService.getEndpoints().subscribe({
-    next:(res:any)=>{
-      this.buttonCount=res.endpoints.length
-      for(let i=0; i<res.endpoints.length;i++){
-        this.buttonLabels.push(...res.endpoints)
-        console.log(this.buttonLabels);
-        
-      }
-    }
+
+  this.sharedService.getEntireJsonData$().subscribe(data=>{
+    this.entireJsondata=data;
+    
   })
+console.log(this.entireJsondata);
+
+
+
+
+  this.apiCardsService.getData$().pipe(
+    switchMap(data => {
+      console.log(data);
+      
+      this.apiData = data;
+      return this.apiPageService.getEndpoints(data);
+    })
+  ).subscribe(secondData => {
+    if('endpoints' in secondData){
+      this.endPointData = secondData.endpoints;
+    }else{
+      this.endPointData=[]
+    }
+    
+    console.log('Second API Data:', secondData);
+  });
+
+
+  // this.apiPageService.getEndpoints('').subscribe({
+  //   next:(res:any)=>{
+  //     this.buttonCount=res.endpoints.length
+  //     for(let i=0; i<res.endpoints.length;i++){
+  //       this.buttonLabels.push(...res.endpoints)
+  //       console.log(this.buttonLabels);
+        
+  //     }
+  //   }
+  // })
   this.dataService.data$.subscribe(data => {
     this.collectedData.push(data);
     console.log('Data received from child:', data);
@@ -69,10 +103,11 @@ ngOnInit(){
   });
 }
 addEndpoint(){
-  // this.showParent=false;
-// this.router.navigate(['viewapi'],{relativeTo:this.route})
-this.buttonLabels.push(`Endpoint ${this.buttonCount}`);
-this.buttonCount++;
+// this.buttonLabels.push(`Endpoint ${this.buttonCount}`);
+// this.buttonCount++;
+this.showParent=false;
+  this.apiPageService.setData({});
+this.router.navigate(['viewapi'],{relativeTo:this.route})
 }
 submitFinalData(){
   console.log(this.collectedData);

@@ -210,7 +210,7 @@
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="#" class="sidebar-link" routerLinkActive="active" routerLink="service">
+          <a class="sidebar-link" routerLinkActive="active" routerLink="service">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope"
               viewBox="0 0 16 16">
               <path
@@ -222,7 +222,7 @@
         <li class="sidebar-item">
           <!-- <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                   data-bs-target="#auth" aria-expanded="false" aria-controls="auth" routerLinkActive="active"> -->
-          <a href="#" class="sidebar-link" routerLinkActive="active" routerLink="httpSecurity">
+          <a class="sidebar-link" routerLinkActive="active" routerLink="httpSecurity">
             <!-- <i class="material-icons">mail</i> -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots"
               viewBox="0 0 16 16">
@@ -311,8 +311,13 @@
     }
   </div>
   <div class="main p-3 content-margin">
-    <div>
-      <router-outlet></router-outlet>
-    </div>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+      <div class="d-flex justify-content-end">
+        @if(showSubmitButton){
+        <button class="btn btn-primary" (click)="submitdata()">SumitData</button>
+        }
+      </div>
   </div>
 </div>

@@ -3,5 +3,14 @@
         <div class="col-sm-12">
             <button mat-raised-button color="primary" (click)="createJson()">Create</button>
         </div>
+        <div class="row mt-3">
+            <ul class="col-sm-4">
+            @for(card of apiCards;track card.id){
+                <li class="apiname mb-2" (click)="goToApiPage(card.id)">
+                    <h4>{{card.name}}-{{card.id}}</h4>
+                </li>
+            }
+        </ul>
+        </div>
     </div>
 </div>

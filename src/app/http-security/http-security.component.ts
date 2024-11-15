@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-http-security',
@@ -167,8 +168,8 @@ export class HttpSecurityComponent {
 
 
 
-  constructor(private formBuilder: FormBuilder) {
-    this.formGroupHttpSecurity = formBuilder.group({
+  constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService ) {
+    this.formGroupHttpSecurity = this.formBuilder.group({
 
       corsAllowedOriginsForm: [null],
       corsAllowedHeadersForm: [null],
@@ -216,5 +217,10 @@ export class HttpSecurityComponent {
       objectMapValue: [[]]
     })
   }
+  emitValue(){
+    console.log(this.formGroupHttpSecurity.value);
+    
+this.sharedService.setHttpSecurityData(this.formGroupHttpSecurity.value)
+  }
 
-}
+} 

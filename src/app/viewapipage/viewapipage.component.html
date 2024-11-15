@@ -123,12 +123,12 @@
         </div>
         
         <div class="col-sm-12 d-flex justify-content-end">
-            <button mat-raised-button color="primary" (click)="submitForm()">Submit</button>
+            <button mat-raised-button color="primary" (click)="submitEndpointData()">Submit</button>
         </div>
         
         @if(selectedItem.name==="Backends(Upstream)"){
         <div class="col-sm-12 d-flex justify-content-end mt-3">
-            <!-- <button mat-raised-button color="primary" (click)="addChild()">Add Backend</button> -->
+            <button mat-raised-button color="primary" (click)="addChild()">Add Backend</button>
             <!-- <button mat-raised-button color="primary" (click)="submitBackendForm()">Submit Backend</button> -->
         </div>
     }

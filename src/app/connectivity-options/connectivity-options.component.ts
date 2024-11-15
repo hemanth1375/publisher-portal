@@ -40,6 +40,10 @@ export class ConnectivityOptionsComponent {
   formGroup1: FormGroup;
   @Output() connectivityFormSubmitted = new EventEmitter<any>();
   ngOnInit(){
+    console.log(this.formData);
+    this.formGroup1.patchValue({
+      writeBufferSize:this.formData?.extra_config?.websocket.write_buffer_size
+    })
     this.formGroup1.valueChanges.subscribe(value => {
       console.log(value);
       

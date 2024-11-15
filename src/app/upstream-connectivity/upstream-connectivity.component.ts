@@ -25,7 +25,7 @@ export class UpstreamConnectivityComponent {
 
 
   @Input() formData: any;
-  @Output() upstreamCoonectivityFormSubmitted = new EventEmitter<any>();
+  @Output() upstreamConnectivityFormSubmitted = new EventEmitter<any>();
 
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class UpstreamConnectivityComponent {
     this.formGroupUpstreamConnectivity.valueChanges.subscribe(value => {
       console.log(value);
 
-      this.upstreamCoonectivityFormSubmitted.emit(value); // Emit form data on every change
+      this.upstreamConnectivityFormSubmitted.emit(value); // Emit form data on every change
     });
   }
 

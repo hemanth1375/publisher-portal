@@ -170,6 +170,7 @@ export class ViewapipageComponent {
    upstreamRequestData:any;
    upstreamThrottlingData:any;
    upstreamResponseData:any;
+   upstreamConnectivityData:any;
 
 
   onFormChange(form:any,updatedData:any){
@@ -187,6 +188,7 @@ export class ViewapipageComponent {
       case 'upstreamAuth': this.upstreamAuthData = updatedData;break;
       case 'upstreamThrottling': this.upstreamThrottlingData = updatedData;break;
       case 'upstreamPolicies': this.upstreamPoliciesData = updatedData;break;
+      case 'upstreamConnectivity': this.upstreamConnectivityData = updatedData;break;
     }
   }
   //  submitForm() {

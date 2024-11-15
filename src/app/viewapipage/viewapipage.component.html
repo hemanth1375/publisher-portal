@@ -90,6 +90,9 @@
                       <li class="nav-item" role="presentation">
                         <a class="nav-link nav-link1" id="upstreamResponse-tab" data-bs-toggle="tab" href="#upstreamResponse" role="tab" aria-controls="upstreamResponse" aria-selected="true">Response manipulation</a>
                       </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link nav-link1" id="upstreamConnectivity-tab" data-bs-toggle="tab" href="#upstreamConnectivity" role="tab" aria-controls="upstreamConnectivity" aria-selected="true">Connectivity</a>
+                      </li>
                   </ul>
                 </div>
                   <div class="col-sm-12">
@@ -110,6 +113,9 @@
                       </div>
                       <div class="tab-pane fade" id="upstreamResponse" role="tabpanel" aria-labelledby="upstreamResponse-tab">
                          <app-upstream-response-manipulation [formData]="upstreamResponseData" (upstreamResponseFormSubmitted)="onFormChange('upstreamResponse',$event)"></app-upstream-response-manipulation>
+                      </div>
+                      <div class="tab-pane fade" id="upstreamConnectivity" role="tabpanel" aria-labelledby="upstreamConnectivity-tab">
+                         <app-upstream-connectivity [formData]="upstreamConnectivityData" (upstreamConnectivityFormSubmitted)="onFormChange('upstreamConnectivity',$event)"></app-upstream-connectivity>
                       </div>
                       
                     </div>

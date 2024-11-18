@@ -22,6 +22,18 @@ export class ParameterForwardingComponent {
   @Output() formSubmitted = new EventEmitter<any>();
 
   ngOnInit(){
+
+    console.log(this.formData);
+    this.parameterArray=this.formData?.input_query_strings;
+    this.parameterHeaderArray=this.formData?.input_headers
+    this.formGroup1.patchValue({
+      parameterArrays:this.formData?.input_query_strings,
+      parameterHeaderArrays:this.formData?.input_headers
+    })
+    
+
+
+
     this.formGroup1.valueChanges.subscribe(value => {
       console.log(value);
       

@@ -27,6 +27,8 @@ export class UpstreamAuthComponent {
     })
   }
   ngOnInit(){
+    console.log(this.formData);
+    
     this.formGroupUpstreamAuth.valueChanges.subscribe(value => {
       console.log(value);
       

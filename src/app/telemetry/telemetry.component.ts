@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-telemetry',
@@ -15,7 +16,7 @@ export class TelemetryComponent {
 
   TelemertyFormGroup:FormGroup;
 
-  constructor(private fb:FormBuilder){
+  constructor(private fb:FormBuilder,private sharedService:SharedDataService){
     this.TelemertyFormGroup = this.fb.group({
       isLoggingActive:[false],
       logginngLevel:[],
@@ -32,10 +33,10 @@ export class TelemetryComponent {
       OTsampleRate:[],
       OTreportingPeriod:[],
       isMetricsAPiActive:[false],
-      metricsDisableEndpoint:[],
-      metricsDisableProxy:[],
-      metricsDisableRouter:[],
-      metricsDisableBackend:[],
+      metricsDisableEndpoint:[false],
+      metricsDisableProxy:[false],
+      metricsDisableRouter:[false],
+      metricsDisableBackend:[false],
       metricsListenAddress:[],
       metricCollecTime:[],
       openCensusActive:[true],
@@ -102,8 +103,105 @@ export class TelemetryComponent {
     });
   
   }
-
- 
+entireJsonData:any
+  ngOnInit(){
+    this.sharedService.getEntireJsonData$().subscribe(data=>{
+      this.entireJsonData=data;
+      
+    })
+console.log(this.entireJsonData);
+this.tagsArray=this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.tags;
+this.headersToPassArray=this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.headers_to_pass;
+this.TelemertyFormGroup.patchValue({
+  isLoggingActive:[false],
+  logginngLevel:this.entireJsonData?.extra_config?.["telemetry/logging"]?.level,
+  loggingPrefix:this.entireJsonData?.extra_config?.["telemetry/logging"]?.prefix,
+  enableLogstash:[false],
+  logMsgFormat:this.entireJsonData?.extra_config?.["telemetry/logging"]?.custom_format,
+  logStdOut:this.entireJsonData?.extra_config?.["telemetry/logging"]?.stdout,
+  logSysLog:this.entireJsonData?.extra_config?.["telemetry/logging"]?.syslog,
+  logSysLogFacility:this.entireJsonData?.extra_config?.["telemetry/logging"]?.syslog_facility,
+  isGelfActive:[false],
+      GELFAdrress:[],
+      enableTCP:[false],
+      isOpenTelActive:[false],
+      OTsampleRate:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.trace_sample_rate,
+      OTreportingPeriod:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.metric_reporting_period,
+      isMetricsAPiActive:[false],
+      metricsDisableEndpoint:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.endpoint_disabled,
+      metricsDisableProxy:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.proxy_disabled,
+      metricsDisableRouter:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.router_disabled,
+      metricsDisableBackend:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.backend_disabled,
+      metricsListenAddress:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.listen_address,
+      metricCollecTime:this.entireJsonData?.extra_config?.["telemetry/metrics"]?.collection_time,
+      openCensusActive:[true],
+      otlp:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.exporters?.otlp,
+      prometheus:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.exporters?.prometheus,
+      prometheusActive:[false],
+      influxDBActive:[false],  
+      jaegerActive:[false],
+      zipkinActive:[false],
+      loggerActive:[false],
+      newRelicActive:[false],
+      datadogActive:[true],
+      googleStkActive:[false],
+      awsActice:[false],
+      openCensusAgentActive:[false],
+      OCsampleRate:[],
+      OCreportingPeriod:[],
+      zipkincollectorURL:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.zipkin?.collector_url,
+      zipkinServiceName:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.zipkin?.service_name,
+      jeagerEndpoint:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.jeager?.endpoint,
+      jeagerServiceName:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.jeager?.service_name,
+      influxDBaddress:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.influxdb?.address,
+      infulxDBdatabase:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.influxdb?.db,
+      influxwriteTimeout:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.influxdb?.timeout,
+      port:[],
+      prometheusPort:[],
+      useCredFromEnvActice:[],
+      awsRegion:[],
+      awsService:[],
+      awsAccessKey:[],
+      awsSecretKey:[],
+      stkMetricsPrefix:[],
+      stkProjectID:[],
+      labelName:[],
+      labelValue:[],
+      objectMapValue:[[]],
+      datadogNamespace:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.namespace,
+      datadogService:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.service,
+      datadogTraceAdd:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.trace_address,
+      datadogStatusAdd:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.stats_address,
+      datadogTag:[],
+      tagsArrayValue:this.entireJsonData?.extra_config?.["telemetry/opencensus"]?.exporters?.datadog?.tags,
+      globalTag:[],
+      globalTagsArrayValue:[[]],
+      countPerBuckets:[false],
+      relicServiceName:[],
+      relicApiKey:[],
+      relicSpansURL:[],
+      relicMetricsURL:[],
+      relicsDebug:[false],
+      ocagentCollectorsAddress:[],
+      ocagentServiceName:[],
+      ocagentReconTime:[],
+      ocagentInsecure:[],
+      ocagentEnableCompression:[],
+      headerKey:[],
+      headerValue:[],
+      headerObjectMapValue:[],
+      newRelicNativeSDKActive:[false],
+      newRelicLicense:this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.license,
+      newRelicSDKDebug:this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.debug,
+      headersToPass:[],
+      headersToPassArrayValue:this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.headers_to_pass
+})
+  }
+  emitValue(){
+    console.log(this.TelemertyFormGroup.value);
+    
+    this.sharedService.setTelemetryData(this.TelemertyFormGroup.value)
+  }
   addParameter(fieldName: 'label' | 'datadogTag'| 'globalTag'|'header'|'headersToPass') {
     const fieldValue = this.TelemertyFormGroup.get(fieldName)?.value;
 
@@ -209,8 +307,8 @@ export class TelemetryComponent {
 
   createPrometheusConfigGroup():FormGroup{
     return this.fb.group({
-      promethusName:[],
-      promethusPort:[]
+      name:[],
+      port:[]
     })
   }
 

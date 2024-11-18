@@ -16,7 +16,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
   items: any;
   formGroupResManipulation:FormGroup;
   objectMap: Map<string, string> = new Map();
-  isKeyCreated: boolean = false;
+  isKeyCreated: boolean = false; 
   @Input() formData: any;
   @Output() upstreamResponseFormSubmitted =new EventEmitter<any>();
   
@@ -38,7 +38,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
       renamedObj:[''],
       objectMapValue:[[]],
       isCachingActive:[false],
-      isSharedCacheActive:[false],
+      isSharedCacheActive:[false], 
       AdvResManipulationActive:[false],
       resManiWithGoTemplActive:[false],
       expression:[''],
@@ -196,7 +196,10 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
 
   ngOnInit(): void {
 
-    
+    this.formGroupResManipulation.patchValue({
+      isCollection:this.formData?.backend?.[0]?.is_collection,
+      wrappingGroup:this.formData?.backend?.[0]?.group
+    })
    
 
     this.selectedItem = this.items[0];

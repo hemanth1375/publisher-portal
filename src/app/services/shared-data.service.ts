@@ -36,4 +36,22 @@ export class SharedDataService {
   getHttpSecurityData$(): Observable<string> {
     return this.httpSecurityData.asObservable();
   }
+  private openApiData: ReplaySubject<string> = new ReplaySubject<string>(1);
+
+  setOpenApiData(data: string): void {
+    this.openApiData.next(data);
+  }
+
+  getOpenApiData$(): Observable<string> {
+    return this.openApiData.asObservable();
+  }
+  private telemetryData: ReplaySubject<string> = new ReplaySubject<string>(1);
+
+  setTelemetryData(data: string): void {
+    this.telemetryData.next(data);
+  }
+
+  getTelemetryData$(): Observable<string> {
+    return this.telemetryData.asObservable();
+  }
 }

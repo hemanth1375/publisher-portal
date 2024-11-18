@@ -883,10 +883,16 @@
                     </div>
                 }
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button mat-raised-button (click)="emitValue()">Save</button>
+                </div>
+            </div>
 
             <div class="row">
                 {{this.TelemertyFormGroup.value | json }}
             </div>
+
         </form>
     </div>
 </div>

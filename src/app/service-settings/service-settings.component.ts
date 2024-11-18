@@ -171,9 +171,11 @@ removeFromMapRegExp(key: any) {
       
     })
 console.log(this.entireJsondata);
-console.log(this.entireJsondata?.extra_config["server/static-filesystem"]?.prefix);
+console.log(this.entireJsondata?.extra_config?.["server/static-filesystem"]?.prefix);
+if(this.entireJsondata!=undefined){
+  this.hostArray=this.entireJsondata?.host
+}
 
-this.hostArray=this.entireJsondata?.host
 this.formGroupService.patchValue({
   name:this.entireJsondata?.name,
   port:this.entireJsondata?.port,
@@ -181,11 +183,11 @@ this.formGroupService.patchValue({
   backendTimeout:this.entireJsondata?.timeout,
   defaultCache:this.entireJsondata?.cache_ttl,
   directoryArrayValue:this.entireJsondata?.extra_config?.grpc?.catalog,
-  staticServerPrefix:this.entireJsondata?.extra_config["server/static-filesystem"]?.prefix,
-  staticServerPath:this.entireJsondata?.extra_config["server/static-filesystem"]?.path,
-  directoryList:this.entireJsondata?.extra_config["server/static-filesystem"]?.directory_listing,
+  staticServerPrefix:this.entireJsondata?.extra_config?.["server/static-filesystem"]?.prefix,
+  staticServerPath:this.entireJsondata?.extra_config?.["server/static-filesystem"]?.path,
+  directoryList:this.entireJsondata?.extra_config?.["server/static-filesystem"]?.directory_listing,
   disableZip:this.entireJsondata?.extra_config?.router?.disable_gzip,
-  databasePath:this.entireJsondata?.extra_config["plugin/http-server"]?.geoip.citydb_path,
+  databasePath:this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip.citydb_path,
   // literalMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.literal,
   // regExpMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.regexp,
   publicKey:this.entireJsondata?.tls?.public_key,

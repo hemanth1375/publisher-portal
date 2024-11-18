@@ -35,7 +35,9 @@ export class EndPointPageComponent implements OnInit ,AfterViewInit {
    
     console.log(this.formData);
     this.formGroupEndPoint.patchValue({
-      endPointUri:this.formData?.endpoint
+      endPointUri:this.formData?.endpoint,
+      selectedMethod:this.formData?.method,
+      selectedOutput:this.formData?.output_encoding
     })
     // this.apiPageService.getData$().subscribe(data => {
     //   this.receivedData = data;

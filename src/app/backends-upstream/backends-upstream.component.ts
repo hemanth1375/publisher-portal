@@ -30,6 +30,7 @@ export class BackendsUpstreamComponent {
   upstreamRequestData:any;
   upstreamThrottlingData:any;
   upstreamResponseData:any;
+  upstreamConnectivityData:any;
   selectedItem: any;
 
   @Input() formData:any
@@ -43,6 +44,7 @@ onFormChange(form:any,updatedData:any){
     case 'upstreamAuth': this.upstreamAuthData = updatedData;break;
     case 'upstreamThrottling': this.upstreamThrottlingData = updatedData;break;
     case 'upstreamPolicies': this.upstreamPoliciesData = updatedData;break;
+    case 'upstreamConnectivity': this.upstreamConnectivityData = updatedData;break;
   }
 }
 
@@ -84,6 +86,15 @@ onFormChange(form:any,updatedData:any){
   }
   ngOnInit() {
     this.selectedItem = this.items[0];
+    console.log(this.formData);
+    this.upstreamRequestData=this.formData;
+    this.upstreamAuthData=this.formData;
+    this.upstreamPoliciesData=this.formData;
+    this.upstreamResponseData=this.formData;
+    this.upstreamThrottlingData=this.formData;
+    this.upstreamConnectivityData=this.formData;
+    
+    
   }
 
   onFormSubmit(formData: any) {
@@ -115,8 +126,10 @@ onFormChange(form:any,updatedData:any){
       'upstreamPoliciesData':this.upstreamPoliciesData,
       'upstreamRequestData':this.upstreamRequestData,
       'upstreamThrottlingData':this.upstreamThrottlingData,
-      'upstreamResponseData':this.upstreamResponseData
+      'upstreamResponseData':this.upstreamResponseData,
+      'upstreamConnectivityData':this.upstreamConnectivityData
     }
+console.log(obj);
 
     this.backendUpStreamSubmitted.emit(obj)
   }

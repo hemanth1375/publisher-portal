@@ -32,6 +32,14 @@ export class ThrottlingComponent {
     })
   }
   ngOnInit(){
+    console.log(this.formData);
+this.formGroupThrottling.patchValue({
+  rateLimit:this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate
+})
+    
+   
+  }
+  ngAfterViewInit(){
     this.formGroupThrottling.valueChanges.subscribe(value => {
       console.log(value);
       

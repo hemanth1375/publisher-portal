@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-open-api',
@@ -11,7 +12,7 @@ export class OpenApiComponent {
 
   isOpenApi = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService) {
     this.formGroupOpenAPI = formBuilder.group({
       openApiHostForm: [null],
       openApiBasePathForm: [null],
@@ -29,7 +30,27 @@ export class OpenApiComponent {
       openApiSchemesFormArray: [[]]
     })
   }
-
+  entireJsonData:any;
+  ngOnInit(){
+    this.sharedService.getEntireJsonData$().subscribe(data=>{
+      this.entireJsonData=data;
+      
+    })
+console.log(this.entireJsonData);
+this.formGroupOpenAPI.patchValue({
+  openApiVersionForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.version,
+      openApiContactNameForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_name,
+      openApiContactEmailForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_email,
+      openApiContactUrlForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_url,
+      openApiLicenseNameForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.license_name,
+      openApiLicenseUrlForm:this.entireJsonData?.extra_config?.["documentation/openapi"]?.license_url
+})
+  }
+  emitValue(){
+    console.log(this.formGroupOpenAPI.value);
+    
+this.sharedService.setOpenApiData(this.formGroupOpenAPI.value)
+  }
   openApiTagsArray: any[] = [];
   openApiSchemesArray: any[] = [];
 

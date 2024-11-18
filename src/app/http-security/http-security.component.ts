@@ -38,8 +38,75 @@ export class HttpSecurityComponent {
   httpSecurityAllowedHostsArray: any[] = [];
 
   objectMap: Map<string, string> = new Map();
+entireJsonData:any;
+ngOnInit(){
+  this.sharedService.getEntireJsonData$().subscribe(data=>{
+    this.entireJsonData=data;
+    
+  })
+console.log(this.entireJsonData);
+if(this.entireJsonData!=undefined){
+  this.corsAllowedOriginsArray=this.entireJsonData?.extra_config["security/cors"]?.allow_origins;
+  this.corsAllowedHeadersArray=this.entireJsonData?.extra_config["security/cors"]?.allow_headers;
+    this.corsExposeHeadersArray=this.entireJsonData?.extra_config["security/cors"]?.expose_headers;
+    this.botDetectorAllowArray=this.entireJsonData?.extra_config["security/bot-detector"]?.allow;
+    this.botDetectorDenyArray=this.entireJsonData?.extra_config["security/bot-detector"]?.deny;
+    this.botDetectorPatternsArray=this.entireJsonData?.extra_config["security/bot-detector"]?.patterns;
+    this.multipleIdentityProviderOriginsArray=this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.origins;
+    this.ipFilterCIDRArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.CIDR;
+    this.ipFilterTrustedProxiesArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies;
+    this.ipFilterClientIPHeadersArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers;
+    this.httpSecurityAllowedHostsArray=this.entireJsonData?.extra_config["security/http"]?.allowed_hosts;
+    this.objectMap=this.entireJsonData?.extra_config["security/http"]?.ssl_proxy_headers;
+}
 
-
+this.formGroupHttpSecurity.patchValue({
+  corsAllowedOriginsForm: '',
+      corsAllowedHeadersForm: '',
+      corsExposeHeadersForm: '',
+      corsAllowCredentialsForm:this.entireJsonData?.extra_config["security/cors"]?.allow_credentials,
+      corsMaxAgeForm: this.entireJsonData?.extra_config["security/cors"]?.max_age,
+      botDetectorAllowForm: '',
+      botDetectorDenyForm:'',
+      botDetectorPatternsForm: '',
+      botDetectorCacheSizeForm: this.entireJsonData?.extra_config["security/bot-detector"]?.cache_size,
+      botDetectorEmptyUsersForm: this.entireJsonData?.extra_config["security/bot-detector"]?.empty_user_agent_is_bot,
+      multipleIdentityProviderOriginsForm: '',
+      multipleIdentityProviderPortForm: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.port,
+      multipleIdentityProviderCacheForm: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.cache,
+      ipFilterCIDRForm: '',
+      ipFilterClientIPHeadersForm: '',
+      ipFilterTrustedProxiesForm: '',
+      ipFilterAllowModeForm: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.allow,
+      httpSecurityAllowedHostsForm: '',
+      httpSecuritySSLOptForceSSLForm: this.entireJsonData?.extra_config["security/http"]?.ssl_redirect,
+      httpSecuritySSLOptForm: this.entireJsonData?.extra_config["security/http"]?.ssl_host,
+      httpSecuritySSLOptPortForm: this.entireJsonData?.extra_config["security/http"]?.ssl_port,
+      httpSecuritySSLProxyHeaderForm: '',
+      httpSecurityHeaderValueForm: '',
+      httpSecurityHSTSForm: this.entireJsonData?.extra_config["security/http"]?.sts_seconds,
+      httpSecurityIncSubdomainForm: this.entireJsonData?.extra_config["security/http"]?.sts_include_subdomains,
+      httpSecurityClickjackProtectForm: this.entireJsonData?.extra_config["security/http"]?.frame_deny,
+      httpSecurityHPKPForm: this.entireJsonData?.extra_config["security/http"]?.hpkp_public_key,
+      httpSecuritySniffingForm: this.entireJsonData?.extra_config["security/http"]?.content_type_nosniff,
+      httpSecurityXSSProtectionForm: this.entireJsonData?.extra_config["security/http"]?.browser_xss_filter,
+      httpSecurityConSecPolicyForm: this.entireJsonData?.extra_config["security/http"]?.content_security_policy,
+      basicAuthHtpasswdPathForm: this.entireJsonData?.extra_config["auth/basic"]?.htpasswd_path,
+      corsAllowedOriginsFormArray: this.entireJsonData?.extra_config["security/cors"]?.allow_origins,
+      corsAllowedHeadersFormArray: this.entireJsonData?.extra_config["security/cors"]?.allow_headers,
+      corsExposeHeadersFormArray: this.entireJsonData?.extra_config["security/cors"]?.expose_headers,
+      corsMaxAgeFormArray: [[]],
+      botDetectorAllowFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.allow,
+      botDetectorDenyFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.deny,
+      botDetectorPatternsFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.patterns,
+      multipleIdentityProviderOriginsFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.origins,
+      ipFilterCIDRFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.CIDR,
+      ipFilterTrustedProxiesFormArray:  this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies,
+      ipFilterClientIPHeadersFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers,
+      httpSecurityAllowedHostsFormArray:  this.entireJsonData?.extra_config["security/http"]?.allowed_hosts,
+      objectMapValue: [[]]
+})
+}
 
 
 
@@ -71,6 +138,8 @@ export class HttpSecurityComponent {
         this.formGroupHttpSecurity.get('corsAllowedOriginsFormArray')?.setValue([...this.corsAllowedOriginsArray]);
       }
       else if (fieldName === 'corsAllowedHeadersForm') {
+        console.log(this.corsAllowedHeadersArray);
+        
         this.corsAllowedHeadersArray.push(fieldValue);
         this.formGroupHttpSecurity.get('corsAllowedHeadersFormArray')?.setValue([...this.corsAllowedHeadersArray]);
       } else if (fieldName === 'corsExposeHeadersForm') {

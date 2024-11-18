@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './policies.component.html',
   styleUrl: './policies.component.css'
 })
-export class PoliciesComponent {
+export class PoliciesComponent implements OnInit,AfterViewInit {
 
 
 
@@ -31,6 +31,13 @@ export class PoliciesComponent {
       jwtReqPolicyArrayValue: [[]]
     })
   }
+  ngAfterViewInit(): void {
+    this.formGroupPolicies.valueChanges.subscribe(value => {
+      console.log(value);
+      
+      this.policiesFormSubmitted.emit(value); // Emit form data on every change
+    });
+  }
 
 
   formGroupPolicies: FormGroup;
@@ -40,11 +47,13 @@ export class PoliciesComponent {
     
   }
   ngOnInit(){
-    this.formGroupPolicies.valueChanges.subscribe(value => {
-      console.log(value);
-      
-      this.policiesFormSubmitted.emit(value); // Emit form data on every change
-    });
+    console.log(this.formData);
+    this.formGroupPolicies.patchValue({
+      secReqPolicyArrayValue:this.formData?.extra_config?.["security/policies"]?.req?.policies,
+      secReqErrorBody:this.formData?.extra_config?.["security/policies"]?.req?.error?.body,
+      secReqErrorStCode:this.formData?.extra_config?.["security/policies"]?.req?.error?.status
+    })
+    
   }
 
   parameterArraySecReqPolicy: any = [];

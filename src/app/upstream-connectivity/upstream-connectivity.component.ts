@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-connectivity.component.html',
   styleUrl: './upstream-connectivity.component.css'
 })
-export class UpstreamConnectivityComponent {
+export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
   amqpRoutingKeysArray: any[] = [];
   objectMap: Map<string, string> = new Map();
 
@@ -29,15 +29,33 @@ export class UpstreamConnectivityComponent {
 
 
   ngOnInit() {
+
+    this.formGroupUpstreamConnectivity.patchValue({
+      restTogrpcReqNamingConventionForm: '',
+      restTogrpcResNamingConventionForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].response_naming_convention,
+      restTogrpcUseReqBodyForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].use_request_body,
+      restTogrpcRemoveUnsetValForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_remove_unset_values,
+      restTogrpcEnumsAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_enum_as_string,
+      restTogrpcTimestmpAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_timestamp_as_string,
+      restTogrpcDurationAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_duration_as_string,
+      restTographQLOpTypeForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"].type,
+      restTographQLInlineQueryForm:this.formData?.backend?.[0]?.extra_config?.["backend/graphql"].query,
+    })
+
+    this.formGroupUpstreamConnectivity.patchValue({
+      pathRestToSoapForm:this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.path
+    })
     // this.formGroupUpstreamConnectivity.get('restToGraphqlOpTypeForm')?.setValue('query');
+    
+  }
+
+  ngAfterViewInit(): void {
     this.formGroupUpstreamConnectivity.valueChanges.subscribe(value => {
       console.log(value);
 
       this.upstreamConnectivityFormSubmitted.emit(value); // Emit form data on every change
     });
   }
-
-
 
 
 
@@ -124,7 +142,7 @@ export class UpstreamConnectivityComponent {
       restTographQLInlineQueryForm: [null],
       restTographQLVariableForm: [''],
       restTographQLValueForm: [''],
-      objectMapValue: [[]],
+      objectMapValue: [[]], 
       amqpConsumerQueueNameForm: [null],
       amqpConsumerExchangeForm: [null],
       amqpConsumerBackOffStratgyForm: [null],
@@ -140,12 +158,12 @@ export class UpstreamConnectivityComponent {
       awsLambdaEndpointForm: [null],
       restTogrpcReqNamingConventionForm: [null],
       restTogrpcResNamingConventionForm: [null],
-      restTogrpcUseReqBodyForm: [null],
+      restTogrpcUseReqBodyForm: [false],
       restTogrpcAllowInsecureConForm: [null],
-      restTogrpcRemoveUnsetValForm: [null],
-      restTogrpcEnumsAsStrgsForm: [null],
-      restTogrpcTimestmpAsStrgsForm: [null],
-      restTogrpcDurationAsStrgsForm: [null],
+      restTogrpcRemoveUnsetValForm: [false],
+      restTogrpcEnumsAsStrgsForm: [false],
+      restTogrpcTimestmpAsStrgsForm: [false],
+      restTogrpcDurationAsStrgsForm: [false],
       restTogrpcDisableQueryParamForm: [null],
       restTogprcInputMappingFieldForm: [null],
       restTogprcInputMappingMapAsForm: [null],
@@ -161,6 +179,7 @@ export class UpstreamConnectivityComponent {
 
     })
   }
+
 
   onToggleChangeStaticResponse(event: any, id: any) {
     console.log('id', id);

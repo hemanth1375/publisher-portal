@@ -32,7 +32,7 @@
             <div class="d-flex">
                 <div class="col-sm-6">
                     <div class="d-flex align-items-center">
-                        <input type="checkbox" id="notifyConnectionEvent" class="me-2">
+                        <input type="checkbox" id="notifyConnectionEvent" class="me-2" formControlName="connectEvent">
                         <h3 class="mb-0">Notify the connection event</h3>
                     </div>
                     <p>Notifies in the log when there is the client connect event</p>
@@ -57,6 +57,11 @@
                             reading (in bytes).</div>
                     </div>
                     <div class="mb-3 col-sm-12 col-md-10">
+                        <label for="messageBufferSize" class="form-label">Message Buffer Size</label>
+                        <input type="number" class="form-control " id="messageBufferSize" formControlName="messageBufferSize">
+                        <div class="form-text">Sets the maximum buffer size for messages (in bytes).</div>
+                    </div>
+                    <div class="mb-3 col-sm-12 col-md-10">
                         <label for="writeWait" class="form-label">Write wait</label>
                         <input type="text" class="form-control" id="writeWait" aria-describedby="emailHelp" formControlName="writeWait">
                         <div class="form-text">Sets the maximum time KrakenD will wait until the write times out.</div>
@@ -71,7 +76,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="d-flex align-items-center">
-                        <input type="checkbox" id="notifyConnectionEvent" class="me-2">
+                        <input type="checkbox" id="notifyConnectionEvent" class="me-2" formControlName="disconnectEvent">
                         <h3 class="mb-0">Notify the disconnection event</h3>
                     </div>
                     <p>Notifies in the log when there is a client disconnect event</p>
@@ -106,9 +111,9 @@
                 <input type="text" class="form-control" id="pongWait" formControlName="pongWait">
                 <div class="form-text">Sets the maximum time KrakenD will wait until the pong times out.</div>
             </div>
-            <div class="mb-3 col-sm-12 col-md-10">
+            <div class="mb-3 col-sm-12 col-md-10"> 
                 <label for="returnErr" class="form-label">Return error details</label>
-                <!-- <input type="checkbox" class="form-control" id="returnErr"> -->
+                <input type="checkbox" class="form-control" id="returnErr" formControlName="returnErr">
                 <div class="form-text">Provides an error &#123;"error":"reason here" &#125; to the client when KrakenD was unable to
                     send the message to the backend.</div>
             </div>

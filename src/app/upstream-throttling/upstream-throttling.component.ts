@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-throttling.component.html',
   styleUrl: './upstream-throttling.component.css'
 })
-export class UpstreamThrottlingComponent {
+export class UpstreamThrottlingComponent implements OnInit,AfterViewInit{
 
   isCircuitBreakerActive=false;
   isProxyRateLimitActive=false;
@@ -18,18 +18,31 @@ this.formGroupUpstreamThrottling=formBuilder.group({
   circuitBreakerName:[null],
   maxError:[null],
   interval:[null],
-  timeout:[null],
+  timeout:[null], 
   maxRateLimit:[null],
   every:[null],
-  capacity:[null]
+  capacity:[null],
+  logStatusChange:[false]
 })
   }
-  ngOnInit(){
+  ngAfterViewInit(): void {
     this.formGroupUpstreamThrottling.valueChanges.subscribe(value => {
       console.log(value);
       
       this.upstreamThrottlingFormSubmitted.emit(value); // Emit form data on every change
     });
+  }
+  ngOnInit(){
+    this.formGroupUpstreamThrottling.patchValue({
+      circuitBreakerName:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].name,
+  maxError:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].max_errors,
+  interval:[null],
+  timeout:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].timeout, 
+  maxRateLimit:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"].max_rate,
+  every:[null],
+  capacity:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"].capacity,
+  logStatusChange:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].log_status_change
+    })
 }
   onToggleChangeStaticResponse(event: any, id:any) {
     console.log('id', id);

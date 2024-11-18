@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './response-manipulation.component.html',
   styleUrl: './response-manipulation.component.css'
 })
-export class ResponseManipulationComponent {
+export class ResponseManipulationComponent implements OnInit,AfterViewInit {
   isStaticResponseEnabled = false; // Initially false
   formGroupResponseManipulation:FormGroup;
   @Input() formData: any;
@@ -27,12 +27,20 @@ export class ResponseManipulationComponent {
       pathGo:['']
     })
   }
-  ngOnInit(){
+  ngAfterViewInit(): void {
     this.formGroupResponseManipulation.valueChanges.subscribe(value => {
       console.log(value);
       
       this.responseManipulationFormSubmitted.emit(value); // Emit form data on every change
     });
+  }
+  ngOnInit(){
+   console.log(this.formData);
+   this.formGroupResponseManipulation.patchValue({
+    response:this.formData?.extra_config?.proxy?.static?.data,
+    strategy:this.formData?.extra_config?.proxy?.static?.strategy
+   })
+   
   }
   saveForm(){
 if(this.formGroupResponseManipulation.valid){

@@ -20,8 +20,9 @@ ngOnInit(){
 
 // for reloading page
 
-// @HostListener('window:beforeunload', ['$event'])
-// unloadNotification($event: any): void {
-//   $event.returnValue = 'Are you sure you want to leave? Changes you made may not be saved.';
-// }
+@HostListener('window:beforeunload', ['$event'])
+unloadNotification($event: any): void {
+  $event.returnValue = 'Are you sure you want to leave? Changes you made may not be saved.';
+  this.router.navigateByUrl('/apicards');
+}
 }

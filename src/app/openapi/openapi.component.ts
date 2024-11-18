@@ -21,6 +21,12 @@ export class OpenapiComponent {
     })
   }
   ngOnInit(){
+    console.log(this.formData);
+    this.formGroupOpenapi.patchValue({
+      summary:this.formData?.extra_config?.["documentation/openapi"]?.summary,
+      description:this.formData?.extra_config?.["documentation/openapi"]?.description,
+    })
+    
     this.formGroupOpenapi.valueChanges.subscribe(value => {
       console.log(value);
       

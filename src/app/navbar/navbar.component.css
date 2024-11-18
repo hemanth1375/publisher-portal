@@ -94,7 +94,8 @@ position: fixed;
 a.sidebar-link {
     padding: .625rem 1.625rem;
     color:black;
-    display: block;
+    display: flex;
+    align-items: center;
     font-size: 0.9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
@@ -333,4 +334,11 @@ a.sidebar-link:hover {
 }
 .nav-buttons :hover{
   color:blue;
+}
+.sidebar-link span {
+  display: inline-block; 
+  width: 130px; 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

@@ -37,8 +37,8 @@
                                 https://myapi, amqp://host, 192.0.2.1:25, my.service.tld. When using gRPC use the syntax
                                 host:port</div>
                                 <div class="mt-3 d-flex">
-                                    <button *ngFor="let host of hostArray; let i = index" class="parameter-item">
-                                        {{ host }}<mat-icon (click)="removeParameter(i,'host')"
+                                    <button *ngFor="let item of hostArray; let i = index" class="parameter-item">
+                                        {{ item }}<mat-icon (click)="removeParameter(i,'host')"
                                             class="d-flex align-items-center justify-content-end">close</mat-icon>
                                     </button>
                                 </div>

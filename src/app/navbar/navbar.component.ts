@@ -37,8 +37,7 @@ showSubmitButton:boolean=true;
    this. isExpanded = false;
    this.router.events.subscribe(() => {
     this.showSidebar = this.router.url !== '/apicards';
-    this.showSubmitButton=this.router.url !== '/apis';
-    // this.showSubmitButton=this.router.url !== '/apis/viewapi';
+    this.showSubmitButton = this.router.url !== '/apis' && this.router.url !== '/apis/viewapi' && this.router.url !== '/apicards';
   });
   }
 
@@ -88,7 +87,16 @@ showSubmitButton:boolean=true;
   }
   serviceSettingData:any;
   httpSecurityData:any;
+  openApiData:any;
+  telemetryData:any;
+  cardId:any
   submitdata(){
+    this.apiCardsService.getData$().subscribe(data=>{
+      this.cardId=data
+      
+    })
+    console.log(this.cardId);
+    
     this.sharedService.getServiceSettingData$().subscribe((data:any)=>{
       console.log(data);
       this.serviceSettingData=data;
@@ -97,22 +105,86 @@ showSubmitButton:boolean=true;
       console.log(data);
       this.httpSecurityData=data;
     })
+    this.sharedService.getOpenApiData$().subscribe((data:any)=>{
+      console.log(data);
+      this.openApiData=data;
+    })
+    this.sharedService.getTelemetryData$().subscribe((data:any)=>{
+      console.log(data);
+      this.telemetryData=data;
+    })
 
-    const literalObj = this.serviceSettingData.literalMatchObjectMapValue.reduce((acc:any, [key, value]:any) => {
+    const literalObj = this.serviceSettingData?.literalMatchObjectMapValue?.reduce((acc:any, [key, value]:any) => {
       acc[key] = value;
       return acc;
     }, {});
+
+    const sslProxyHeadersObj=this.httpSecurityData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    })
+    this.apiCardsService.getData$().subscribe(data=>{
+      console.log(data);
+      
+    })
+    // zipkin
+    var zipkinValue={};
+    var jeagerValue={};
+    var influxValue={};
+    var datadogValue={};
+    if(this.telemetryData?.zipkinActive){
+      zipkinValue={
+          "collector_url": this.telemetryData?.zipkincollectorURL,
+                "service_name": this.telemetryData?.zipkinServiceName
+        }
+    }else{
+      zipkinValue={}
+    }
+    if(this.telemetryData?.jaegerActive){
+      jeagerValue={
+          "agent_endpoint": "string",
+                "buffer_max_count": 0,
+                "endpoint": this.telemetryData?.jeagerEndpoint,
+                "service_name": this.telemetryData?.jeagerServiceName
+        }
+    }else{
+      jeagerValue={}
+    }
+    if(this.telemetryData?.influxDBActive){
+      influxValue={
+          "address": this.telemetryData?.influxDBaddress,
+                "db": this.telemetryData?.infulxDBdatabase,
+                "username": "string",
+                "password": "string",
+                "timeout": this.telemetryData?.influxwriteTimeout
+        }
+    }else{
+      influxValue={}
+    }
+    if(this.telemetryData?.datadogActive){
+      datadogValue={
+         "namespace": this.telemetryData?.datadogNamespace,
+                "service": this.telemetryData?.datadogService,
+                "trace_address": this.telemetryData?.datadogTraceAdd,
+                "stats_address": this.telemetryData?.datadogStatusAdd,
+                "tags": this.telemetryData?.tagsArrayValue,
+                "global_tags": {},
+                "disable_count_per_buckets": true
+        }
+    }else{
+      datadogValue={}
+    }
     console.log(this.serviceSettingData);
     const body={
       
-        "id": 0,
+        "id": this.cardId,
         "$schema": "string",
         "version": 0,
-        "name": this.serviceSettingData.name,
-        "port": this.serviceSettingData.port,
-        "host": this.serviceSettingData.hostArrayValue,
-        "timeout": this.serviceSettingData.backendTimeout,
-        "cache_ttl": this.serviceSettingData.defaultCache,
+        "name": this.serviceSettingData?.name,
+        "port": this.serviceSettingData?.port,
+        "host": this.serviceSettingData?.hostArrayValue,
+        "timeout": this.serviceSettingData?.backendTimeout,
+        "cache_ttl": this.serviceSettingData?.defaultCache,
         "output_encoding": "string",
         "debug_endpoint": true,
         "sequential_start": true,
@@ -122,15 +194,15 @@ showSubmitButton:boolean=true;
           "folder": "string"
         },
         "tls": {
-          "public_key": this.serviceSettingData.publicKey,
-          "private_key": this.serviceSettingData.privateKey
+          "public_key": this.serviceSettingData?.publicKey,
+          "private_key": this.serviceSettingData?.privateKey
         },
       
         "extra_config": {
           "id": 0,
           "grpc": {
             "id": 0,
-            "catalog": this.serviceSettingData.directoryArrayValue,
+            "catalog": this.serviceSettingData?.directoryArrayValue,
             "server": {
               "id": 0,
               "services": [
@@ -168,13 +240,13 @@ showSubmitButton:boolean=true;
             }
           },
           "server/static-filesystem": {
-            "prefix": this.serviceSettingData.staticServerPrefix,
-            "path": this.serviceSettingData.staticServerPath,
-            "directory_listing": this.serviceSettingData.directoryList
+            "prefix": this.serviceSettingData?.staticServerPrefix,
+            "path": this.serviceSettingData?.staticServerPath,
+            "directory_listing": this.serviceSettingData?.directoryList
           },
           "router": {
             "return_error_msg": true,
-            "disable_gzip": this.serviceSettingData.disablegZip
+            "disable_gzip": this.serviceSettingData?.disablegZip
           },
           "auth/basic": {
             "@comment": "string",
@@ -209,67 +281,63 @@ showSubmitButton:boolean=true;
             ]
           },
           "security/cors": {
-            "allow_origins": this.httpSecurityData.corsAllowedOriginsFormArray,
+            "allow_origins": this.httpSecurityData?.corsAllowedOriginsFormArray,
             "allow_methods": [
               "string"
             ],
-            "allow_headers": this.httpSecurityData.corsAllowedHeadersFormArray,
-            "expose_headers": this.httpSecurityData.corsExposeHeadersFormArray,
-            "max_age": this.httpSecurityData.corsMaxAgeForm
+            "allow_headers": this.httpSecurityData?.corsAllowedHeadersFormArray,
+            "expose_headers": this.httpSecurityData?.corsExposeHeadersFormArray,
+            "max_age": this.httpSecurityData?.corsMaxAgeForm
           },
           "security/bot-detector": {
-            "allow": this.httpSecurityData.botDetectorAllowFormArray,
+            "allow": this.httpSecurityData?.botDetectorAllowFormArray,
             "cache_size": 0,
-            "deny": this.httpSecurityData.botDetectorDenyFormArray,
+            "deny": this.httpSecurityData?.botDetectorDenyFormArray,
             "empty_user_agent_is_bot": true,
-            "patterns": this.httpSecurityData.botDetectorPatternsFormArray
+            "patterns": this.httpSecurityData?.botDetectorPatternsFormArray
           },
           "security/http": {
-            "allowed_hosts": [
-              "string"
-            ],
+            "allowed_hosts": this.httpSecurityData?.httpSecurityAllowedHostsFormArray,
             "allowed_hosts_are_regex": true,
-            "browser_xss_filter": true,
-            "content_security_policy": "string",
-            "content_type_nosniff": true,
+            "browser_xss_filter": this.httpSecurityData?.httpSecurityXSSProtectionForm,
+            "content_security_policy": this.httpSecurityData?.httpSecurityConSecPolicyForm,
+            "content_type_nosniff": this.httpSecurityData?.httpSecuritySniffingForm,
             "custom_frame_options_value": "string",
             "force_sts_header": true,
-            "frame_deny": true,
+            "frame_deny": this.httpSecurityData?.httpSecurityClickjackProtectForm,
             "host_proxy_headers": [
               "string"
             ],
-            "hpkp_public_key": "string",
+            "hpkp_public_key": this.httpSecurityData?.httpSecurityHPKPForm,
             "is_development": true,
             "referrer_policy": "string",
-            "ssl_host": "string",
-            "ssl_proxy_headers": {},
-            "ssl_redirect": true,
-            "sts_include_subdomains": true,
-            "sts_seconds": 0
+            "ssl_host": this.httpSecurityData?.httpSecuritySSLOptForm,
+            "ssl_proxy_headers": sslProxyHeadersObj,
+            "ssl_redirect": this.httpSecurityData?.httpSecuritySSLOptForceSSLForm,
+            "sts_include_subdomains": this.httpSecurityData?.httpSecurityIncSubdomainForm,
+            "sts_seconds": this.httpSecurityData?.httpSecurityHSTSForm
           },
           "plugin/http-server": {
             "name": [
               "string"
             ],
             "geoip": {
-              "citydb_path":this.serviceSettingData.databasePath
+              "citydb_path":this.serviceSettingData?.databasePath
             },
             "url-rewrite": {
               "literal": literalObj,
-              "regexp": this.serviceSettingData.regExpMatchObjectMapValue
+              "regexp": this.serviceSettingData?.regExpMatchObjectMapValue
             },
             "ip-filter": {
-              "CIDR": this.httpSecurityData.ipFilterCIDRFormArray,
-              "allow": this.httpSecurityData.ipFilterAllowModeForm,
-              "client_ip_headers": this.httpSecurityData.ipFilterClientIPHeadersFormArray,
-              "trusted_proxies": this.httpSecurityData.ipFilterTrustedProxiesFormArray
+              "CIDR": this.httpSecurityData?.ipFilterCIDRFormArray,
+              "allow": this.httpSecurityData?.ipFilterAllowModeForm,
+              "client_ip_headers": this.httpSecurityData?.ipFilterClientIPHeadersFormArray,
+              "trusted_proxies": this.httpSecurityData?.ipFilterTrustedProxiesFormArray
             },
             "jwk-aggregator": {
-              "cache": this.httpSecurityData.multipleIdentityProviderCacheForm,
-              "origins": [
-                "string"
-              ],
-              "port": 0
+              "cache": this.httpSecurityData?.multipleIdentityProviderCacheForm,
+              "origins": this.httpSecurityData?.multipleIdentityProviderOriginsFormArray,
+              "port": this.httpSecurityData?.multipleIdentityProviderPortForm
             },
             "redis-ratelimit": {
               "burst": 0,
@@ -296,45 +364,26 @@ showSubmitButton:boolean=true;
             }
           },
           "documentation/openapi": {
-            "version": "string",
-            "contact_name": "string",
-            "contact_email": "string",
-            "license_name": "string",
-            "license_url": "string"
+            "version": this.openApiData?.openApiVersionForm,
+            "contact_name": this.openApiData?.openApiContactNameForm,
+            "contact_email": this.openApiData?.openApiContactEmailForm,
+            "license_name": this.openApiData?.openApiLicenseNameForm,
+            "license_url": this.openApiData?.openApiLicenseUrlForm,
+            "contact_url":this.openApiData?.openApiContactUrlForm,
           },
           "telemetry/opentelemetry": {
             "id": 0,
             "service_name": "string",
-            "metric_reporting_period": 0,
-            "trace_sample_rate": 0,
+            "metric_reporting_period": this.telemetryData?.OTreportingPeriod,
+            "trace_sample_rate": this.telemetryData?.OTsampleRate,
             "service_version": "string",
             "skip_paths": [
               "string"
             ],
             "exporters": {
               "id": 0,
-              "otlp": [
-                {
-                  "id": 0,
-                  "disable_metrics": true,
-                  "disable_traces": true,
-                  "host": "string",
-                  "name": "string",
-                  "port": 0,
-                  "use_http": true
-                }
-              ],
-              "prometheus": [
-                {
-                  "id": 0,
-                  "name": "string",
-                  "listen_ip": "string",
-                  "port": 0,
-                  "process_metrics": true,
-                  "go_metrics": true,
-                  "disable_metrics": true
-                }
-              ]
+              "otlp": this.telemetryData?.otlp,
+              "prometheus": this.telemetryData?.prometheus
             },
             "layers": {
               "global": {
@@ -385,12 +434,12 @@ showSubmitButton:boolean=true;
           },
           "telemetry/logging": {
             "format": "string",
-            "custom_format": "string",
-            "syslog_facility": "string",
-            "level": "string",
-            "prefix": "string",
-            "syslog": true,
-            "stdout": true
+            "custom_format": this.telemetryData?.logMsgFormat,
+            "syslog_facility": this.telemetryData?.logSysLogFacility,
+            "level": this.telemetryData?.logginngLevel,
+            "prefix": this.telemetryData?.loggingPrefix,
+            "syslog": this.telemetryData?.logSysLog,
+            "stdout": this.telemetryData?.logStdOut
           },
           "telemetry/gelf": {
             "address": "string",
@@ -443,19 +492,8 @@ showSubmitButton:boolean=true;
                 "global_tags": {},
                 "disable_count_per_buckets": true
               },
-              "influxdb": {
-                "address": "string",
-                "db": "string",
-                "username": "string",
-                "password": "string",
-                "timeout": "string"
-              },
-              "jaeger": {
-                "agent_endpoint": "string",
-                "buffer_max_count": 0,
-                "endpoint": "string",
-                "service_name": "string"
-              },
+              "influxdb": influxValue,
+              "jaeger": jeagerValue,
               "logger": {
                 "spans": true,
                 "stats": true
@@ -488,44 +526,47 @@ showSubmitButton:boolean=true;
                 "secret_access_key": "string",
                 "use_env": true
               },
-              "zipkin": {
-                "collector_url": "string",
-                "service_name": "string"
-              }
+              "zipkin": zipkinValue
             },
             "reporting_period": 0,
             "sample_rate": 0
           },
           "telemetry/newrelic": {
-            "debug": true,
-            "headers_to_pass": [
-              "string"
-            ],
-            "license": "string"
+            "debug": this.telemetryData?.newRelicSDKDebug,
+            "headers_to_pass": this.telemetryData?.headersToPassArrayValue,
+            "license": this.telemetryData?.newRelicLicense
           },
           "telemetry/metrics": {
-            "backend_disabled": true,
-            "collection_time": "string",
-            "endpoint_disabled": true,
-            "listen_address": "string",
-            "proxy_disabled": true,
-            "router_disabled": true
+            "backend_disabled": this.telemetryData?.metricsDisableBackend,
+            "collection_time": this.telemetryData?.metricCollecTime,
+            "endpoint_disabled": this.telemetryData?.metricsDisableEndpoint,
+            "listen_address": this.telemetryData?.metricsListenAddress,
+            "proxy_disabled": this.telemetryData?.metricsDisableProxy,
+            "router_disabled": this.telemetryData?.metricsDisableRouter
           }
         },
-        "read_timeout": this.serviceSettingData.httpReadTimeout,
-  "write_timeout": this.serviceSettingData.httpWriteTimeout,
-  "idle_timeout": this.serviceSettingData.httpIdleTimeout,
-  "read_header_timeout": this.serviceSettingData.httpReadHeaderTimeout
+        "read_timeout": this.serviceSettingData?.httpReadTimeout,
+  "write_timeout": this.serviceSettingData?.httpWriteTimeout,
+  "idle_timeout": this.serviceSettingData?.httpIdleTimeout,
+  "read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout
       
     }
 
     console.log(body);
-    
+  if(this.cardId==undefined){
 this.apiPageService.createKrakend(body).subscribe({
   next:(res:any)=>{
     console.log(res);
     this.router.navigate(['apicards'])
   }
 })
+  }else{
+this.apiPageService.updateKrakend(this.cardId,body).subscribe({
+  next:(res:any)=>{
+    console.log(res);
+    this.router.navigate(['apicards'])
+  }
+})
+  }
   }
 }

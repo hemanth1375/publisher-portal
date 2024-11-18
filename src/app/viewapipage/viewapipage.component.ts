@@ -65,6 +65,7 @@ export class ViewapipageComponent {
      this.selectedItem = item;
    }
    apiData:any;
+   showCreateButton:boolean=true;
    ngOnInit() {
     this.apiCardService.getData$().subscribe(data => {
       this.apiData = data;
@@ -73,8 +74,14 @@ export class ViewapipageComponent {
      this.apiPageService.getData$().pipe(takeUntil(this.unsubscribe)).subscribe(data => {
        this.receivedData = data;
        console.log(this.receivedData);
+       if(this.receivedData.id){
+        this.showCreateButton=false;
+       }else{
+        this.showCreateButton=true;
+       }
        this.endPointData=this.receivedData;
        this.connectivityData=this.receivedData;
+       this.backendData=this.receivedData;
      });
      //  this.addChildComponents(this.receivedData.backend.length);
      this.selectedItem = this.items[8];
@@ -165,12 +172,13 @@ export class ViewapipageComponent {
    throttlingData:any;
    responseData:any;
    policiesData:any;
-   upstreamAuthData:any;
-   upstreamPoliciesData:any;
-   upstreamRequestData:any;
-   upstreamThrottlingData:any;
-   upstreamResponseData:any;
-   upstreamConnectivityData:any;
+   backendData:any;
+  //  upstreamAuthData:any;
+  //  upstreamPoliciesData:any;
+  //  upstreamRequestData:any;
+  //  upstreamThrottlingData:any;
+  //  upstreamResponseData:any;
+  //  upstreamConnectivityData:any;
 
 
   onFormChange(form:any,updatedData:any){
@@ -183,12 +191,13 @@ export class ViewapipageComponent {
       case 'policies': this.policiesData = updatedData;break;
       case 'openapi': this.openApiData = updatedData;break;
       case 'response': this.responseData = updatedData;break;
-      case 'upstreamRequest': this.upstreamRequestData = updatedData;break;
-      case 'upstreamResponse': this.upstreamResponseData = updatedData;break;
-      case 'upstreamAuth': this.upstreamAuthData = updatedData;break;
-      case 'upstreamThrottling': this.upstreamThrottlingData = updatedData;break;
-      case 'upstreamPolicies': this.upstreamPoliciesData = updatedData;break;
-      case 'upstreamConnectivity': this.upstreamConnectivityData = updatedData;break;
+      case 'backend': this.backendData = updatedData;break;
+      // case 'upstreamRequest': this.upstreamRequestData = updatedData;break;
+      // case 'upstreamResponse': this.upstreamResponseData = updatedData;break;
+      // case 'upstreamAuth': this.upstreamAuthData = updatedData;break;
+      // case 'upstreamThrottling': this.upstreamThrottlingData = updatedData;break;
+      // case 'upstreamPolicies': this.upstreamPoliciesData = updatedData;break;
+      // case 'upstreamConnectivity': this.upstreamConnectivityData = updatedData;break;
     }
   }
   //  submitForm() {
@@ -206,6 +215,7 @@ export class ViewapipageComponent {
   //   console.log('upstreamReq Data:', this.upstreamRequestData);
 
   //  }
+  
   submitEndpointData(){
     console.log('Final End Point Data:', this.endPointData);
     console.log('Final Parameter Forwarding Data:', this.parameterForwardingData);
@@ -215,85 +225,97 @@ export class ViewapipageComponent {
     console.log('throttling Data:', this.throttlingData);
     console.log('policies Data:', this.policiesData);
     console.log('response Data:', this.responseData);
-    console.log('upstreamReq Data:', this.upstreamRequestData);
+    console.log('response Data:', this.backendData);
+    // console.log('upstreamReq Data:', this.upstreamRequestData);
+    const renamingObj = this.backendData?.upstreamResponseData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+    const inputMapObj = this.backendData?.upstreamConnectivityData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+
     const resultantFormData={
-      "endpoints":[{
-        "@comment": "string",
-      "endpoint": this.endPointData.endPointUri,
-          // "backend":item.backend.map((item1?:any)=>{
-          //   return {
-          //       "host": [
-          //         "string"
-          //       ],
-          //       "url_pattern": "string",
-          //       "allow": [
-          //         "string"
-          //       ],
-          //       "mapping": {
-          //         "blog": "string",
-          //         "collection": "string",
-          //         "CapitalCityResult": "string"
-          //       },
-          //       "group": "string",
-          //       "is_collection": true,
-          //       "encoding": "string",
-          //       "extra_config": {
-          //         "plugin/req-resp-modifier": {
-          //           "name": [
-          //             "string"
-          //           ],
-          //           "content-replacer": {}
-          //         },
-          //         "qos/ratelimit/proxy": {
-          //           "max_rate": 0,
-          //           "capacity": item1?.throttling?.capacity
-          //         },
-          //         "qos/http-cache": {
-          //           "shared": true
-          //         },
-          //         "backend/graphql": {
-          //           "type": "string",
-          //           "query": "string",
-          //           "variables": {}
-          //         },
-          //         "backend/soap": {
-          //           "@comment": "string",
-          //           "path": "string"
-          //         },
-          //         "backend/grpc": {
-          //           "input_mapping": {
-          //             "lat": "string",
-          //             "lon": "string",
-          //             "Id_flight": "string",
-          //             "Main_passenger": "string"
-          //           },
-          //           "response_naming_convention": "string",
-          //           "output_enum_as_string": true,
-          //           "output_timestamp_as_string": true,
-          //           "output_duration_as_string": true,
-          //           "client_tls": {
-          //             "allow_insecure_connections": true
-          //           },
-          //           "output_remove_unset_values": true,
-          //           "use_request_body": true
-          //         },
-          //         "backend/static-filesystem": {
-          //           "directory_listing": true,
-          //           "path": "string"
-          //         }
-          //       },
-          //       "target": "string",
-          //       "method": item1.request.method,
-          //       "deny": [
-          //         "string"
-          //       ],
-          //       "@comment": "string",
-          //       "@test_with": "string",
-          //       "disable_host_sanitize": true
-              
-          //   }
-          // }),
+      "endpoints":[
+        {
+          "id": 0,
+          "@comment": "string",
+          "endpoint": this.endPointData?.endPointUri,
+          "backend": [
+            {
+              "id": 0,
+              "host": [
+                "string"
+              ],
+              "url_pattern": this.backendData?.upstreamRequestData?.endpointUrl,
+              "allow": [
+                "string"
+              ],
+              "mapping": renamingObj,
+              "group": this.backendData?.upstreamResponseData?.wrappingGroup,
+              "is_collection": this.backendData?.upstreamResponseData?.isCollection,
+              "encoding": this.backendData?.upstreamRequestData?.decodeAs,
+              "extra_config": {
+                "id": 0,
+                "qos/circuit-breaker": {
+                  "interval": this.backendData?.upstreamAuthData?.interval,
+                  "name": this.backendData?.upstreamAuthData?.circuitBreakerName,
+                  "timeout":  this.backendData?.upstreamAuthData?.timeout,
+                  "max_errors": this.backendData?.upstreamAuthData?.maxError,
+                  "log_status_change": this.backendData?.upstreamAuthData?.logStatusChange
+                },
+                "plugin/req-resp-modifier": {
+                  "name": [
+                    "content-replacer"
+                  ],
+                  "content-replacer": this.backendData?.upstreamResponseData?.contentReplacer
+                },
+                "qos/ratelimit/proxy": {
+                  "max_rate": this.backendData?.upstreamAuthData?.maxRateLimit,
+                  "capacity": this.backendData?.upstreamAuthData?.capacity
+                },
+                "qos/http-cache": {
+                  "shared": this.backendData?.upstreamResponseData?.isSharedCacheActive
+                },
+                "backend/graphql": {
+                  "type": this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm,
+                  "query": this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm,
+                  "variables": {}
+                },
+                "backend/soap": {
+                  "@comment": "string",
+                  "path": this.backendData?.upstreamConnectivityData?.pathRestToSoapForm
+                },
+                "backend/grpc": {
+                  "input_mapping": inputMapObj,
+                  "response_naming_convention": this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm,
+                  "output_enum_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm,
+                  "output_timestamp_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm,
+                  "output_duration_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm,
+                  "client_tls": {
+                    "allow_insecure_connections": true
+                  },
+                  "output_remove_unset_values": this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm,
+                  "use_request_body": this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm
+                },
+                "backend/static-filesystem": {
+                  "directory_listing": this.backendData?.upstreamRequestData?.directory_Listing,
+                  "path": this.backendData?.upstreamRequestData?.staticUrl
+                }
+              },
+              "target": "string",
+              "method": this.backendData?.upstreamRequestData?.method,
+              "deny": [
+                "string"
+              ],
+              "@comment": "string",
+              "@test_with": "string",
+              "disable_host_sanitize": true
+            }
+          ],
           "extra_config": {
+            "id": 0,
             "documentation/openapi": {
               "summary": this.openApiData?.summary,
               "description": this.openApiData?.description,
@@ -315,13 +337,13 @@ export class ViewapipageComponent {
               }
             },
             "qos/ratelimit/router": {
-              "max_rate": 0
+              "max_rate": this.throttlingData?.rateLimit
             },
             "proxy": {
               "sequential": true,
               "static": {
-                "data": {},
-                "strategy": "string"
+                "data": this.responseData?.response,
+                "strategy": this.responseData?.strategy
               }
             },
             "@comment": "string",
@@ -331,14 +353,13 @@ export class ViewapipageComponent {
             },
             "validation/cel": [
               {
+                "id": 0,
                 "check_expr": "string"
               }
             ],
             "auth/validator": {
-              "alg": "string",
-              "audience": [
-                "string"
-              ],
+              "alg": this.authPageData?.algorithm,
+              "audience": this.authPageData?.audienceArrayValue,
               "roles_key": this.authPageData?.rolesKey,
               "roles": this.authPageData?.rolesArrayValue,
               "jwk_url": this.authPageData?.jwkUri,
@@ -347,8 +368,8 @@ export class ViewapipageComponent {
               "disable_jwk_security": true
             },
             "auth/signer": {
-              "alg": "string",
-              "kid": "string",
+              "alg": this.authPageData?.tokenSignAlgorithm,
+              "kid": this.authPageData?.keyId,
               "keys_to_sign": this.authPageData?.keysToSignArrayValue,
               "jwk_local_path": "string",
               "disable_jwk_security": true
@@ -359,23 +380,33 @@ export class ViewapipageComponent {
               ]
             },
             "websocket": {
-              "input_headers": [
-                "string"
-              ],
-              "connect_event": true,
-              "disconnect_event": true,
+              "input_headers": this.connectivityData?.inputHeaderArray,
+              "connect_event": this.connectivityData?.connectEvent,
+              "disconnect_event": this.connectivityData?.disconnectEvent,
               "read_buffer_size": this.connectivityData?.readBufferSize,
               "write_buffer_size": this.connectivityData?.writeBufferSize,
-              "message_buffer_size": 0,
-              "max_message_size": 0,
+              "message_buffer_size": this.connectivityData?.messageBufferSize,
+              "max_message_size": this.connectivityData?.maxWriteBufferSize,
               "write_wait": this.connectivityData?.writeWait,
               "pong_wait": this.connectivityData?.pongWait,
               "ping_period": "string",
               "max_retries": this.connectivityData?.maxRetries,
-              "backoff_strategy": this.connectivityData?.backoffStrategy
+              "backoff_strategy": this.connectivityData?.backoffStrategy,
+              "enable_direct_communication": true,
+              "return_error_details": this.connectivityData?.returnErr,
+              "timeout": "string"
             }
-          }
-        }]
+          },
+          "output_encoding": this.endPointData?.selectedOutput,
+          "@test_with": "string",
+          "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
+          "concurrent_calls": 0,
+          "method": this.endPointData?.selectedMethod,
+          "input_query_strings": this.parameterForwardingData?.parameterArrays,
+          "timeout":this.throttlingData?.timeout,
+          "cache_ttl":this.throttlingData?.cacheTtl
+        }
+      ]
     }
     this.viewapiPageService.addEndPoint(this.apiData,resultantFormData).subscribe({
       next:(res:any)=>{
@@ -386,6 +417,185 @@ export class ViewapipageComponent {
     console.log(resultantFormData);
     
     
+  }
+  updateEndpoint(){
+    const resultantFormData={
+      "id": 0,
+      "@comment": "string",
+      "endpoint": this.endPointData?.endPointUri,
+      "backend": [
+        {
+          "id": 0,
+          "host": [
+            "string"
+          ],
+          "url_pattern": "string",
+          "allow": [
+            "string"
+          ],
+          "mapping": {
+            "blog": "string",
+            "collection": "string",
+            "CapitalCityResult": "string"
+          },
+          "group": "string",
+          "is_collection": true,
+          "encoding": "string",
+          "extra_config": {
+            "id": 0,
+            "plugin/req-resp-modifier": {
+              "name": [
+                "string"
+              ],
+              "content-replacer": {}
+            },
+            "qos/ratelimit/proxy": {
+              "max_rate": 0,
+              "capacity": 0
+            },
+            "qos/http-cache": {
+              "shared": true
+            },
+            "backend/graphql": {
+              "type": "string",
+              "query": "string",
+              "variables": {}
+            },
+            "backend/soap": {
+              "@comment": "string",
+              "path": "string"
+            },
+            "backend/grpc": {
+              "input_mapping": {
+                "lat": "string",
+                "lon": "string",
+                "Id_flight": "string",
+                "Main_passenger": "string"
+              },
+              "response_naming_convention": "string",
+              "output_enum_as_string": true,
+              "output_timestamp_as_string": true,
+              "output_duration_as_string": true,
+              "client_tls": {
+                "allow_insecure_connections": true
+              },
+              "output_remove_unset_values": true,
+              "use_request_body": true
+            },
+            "backend/static-filesystem": {
+              "directory_listing": true,
+              "path": "string"
+            }
+          },
+          "target": "string",
+          "method": this.backendData?.upstreamRequestData?.method,
+          "deny": [
+            "string"
+          ],
+          "@comment": "string",
+          "@test_with": "string",
+          "disable_host_sanitize": true
+        }
+      ],
+      "extra_config": {
+        "id": 0,
+        "documentation/openapi": {
+          "summary": this.openApiData?.summary,
+          "description": this.openApiData?.description,
+          "tags": [
+            "string"
+          ]
+        },
+        "modifier/jmespath": {
+          "@comment": "string",
+          "expr": "string"
+        },
+        "security/policies": {
+          "req": {
+            "policies": this.policiesData?.secReqPolicyArrayValue,
+            "error": {
+              "body": this.policiesData?.secReqErrorBody,
+              "status": this.policiesData?.secReqErrorStCode
+            }
+          }
+        },
+        "qos/ratelimit/router": {
+          "max_rate": this.throttlingData?.rateLimit
+        },
+        "proxy": {
+          "sequential": true,
+          "static": {
+            "data": this.responseData?.response,
+            "strategy": this.responseData?.strategy
+          }
+        },
+        "@comment": "string",
+        "auth/basic": {
+          "@comment": "string",
+          "htpasswd_path": "string"
+        },
+        "validation/cel": [
+          {
+            "id": 0,
+            "check_expr": "string"
+          }
+        ],
+        "auth/validator": {
+          "alg": this.authPageData?.algorithm,
+          "audience": this.authPageData?.audienceArrayValue,
+          "roles_key": this.authPageData?.rolesKey,
+          "roles": this.authPageData?.rolesArrayValue,
+          "jwk_url": this.authPageData?.jwkUri,
+          "issuer": this.authPageData?.issuer,
+          "jwk_local_path": "string",
+          "disable_jwk_security": true
+        },
+        "auth/signer": {
+          "alg": this.authPageData?.tokenSignAlgorithm,
+          "kid": this.authPageData?.keyId,
+          "keys_to_sign": this.authPageData?.keysToSignArrayValue,
+          "jwk_local_path": "string",
+          "disable_jwk_security": true
+        },
+        "auth/api-keys": {
+          "roles": [
+            "string"
+          ]
+        },
+        "websocket": {
+          "input_headers": this.connectivityData?.inputHeaderArray,
+          "connect_event": this.connectivityData?.connectEvent,
+          "disconnect_event": this.connectivityData?.disconnectEvent,
+          "read_buffer_size": this.connectivityData?.readBufferSize,
+          "write_buffer_size": this.connectivityData?.writeBufferSize,
+          "message_buffer_size": this.connectivityData?.messageBufferSize,
+          "max_message_size": this.connectivityData?.maxWriteBufferSize,
+          "write_wait": this.connectivityData?.writeWait,
+          "pong_wait": this.connectivityData?.pongWait,
+          "ping_period": "string",
+          "max_retries": this.connectivityData?.maxRetries,
+          "backoff_strategy": this.connectivityData?.backoffStrategy,
+          "enable_direct_communication": true,
+          "return_error_details": this.connectivityData?.returnErr,
+          "timeout": "string"
+        }
+      },
+      "output_encoding": this.endPointData?.selectedOutput,
+      "@test_with": "string",
+      "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
+      "concurrent_calls": 0,
+      "method": this.endPointData?.selectedMethod,
+      "input_query_strings": this.parameterForwardingData?.parameterArrays,
+      "timeout":this.throttlingData?.timeout,
+      "cache_ttl":this.throttlingData?.cacheTtl
+    }
+
+    // this.viewapiPageService.updateEndPoint(this.receivedData.id,resultantFormData).subscribe({
+    //   next:(res:any)=>{
+    //     console.log(res);
+    //     this.router.navigate(['apis'])
+    //   }
+    // })
   }
 
 }

@@ -245,9 +245,7 @@ export class ViewapipageComponent {
           "backend": [
             {
               "id": null,
-              "host": [
-                "string"
-              ],
+              "host": this.backendData?.upstreamRequestData?.hostArrayValue,
               "url_pattern": this.backendData?.upstreamRequestData?.endpointUrl,
               "allow": [
                 "string"

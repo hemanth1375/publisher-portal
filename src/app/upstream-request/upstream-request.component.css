@@ -14,3 +14,15 @@
     width:80%;
     color:white;
 }
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius:5px;
+    border: none;
+  }
+  .parameter-item mat-icon {
+    font-size: 16px;
+  }

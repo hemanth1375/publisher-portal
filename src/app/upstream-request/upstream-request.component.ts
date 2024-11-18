@@ -24,6 +24,8 @@ export class UpstreamRequestComponent implements AfterViewInit {
       contentType:[null],
       path:[null],
       martianDslTextarea:[null],
+      host:[null],
+      hostArrayValue:[[]]
       
     })
 
@@ -39,14 +41,34 @@ export class UpstreamRequestComponent implements AfterViewInit {
   }
   ngOnInit(){
     console.log(this.formData);
+    // this.hostArray=this.formData?.backend?.[0]?.host
     this.formGroupUpstreamRequest.patchValue({
       method:this.formData?.backend?.[0]?.method,
       endpointUrl:this.formData?.backend?.[0]?.url_pattern,
       decodeAs:this.formData?.backend?.[0]?.encoding,
-      staticUrl:this.formData?.backend?.[0].path,
-      directory_Listing:this.formData?.backend?.[0].directory_Listing,
+      staticUrl:this.formData?.backend?.[0]?.path,
+      directory_Listing:this.formData?.backend?.[0]?.directory_Listing,
+      hostArrayValue:this.formData?.backend?.[0]?.host
 
     })
+  }
+  hostArray:any=[];
+  parameterHeaderArray:any=[];
+  updateParametersArray() {
+    this.formGroupUpstreamRequest.get('hostArrayValue')?.setValue([...this.hostArray]);
+  }
+  addParameter() {
+    const queryParamsValue = this.formGroupUpstreamRequest.get('host')?.value;
+    
+    if (queryParamsValue) {
+      this.hostArray.push(queryParamsValue);
+      this.updateParametersArray();
+      this.formGroupUpstreamRequest.get('host')?.reset();
+    }
+  }
+  removeParameter(index: number) {
+    this.hostArray.splice(index, 1);
+    this.updateParametersArray();
   }
   saveForm(){
     if(this.formGroupUpstreamRequest.valid){

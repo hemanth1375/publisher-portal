@@ -205,7 +205,7 @@ console.log(this.entireJsondata);
       
         "id": this.cardId?this.cardId:null,
         "$schema": "string",
-        "version": 0,
+        "version": 3,
         "name": this.serviceSettingData?.name,
         "port": this.serviceSettingData?.port,
         "host": this.serviceSettingData?.hostArrayValue,

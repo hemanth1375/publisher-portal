@@ -3,14 +3,31 @@
         <div class="col-sm-12">
             <button mat-raised-button color="primary" (click)="createJson()">Create</button>
         </div>
-        <div class="row mt-3">
-            <ul class="col-sm-4">
+        <div class="row mt-3 gy-3 gx-3">
+            <!-- <ul class="col-sm-4">
             @for(card of apiCards;track card.id){
                 <li class="apiname mb-2" (click)="goToApiPage(card.id)">
                     <h4>{{card.name}}-{{card.id}}</h4>
                 </li>
             }
-        </ul>
+        </ul> -->
+        <div class="col-sm-3" *ngFor="let card of apiCards">
+            <div class="api-card">
+                <div class="api-name d-flex justify-content-center align-items-center" (click)="goToApiPage(card.id)">
+                    <h4 >{{(card.name)?.slice(0,2).toUpperCase()}}</h4>
+                </div>
+                <div class="card-down">
+                    <h4>Name : {{card.name}}</h4>
+                    <h4>port : {{card.port}}</h4>
+                    @if(card.isFileReady){
+                        <button mat-raised-button (click)="downloadKrakendFile(card.id)">Preview</button>
+                    }
+                    
+                </div>
+                
+            </div>
+            <!-- <button mat-raised-button (click)="goToApiPage(card.id)" class="mt-3" style="width:100%">{{ card.name }}</button> -->
+        </div>
         </div>
     </div>
 </div>

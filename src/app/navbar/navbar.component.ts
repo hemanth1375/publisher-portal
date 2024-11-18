@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ApicardsService } from '../services/apicards.service';
 import { SharedDataService } from '../services/shared-data.service';
 import { ApiPageService } from '../services/api-page.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -37,7 +38,10 @@ showSubmitButton:boolean=true;
    this. isExpanded = false;
    this.router.events.subscribe(() => {
     this.showSidebar = this.router.url !== '/apicards';
-    this.showSubmitButton = this.router.url !== '/apis' && this.router.url !== '/apis/viewapi' && this.router.url !== '/apicards';
+    this.showSubmitButton = this.router.url !== '/apis' && this.router.url !== '/apis/viewapi' && this.router.url !== '/apicards' 
+    && this.router.url !== '/dashboard' && this.router.url !== '/service' && this.router.url !== '/httpSecurity' && this.router.url !== '/apiMonetization'
+    && this.router.url !== '/telemetry' && this.router.url !== '/apikeys';
+
   });
   }
 
@@ -89,13 +93,35 @@ showSubmitButton:boolean=true;
   httpSecurityData:any;
   openApiData:any;
   telemetryData:any;
-  cardId:any
+  cardId:any;
+  entireJsondata:any;
   submitdata(){
     this.apiCardsService.getData$().subscribe(data=>{
       this.cardId=data
       
     })
     console.log(this.cardId);
+    this.sharedService.getEntireJsonData$().subscribe(data=>{
+      this.entireJsondata=data;
+      
+    })
+console.log(this.entireJsondata);
+    // this.apiCardsService.getData$().pipe(
+    //   switchMap(data => {
+    //     console.log(data);
+        
+    //     this.cardId = data;
+    //     return this.apiPageService.getEndpoints(data);
+    //   })
+    // ).subscribe(secondData => {
+    //   console.log(secondData);
+      
+    //   // this.sharedService.setEntireJsonData(secondData)
+    //   this.endpointData = secondData;
+     
+      
+    //   console.log('Second API Data:', secondData);
+    // });
     
     this.sharedService.getServiceSettingData$().subscribe((data:any)=>{
       console.log(data);
@@ -177,7 +203,7 @@ showSubmitButton:boolean=true;
     console.log(this.serviceSettingData);
     const body={
       
-        "id": this.cardId,
+        "id": this.cardId?this.cardId:null,
         "$schema": "string",
         "version": 0,
         "name": this.serviceSettingData?.name,
@@ -199,19 +225,19 @@ showSubmitButton:boolean=true;
         },
       
         "extra_config": {
-          "id": 0,
+          "id": this.entireJsondata?.extra_config?.id ? this.entireJsondata?.extra_config?.id:null,
           "grpc": {
-            "id": 0,
+            "id": this.entireJsondata?.extra_config?.grpc?.id ? this.entireJsondata?.extra_config?.grpc?.id:null,
             "catalog": this.serviceSettingData?.directoryArrayValue,
             "server": {
-              "id": 0,
+              "id": this.entireJsondata?.extra_config?.grpc?.server?.id ? this.entireJsondata?.extra_config?.grpc?.server?.id:null,
               "services": [
                 {
-                  "id": 0,
+                  "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id:null,
                   "name": "string",
                   "methods": [
                     {
-                      "id": 0,
+                      "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id:null,
                       "name": "string",
                       "input_headers": [
                         "string"
@@ -221,7 +247,7 @@ showSubmitButton:boolean=true;
                       },
                       "backend": [
                         {
-                          "id": 0,
+                          "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id:null,
                           "host": [
                             "string"
                           ],
@@ -268,10 +294,10 @@ showSubmitButton:boolean=true;
             "revoke_server_max_workers": 0
           },
           "auth/api-keys": {
-            "id": 0,
+            "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.id:null,
             "keys": [
               {
-                "id": 0,
+                "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id:null,
                 "key": "string",
                 "roles": [
                   "string"
@@ -372,7 +398,7 @@ showSubmitButton:boolean=true;
             "contact_url":this.openApiData?.openApiContactUrlForm,
           },
           "telemetry/opentelemetry": {
-            "id": 0,
+            "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id:null,
             "service_name": "string",
             "metric_reporting_period": this.telemetryData?.OTreportingPeriod,
             "trace_sample_rate": this.telemetryData?.OTsampleRate,
@@ -381,7 +407,7 @@ showSubmitButton:boolean=true;
               "string"
             ],
             "exporters": {
-              "id": 0,
+              "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id:null,
               "otlp": this.telemetryData?.otlp,
               "prometheus": this.telemetryData?.prometheus
             },

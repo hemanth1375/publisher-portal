@@ -187,7 +187,7 @@ this.formGroupService.patchValue({
   staticServerPath:this.entireJsondata?.extra_config?.["server/static-filesystem"]?.path,
   directoryList:this.entireJsondata?.extra_config?.["server/static-filesystem"]?.directory_listing,
   disableZip:this.entireJsondata?.extra_config?.router?.disable_gzip,
-  databasePath:this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip.citydb_path,
+  databasePath:this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip?.citydb_path,
   // literalMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.literal,
   // regExpMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.regexp,
   publicKey:this.entireJsondata?.tls?.public_key,

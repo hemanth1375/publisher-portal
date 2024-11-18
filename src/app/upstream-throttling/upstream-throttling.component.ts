@@ -34,14 +34,14 @@ this.formGroupUpstreamThrottling=formBuilder.group({
   }
   ngOnInit(){
     this.formGroupUpstreamThrottling.patchValue({
-      circuitBreakerName:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].name,
-  maxError:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].max_errors,
+      circuitBreakerName:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.name,
+  maxError:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.max_errors,
   interval:[null],
-  timeout:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].timeout, 
-  maxRateLimit:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"].max_rate,
+  timeout:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.timeout, 
+  maxRateLimit:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"]?.max_rate,
   every:[null],
-  capacity:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"].capacity,
-  logStatusChange:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"].log_status_change
+  capacity:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"]?.capacity,
+  logStatusChange:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.log_status_change
     })
 }
   onToggleChangeStaticResponse(event: any, id:any) {

@@ -7,3 +7,23 @@ ul li{
     cursor: pointer;
     border:1px solid lightgray;
 }
+.api-card{
+    height:300px;
+    width:100%;
+    border:1px solid lightgray;
+    border-radius: 10px;
+  }
+  .api-name{
+    height:150px;
+    width:100%;
+    background-color: #aecbe9;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    cursor: pointer;
+  }
+  .api-name h4{
+    font-size: 30px;
+  }
+  .card-down{
+    padding:20px;
+  }

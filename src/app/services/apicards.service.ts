@@ -27,4 +27,7 @@ export class ApicardsService {
   getData$(): Observable<string> {
     return this.dataSubject.asObservable();
   }
+  downloadFile(){
+    
+  }
 }

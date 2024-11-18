@@ -31,4 +31,10 @@ export class ApiCardsComponent {
   createJson(){
 this.router.navigate(['dashboard'])
   }
+  downloadKrakendFile(id:any){
+    const hrefEl:any=document.createElement('a');
+    hrefEl.href=`http://localhost:8082/krakend/krakendFile?krakendId=${id}`
+    hrefEl.target="self"
+    hrefEl.click();
+  }
 }

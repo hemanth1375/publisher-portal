@@ -239,12 +239,12 @@ export class ViewapipageComponent {
     const resultantFormData={
       "endpoints":[
         {
-          "id": 0,
+          "id": null,
           "@comment": "string",
           "endpoint": this.endPointData?.endPointUri,
           "backend": [
             {
-              "id": 0,
+              "id": null,
               "host": [
                 "string"
               ],
@@ -257,7 +257,7 @@ export class ViewapipageComponent {
               "is_collection": this.backendData?.upstreamResponseData?.isCollection,
               "encoding": this.backendData?.upstreamRequestData?.decodeAs,
               "extra_config": {
-                "id": 0,
+                "id": null,
                 "qos/circuit-breaker": {
                   "interval": this.backendData?.upstreamAuthData?.interval,
                   "name": this.backendData?.upstreamAuthData?.circuitBreakerName,
@@ -315,7 +315,7 @@ export class ViewapipageComponent {
             }
           ],
           "extra_config": {
-            "id": 0,
+            "id": null,
             "documentation/openapi": {
               "summary": this.openApiData?.summary,
               "description": this.openApiData?.description,
@@ -353,7 +353,7 @@ export class ViewapipageComponent {
             },
             "validation/cel": [
               {
-                "id": 0,
+                "id": null,
                 "check_expr": "string"
               }
             ],
@@ -411,7 +411,7 @@ export class ViewapipageComponent {
     this.viewapiPageService.addEndPoint(this.apiData,resultantFormData).subscribe({
       next:(res:any)=>{
         console.log(res);
-        this.router.navigate(['apis'])
+        this.router.navigate(['dashboard'])
       }
     })
     console.log(resultantFormData);
@@ -420,12 +420,12 @@ export class ViewapipageComponent {
   }
   updateEndpoint(){
     const resultantFormData={
-      "id": 0,
+      "id": this.receivedData?.id,
       "@comment": "string",
       "endpoint": this.endPointData?.endPointUri,
       "backend": [
         {
-          "id": 0,
+          "id": this.receivedData?.backend?.[0]?.id,
           "host": [
             "string"
           ],
@@ -442,7 +442,7 @@ export class ViewapipageComponent {
           "is_collection": true,
           "encoding": "string",
           "extra_config": {
-            "id": 0,
+            "id": this.receivedData?.backend?.[0]?.extra_config?.id,
             "plugin/req-resp-modifier": {
               "name": [
                 "string"
@@ -498,7 +498,7 @@ export class ViewapipageComponent {
         }
       ],
       "extra_config": {
-        "id": 0,
+        "id": this.receivedData?.extra_config?.id,
         "documentation/openapi": {
           "summary": this.openApiData?.summary,
           "description": this.openApiData?.description,
@@ -536,7 +536,7 @@ export class ViewapipageComponent {
         },
         "validation/cel": [
           {
-            "id": 0,
+            "id": this.receivedData?.extra_config?.["validation/cel"]?.[0]?.id,
             "check_expr": "string"
           }
         ],
@@ -590,12 +590,12 @@ export class ViewapipageComponent {
       "cache_ttl":this.throttlingData?.cacheTtl
     }
 
-    // this.viewapiPageService.updateEndPoint(this.receivedData.id,resultantFormData).subscribe({
-    //   next:(res:any)=>{
-    //     console.log(res);
-    //     this.router.navigate(['apis'])
-    //   }
-    // })
+    this.viewapiPageService.updateEndPoint(this.receivedData.id,resultantFormData).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        this.router.navigate(['dashboard'])
+      }
+    })
   }
 
 }

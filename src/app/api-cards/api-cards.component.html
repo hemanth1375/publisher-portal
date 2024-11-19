@@ -14,7 +14,7 @@
         <div class="col-sm-3" *ngFor="let card of apiCards">
             <div class="api-card">
                 <div class="api-name d-flex justify-content-center align-items-center" (click)="goToApiPage(card.id)">
-                    <h4 >{{(card.name)?.slice(0,2).toUpperCase()}}</h4>
+                    <h4 class="text-capitalize name-size">{{(card.name)?.slice(0,2)}}</h4>
                 </div>
                 <div class="card-down">
                     <h4>Name : {{card.name}}</h4>

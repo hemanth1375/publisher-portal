@@ -3,6 +3,7 @@ import { ApicardsService } from '../services/apicards.service';
 import { switchMap, takeUntil } from 'rxjs';
 import { ApiPageService } from '../services/api-page.service';
 import { SharedDataService } from '../services/shared-data.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +13,15 @@ import { SharedDataService } from '../services/shared-data.service';
 export class DashboardComponent {
 
   apiData:any;
-constructor(private apiCardsService:ApicardsService,private apiPageService:ApiPageService,private sharedService:SharedDataService){
+constructor(private apiCardsService:ApicardsService,private apiPageService:ApiPageService,private sharedService:SharedDataService, private readonly keyClokService:KeycloakService){
 
+}
+login(){
+
+}
+logout(){
+  localStorage.clear();
+  this.keyClokService.logout();
 }
 endPointData:any;
   ngOnInit(){

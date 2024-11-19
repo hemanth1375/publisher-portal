@@ -342,3 +342,6 @@ a.sidebar-link:hover {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.svg-color{
+  color:gray !important;
+}

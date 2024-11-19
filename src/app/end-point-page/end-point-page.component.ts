@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiPageService } from '../services/api-page.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-end-point-page',
@@ -16,9 +17,9 @@ export class EndPointPageComponent implements OnInit ,AfterViewInit {
   receivedData: any;
   private unsubscribe = new Subject<void>();
 
-  constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService){
+  constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService,private _snackBar: MatSnackBar){
     this.formGroupEndPoint=this.formBuilder.group({
-      endPointUri:[''],
+      endPointUri:['',[Validators.required]],
       selectedMethod:[''],
       selectedOutput:['']
     })

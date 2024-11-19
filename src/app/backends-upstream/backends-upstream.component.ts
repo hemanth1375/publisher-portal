@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, EventEmitter, Input, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ViewapiPageService } from '../services/viewapi-page.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-backends-upstream',
@@ -69,7 +71,7 @@ onFormChange(form:any,updatedData:any){
 
 
   items: any;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private dataService: ViewapiPageService) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private dataService: ViewapiPageService,private router:Router,private _snackBar: MatSnackBar) {
     this.items = [
       { name: 'Request' },
       { name: 'Response Manipulation' },
@@ -84,9 +86,15 @@ onFormChange(form:any,updatedData:any){
     console.log(item);
     this.selectedItem = item;
   }
+  isUpdate:boolean=false;
   ngOnInit() {
     this.selectedItem = this.items[0];
     console.log(this.formData);
+    if(this.formData?.backend?.[0].id){
+this.isUpdate=true;
+    }else{
+      this.isUpdate=false;
+    }
     this.upstreamRequestData=this.formData;
     this.upstreamAuthData=this.formData;
     this.upstreamPoliciesData=this.formData;
@@ -120,7 +128,7 @@ onFormChange(form:any,updatedData:any){
   submitForm() {
     // console.log(this.entireFormData);
     // this.childData.push(this.entireFormData)
-    // console.log(this.childData);
+    console.log(this.formData);
     const obj = {
       'upstreamAuthData':this.upstreamAuthData,
       'upstreamPoliciesData':this.upstreamPoliciesData,
@@ -129,9 +137,105 @@ onFormChange(form:any,updatedData:any){
       'upstreamResponseData':this.upstreamResponseData,
       'upstreamConnectivityData':this.upstreamConnectivityData
     }
+    const renamingObj = this.upstreamResponseData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+    const inputMapObj = this.upstreamConnectivityData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
 console.log(obj);
+console.log(this.formData?.backend?.[0]?.id);
+console.log(this.formData?.backend?.[0]?.extra_config?.id);
 
+
+const body= {
+  "id": this.formData?.backend?.[0]?.id ? this.formData?.backend?.[0]?.id: null,
+  "host": this.upstreamRequestData?.hostArrayValue,
+  "url_pattern": this.upstreamRequestData?.endpointUrl,
+  "allow": [
+    "string"
+  ],
+  "mapping": renamingObj,
+  "group": this.upstreamResponseData?.wrappingGroup,
+  "is_collection": this.upstreamResponseData?.isCollection,
+  "encoding": this.upstreamRequestData?.decodeAs,
+  "extra_config": {
+    "id": this.formData?.backend?.[0]?.extra_config?.id ? this.formData?.backend?.[0]?.extra_config?.id: null,
+    "qos/circuit-breaker": {
+      "interval": this.upstreamAuthData?.interval,
+      "name": this.upstreamAuthData?.circuitBreakerName,
+      "timeout":  this.upstreamAuthData?.timeout,
+      "max_errors": this.upstreamAuthData?.maxError,
+      "log_status_change": this.upstreamAuthData?.logStatusChange
+    },
+    "plugin/req-resp-modifier": {
+      "name": [
+        "content-replacer"
+      ],
+      "content-replacer": this.upstreamResponseData?.contentReplacer
+    },
+    "qos/ratelimit/proxy": {
+      "max_rate": this.upstreamAuthData?.maxRateLimit,
+      "capacity": this.upstreamAuthData?.capacity
+    },
+    "qos/http-cache": {
+      "shared": this.upstreamResponseData?.isSharedCacheActive
+    },
+    "backend/graphql": {
+      "type": this.upstreamConnectivityData?.restTographQLOpTypeForm,
+      "query": this.upstreamConnectivityData?.restTographQLInlineQueryForm,
+      "variables": {}
+    },
+    "backend/soap": {
+      "@comment": "string",
+      "path": this.upstreamConnectivityData?.pathRestToSoapForm
+    },
+    "backend/grpc": {
+      "input_mapping": inputMapObj,
+      "response_naming_convention": this.upstreamConnectivityData?.restTogrpcResNamingConventionForm,
+      "output_enum_as_string": this.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm,
+      "output_timestamp_as_string": this.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm,
+      "output_duration_as_string": this.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm,
+      "client_tls": {
+        "allow_insecure_connections": true
+      },
+      "output_remove_unset_values": this.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm,
+      "use_request_body": this.upstreamConnectivityData?.restTogrpcUseReqBodyForm
+    },
+    "backend/static-filesystem": {
+      "directory_listing": this.upstreamRequestData?.directory_Listing,
+      "path": this.upstreamRequestData?.staticUrl
+    }
+  },
+  "target": "string",
+  "method": this.upstreamRequestData?.method,
+  "deny": [
+    "string"
+  ],
+  "@comment": "string",
+  "@test_with": "string",
+  "disable_host_sanitize": true
+}
+
+if(this.formData?.backend?.[0].id){
+  const id=this.formData?.backend?.[0].id
+  this.dataService.updatebackend(id,body).subscribe({
+    next:(res:any)=>{
+      console.log(res);
+      this._snackBar.open(res.message, 'OK', {
+        duration: 5000
+      });
+      this.router.navigate(["dashboard"])
+    }
+  })
+  
+}
     this.backendUpStreamSubmitted.emit(obj)
+    this._snackBar.open('saved successfully', 'OK', {
+      duration: 5000
+    });
   }
 
   // sendData() {

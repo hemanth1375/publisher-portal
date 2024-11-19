@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SharedDataService } from '../services/shared-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-http-security',
@@ -237,7 +238,7 @@ this.formGroupHttpSecurity.patchValue({
 
 
 
-  constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService ) {
+  constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService,private _snackBar: MatSnackBar ) {
     this.formGroupHttpSecurity = this.formBuilder.group({
 
       corsAllowedOriginsForm: [null],
@@ -288,8 +289,14 @@ this.formGroupHttpSecurity.patchValue({
   }
   emitValue(){
     console.log(this.formGroupHttpSecurity.value);
-    
-this.sharedService.setHttpSecurityData(this.formGroupHttpSecurity.value)
+    if(this.formGroupHttpSecurity.valid){
+      this._snackBar.open('Saved Successfully', 'OK', {
+        duration: 5000
+      });
+      
+  this.sharedService.setHttpSecurityData(this.formGroupHttpSecurity.value)
+    }
+ 
   }
 
 } 

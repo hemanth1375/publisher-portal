@@ -7,14 +7,23 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" class="input-size form-control" id="name" formControlName="name" />
+                            <!-- <input type="text" class="input-size form-control" id="name" formControlName="name" required /> -->
+                            <input type="text" class="input-size form-control" id="name" formControlName="name"
+                            [class.is-invalid]="formGroupService.get('name')?.invalid" />
+                        <div *ngIf="formGroupService.get('name')?.invalid" class="text-danger">
+                            name is required !
+                        </div>
                             <div class="form-text">A friendly name, title, date, version or any other short description
                                 that helps you recognize this configuration when reporting to your metrics and traces
                                 systems.</div>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <label for="port" class="form-label">Port</label>
-                            <input type="number" class="input-size form-control" id="port" formControlName="port" />
+                            <input type="number" class="input-size form-control" id="port" formControlName="port"
+                            [class.is-invalid]="formGroupService.get('port')?.invalid" />
+                        <div *ngIf="formGroupService.get('port')?.invalid" class="text-danger">
+                            port is required !
+                        </div>
                             <div class="form-text">Port where KrakenD listens to connections, defaults to 8080.</div>
                         </div>
                     </div>

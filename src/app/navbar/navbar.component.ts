@@ -1,12 +1,15 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, Renderer2, ViewChild } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Route, Router } from '@angular/router';
 import { ApicardsService } from '../services/apicards.service';
 import { SharedDataService } from '../services/shared-data.service';
 import { ApiPageService } from '../services/api-page.service';
 import { switchMap } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { KeycloakService } from 'keycloak-angular';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +25,7 @@ gotodashboard() {
 this.router.navigate(['/dashboard']);
 }
 
-constructor(private router:Router ,private elementRef: ElementRef, private renderer: Renderer2,private apiCardsService:ApicardsService,private sharedService:SharedDataService,private apiPageService:ApiPageService) {}
+constructor(private router:Router,private activatedRoute:ActivatedRoute ,private elementRef: ElementRef, private renderer: Renderer2,private apiCardsService:ApicardsService,private sharedService:SharedDataService,private apiPageService:ApiPageService,public dialog: MatDialog,private _snackBar: MatSnackBar) {}
 
 showSidebar: boolean = true;
 showSubmitButton:boolean=true;
@@ -37,11 +40,14 @@ showSubmitButton:boolean=true;
     }
    this. isExpanded = false;
    this.router.events.subscribe(() => {
-    this.showSidebar = this.router.url !== '/apicards';
-    this.showSubmitButton = this.router.url !== '/apis' && this.router.url !== '/apis/viewapi' && this.router.url !== '/apicards' 
-    && this.router.url !== '/dashboard' && this.router.url !== '/service' && this.router.url !== '/httpSecurity' && this.router.url !== '/apiMonetization'
-    && this.router.url !== '/telemetry' && this.router.url !== '/apikeys';
-
+    console.log(this.router.url);
+    // console.log(this.activatedRoute);
+    
+    this.showSidebar = !this.router.url.includes('/apicards');
+    // this.showSubmitButton = this.router.url !== '/apis' && this.router.url !== '/apis/viewapi' && this.router.url !== '/apicards' 
+    // && this.router.url !== '/dashboard' && this.router.url !== '/service' && this.router.url !== '/httpSecurity' && this.router.url !== '/apiMonetization'
+    // && this.router.url !== '/telemetry' && this.router.url !== '/apikeys';
+this.showSubmitButton=this.router.url.includes('/openAPI')
   });
   }
 
@@ -583,6 +589,9 @@ console.log(this.entireJsondata);
 this.apiPageService.createKrakend(body).subscribe({
   next:(res:any)=>{
     console.log(res);
+    this._snackBar.open(res.message, 'OK', {
+      duration: 5000
+    });
     this.router.navigate(['apicards'])
   }
 })
@@ -590,9 +599,49 @@ this.apiPageService.createKrakend(body).subscribe({
 this.apiPageService.updateKrakend(this.cardId,body).subscribe({
   next:(res:any)=>{
     console.log(res);
+    this._snackBar.open(res.message, 'OK', {
+      duration: 5000
+    });
     this.router.navigate(['apicards'])
   }
 })
   }
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      // data: {name: this.name, animal: this.animal},
+      position: {
+        top: '60px',
+        right: '10px'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
+}
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+@Component({
+  selector: 'profile-dialog',
+  templateUrl: 'profile-dialog.html',
+  styleUrls: ['./profile-dialog.css']
+})
+export class DialogOverviewExampleDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private readonly keyClokService:KeycloakService
+  ) {}
+  logout(){
+    localStorage.clear();
+    this.keyClokService.logout();
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

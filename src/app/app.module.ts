@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,7 +27,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EndPointPageComponent } from './end-point-page/end-point-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BackendsUpstreamComponent } from './backends-upstream/backends-upstream.component';
 import { UpstreamRequestComponent } from './upstream-request/upstream-request.component';
 import { UpstreamThrottlingComponent } from './upstream-throttling/upstream-throttling.component';
@@ -46,6 +46,37 @@ import { OpenApiComponent } from './open-api/open-api.component';
 import { TelemetryComponent } from './telemetry/telemetry.component';
 import { ApiKeysComponent } from './api-keys/api-keys.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { KeycloakService } from 'keycloak-angular';
+import { AuthInterceptor } from './auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+// keycloak
+function initializeKeycloak(keycloak: KeycloakService){
+  return () =>{
+   
+    keycloak.init({
+      config: {
+        realm: 'master',
+        url: 'http://localhost:8080/',
+        clientId: 'publisherportal',
+       
+       
+      },
+       initOptions: {
+        onLoad: 'login-required',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        flow:'implicit',
+      },
+       enableBearerInterceptor:true,
+       loadUserProfileAtStartUp:true,
+       
+       
+    });
+ 
+  }
+   
+   
+}
+ 
 
 @NgModule({
   declarations: [
@@ -96,9 +127,20 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatMenuModule,
     MatToolbarModule,
     MatTabsModule,
-    MatCheckboxModule, HttpClientModule, MatRadioModule
+    MatCheckboxModule, HttpClientModule, MatRadioModule,MatDialogModule,MatSnackBarModule
   ],
-  providers: [
+  providers: [KeycloakService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

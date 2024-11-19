@@ -27,3 +27,6 @@ ul li{
   .card-down{
     padding:20px;
   }
+  .name-size{
+    font-size:40px !important;
+  }

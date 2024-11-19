@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { KeycloakService } from 'keycloak-angular';
 import { Observable, ReplaySubject } from 'rxjs';
+import { urls } from '../../urls';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +10,19 @@ import { Observable, ReplaySubject } from 'rxjs';
 export class ApicardsService {
 
   
-  constructor(private http:HttpClient) { }
-  getCards(){
-    const url="http://localhost:8082/krakend/getKrakendJsonCards?pageNo=0&pageSize=10";
+  constructor(private http:HttpClient,private readonly keycloak:KeycloakService) { }
+  
+   
+   userId:any
+  getCards(userId:any){
+  //  const userId:any=localStorage.getItem('userid');
+  //  this.keycloak.getKeycloakInstance().loadUserInfo().then((user:any)=>{
+  //   console.log(user);
+  //  this.userId=user.sub
+  //   })
+    const url=urls.getJsonCards+"?pageNo=0&pageSize=10";
     const headers={
-      'userId':'ce35be92-d176-4b5a-8932-6181e26c0e33'
+      'userId':userId
     }
     const options={headers:headers}
     return this.http.post(url,null,options)
@@ -28,6 +38,6 @@ export class ApicardsService {
     return this.dataSubject.asObservable();
   }
   downloadFile(){
-    
+
   }
 }

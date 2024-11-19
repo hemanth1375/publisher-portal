@@ -12,6 +12,7 @@ import { ThrottlingComponent } from '../throttling/throttling.component';
 import { ResponseManipulationComponent } from '../response-manipulation/response-manipulation.component';
 import { ConnectivityOptionsComponent } from '../connectivity-options/connectivity-options.component';
 import { ApicardsService } from '../services/apicards.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-viewapipage',
@@ -35,7 +36,7 @@ export class ViewapipageComponent {
    private unsubscribe = new Subject<void>();
  
  
-   constructor(private viewapiPageService:ViewapiPageService,private dataService: ViewapiPageService,private router:Router,private componentFactoryResolver: ComponentFactoryResolver,private apiPageService:ApiPageService,private apiCardService:ApicardsService){
+   constructor(private viewapiPageService:ViewapiPageService,private dataService: ViewapiPageService,private router:Router,private componentFactoryResolver: ComponentFactoryResolver,private apiPageService:ApiPageService,private apiCardService:ApicardsService,private _snackBar: MatSnackBar){
  
    }
    collectedData1: string[] = [];
@@ -409,6 +410,10 @@ export class ViewapipageComponent {
     this.viewapiPageService.addEndPoint(this.apiData,resultantFormData).subscribe({
       next:(res:any)=>{
         console.log(res);
+        this._snackBar.open(res.message, 'OK', {
+          duration: 5000
+        });
+
         this.router.navigate(['dashboard'])
       }
     })
@@ -591,6 +596,9 @@ export class ViewapipageComponent {
     this.viewapiPageService.updateEndPoint(this.receivedData.id,resultantFormData).subscribe({
       next:(res:any)=>{
         console.log(res);
+        this._snackBar.open(res.message, 'OK', {
+          duration: 5000
+        });
         this.router.navigate(['dashboard'])
       }
     })

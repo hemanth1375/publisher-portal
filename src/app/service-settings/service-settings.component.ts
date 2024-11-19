@@ -1,8 +1,9 @@
 import { Component, EventEmitter, HostListener, Injectable, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiPageService } from '../services/api-page.service';
 import { ApicardsService } from '../services/apicards.service';
 import { SharedDataService } from '../services/shared-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -17,10 +18,10 @@ export class ServiceSettingsComponent {
   regExpObjectMap: Map<string, string> = new Map();
   @Input() formData: any;
   @Output() serviceSettingsFormSubmitted=new EventEmitter<any>();
-  constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService,private apiCardsService:ApicardsService, private sharedService:SharedDataService){
+  constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService,private apiCardsService:ApicardsService, private sharedService:SharedDataService,private _snackBar: MatSnackBar){
     this.formGroupService=this.formBuilder.group({
-      name:[null],
-      port:[null],
+      name:[null,[Validators.required]],
+      port:[null,[Validators.required]],
       host:[null],
       hostArrayValue:[[]],
       directory:[],
@@ -237,8 +238,17 @@ this.apiPageService.createKrakend(body).subscribe({
     // })
     // const val=this.formGroupService.get('literalMatchObjectMapValue')?.value;
     
-    
-    this.sharedService.setServiceSettingData(this.formGroupService.value)
+    if(this.formGroupService.valid){
+      this.sharedService.setServiceSettingData(this.formGroupService.value)
+      this._snackBar.open('Saved Successfully', 'OK', {
+        duration: 3000
+      });
+    }else{
+      this._snackBar.open('Please fill required details', 'OK', {
+        duration: 3000
+      });
+    }
+   
   }
 
 }

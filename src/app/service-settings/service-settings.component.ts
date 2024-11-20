@@ -29,7 +29,7 @@ export class ServiceSettingsComponent {
       virtualHost:[],
       virtualHostArrayValue:[[]],
       backendTimeout:[null],
-      defaultCache:[null],
+      defaultCache:['',Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
       disablegZip:[true],
       httpReadTimeout:[null],
       httpWriteTimeout:[null],

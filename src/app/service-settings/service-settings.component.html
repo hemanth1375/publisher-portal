@@ -137,8 +137,12 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="defaultCache" class="form-label">Default Cache TTL</label>
-                    <input type="text" class="input-size form-control" id="defaultCache"
-                        formControlName="defaultCache" />
+                    <input type="text " class="input-size form-control" id="defaultCache"
+                        formControlName="defaultCache" [class.is-invalid]="formGroupService.get('defaultCache')?.invalid && formGroupService.get('defaultCache')?.touched"/>
+                        <div class="invalid-feedback" 
+                             *ngIf="formGroupService.get('defaultCache')?.errors?.['pattern'] && formGroupService.get('defaultCache')?.touched">
+                            Please enter a valid cache TTL (e.g., `10ms`, `5s`, `1h`).
+                        </div>
                     <div class="form-text">Value must be an integer expressing the number of seconds
                         The time the service considers the origin is still valid. Applies to GET requests only. The
                         service does not cache anything but expedites the headers for proxies to do the caching (e.g., a

@@ -16,7 +16,7 @@
                     <div class="col-sm-5">
                         <label for="key" class="form-label">API Key</label>
                         <input type="text" id="key" class="form-control" aria-describedby="keyHelper"
-                            formControlName="APIKey">
+                            formControlName="APIKey" placeholder="11a7ec0f-e89d-421d-b9bd-22463eab78dd">
                         <div id="keyHelper" class="form-text">
                             Use the randomly generated API Key or use a unique string of your choice
                         </div>
@@ -25,11 +25,11 @@
                     <div class="col-sm-5">
                         <label for="accessRole" class="form-label">Role</label>
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Recipient's username"
+                            <input type="text" class="form-control" placeholder="e.g:admin"
                                 aria-label="Recipient's username" formControlName="role"
                                 aria-describedby="button-addon2">
                             <button class="btn btn-dark" type="button" id="button-addon2"
-                                (click)="addParameter('role')">Button</button>
+                                (click)="addParameter('role')">Add Role</button>
                         </div>
                         <div id="roleHelper" class="form-text">
                             Roles, plans, levels, or permissions are different ways to name the different levels of
@@ -70,7 +70,27 @@
                 </div>
                 }
 
+                @if(keysArray.length>0){
+                    <div class="row" *ngFor="let card of keysArray">
 
+                        <div class="card">
+                            <div class="card-content">
+                              <div class="card-title">API Key Details</div>
+                              <div class="card-item">
+                                <span>Key Name:</span> {{card?.APIKey}}
+                              </div>
+                              <div class="card-item">
+                                <span>Roles:</span> {{ card.rolesArrayValue.join(', ') }}
+                              </div>
+                              <div class="card-item">
+                                <span>Description:</span> {{ card.description}}
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+    
+                }
+                
             </div>
         </form>
     </div>

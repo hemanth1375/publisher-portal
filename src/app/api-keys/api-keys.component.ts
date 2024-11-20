@@ -19,7 +19,8 @@ export class ApiKeysComponent{
       APIKey:[],
       role:[],
       rolesArrayValue:[[]],
-      description:[]
+      description:[],
+      keysArray:[[]]
     })
   }
 
@@ -45,8 +46,11 @@ export class ApiKeysComponent{
 
   addKey(){
     this.keysArray.push(this.apiKeysForm.value)
+    this.apiKeysForm.get('keysArray')?.setValue([...this.keysArray]);
     console.log(this.keysArray);
-    
+    this.apiKeysForm.get('APIKey')?.reset();
+    this.apiKeysForm.get('role')?.reset();
+    this.apiKeysForm.get('description')?.reset();
   }
 
   }

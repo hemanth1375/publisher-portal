@@ -101,6 +101,7 @@ this.showSubmitButton=this.router.url.includes('/openAPI')
   telemetryData:any;
   cardId:any;
   entireJsondata:any;
+  apikeysData:any;
   submitdata(){
     this.apiCardsService.getData$().subscribe(data=>{
       this.cardId=data
@@ -145,6 +146,10 @@ console.log(this.entireJsondata);
       console.log(data);
       this.telemetryData=data;
     })
+    this.sharedService.getApikeysData$().subscribe((data:any)=>{
+      console.log(data);
+      this.apikeysData=data;
+    })
 
     const literalObj = this.serviceSettingData?.literalMatchObjectMapValue?.reduce((acc:any, [key, value]:any) => {
       acc[key] = value;
@@ -174,7 +179,7 @@ console.log(this.entireJsondata);
     }
     if(this.telemetryData?.jaegerActive){
       jeagerValue={
-          "agent_endpoint": "string",
+          "agent_endpoint": null,
                 "buffer_max_count": 0,
                 "endpoint": this.telemetryData?.jeagerEndpoint,
                 "service_name": this.telemetryData?.jeagerServiceName
@@ -186,8 +191,8 @@ console.log(this.entireJsondata);
       influxValue={
           "address": this.telemetryData?.influxDBaddress,
                 "db": this.telemetryData?.infulxDBdatabase,
-                "username": "string",
-                "password": "string",
+                "username": null,
+                "password": null,
                 "timeout": this.telemetryData?.influxwriteTimeout
         }
     }else{
@@ -210,20 +215,20 @@ console.log(this.entireJsondata);
     const body={
       
         "id": this.cardId?this.cardId:null,
-        "$schema": "string",
+        "$schema": null,
         "version": 3,
         "name": this.serviceSettingData?.name,
         "port": this.serviceSettingData?.port,
         "host": this.serviceSettingData?.hostArrayValue,
         "timeout": this.serviceSettingData?.backendTimeout,
         "cache_ttl": this.serviceSettingData?.defaultCache,
-        "output_encoding": "string",
+        "output_encoding": null,
         "debug_endpoint": true,
         "sequential_start": true,
         "disable_rest": true,
         "plugin": {
-          "pattern": "string",
-          "folder": "string"
+          "pattern": null,
+          "folder": null
         },
         "tls": {
           "public_key": this.serviceSettingData?.publicKey,
@@ -240,24 +245,24 @@ console.log(this.entireJsondata);
               "services": [
                 {
                   "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id:null,
-                  "name": "string",
+                  "name": null,
                   "methods": [
                     {
                       "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id:null,
-                      "name": "string",
+                      "name": null,
                       "input_headers": [
-                        "string"
+                        ''
                       ],
                       "payload_params": {
-                        "page.cursor": "string"
+                        "page.cursor": null
                       },
                       "backend": [
                         {
                           "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id:null,
                           "host": [
-                            "string"
+                            ''
                           ],
-                          "url_pattern": "string",
+                          "url_pattern": null,
                           "extra_config": {
                             "backend/grpc": {
                               "use_request_body": true
@@ -281,22 +286,22 @@ console.log(this.entireJsondata);
             "disable_gzip": this.serviceSettingData?.disablegZip
           },
           "auth/basic": {
-            "@comment": "string",
-            "htpasswd_path": "string"
+            "@comment": null,
+            "htpasswd_path": null
           },
           "auth/revoker": {
-            "@comment": "string",
-            "hash_name": "string",
+            "@comment": null,
+            "hash_name": null,
             "N": 0,
             "P": 0,
             "port": 0,
             "token_keys": [
-              "string"
+              ''
             ],
             "TTL": 0,
-            "revoke_server_ping_url": "string",
-            "revoke_server_ping_interval": "string",
-            "revoke_server_api_key": "string",
+            "revoke_server_ping_url": null,
+            "revoke_server_ping_interval": null,
+            "revoke_server_api_key": null,
             "revoke_server_max_workers": 0
           },
           "auth/api-keys": {
@@ -304,18 +309,16 @@ console.log(this.entireJsondata);
             "keys": [
               {
                 "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id:null,
-                "key": "string",
-                "roles": [
-                  "string"
-                ],
-                "@description": "string"
+                "key": this.apikeysData?.key,
+                "roles": this.apikeysData?.rolesArrayValue,
+                "@description": this.apikeysData?.description
               }
             ]
           },
           "security/cors": {
             "allow_origins": this.httpSecurityData?.corsAllowedOriginsFormArray,
             "allow_methods": [
-              "string"
+              ''
             ],
             "allow_headers": this.httpSecurityData?.corsAllowedHeadersFormArray,
             "expose_headers": this.httpSecurityData?.corsExposeHeadersFormArray,
@@ -334,15 +337,15 @@ console.log(this.entireJsondata);
             "browser_xss_filter": this.httpSecurityData?.httpSecurityXSSProtectionForm,
             "content_security_policy": this.httpSecurityData?.httpSecurityConSecPolicyForm,
             "content_type_nosniff": this.httpSecurityData?.httpSecuritySniffingForm,
-            "custom_frame_options_value": "string",
+            "custom_frame_options_value": null,
             "force_sts_header": true,
             "frame_deny": this.httpSecurityData?.httpSecurityClickjackProtectForm,
             "host_proxy_headers": [
-              "string"
+              ''
             ],
             "hpkp_public_key": this.httpSecurityData?.httpSecurityHPKPForm,
             "is_development": true,
-            "referrer_policy": "string",
+            "referrer_policy": null,
             "ssl_host": this.httpSecurityData?.httpSecuritySSLOptForm,
             "ssl_proxy_headers": sslProxyHeadersObj,
             "ssl_redirect": this.httpSecurityData?.httpSecuritySSLOptForceSSLForm,
@@ -351,7 +354,7 @@ console.log(this.entireJsondata);
           },
           "plugin/http-server": {
             "name": [
-              "string"
+              ''
             ],
             "geoip": {
               "citydb_path":this.serviceSettingData?.databasePath
@@ -373,22 +376,22 @@ console.log(this.entireJsondata);
             },
             "redis-ratelimit": {
               "burst": 0,
-              "host": "string",
-              "period": "string",
+              "host": null,
+              "period": null,
               "rate": 0,
-              "tokenizer": "string",
-              "tokenizer_field": "string"
+              "tokenizer": null,
+              "tokenizer_field": null
             },
             "static-filesystem": {
-              "path": "string",
-              "prefix": "string",
+              "path": null,
+              "prefix": null,
               "skip": [
-                "string"
+                ''
               ]
             },
             "virtualhost": {
               "hosts": [
-                "string"
+                ''
               ]
             },
             "wildcard": {
@@ -405,12 +408,12 @@ console.log(this.entireJsondata);
           },
           "telemetry/opentelemetry": {
             "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id:null,
-            "service_name": "string",
+            "service_name": null,
             "metric_reporting_period": this.telemetryData?.OTreportingPeriod,
             "trace_sample_rate": this.telemetryData?.OTsampleRate,
-            "service_version": "string",
+            "service_version": null,
             "skip_paths": [
-              "string"
+              ''
             ],
             "exporters": {
               "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id:null,
@@ -465,7 +468,7 @@ console.log(this.entireJsondata);
             }
           },
           "telemetry/logging": {
-            "format": "string",
+            "format": null,
             "custom_format": this.telemetryData?.logMsgFormat,
             "syslog_facility": this.telemetryData?.logSysLogFacility,
             "level": this.telemetryData?.logginngLevel,
@@ -474,18 +477,18 @@ console.log(this.entireJsondata);
             "stdout": this.telemetryData?.logStdOut
           },
           "telemetry/gelf": {
-            "address": "string",
+            "address": null,
             "enable_tcp": true
           },
           "telemetry/moesif": {
-            "@comment": "string",
-            "application_id": "string",
+            "@comment": null,
+            "application_id": null,
             "user_id_headers": [
-              "string"
+              ''
             ],
-            "user_id_jwt_claim": "string",
+            "user_id_jwt_claim": null,
             "identify_company": {
-              "jwt_claim": "string"
+              "jwt_claim": null
             },
             "debug": true,
             "log_body": true,
@@ -493,18 +496,18 @@ console.log(this.entireJsondata);
             "batch_size": 0,
             "timer_wake_up_seconds": 0,
             "request_body_masks": [
-              "string"
+              ''
             ],
             "request_header_masks": [
-              "string"
+              ''
             ],
             "response_body_masks": [
-              "string"
+              ''
             ],
             "response_header_masks": [
-              "string"
+              ''
             ],
-            "should_skip": "string"
+            "should_skip": null
           },
           "telemetry/opencensus": {
             "enabled_layers": {
@@ -514,12 +517,12 @@ console.log(this.entireJsondata);
             },
             "exporters": {
               "datadog": {
-                "namespace": "string",
-                "service": "string",
-                "trace_address": "string",
-                "stats_address": "string",
+                "namespace": null,
+                "service": null,
+                "trace_address": null,
+                "stats_address": null,
                 "tags": [
-                  "string"
+                  ''
                 ],
                 "global_tags": {},
                 "disable_count_per_buckets": true
@@ -531,15 +534,15 @@ console.log(this.entireJsondata);
                 "stats": true
               },
               "ocagent": {
-                "address": "string",
+                "address": null,
                 "enable_compression": true,
                 "headers": {},
                 "insecure": true,
-                "reconnection": "string",
-                "service_name": "string"
+                "reconnection": null,
+                "service_name": null
               },
               "prometheus": {
-                "namespace": "string",
+                "namespace": null,
                 "port": 0,
                 "tag_host": true,
                 "tag_method": true,
@@ -547,15 +550,15 @@ console.log(this.entireJsondata);
                 "tag_statuscode": true
               },
               "stackdriver": {
-                "project_id": "string",
+                "project_id": null,
                 "default_labels": {},
-                "metric_prefix": "string"
+                "metric_prefix": null
               },
               "xray": {
-                "region": "string",
-                "version": "string",
-                "access_key_id": "string",
-                "secret_access_key": "string",
+                "region": null,
+                "version": null,
+                "access_key_id": null,
+                "secret_access_key": null,
                 "use_env": true
               },
               "zipkin": zipkinValue

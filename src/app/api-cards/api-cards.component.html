@@ -17,10 +17,10 @@
                     <h4 class="text-capitalize name-size">{{(card.name)?.slice(0,2)}}</h4>
                 </div>
                 <div class="card-down">
-                    <h4>Name : {{card.name}}</h4>
+                    <h5>Name : {{card.name}}</h5>
                     <h4>port : {{card.port}}</h4>
                     @if(card.isFileReady){
-                        <button mat-raised-button (click)="downloadKrakendFile(card.id)">Preview</button>
+                        <button mat-raised-button (click)="downloadKrakendFile(card.id)">Deploy</button>
                     }
                     
                 </div>

@@ -41,6 +41,9 @@ export class UpstreamRequestComponent implements AfterViewInit {
   }
   ngOnInit(){
     console.log(this.formData);
+    if(this.formData){
+      this.hostArray=this.formData?.backend?.[0]?.host
+    }
     // this.hostArray=this.formData?.backend?.[0]?.host
     this.formGroupUpstreamRequest.patchValue({
       method:this.formData?.backend?.[0]?.method,

@@ -155,7 +155,7 @@ const body= {
   "host": this.upstreamRequestData?.hostArrayValue,
   "url_pattern": this.upstreamRequestData?.endpointUrl,
   "allow": [
-    "string"
+    ""
   ],
   "mapping": renamingObj,
   "group": this.upstreamResponseData?.wrappingGroup,
@@ -189,7 +189,7 @@ const body= {
       "variables": {}
     },
     "backend/soap": {
-      "@comment": "string",
+      "@comment": null,
       "path": this.upstreamConnectivityData?.pathRestToSoapForm
     },
     "backend/grpc": {
@@ -209,13 +209,13 @@ const body= {
       "path": this.upstreamRequestData?.staticUrl
     }
   },
-  "target": "string",
+  "target": null,
   "method": this.upstreamRequestData?.method,
   "deny": [
-    "string"
+    ''
   ],
-  "@comment": "string",
-  "@test_with": "string",
+  "@comment": null,
+  "@test_with": null,
   "disable_host_sanitize": true
 }
 

@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ApicardsService } from '../services/apicards.service';
 import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
 import { filter } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-api-cards',
@@ -11,7 +13,7 @@ import { filter } from 'rxjs';
 })
 export class ApiCardsComponent {
 
-  constructor(private router:Router,private apiCardsService:ApicardsService,private readonly keycloak:KeycloakService){
+  constructor(private router:Router,private apiCardsService:ApicardsService,private readonly keycloak:KeycloakService, private http:HttpClient,private _snackBar: MatSnackBar){
 
   }
   apiCards:any;
@@ -57,9 +59,32 @@ userId:any=localStorage.getItem('userid');
 this.router.navigate(['dashboard'])
   }
   downloadKrakendFile(id:any){
-    const hrefEl:any=document.createElement('a');
-    hrefEl.href=`http://localhost:8082/krakend/krakendFile?krakendId=${id}`
-    hrefEl.target="self"
-    hrefEl.click();
-  }
+    const url=`http://localhost:8082/krakend/krakendFile?krakendId=${id}`
+    // const hrefEl:any=document.createElement('a');
+    // hrefEl.href=`http://localhost:8082/krakend/krakendFile?krakendId=${id}`
+    // hrefEl.target="self"
+    // hrefEl.click();
+    this.http.get(url).subscribe({
+      next: (res:any) => {
+        console.log(res);
+        this._snackBar.open(res.message, 'OK', {
+          duration: 5000
+        });
+        // const hrefEl = document.createElement('a');
+        // const objectUrl = URL.createObjectURL(blob);
+        // hrefEl.href = objectUrl;
+        // hrefEl.download = `krakendFile_${id}`; // Optional: Set a default filename
+        // hrefEl.click();
+        // URL.revokeObjectURL(objectUrl); // Clean up the object URL
+        // this._snackBar.open('saved successfully', 'OK', {
+        //   duration: 5000
+        // });
+      },
+      error: (err) => {
+        console.error('Error downloading the file', err);
+         this._snackBar.open(err.error.error, 'OK', {
+          duration: 5000
+        });
+      },
+  })}
 }

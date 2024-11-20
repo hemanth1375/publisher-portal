@@ -1,5 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { SharedDataService } from '../services/shared-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-api-keys',
@@ -13,7 +15,7 @@ export class ApiKeysComponent{
   keysArray:any[] = [];
   rolesArray:any[]=[];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private sharedService:SharedDataService,private _snackBar: MatSnackBar) {
     this.apiKeysForm = this.fb.group({
       isAPIKeyAuthActive:[false],
       APIKey:[],
@@ -23,7 +25,19 @@ export class ApiKeysComponent{
       keysArray:[[]]
     })
   }
-
+  entireJsonData:any;
+ngOnInit(){
+  this.sharedService.getEntireJsonData$().subscribe(data=>{
+    this.entireJsonData=data;
+    
+  })
+  this.apiKeysForm.patchValue({
+    APIKey:'',
+      role:[],
+      rolesArrayValue:[[]],
+      description:[]
+  })
+}
   
   addParameter(fieldName: 'role'){
     const fieldValue = this.apiKeysForm.get(fieldName)?.value;
@@ -53,5 +67,16 @@ export class ApiKeysComponent{
     this.apiKeysForm.get('description')?.reset();
   }
 
+  emitValue(){
+    console.log(this.apiKeysForm.value);
+    if(this.apiKeysForm.valid){
+      this._snackBar.open('Saved Successfully', 'OK', {
+        duration: 5000
+      });
+      
+  this.sharedService.setApikeysDataData(this.apiKeysForm.value);
+    }
+ 
+  }
   }
   

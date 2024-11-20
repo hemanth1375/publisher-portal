@@ -54,4 +54,13 @@ export class SharedDataService {
   getTelemetryData$(): Observable<string> {
     return this.telemetryData.asObservable();
   }
+  private apikeysData: ReplaySubject<string> = new ReplaySubject<string>(1);
+
+  setApikeysDataData(data: string): void {
+    this.apikeysData.next(data);
+  }
+
+  getApikeysData$(): Observable<string> {
+    return this.apikeysData.asObservable();
+  }
 }

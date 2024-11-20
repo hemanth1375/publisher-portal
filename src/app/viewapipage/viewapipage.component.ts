@@ -241,7 +241,7 @@ export class ViewapipageComponent {
       "endpoints":[
         {
           "id": null,
-          "@comment": "string",
+          "@comment": null,
           "endpoint": this.endPointData?.endPointUri,
           "backend": [
             {
@@ -249,7 +249,7 @@ export class ViewapipageComponent {
               "host": this.backendData?.upstreamRequestData?.hostArrayValue,
               "url_pattern": this.backendData?.upstreamRequestData?.endpointUrl,
               "allow": [
-                "string"
+                ''
               ],
               "mapping": renamingObj,
               "group": this.backendData?.upstreamResponseData?.wrappingGroup,
@@ -283,7 +283,7 @@ export class ViewapipageComponent {
                   "variables": {}
                 },
                 "backend/soap": {
-                  "@comment": "string",
+                  "@comment": null,
                   "path": this.backendData?.upstreamConnectivityData?.pathRestToSoapForm
                 },
                 "backend/grpc": {
@@ -303,13 +303,13 @@ export class ViewapipageComponent {
                   "path": this.backendData?.upstreamRequestData?.staticUrl
                 }
               },
-              "target": "string",
+              "target": null,
               "method": this.backendData?.upstreamRequestData?.method,
               "deny": [
-                "string"
+                ''
               ],
-              "@comment": "string",
-              "@test_with": "string",
+              "@comment": null,
+              "@test_with": null,
               "disable_host_sanitize": true
             }
           ],
@@ -319,12 +319,12 @@ export class ViewapipageComponent {
               "summary": this.openApiData?.summary,
               "description": this.openApiData?.description,
               "tags": [
-                "string"
+                ''
               ]
             },
             "modifier/jmespath": {
-              "@comment": "string",
-              "expr": "string"
+              "@comment": null,
+              "expr": null
             },
             "security/policies": {
               "req": {
@@ -345,15 +345,15 @@ export class ViewapipageComponent {
                 "strategy": this.responseData?.strategy
               }
             },
-            "@comment": "string",
+            "@comment": null,
             "auth/basic": {
-              "@comment": "string",
-              "htpasswd_path": "string"
+              "@comment": null,
+              "htpasswd_path": null
             },
             "validation/cel": [
               {
                 "id": null,
-                "check_expr": "string"
+                "check_expr": null
               }
             ],
             "auth/validator": {
@@ -363,19 +363,19 @@ export class ViewapipageComponent {
               "roles": this.authPageData?.rolesArrayValue,
               "jwk_url": this.authPageData?.jwkUri,
               "issuer": this.authPageData?.issuer,
-              "jwk_local_path": "string",
+              "jwk_local_path": null,
               "disable_jwk_security": true
             },
             "auth/signer": {
               "alg": this.authPageData?.tokenSignAlgorithm,
               "kid": this.authPageData?.keyId,
               "keys_to_sign": this.authPageData?.keysToSignArrayValue,
-              "jwk_local_path": "string",
+              "jwk_local_path": null,
               "disable_jwk_security": true
             },
             "auth/api-keys": {
               "roles": [
-                "string"
+                ''
               ]
             },
             "websocket": {
@@ -388,16 +388,16 @@ export class ViewapipageComponent {
               "max_message_size": this.connectivityData?.maxWriteBufferSize,
               "write_wait": this.connectivityData?.writeWait,
               "pong_wait": this.connectivityData?.pongWait,
-              "ping_period": "string",
+              "ping_period": null,
               "max_retries": this.connectivityData?.maxRetries,
               "backoff_strategy": this.connectivityData?.backoffStrategy,
               "enable_direct_communication": true,
               "return_error_details": this.connectivityData?.returnErr,
-              "timeout": "string"
+              "timeout": null
             }
           },
           "output_encoding": this.endPointData?.selectedOutput,
-          "@test_with": "string",
+          "@test_with": null,
           "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
           "concurrent_calls": 0,
           "method": this.endPointData?.selectedMethod,
@@ -424,31 +424,31 @@ export class ViewapipageComponent {
   updateEndpoint(){
     const resultantFormData={
       "id": this.receivedData?.id,
-      "@comment": "string",
+      "@comment": null,
       "endpoint": this.endPointData?.endPointUri,
       "backend": [
         {
           "id": this.receivedData?.backend?.[0]?.id,
           "host": [
-            "string"
+            ''
           ],
-          "url_pattern": "string",
+          "url_pattern": null,
           "allow": [
-            "string"
+            ''
           ],
           "mapping": {
-            "blog": "string",
-            "collection": "string",
-            "CapitalCityResult": "string"
+            "blog": null,
+            "collection": null,
+            "CapitalCityResult": null
           },
-          "group": "string",
+          "group": null,
           "is_collection": true,
-          "encoding": "string",
+          "encoding": null,
           "extra_config": {
             "id": this.receivedData?.backend?.[0]?.extra_config?.id,
             "plugin/req-resp-modifier": {
               "name": [
-                "string"
+                ''
               ],
               "content-replacer": {}
             },
@@ -460,22 +460,22 @@ export class ViewapipageComponent {
               "shared": true
             },
             "backend/graphql": {
-              "type": "string",
-              "query": "string",
+              "type": null,
+              "query": null,
               "variables": {}
             },
             "backend/soap": {
-              "@comment": "string",
-              "path": "string"
+              "@comment": null,
+              "path": null
             },
             "backend/grpc": {
               "input_mapping": {
-                "lat": "string",
-                "lon": "string",
-                "Id_flight": "string",
-                "Main_passenger": "string"
+                "lat": null,
+                "lon": null,
+                "Id_flight": null,
+                "Main_passenger": null
               },
-              "response_naming_convention": "string",
+              "response_naming_convention": null,
               "output_enum_as_string": true,
               "output_timestamp_as_string": true,
               "output_duration_as_string": true,
@@ -487,16 +487,16 @@ export class ViewapipageComponent {
             },
             "backend/static-filesystem": {
               "directory_listing": true,
-              "path": "string"
+              "path": null
             }
           },
-          "target": "string",
+          "target": null,
           "method": this.backendData?.upstreamRequestData?.method,
           "deny": [
-            "string"
+            ''
           ],
-          "@comment": "string",
-          "@test_with": "string",
+          "@comment": null,
+          "@test_with": null,
           "disable_host_sanitize": true
         }
       ],
@@ -506,12 +506,12 @@ export class ViewapipageComponent {
           "summary": this.openApiData?.summary,
           "description": this.openApiData?.description,
           "tags": [
-            "string"
+            ''
           ]
         },
         "modifier/jmespath": {
-          "@comment": "string",
-          "expr": "string"
+          "@comment": null,
+          "expr": null
         },
         "security/policies": {
           "req": {
@@ -532,15 +532,15 @@ export class ViewapipageComponent {
             "strategy": this.responseData?.strategy
           }
         },
-        "@comment": "string",
+        "@comment": null,
         "auth/basic": {
-          "@comment": "string",
-          "htpasswd_path": "string"
+          "@comment": null,
+          "htpasswd_path": null
         },
         "validation/cel": [
           {
             "id": this.receivedData?.extra_config?.["validation/cel"]?.[0]?.id,
-            "check_expr": "string"
+            "check_expr": null
           }
         ],
         "auth/validator": {
@@ -550,19 +550,19 @@ export class ViewapipageComponent {
           "roles": this.authPageData?.rolesArrayValue,
           "jwk_url": this.authPageData?.jwkUri,
           "issuer": this.authPageData?.issuer,
-          "jwk_local_path": "string",
+          "jwk_local_path": null,
           "disable_jwk_security": true
         },
         "auth/signer": {
           "alg": this.authPageData?.tokenSignAlgorithm,
           "kid": this.authPageData?.keyId,
           "keys_to_sign": this.authPageData?.keysToSignArrayValue,
-          "jwk_local_path": "string",
+          "jwk_local_path": null,
           "disable_jwk_security": true
         },
         "auth/api-keys": {
           "roles": [
-            "string"
+            ''
           ]
         },
         "websocket": {
@@ -575,16 +575,16 @@ export class ViewapipageComponent {
           "max_message_size": this.connectivityData?.maxWriteBufferSize,
           "write_wait": this.connectivityData?.writeWait,
           "pong_wait": this.connectivityData?.pongWait,
-          "ping_period": "string",
+          "ping_period": null,
           "max_retries": this.connectivityData?.maxRetries,
           "backoff_strategy": this.connectivityData?.backoffStrategy,
           "enable_direct_communication": true,
           "return_error_details": this.connectivityData?.returnErr,
-          "timeout": "string"
+          "timeout": null
         }
       },
       "output_encoding": this.endPointData?.selectedOutput,
-      "@test_with": "string",
+      "@test_with": null,
       "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
       "concurrent_calls": 0,
       "method": this.endPointData?.selectedMethod,

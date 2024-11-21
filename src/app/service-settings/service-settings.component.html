@@ -106,23 +106,36 @@
             </div>
             <hr>
             <div class="row">
-                <h3 class="main-heading">gRPC Catalog</h3>
-                <div class="col-sm-12 col-md-6">
-                    <label for="directory" class="form-label">Directory or File</label>
-                    <!-- <input type="text" class="input-size form-control" id="name" formControlName="host"/> -->
-                    <div class="d-flex gap-2">
-                        <input type="text" class="form-control" id="directory" formControlName="directory">
-                        <button type="button" class="btn btn-outline-primary" (click)="addParameter('directory')">Add</button>
-                    </div>
-                    <div class="form-text">The paths to the different .pb files you want to load, or the paths to
-                        directories containing .pb files. Relative paths point to /etc/krakend by default.</div>
-                        <div class="mt-3 d-flex">
-                            <button *ngFor="let item of directoryArray; let i = index" class="parameter-item">
-                                {{ item }}<mat-icon (click)="removeParameter(i,'directory')"
-                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
-                            </button>
-                        </div>
+               <div class="col-sm-12 d-flex gap-3">
+                <div>
+                    <h3>gRPC Catalog</h3>
                 </div>
+                <div>
+                    <mat-slide-toggle formControlName="isgRPCActive"></mat-slide-toggle>
+                </div>
+               </div>
+
+                @if (formGroupService.value.isgRPCActive) {
+                    <div class="col-sm-12 col-md-6">
+                        <label for="directory" class="form-label">Directory or File</label>
+                        <!-- <input type="text" class="input-size form-control" id="name" formControlName="host"/> -->
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control" id="directory" formControlName="directory">
+                            <button type="button" class="btn btn-outline-primary" (click)="addParameter('directory')">Add</button>
+                        </div>
+                        <div class="form-text">The paths to the different .pb files you want to load, or the paths to
+                            directories containing .pb files. Relative paths point to /etc/krakend by default.</div>
+                            <div class="mt-3 d-flex">
+                                <button *ngFor="let item of directoryArray; let i = index" class="parameter-item">
+                                    {{ item }}<mat-icon (click)="removeParameter(i,'directory')"
+                                        class="d-flex align-items-center justify-content-end">close</mat-icon>
+                                </button>
+                            </div>
+                    </div>
+                }@else {
+                    <p>Mark this option to enable TLS in the listening port.</p>
+                }
+               
             </div>
             <hr>
             <div class="row">
@@ -221,18 +234,34 @@
                 </div>
             </div>
             <hr>
+
             <div class="row">
-                <h3 class="main-heading">JWK Shared Cache</h3>
-                <div class="col-sm-12 col-md-4">
-                    <label for="sharedCacheDuration" class="form-label">Shared Cache Duration</label>
-                    <input type="text" class="input-size form-control" id="sharedCacheDuration"
-                        formControlName="sharedCacheDuration" />
-                    <div class="form-text">The cache duration in seconds for the JWK client retrieving the jwk_url. The
-                        endpoint must enable the cache option in order to use this cache. The time you set here depends
-                        on your key rotation time.</div>
+                
+				 <div class="col-sm-12 d-flex gap-3">
+                    <div>
+                        <h3>JWK Shared Cache</h3>
+                    </div>
+                    <div>
+                    <mat-slide-toggle formControlName="isJwkSharedActive"></mat-slide-toggle>
+                    </div>
                 </div>
+                @if (!formGroupService.value.isJwkSharedActive) {
+                    <p>If you have a lot of endpoints, each of them will need to retrieve the JWK URL to cache it. You can add a shared JWK cache where one endpoint call will enable the cache for another one using the same origin URL.</p>
+                }
+                @else {
+                    <h3 class="main-heading">JWK Shared Cache</h3>
+                    <div class="col-sm-12 col-md-4">
+                        <label for="sharedCacheDuration" class="form-label">Shared Cache Duration</label>
+                        <input type="text" class="input-size form-control" id="sharedCacheDuration"
+                            formControlName="sharedCacheDuration" />
+                        <div class="form-text">The cache duration in seconds for the JWK client retrieving the jwk_url. The
+                            endpoint must enable the cache option in order to use this cache. The time you set here depends
+                            on your key rotation time.</div>
+                    </div>
+                }
 
             </div>
+
             <hr>
             <div class="row">
                 <h3 class="main-heading">Gzip Compression</h3>
@@ -253,11 +282,10 @@
                         <h3>Enable Https</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #enableHttps id="isEnableHttpsActive"
-                            (change)="onToggleChangeStaticResponse($event, enableHttps.id)"></mat-slide-toggle>
+                    <mat-slide-toggle formControlName="isEnableHttpsActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isEnableHttpsActive){
+                @if(!formGroupService.value.isEnableHttpsActive){
                 <p>Mark this option to enable TLS in the listening port.</p>
                 }@else{
                 <div class="col-sm-12 col-md-6">
@@ -280,11 +308,10 @@
                         <h3>URL Rewrite</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #urlRewrite id="isUrlRewriteActive"
-                            (change)="onToggleChangeStaticResponse($event, urlRewrite.id)"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isUrlRewriteActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isUrlRewriteActive){
+                @if(!formGroupService.value.isUrlRewriteActive){
                 <p>The url-rewrite plugin allows you to define a set of URLs or regular expressions that are handled by
                     an endpoint of your choice.</p>
                 }@else{
@@ -345,11 +372,10 @@
                         <h3>Virtualhost</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #virtualHost id="isVirtualHostActive"
-                            (change)="onToggleChangeStaticResponse($event, virtualHost.id)"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isVirtualHostActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isVirtualHostActive){
+                @if(!formGroupService.value.isVirtualHostActive){
                     <p>Run different configurations of KrakenD endpoints based on the host accessing the server.</p>
                 }@else{
                     <div class="col-sm-12 col-md-6">
@@ -377,11 +403,10 @@
                         <h3>GeoIp</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #geoIp id="isGeoIpActive"
-                            (change)="onToggleChangeStaticResponse($event, geoIp.id)"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isGeoIpActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isGeoIpActive){
+                @if(!formGroupService.value.isGeoIpActive){
                     <p>Load Maxmind's GeoIP2 City database (commercial and free versions) and enrich all KrakenD calls to your backends with geographical data.</p>
                 }@else{
                     <div class="col-sm-12 col-md-6">
@@ -400,11 +425,10 @@
                         <h3>Static server</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #staticServer id="isStaticServerActive"
-                            (change)="onToggleChangeStaticResponse($event, staticServer.id)"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isStaticServerActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isStaticServerActive){
+                @if(!formGroupService.value.isStaticServerActive){
                     <p>It works similarly to a regular web server; it loads content from the disk and presents it to the users for a given path.</p>
                 }@else{
                     <div class="col-sm-12 col-md-4">
@@ -439,11 +463,10 @@
                         <h3>Rate Limiting</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #rateLimiting id="isRateLimitingActive"
-                            (change)="onToggleChangeStaticResponse($event, rateLimiting.id)"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isRateLimitingActive"></mat-slide-toggle>
                     </div>
                 </div>
-                @if(!isRateLimitingActive){
+                @if(!formGroupService.value.isRateLimitingActive){
                     <p>Puts a limit on the maximum number of requests users can do globally to the service.</p>
                 }@else{
                     <div class="col-sm-12 col-md-4">

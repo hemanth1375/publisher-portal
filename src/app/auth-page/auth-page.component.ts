@@ -11,10 +11,7 @@ export class AuthPageComponent {
 
   @Input() formData: any;
 
-  isTokenValidationActive=false;
-  isTokenSigningActive=false;
-  isBasicAuthActive=false;
-  isCustomChiperSuiteActive = false;
+  
 
   scopesArray:string[]=[];
   audienceArray:string[]=[];
@@ -25,9 +22,13 @@ export class AuthPageComponent {
   @Output() authPageFormSubmitted=new EventEmitter<any>();
 
   formGroup1: FormGroup;
-  formgroup2:FormGroup;
+
   constructor(private formBuilder:FormBuilder){
     this.formGroup1=this.formBuilder.group({
+      isTokenValidationActive:[false],
+      isTokenSigningActive:[false],
+      isBasicAuthActive:[false],
+      isCustomChiperSuiteActive:[false],
       algorithm:[null],
       jwkUri:[null],
       selectedMatcher:[null],
@@ -52,9 +53,7 @@ export class AuthPageComponent {
       
     })
 
-    this.formgroup2 = this.formBuilder.group({
-
-    })
+  
   }
 
   ngOnInit(){
@@ -64,11 +63,8 @@ export class AuthPageComponent {
       this.authPageFormSubmitted.emit(value); // Emit form data on every change
     });
   }
-  changeStatus(){
-    this.isCustomChiperSuiteActive = !this.isCustomChiperSuiteActive
-    console.log(this.isCustomChiperSuiteActive);
-    
-  } 
+
+  
   
   onToggleChangeStaticResponse(event: any, id:any) {
     console.log('id', id);

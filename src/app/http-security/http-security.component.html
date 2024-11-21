@@ -9,12 +9,11 @@
             <h3>Cross-origin resource sharing (CORS)</h3>
           </div>
           <div>
-            <mat-slide-toggle #cors id="isCors"
-              (change)="onToggleChangeStaticResponse($event, cors.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isCorsActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isCors){
+        @if(!formGroupHttpSecurity.value.isCorsActive){
         <p>Enable Cross-Origin Resource Sharing (CORS) module when the API is consumed by browsers in different domains.
         </p>
         }@else{
@@ -120,12 +119,11 @@
             <h3>Bot detector</h3>
           </div>
           <div>
-            <mat-slide-toggle #botDetector id="isBotDetector"
-              (change)="onToggleChangeStaticResponse($event, botDetector.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isBotDetectorActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isBotDetector){
+        @if(!formGroupHttpSecurity.value.isBotDetectorActive){
         <p>Detect and reject bots carrying out scraping, content theft, and form spam.
         </p>
         }@else{
@@ -213,12 +211,11 @@
             <h3>Multiple Identity Providers</h3>
           </div>
           <div>
-            <mat-slide-toggle #multipleIdentityProvider id="isMultipleIdentityProvider"
-              (change)="onToggleChangeStaticResponse($event, multipleIdentityProvider.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isMultipleIdentityProviderActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isMultipleIdentityProvider){
+        @if(!formGroupHttpSecurity.value.isMultipleIdentityProviderActive){
         <p>The JWK aggregator plugin allows KrakenD to validate tokens issued by multiple Identity Providers.
         </p>
         }@else{
@@ -269,12 +266,11 @@
             <h3>IP Filter</h3>
           </div>
           <div>
-            <mat-slide-toggle #ipFilter id="isIpFilter"
-              (change)="onToggleChangeStaticResponse($event, ipFilter.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isIpFilterActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isIpFilter){
+        @if(!formGroupHttpSecurity.value.isIpFilterActive){
         <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It
           works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are
           authorized to use the API, or that are denied from using the API.
@@ -360,12 +356,11 @@
             <h3>HTTP Security</h3>
           </div>
           <div>
-            <mat-slide-toggle #httpSecurity id="isHttpSecurity"
-              (change)="onToggleChangeStaticResponse($event, httpSecurity.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isHttpSecurityActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isHttpSecurity){
+        @if(!formGroupHttpSecurity.value.isHttpSecurityActive){
         <p>Enforces HTTP security policies such as AllowedHosts, SSL Options, HSTS, XSS, HPKP
         </p>
         }@else{
@@ -543,12 +538,11 @@
             <h3>Basic Authentication</h3>
           </div>
           <div>
-            <mat-slide-toggle #basicAuth id="isBasicAuth"
-              (change)="onToggleChangeStaticResponse($event, basicAuth.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isBasicAuthActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isBasicAuth){
+        @if(!formGroupHttpSecurity.value.isBasicAuthActive){
         <p>The Basic Authentication plugin protects the access to selected endpoints using basic username and password
           credentials via <b>htpasswd</b>.
         </p>
@@ -564,7 +558,6 @@
             </div>
           </div>
         </div>
-
 
         }
 

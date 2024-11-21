@@ -10,10 +10,10 @@ import { SharedDataService } from '../services/shared-data.service';
 export class OpenApiComponent {
   formGroupOpenAPI: FormGroup;
 
-  isOpenApi = false;
 
   constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService) {
     this.formGroupOpenAPI = formBuilder.group({
+      isOpenApiActive:[false],
       openApiHostForm: [null],
       openApiBasePathForm: [null],
       openApiDescriptionForm: [null],

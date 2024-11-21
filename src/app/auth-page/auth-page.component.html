@@ -9,12 +9,11 @@
                     <h3>Token Validation</h3>
                 </div>
                 <div>
-                    <mat-slide-toggle #tokenValidation id="isTokenValidationActive"
-                        (change)="onToggleChangeStaticResponse($event, tokenValidation.id)"></mat-slide-toggle>
+                    <mat-slide-toggle formControlName="isTokenValidationActive"></mat-slide-toggle>
                 </div>
             </div>
 
-            @if (!isTokenValidationActive) {
+            @if (!formGroup1.value.isTokenValidationActive) {
             <p>Enables validation of JWT tokens (OAuth) that have been issued by a third party identity provider (e.g.:
                 OpenID Connect)</p>
             }
@@ -173,9 +172,9 @@
 
                 <div class="col-sm-12 p-3">
                     <div class="col-sm-12 heading-with-toggle gap-2 flex-column mb-2">
-                        <mat-checkbox (change)="changeStatus()" class="example-margin">Custom Chiper Suite</mat-checkbox>
+                        <mat-checkbox formControlName="isCustomChiperSuiteActive" class="example-margin">Custom Chiper Suite</mat-checkbox>
                     </div>
-                    <div class="mb-3 col-sm-8" *ngIf="isCustomChiperSuiteActive">
+                    <div class="mb-3 col-sm-8" *ngIf="formGroup1.value.isCustomChiperSuiteActive">
                         <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3" formControlName="customChiperSuite"></textarea>
                     </div>
                     <div class="form-text">Overrides the default cipher suites. Unless you have your
@@ -209,8 +208,7 @@
                 <h3>Token Signing</h3>
             </div>
             <div>
-                <mat-slide-toggle #tokenSigning id="isTokenSigningActive"
-                    (change)="onToggleChangeStaticResponse($event, tokenSigning.id)"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="isTokenSigningActive"></mat-slide-toggle>
             </div>
             <!-- <div>
                 <mat-slide-toggle #tokenSigning id="isTokenSigningActive"
@@ -218,7 +216,7 @@
             </div> -->
         </div>
 
-        @if (!isTokenSigningActive) {
+        @if (!formGroup1.value.isTokenSigningActive) {
         <p>Enables validation of JWT tokens (OAuth) that have been issued by a third party identity provider (e.g.:
             OpenID Connect)</p>
         }
@@ -294,12 +292,10 @@
                     <h3>Basic Authentication</h3>
                 </div>
                 <div>
-                    <mat-slide-toggle #basicAuth id="isBasicAuthActive"
-                        (change)="onToggleChangeStaticResponse($event , basicAuth.id)"></mat-slide-toggle>
+                    <mat-slide-toggle formControlName="isBasicAuthActive"></mat-slide-toggle>
                 </div>
             </div>
-
-            @if (!isBasicAuthActive) {
+            @if (!formGroup1.value.isBasicAuthActive) {
             <p>The Basic Authentication plugin protects the access to selected endpoints using basic username and
                 password credentials via htpasswd.</p>
             }

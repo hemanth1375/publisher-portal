@@ -9,12 +9,11 @@
             <h3>API Monetization and API Governance (Moesif partnership)</h3>
           </div>
           <div>
-            <mat-slide-toggle #apiMonetization id="isApiMonetization"
-              (change)="onToggleChangeStaticResponse($event, apiMonetization.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isApiMonetizationActive"></mat-slide-toggle>
           </div>
 
         </div>
-        @if(!isApiMonetization){
+        @if(!formGroupApiMonetization.value.isApiMonetizationActive){
         <p>Enable the API Monetization module and start generating revenue from your APIs. The monetization integration
           is
           possible thanks to our partnership with Moesif.

@@ -10,10 +10,10 @@ export class ApiMonetizationAndGovernanceComponent {
 
   formGroupApiMonetization: FormGroup;
 
-  isApiMonetization = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupApiMonetization = formBuilder.group({
+      isApiMonetizationActive:[false],
       apiMonetizationAppIDForm: [null],
       apiMonetizationDebugForm: [false],
       apiMonetizationHeadersForm: [null],

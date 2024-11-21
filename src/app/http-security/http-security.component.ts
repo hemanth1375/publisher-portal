@@ -12,14 +12,6 @@ export class HttpSecurityComponent {
 
   formGroupHttpSecurity: FormGroup;
 
-
-  isCors = false;
-  isBotDetector = false;
-  isMultipleIdentityProvider = false;
-  isIpFilter = false;
-  isHttpSecurity = false;
-  isBasicAuth = false;
-
   onToggleChangeStaticResponse(event: any, id: any) {
     console.log('id', id);
     (this as any)[id] = event.checked;
@@ -240,7 +232,12 @@ this.formGroupHttpSecurity.patchValue({
 
   constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService,private _snackBar: MatSnackBar ) {
     this.formGroupHttpSecurity = this.formBuilder.group({
-
+      isCorsActive:[false],
+      isBotDetectorActive:[false], 
+      isMultipleIdentityProviderActive:[false] ,
+      isIpFilterActive:[false],
+      isHttpSecurityActive:[false],
+      isBasicAuthActive:[false],
       corsAllowedOriginsForm: [null],
       corsAllowedHeadersForm: [null],
       corsExposeHeadersForm: [null],

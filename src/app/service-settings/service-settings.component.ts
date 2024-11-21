@@ -20,6 +20,14 @@ export class ServiceSettingsComponent {
   @Output() serviceSettingsFormSubmitted=new EventEmitter<any>();
   constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService,private apiCardsService:ApicardsService, private sharedService:SharedDataService,private _snackBar: MatSnackBar){
     this.formGroupService=this.formBuilder.group({
+      isgRPCActive:[false],
+      isEnableHttpsActive: [false],
+      isUrlRewriteActive: [false],
+      isVirtualHostActive: [false],
+      isGeoIpActive: [false],
+      isStaticServerActive: [false],
+      isRateLimitingActive: [false],
+      isJwkSharedActive:[false],
       name:[null,[Validators.required]],
       port:[null,[Validators.required]],
       host:[null],
@@ -59,12 +67,7 @@ export class ServiceSettingsComponent {
       regExpMatchObjectMapValue:[[]],
     })
   }
-  isEnableHttpsActive=false;
-  isUrlRewriteActive=false;
-  isVirtualHostActive=false;
-  isGeoIpActive=false;
-  isStaticServerActive=false;
-  isRateLimitingActive=false;
+  
   onToggleChangeStaticResponse(event: any, id:any) {
     console.log('id', id);
     (this as any)[id] = event.checked;  

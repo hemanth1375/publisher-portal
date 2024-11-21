@@ -9,22 +9,19 @@
           validation.</h3>
       </div>
       <hr class="mt-4">
+
       <div class="col-sm-12">
-        <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></h3>
-        <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
-          Access Control) and ABAC (Attribute-Based Access Control) strategies</p>
-        @if(isSpFilterEnabled){
+        <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle formControlName="isSpFilterActive"></mat-slide-toggle></h3>
+
+        @if(formGroupPolicies.value.isSpFilterActive){
         <div>
           <h3>Request Policies</h3>
           <div class="d-flex">
             <div class="col-sm-12 col-md-4">
               <label for="reqp1" class="form-label">Request Policies</label>
-              <!-- <p>Request Policies</p> -->
               <div class="d-flex align-items-center">
                 <input id="reqp1" type="text" class="input-size me-2 form-control" placeholder="value"
                   formControlName="securityReqPolicy">
-                <!-- <button type="button" class="btn btn-info" (click)="addParameterReqP1()">+</button> -->
-                <!-- edited -->
                 <button type="button" class="btn btn-info" (click)="addParameter('securityReqPolicy')">+</button>
 
               </div>
@@ -82,10 +79,7 @@
               <label for="resP" class="form-label">Response Policies</label>
               <div class="d-flex align-items-center">
                 <input id="resP" type="text" class="input-size me-2 form-control" formControlName="securityResPolicy">
-                <!-- <button type="button" class="btn btn-info" (click)="addParameterResP()">+</button> -->
-                <!-- edited -->
                 <button type="button" class="btn btn-info" (click)="addParameter('securityResPolicy')">+</button>
-
               </div>
               <div class="form-text">Policy. Example: hasQuerystring('q')</div>
               <div class="mt-3 d-flex">
@@ -175,8 +169,6 @@
               </div>
               <div class="form-text">All policies concatenate with an AND<br>operation to evaluate a single
                 expression.<br> Faster, but harder to debug.</div>
-
-
             </div>
             <div class="col-sm-12 col-md-4">
               <div class="d-flex">
@@ -190,37 +182,42 @@
           </div>
         </div>
 
+        }@else {
+        <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
+          Access Control) and ABAC (Attribute-Based Access Control) strategies</p>
         }
       </div>
       <hr class="mt-4">
+
       <div class="col-sm-12">
         <h3>Request schema validator &nbsp;&nbsp;<mat-slide-toggle
-            (change)="onToggleChange1($event)"></mat-slide-toggle>
+            formControlName="isRequestSchValidatorFiltrActive"></mat-slide-toggle>
         </h3>
+        @if(formGroupPolicies.value.isRequestSchValidatorFiltrActive){
+        <div class="col-sm-12 col-md-9">
+          <label for="reqJSON" class="form-label">JSON schema</label>
+          <textarea id="reqJSON" class="static-text-area form-control" formControlName="reqJSONSchema">{}</textarea>
+          <div class="form-text">Write your JSON schema directly in this field, with any number of fields or validations you need.</div>
+        </div>
+        }@else {
         <p>The policies engine lets you write custom rules validated on runtime during requests, responses, and token
           validation. The policies allow you to implement all sorts of validations and user access control, from
           parameter
           compliance, to RBAC (Role-Based Access Control) and ABAC (Attribute-Based Access Control) strategies. </p>
-        @if(isRequestSchValidatorFiltrEnabled){
-        <div class="col-sm-12 col-md-9">
-          <textarea name="" id="" class="static-text-area">{}</textarea>
-
-        </div>
-
         }
       </div>
       <hr class="mt-4">
 
       <div class="col-sm-12">
         <h3>Response schema validator &nbsp;&nbsp;<mat-slide-toggle
-            (change)="onToggleChange2($event)"></mat-slide-toggle>
+            formControlName="isResponseSchValidatorFiltrActive"></mat-slide-toggle>
         </h3>
-        <p>The response schema validator plugin adds a schema validation before the gateway returns the response to the
-          end-user or before it's merged in the endpoint with the rest of the backends. </p>
-        @if(isResponseSchValidatorFiltrEnabled){
+
+        @if(formGroupPolicies.value.isResponseSchValidatorFiltrActive){
         <div class="col-sm-12 col-md-9">
-          <textarea name="" id="" class="static-text-area">{}</textarea><br>
-          <p>Write your JSON schema directly in this field, with any number of fields or validations you need.</p>
+          <label for="resJSON" class="form-label">JSON schema</label>
+          <textarea id="resJSON" class="static-text-area form-control" formControlName="resJSONSchema">{}</textarea>
+          <div class="form-text">Write your JSON schema directly in this field, with any number of fields or validations you need.</div>
 
           <div class="d-flex col-sm-12">
             <div class="col-sm-12 col-md-6">
@@ -241,6 +238,9 @@
 
         </div>
 
+        }@else {
+        <p>The response schema validator plugin adds a schema validation before the gateway returns the response to the
+          end-user or before it's merged in the endpoint with the rest of the backends. </p>
         }
       </div>
       <!-- <div class="col-sm-12 d-flex justify-content-end">

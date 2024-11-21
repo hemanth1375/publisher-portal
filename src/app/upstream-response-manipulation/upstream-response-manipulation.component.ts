@@ -47,9 +47,14 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
       contentType:[''],
       debug:[false],
       path:[''],
+
       contentReplacer: this.formBuilder.group({}),
       contentReplacerKey:[''],
+
+      
       regexConReplacerActive:[true],
+
+
       operationType:[''],
       flatmapTargetObj:[''],
       flatmapOriginalObj:[''],

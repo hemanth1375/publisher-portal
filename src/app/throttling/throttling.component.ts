@@ -8,62 +8,54 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ThrottlingComponent {
 
-  formGroupThrottling:FormGroup;
+  formGroupThrottling: FormGroup;
   @Input() formData: any;
-  @Output() throttlingFormSubmitted =new EventEmitter<any>();
-  constructor(private formBuilder:FormBuilder){
-    this.formGroupThrottling=this.formBuilder.group({
-      timeout:[''],
-      cacheTtl:[''],
-      cidr:[''],
-      trustedProxies:[''],
-      clientIpHeaders:[''],
-      rateLimit:[''],
-      every:[''],
-      capacity:[''],
-      defaultUserQuota:[''],
-      clientCapacity:[''],
-      address:[''],
-      rate:[''],
-      periods:[''],
-      burst:[''],
-      tokenizer:[''],
-      tokenizerField:['']
+  @Output() throttlingFormSubmitted = new EventEmitter<any>();
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroupThrottling = this.formBuilder.group({
+      timeout: [''],
+      cacheTtl: [''],
+      cidr: [''],
+      trustedProxies: [''],
+      clientIpHeaders: [''],
+      rateLimit: [''],
+      every: [''],
+      capacity: [''],
+      defaultUserQuota: [''],
+      clientCapacity: [''],
+      address: [''],
+      rate: [''],
+      periods: [''],
+      burst: [''],
+      tokenizer: [''],
+      tokenizerField: [''],
+      isIpFilterEnabledActive:[false],
+      isEndPointRateLimitEnabledActive:[false],
+      isRedisRateLimitEnabledActive:[false]
     })
   }
-  ngOnInit(){
+  
+  ngOnInit() {
     console.log(this.formData);
-this.formGroupThrottling.patchValue({
-  rateLimit:this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate
-})
-    
-   
+    this.formGroupThrottling.patchValue({
+      rateLimit: this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate
+    })
   }
-  ngAfterViewInit(){
+
+  ngAfterViewInit() {
     this.formGroupThrottling.valueChanges.subscribe(value => {
       console.log(value);
-      
+
       this.throttlingFormSubmitted.emit(value); // Emit form data on every change
     });
   }
-  saveForm(){
-    if(this.formGroupThrottling.valid){
+
+  saveForm() {
+    if (this.formGroupThrottling.valid) {
       this.throttlingFormSubmitted.emit(this.formGroupThrottling.value)
     }
   }
 
-  isIpFilterEnabled = false; // Initially false
+ 
 
-  onToggleChange(event: any) {
-    this.isIpFilterEnabled = event.checked; // Capture toggle state
-  }
-  // end point rate limit
-  isEndPointRateLimitEnabled=false;
-  onToggleChangeEndPoint(event: any){
-this.isEndPointRateLimitEnabled=event.checked;
-  }
-  isRedisRateLimitEnabled=false;
-  onToggleChangeRedis(event: any){
-this.isRedisRateLimitEnabled=event.checked;
-  }
 }

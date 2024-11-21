@@ -28,7 +28,13 @@ export class PoliciesComponent implements OnInit,AfterViewInit {
       resSchemaValErrorStCode: [null],
       secReqPolicyArrayValue: [[]],
       secResPolicyArrayValue: [[]],
-      jwtReqPolicyArrayValue: [[]]
+      jwtReqPolicyArrayValue: [[]],
+      isSpFilterActive:[false],
+      isRequestSchValidatorFiltrActive:[false],
+      isResponseSchValidatorFiltrActive:[false],
+      reqJSONSchema:[''],
+      resJSONSchema:['']
+
     })
   }
   ngAfterViewInit(): void {
@@ -103,22 +109,5 @@ export class PoliciesComponent implements OnInit,AfterViewInit {
     }
   }
 
-  isSpFilterEnabled = false; // Initially false
-
-  onToggleChange(event: any) {
-    this.isSpFilterEnabled = event.checked; // Capture toggle state
-  }
-
-  isRequestSchValidatorFiltrEnabled = false; //Initially False
-
-  onToggleChange1(event: any) {
-    this.isRequestSchValidatorFiltrEnabled = event.checked;
-  }
-
-  isResponseSchValidatorFiltrEnabled = false;
-
-  onToggleChange2(event: any) {
-    this.isResponseSchValidatorFiltrEnabled = event.checked;
-  }
 
 }

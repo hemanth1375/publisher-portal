@@ -166,7 +166,7 @@
     <hr>
 
     <div class="row gap-3">
-      <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+      <div class="row heading-with-toggle d-flex align-items-center gap-2">
         <div>
           <h3>Advance Response Manipulation (JMESPath)</h3>
         </div>
@@ -220,6 +220,10 @@
           </div>
         </div>
       </div>
+      }@else {
+        <div class="col-sm-12">
+          <p>Manipulate the response dataset after the aggregation layer using a JSON Query language.</p>
+        </div>
       }
     </div>
 
@@ -284,6 +288,8 @@
       </div>
 
 
+      }@else {
+        <p>The response body generator lets you write a whole new payload using a template that has access to all the response data. In addition to the payload from the backend, you can incorporate other information such as headers, status codes, query strings, or URL parameters.</p>
       }
     </div>
 
@@ -351,6 +357,8 @@
           </div>
         </div>
       </div>
+      }@else {
+        <p>The content replacer plugin allows you to modify the response of your services by doing literal replacements or more sophisticated replacements with regular expressions.</p>
       }
     </div>
 
@@ -404,6 +412,7 @@
         </div>
 
     </div>
+
     <div class="row gap-3">
 
       <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">

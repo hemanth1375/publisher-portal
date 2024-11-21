@@ -1,92 +1,103 @@
 <div class="container">
     <div class="row">
         <form [formGroup]="formGroupThrottling">
-        <div class="col-sm-12">
-            <h2>Throttling</h2>
-            <p>TimeOut and Cache TTL</p>
-            <p>All the settings below are defined in the Service configuration, setting one or several values here means overriding the settings for this specific endpoint only</p>
-            <p>Valid time units : ns, us (or µs), ms, s, m, h E.g: 1s</p>
-            <div class="d-flex">
-                <div class="col-sm-12 col-md-6">
-                    <label for="timeout" class="form-label">Time Out</label>
-                    <input type="text" class="input-size form-control" id="timeout" formControlName="timeout"/>
-                    <div id="timeoutHelp" class="form-text">Maximum time you'll wait for the slowest response.</div>
-                    <!-- <span class="form-text"></span> -->
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label for="cacheTtl" class="form-label">Cache TTL</label>
-                    <!-- <p></p> -->
-                    <input type="text" class="input-size form-control" id="cacheTtl" formControlName="cacheTtl"/>
-                    <div id="timeoutHelp" class="form-text">For how long a proxy can cache a request to this endpoint.</div>
-                    <!-- <span class="form-text">For how long a proxy can cache a request to<br> this endpoint</span> -->
-                </div>
-                
-            </div>
+            <div class="col-sm-12">
+                <h2>Throttling</h2>
+                <p>TimeOut and Cache TTL</p>
+                <p>All the settings below are defined in the Service configuration, setting one or several values here
+                    means overriding the settings for this specific endpoint only</p>
+                <p>Valid time units : ns, us (or µs), ms, s, m, h E.g: 1s</p>
+                <div class="d-flex">
+                    <div class="col-sm-12 col-md-6">
+                        <label for="timeout" class="form-label">Time Out</label>
+                        <input type="text" class="input-size form-control" id="timeout" formControlName="timeout" />
+                        <div id="timeoutHelp" class="form-text">Maximum time you'll wait for the slowest response.</div>
+                        <!-- <span class="form-text"></span> -->
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label for="cacheTtl" class="form-label">Cache TTL</label>
+                        <!-- <p></p> -->
+                        <input type="text" class="input-size form-control" id="cacheTtl" formControlName="cacheTtl" />
+                        <div id="timeoutHelp" class="form-text">For how long a proxy can cache a request to this
+                            endpoint.</div>
+                        <!-- <span class="form-text">For how long a proxy can cache a request to<br> this endpoint</span> -->
+                    </div>
 
-        </div>
-        <hr class="mt-4">
-        <div class="col-sm-12">
-            <h3>IP Filter <mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></h3>
-            <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are authorized to use the API, or that are denied from using the AP</p>
-            @if(isIpFilterEnabled){
+                </div>
+
+            </div>
+            <hr class="mt-4">
+            <div class="col-sm-12">
+                <h3>IP Filter <mat-slide-toggle formControlName="isIpFilterEnabledActive"></mat-slide-toggle></h3>
+                @if(formGroupThrottling.value.isIpFilterEnabledActive){
                 <div>
                     <p>CIDR</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="text" formControlName="cidr"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">The CIDR blocks (list of IPs) you want to allow or deny. Examples: 192.168.0.0/24, 172.17.2.56/32, 127.0.0.</span>
+                            <input class="input-size1 form-control" type="text" formControlName="cidr" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">The CIDR blocks (list of IPs) you want to allow or deny.
+                            Examples: 192.168.0.0/24, 172.17.2.56/32, 127.0.0.</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <p>Trusted Proxies</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="text" formControlName="trustedProxies"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">A custom list of all the recognized machines/balancers that proxy the client to your application. This list is used to avoid spoofing when trying to get the real IP of the client.</span>
+                            <input class="input-size1 form-control" type="text" formControlName="trustedProxies" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">A custom list of all the recognized machines/balancers that
+                            proxy the client to your application. This list is used to avoid spoofing when trying to get
+                            the real IP of the client.</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <p>Client IP Headers</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="text" formControlName="clientIpHeaders"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">A custom ordered list of all headers that might contain the real IP of the client. The first matching IP in the list will be used</span>
+                            <input class="input-size1 form-control" type="text" formControlName="clientIpHeaders" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">A custom ordered list of all headers that might contain the
+                            real IP of the client. The first matching IP in the list will be used</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <p>Allow mode</p>
-                    </div>
-                        <span class="col-sm-9 cidr-span">Check to only allow connections in the CIDR list. Uncheck to deny all IPs from the list.</span>
+                            <p>Allow mode</p>
+                        </div>
+                        <span class="col-sm-9 cidr-span">Check to only allow connections in the CIDR list. Uncheck to
+                            deny all IPs from the list.</span>
                     </div>
                 </div>
-            }
-        </div>
-        <hr class="mt-4">
+                }@else {
+                <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP
+                    address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR
+                    blocks) that are authorized to use the API, or that are denied from using the AP</p>
+                }
+            </div>
+            <hr class="mt-4">
 
-        <div class="col-sm-12">
-            <h3>End Point Rate Limit <mat-slide-toggle (change)="onToggleChangeEndPoint($event)"></mat-slide-toggle></h3>
-            <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR blocks) that are authorized to use the API, or that are denied from using the AP</p>
-            @if(isEndPointRateLimitEnabled){
+            <div class="col-sm-12">
+                <h3>End Point Rate Limit <mat-slide-toggle
+                        formControlName="isEndPointRateLimitEnabledActive"></mat-slide-toggle></h3>
+                @if(formGroupThrottling.value.isEndPointRateLimitEnabledActive){
                 <div>
                     <p>Rate Limit</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="number" formControlName="rateLimit"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">Maximum requests you want to let this endpoint handle in the specified time (every). Leave 0 for no default limit.</span>
+                            <input class="input-size1 form-control" type="number" formControlName="rateLimit" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">Maximum requests you want to let this endpoint handle in the
+                            specified time (every). Leave 0 for no default limit.</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <p>Every</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="text" formControlName="every"/>
-                    </div>
+                            <input class="input-size1 form-control" type="text" formControlName="every" />
+                        </div>
                         <span class="col-sm-9 cidr-span">Time window where this rate limit applies</span>
                     </div>
                 </div>
@@ -94,71 +105,84 @@
                     <p>Capacity</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="number" formControlName="capacity"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket. Traduces into maximum concurrent requests this endpoint will accept for all users</span>
+                            <input class="input-size1 form-control" type="number" formControlName="capacity" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket. Traduces
+                            into maximum concurrent requests this endpoint will accept for all users</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <p>Default User Quota</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="number" formControlName="defaultUserQuota"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">Maximum requests per second you want to allow to each different API user. This value will be used as default for all the endpoints unless overridden in each of them. Use 0 for no limitation.</span>
+                            <input class="input-size1 form-control" type="number" formControlName="defaultUserQuota" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">Maximum requests per second you want to allow to each different
+                            API user. This value will be used as default for all the endpoints unless overridden in each
+                            of them. Use 0 for no limitation.</span>
                     </div>
                 </div>
                 <div class="mt-3">
                     <p>Client Capacity</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                        <input class="input-size1 form-control" type="number"formControlName="clientCapacity"/>
-                    </div>
-                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket for each individual user. Traduces into maximum concurrent requests this endpoint will accept for the connected user</span>
+                            <input class="input-size1 form-control" type="number" formControlName="clientCapacity" />
+                        </div>
+                        <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket for each
+                            individual user. Traduces into maximum concurrent requests this endpoint will accept for the
+                            connected user</span>
                     </div>
                 </div>
-            }
-        </div>
-        <hr class="mt-4">
+                }@else {
+                    <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP
+                        address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR
+                        blocks) that are authorized to use the API, or that are denied from using the AP</p>
+                }
+            </div>
+            <hr class="mt-4">
 
-        <div class="col-sm-12 mb-5">
-            <h3>Redis Rate Limit <mat-slide-toggle (change)="onToggleChangeRedis($event)"></mat-slide-toggle></h3>
-            <p>The global rate limit functionality enables a Redis database store to centralize all KrakenD node counters. Instead of having each KrakenD node count its hits, the counters are global and stored in the database</p>
-            @if(isRedisRateLimitEnabled){
+            <div class="col-sm-12 mb-5">
+                <h3>Redis Rate Limit <mat-slide-toggle
+                        formControlName="isRedisRateLimitEnabledActive"></mat-slide-toggle></h3>
+                @if(formGroupThrottling.value.isRedisRateLimitEnabledActive){
                 <div class="d-flex">
                     <div class="col-sm-12 col-md-6">
                         <!-- <p>Address</p> -->
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="input-size form-control" id="address" formControlName="address"/>
-                        <div id="addressHelp" class="form-text">The host and port where your redis is using the format host:port, e.g.: redis:6379</div>
+                        <input type="text" class="input-size form-control" id="address" formControlName="address" />
+                        <div id="addressHelp" class="form-text">The host and port where your redis is using the
+                            format host:port, e.g.: redis:6379</div>
                         <!-- <span class="input-label"></span> -->
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="rate" class="form-label">Rate</label>
-                        <input type="number" class="input-size form-control" id="rate" formControlName="rate"/>
-                        <div id="rateHelp" class="form-text">Number of allowed requests during the observed period.</div>
+                        <input type="number" class="input-size form-control" id="rate" formControlName="rate" />
+                        <div id="rateHelp" class="form-text">Number of allowed requests during the observed period.
+                        </div>
                         <!-- <span class="input-label"></span> -->
                     </div>
-                    
+
                 </div>
                 <div class="d-flex mt-3">
                     <div class="col-sm-12 col-md-6">
                         <label for="periods" class="form-label">Periods</label>
-                        <input type="text" class="input-size form-control" id="periods" formControlName="periods"/>
+                        <input type="text" class="input-size form-control" id="periods" formControlName="periods" />
                         <div id="periodHelp" class="form-text">Time window on which the counters take effect.</div>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="burst" class="form-label">Burst</label>
-                        <input type="number" class="input-size form-control" id="burst" formControlName="burst"/>
-                        <div id="burstHelp" class="form-text">How many requests a client can make above the rate specified during a peak</div>
-                        
+                        <input type="number" class="input-size form-control" id="burst" formControlName="burst" />
+                        <div id="burstHelp" class="form-text">How many requests a client can make above the rate
+                            specified during a peak</div>
+
                     </div>
-                    
+
                 </div>
                 <div class="d-flex mt-3">
                     <div class="col-sm-12 col-md-6">
                         <label for="tokenizer" class="form-label">Tokenizer</label>
-                        <select class="form-select input-size" aria-label="Default select example" id="tokenizer" formControlName="tokenizer">
+                        <select class="form-select input-size" aria-label="Default select example" id="tokenizer"
+                            formControlName="tokenizer">
                             <option selected>Select Tokenizer</option>
                             <option value="JWT">JWT-The JWT token(jti by default)</option>
                             <option value="IP">IP-The real IP of the user</option>
@@ -167,22 +191,28 @@
                             <option value="header">Header(as set in Tokenizer field)</option>
                             <option value="parameter">Parameter(as set in Tokenizer field)</option>
                             <option value="cookie">Cookie(as set in Tokenizer field)</option>
-                          </select>
-                          <div id="tokenizerHelp" class="form-text">The strategy to define users. How do you identify a user?</div>
-                        
+                        </select>
+                        <div id="tokenizerHelp" class="form-text">The strategy to define users. How do you identify a
+                            user?</div>
+
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="tokenizerField" class="form-label">Tokenizer Field</label>
-                        <input type="text" class="input-size form-control" id="tokenizerField" formControlName="tokenizerField"/>
-                        <div id="tokenizerFieldHelp" class="form-text">A custom field that contains the tokenizer (e.g., extracting the token from a custom header other than Authorization or using a claim from a JWT other than jti)</div>
-                        
+                        <input type="text" class="input-size form-control" id="tokenizerField"
+                            formControlName="tokenizerField" />
+                        <div id="tokenizerFieldHelp" class="form-text">A custom field that contains the tokenizer (e.g.,
+                            extracting the token from a custom header other than Authorization or using a claim from a
+                            JWT other than jti)</div>
                     </div>
-                    
+
                 </div>
-            }
-        </div>
-    </form>
-    <!-- <div class="col-sm-12 d-flex justify-content-end">
+                }
+                @else {<p>The global rate limit functionality enables a Redis database store to centralize all KrakenD node
+                    counters. Instead of having each KrakenD node count its hits, the counters are global and stored in
+                    the database</p>}
+            </div>
+        </form>
+        <!-- <div class="col-sm-12 d-flex justify-content-end">
         <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
     </div> -->
     </div>

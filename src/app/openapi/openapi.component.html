@@ -6,9 +6,9 @@
             <p>The OpenAPI generator is a command-line utility embedded in the KrakenD binary, offering OpenAPI import and export capabilities (for both Swagger v2 and OAS3)</p>
         </div>
         <div class="col-sm-12 mb-5">
-            <h3>Documentation (Open Api) <mat-slide-toggle (change)="onToggleChangeOpenDocumentation($event)"></mat-slide-toggle></h3>
+            <h3>Documentation (Open Api) <mat-slide-toggle formControlName="isDocumentationActive" ></mat-slide-toggle></h3>
             <p>When the backend fails you can still return the static data provided below to the user. The data is merged with any existing partial responses. If you still don't have a backend and want to have this data, add a fake one that cannot be resolved.</p>
-            @if(isDocumentationEnabled){
+            @if(formGroupOpenapi.value.isDocumentationActive){
                 <p>General OpenAPI information for your developers. All fields are optional.</p>
                 <div class="d-flex">
                     <div class="col-sm-12 col-md-6">

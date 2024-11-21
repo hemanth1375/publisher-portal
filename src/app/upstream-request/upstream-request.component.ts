@@ -7,14 +7,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './upstream-request.component.css'
 })
 export class UpstreamRequestComponent implements AfterViewInit {
-  isStaticServerActive=false;
-  isBodymanipulationActive=false;
-  isMartianActive=false;
+  
   formGroupUpstreamRequest:FormGroup;
   @Input() formData: any;
   @Output() upstreamRequestFormSubmitted =new EventEmitter<any>();
   constructor(private formBuilder:FormBuilder){
     this.formGroupUpstreamRequest=formBuilder.group({
+
+      isStaticServerActive:[false],
+      isBodymanipulationActive:[false],
+      isMartianActive:[false],
+      sanitization:[false],
       method:[null],
       endpointUrl:[null],
       decodeAs:[null],
@@ -26,7 +29,6 @@ export class UpstreamRequestComponent implements AfterViewInit {
       martianDslTextarea:[null],
       host:[null],
       hostArrayValue:[[]]
-      
     })
 
   }

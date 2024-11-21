@@ -10,10 +10,10 @@
         </div>
         <hr class="mt-4">
         <div class="col-sm-12">
-          <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle (change)="onToggleChange($event)"></mat-slide-toggle></h3>
+          <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle formControlName="isSecPolicyActive" ></mat-slide-toggle></h3>
           <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
             Access Control) and ABAC (Attribute-Based Access Control) strategies</p>
-          @if(isSpFilterEnabled){
+          @if(formGroupUpstreamPolicies.value.isSecPolicyActive){
           <div>
             <h3>Request Policies</h3>
             <div class="d-flex">
@@ -195,12 +195,11 @@
         <hr class="mt-4">
   
         <div class="col-sm-12">
-          <h3>Response schema validator &nbsp;&nbsp;<mat-slide-toggle
-              (change)="onToggleChange2($event)"></mat-slide-toggle>
+          <h3>Response schema validator &nbsp;&nbsp;<mat-slide-toggle formControlName="isResSchValidatorActive"></mat-slide-toggle>
           </h3>
           <p>The response schema validator plugin adds a schema validation before the gateway returns the response to the
             end-user or before it's merged in the endpoint with the rest of the backends. </p>
-          @if(isResponseSchValidatorFiltrEnabled){
+          @if(formGroupUpstreamPolicies.value.isResSchValidatorActive){
           <div class="col-sm-12 col-md-9">
             <textarea name="" id="" class="static-text-area">{}</textarea><br>
             <p>Write your JSON schema directly in this field, with any number of fields or validations you need.</p>

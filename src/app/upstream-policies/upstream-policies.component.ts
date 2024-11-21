@@ -8,9 +8,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class UpstreamPoliciesComponent {
 
+
+  parameterArraySecReqPolicy: any = [];
+  parameterArraySecResPolicy: any = [];
+  parameterArrayJwtValReqPolicy: any = [];
+
+  formGroupUpstreamPolicies: FormGroup;
+
+  @Output() upstreamPoliciesFormSubmitted = new EventEmitter<any>();
+
   @Input() formData: any;
+
   constructor(private formBuilder: FormBuilder) {
     this.formGroupUpstreamPolicies = this.formBuilder.group({
+      isSecPolicyActive:[false],
+      isResSchValidatorActive:[false],
       securityReqPolicy: [null],
       secReqErrorStCode: [null],
       secReqErrorBody: [null],
@@ -31,25 +43,17 @@ export class UpstreamPoliciesComponent {
     })
   }
 
-
-  formGroupUpstreamPolicies: FormGroup;
-
-  @Output() upstreamPoliciesFormSubmitted = new EventEmitter<any>();
   submitForm() {
-    
+
   }
-  ngOnInit(){
+
+  ngOnInit() {
     this.formGroupUpstreamPolicies.valueChanges.subscribe(value => {
       console.log(value);
-      
+
       this.upstreamPoliciesFormSubmitted.emit(value); // Emit form data on every change
     });
   }
-
-  parameterArraySecReqPolicy: any = [];
-  parameterArraySecResPolicy: any = [];
-  parameterArrayJwtValReqPolicy: any = [];
-
 
   addParameter(fieldName: 'securityReqPolicy' | 'securityResPolicy' | 'jwtReqPolicy') {
     const fieldValue = this.formGroupUpstreamPolicies.get(fieldName)?.value;
@@ -93,22 +97,7 @@ export class UpstreamPoliciesComponent {
     }
   }
 
-  isSpFilterEnabled = false; // Initially false
 
-  onToggleChange(event: any) {
-    this.isSpFilterEnabled = event.checked; // Capture toggle state
-  }
 
-  isRequestSchValidatorFiltrEnabled = false; //Initially False
-
-  onToggleChange1(event: any) {
-    this.isRequestSchValidatorFiltrEnabled = event.checked;
-  }
-
-  isResponseSchValidatorFiltrEnabled = false;
-
-  onToggleChange2(event: any) {
-    this.isResponseSchValidatorFiltrEnabled = event.checked;
-  }
 
 }

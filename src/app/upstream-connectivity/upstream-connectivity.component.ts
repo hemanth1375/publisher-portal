@@ -12,15 +12,6 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
 
   formGroupUpstreamConnectivity: FormGroup;
 
-  isRestToSoapActive = false;
-  isHttpClientSetting = false;
-  isRestToGraphql = false;
-  isAMQPconsumer = false;
-  isAWSlambda = false;
-  isrestToGRPC = false;
-  isPublicSubscriber = false;
-  isPublicPublisher = false;
-  isAMQPproducer = false;
 
 
 
@@ -131,6 +122,15 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupUpstreamConnectivity = formBuilder.group({
+      isRestToSoapActive:[false],
+      isHttpClientSettingActive:[false],
+      isRestToGraphqlActive:[false],
+      isAMQPconsumerActive:[false],
+      isAWSlambdaActive:[false],
+      isrestToGRPCActive:[false],
+      isPublicSubscriberActive:[false],
+      isPublicPublisherActive:[false],
+      isAMQPproducerActive:[false],
       contentTypeRestToSoap: [null],
       enableDebugRestToSoap: [false],
       pathRestToSoapForm: [null],

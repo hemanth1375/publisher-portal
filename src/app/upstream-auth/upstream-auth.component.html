@@ -11,11 +11,10 @@
                 <h3>Auth: Client Credentials</h3>
             </div>
             <div>
-                <mat-slide-toggle #authentication id="isAuthActive"
-                    (change)="onToggleChangeStaticResponse($event, authentication.id)"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="isAuthActive"></mat-slide-toggle>
             </div>
         </div>
-        @if(!isAuthActive){
+        @if(!formGroupUpstreamAuth.value.isAuthActive){
             <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching the backend's protected resources. The token refreshes when needed.</p>
         }@else{
             <div class="row">
@@ -61,11 +60,11 @@
                 <h3>Google Cloud Service Account</h3>
             </div>
             <div>
-                <mat-slide-toggle #googleCloud id="isGoogleCloudActive"
-                    (change)="onToggleChangeStaticResponse($event, googleCloud.id)"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="isGoogleCloudActive"></mat-slide-toggle>
+                   
             </div>
         </div>
-        @if(!isGoogleCloudActive){
+        @if(!formGroupUpstreamAuth.value.isGoogleCloudActive){
             <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching the backend's protected resources. The token refreshes when needed.</p>
         }@else{
             <div class="col-sm-12 col-md-6">
@@ -82,11 +81,10 @@
                 <h3>NLTM Authentication</h3>
             </div>
             <div>
-                <mat-slide-toggle #ntlmAuth id="isNtlmAuthActive"
-                    (change)="onToggleChangeStaticResponse($event, ntlmAuth.id)"></mat-slide-toggle>
+                <mat-slide-toggle  formControlName="isNtlmAuthActive"></mat-slide-toggle>
             </div>
         </div>
-        @if(!isNtlmAuthActive){
+        @if(!formGroupUpstreamAuth.value.isNtlmAuthActive){
             <p>NTLM (NT Lan Manager) is a suite of Microsoft security protocols used for authentication, integrity, and confidentiality of network communications. It is primarily used for authentication on Windows-based systems.</p>
         }@else{
             <div class="col-sm-12 col-md-6">

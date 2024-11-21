@@ -10,11 +10,10 @@
             <h3>REST to SOAP</h3>
           </div>
           <div>
-            <mat-slide-toggle #restToSoap id="isRestToSoapActive"
-              (change)="onToggleChangeStaticResponse($event, restToSoap.id)"></mat-slide-toggle>
+            <mat-slide-toggle  formControlName="isRestToSoapActive" ></mat-slide-toggle>
           </div>
         </div>
-        @if(!isRestToSoapActive){
+        @if(!formGroupUpstreamConnectivity.value.isRestToSoapActive){
         <p>The SOAP integration crafts the body and XML content you will send to a SOAP service, injecting dynamic
           variables from places like the body sent by the user, headers, query strings, or parameters of the URL.
         </p>
@@ -77,11 +76,10 @@
             <h3>HTTP client settings, no redirect, and web proxy</h3>
           </div>
           <div>
-            <mat-slide-toggle #httpClientSetting id="isHttpClientSetting"
-              (change)="onToggleChangeStaticResponse($event, httpClientSetting.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isHttpClientSettingActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isHttpClientSetting){
+        @if(!formGroupUpstreamConnectivity.value.isHttpClientSettingActive){
         <p>Configure the no-redirect behavior, or connect through an external proxy.</p>
         }@else{
         <div class="d-flex col-sm-12">
@@ -112,11 +110,10 @@
             <h3>REST to GraphQL</h3>
           </div>
           <div>
-            <mat-slide-toggle #restToGraphql id="isRestToGraphql"
-              (change)="onToggleChangeStaticResponse($event, restToGraphql.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isRestToGraphqlActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isRestToGraphql){
+        @if(!formGroupUpstreamConnectivity.value.isRestToGraphqlActive){
         <p>Translates a REST call into a GraphQL operation.</p>
         }@else{
         <div class="d-flex col-sm-12 mb-3">
@@ -215,11 +212,10 @@
             <h3>AMQP consumer</h3>
           </div>
           <div>
-            <mat-slide-toggle #AMQPconsumer id="isAMQPconsumer"
-              (change)="onToggleChangeStaticResponse($event, AMQPconsumer.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isAMQPconsumerActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isAMQPconsumer){
+        @if(!formGroupUpstreamConnectivity.value.isAMQPconsumerActive){
         <p>Enables consumption of messages using the Advanced Message Queuing Protocol in servers such as RabbitMQ</p>
         }@else{
         <div class="d-flex col-sm-12 mb-3">
@@ -325,11 +321,10 @@
             <h3>AWS Lambda</h3>
           </div>
           <div>
-            <mat-slide-toggle #AWSlambda id="isAWSlambda"
-              (change)="onToggleChangeStaticResponse($event, AWSlambda.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isAWSlambdaActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isAWSlambda){
+        @if(!formGroupUpstreamConnectivity.value.isAWSlambdaActive){
         <p>Calls a Lambda function in AWS as its backend.</p>
         }@else{
         <div class="col-sm-12 d-flex mb-3">
@@ -390,11 +385,10 @@
             <h3>REST to gRPC</h3>
           </div>
           <div>
-            <mat-slide-toggle #restToGRPC id="isrestToGRPC"
-              (change)="onToggleChangeStaticResponse($event, restToGRPC.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isrestToGRPCActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isrestToGRPC){
+        @if(!formGroupUpstreamConnectivity.value.isrestToGRPCActive){
         <p>This backend is a gRPC server and will connect to a service defined in the <span class="text-edit1">gRPC
             catalog</span></p>
         }@else{
@@ -550,11 +544,10 @@
             <h3>Pub/Sub: Subscriber</h3>
           </div>
           <div>
-            <mat-slide-toggle #publicSubscriber id="isPublicSubscriber"
-              (change)="onToggleChangeStaticResponse($event, publicSubscriber.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isPublicSubscriberActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isPublicSubscriber){
+        @if(!formGroupUpstreamConnectivity.value.isPublicSubscriberActive){
         <p>Read events from a queue</p>
         }@else{
         <div class="col-sm-12 mb-3">
@@ -607,11 +600,10 @@
             <h3>Pub/Sub: Publisher</h3>
           </div>
           <div>
-            <mat-slide-toggle #publicPublisher id="isPublicPublisher"
-              (change)="onToggleChangeStaticResponse($event, publicPublisher.id)"></mat-slide-toggle>
+            <mat-slide-toggle formControlName="isPublicPublisherActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isPublicPublisher){
+        @if(!formGroupUpstreamConnectivity.value.isPublicPublisherActive){
         <p>Pushes events to a queue</p>
         }@else{
         <div class="col-sm-12 mb-3">
@@ -664,11 +656,10 @@
             <h3> AMQP producer</h3>
           </div>
           <div>
-            <mat-slide-toggle #AMQPproducer id="isAMQPproducer"
-              (change)="onToggleChangeStaticResponse($event, AMQPproducer.id)"></mat-slide-toggle>
+            <mat-slide-toggle  formControlName="isAMQPproducerActive"></mat-slide-toggle>
           </div>
         </div>
-        @if(!isAMQPproducer){
+        @if(!formGroupUpstreamConnectivity.value.isAMQPproducerActive){
         <p>Pushes events to a queue</p>
         }@else{
         <div class="col-sm-12 d-flex mb-3">

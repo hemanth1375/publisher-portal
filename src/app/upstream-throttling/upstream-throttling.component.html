@@ -8,12 +8,11 @@
                 <h3>Circuit Breaker</h3>
             </div>
             <div>
-                <mat-slide-toggle #circuitBraker id="isCircuitBreakerActive"
-                    (change)="onToggleChangeStaticResponse($event, circuitBraker.id)"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="isCircuitBreakerActive"></mat-slide-toggle>
             </div>
         </div>
         
-            @if(!isCircuitBreakerActive){
+            @if(!formGroupUpstreamThrottling.value.isCircuitBreakerActive){
           <p>Watches the state of the connections to your backend and when it sees more than the configured number of consecutive failures within an interval it stops temporarily all the interaction with the backend.
           </p>
         }@else{
@@ -69,11 +68,10 @@
                 <h3>Proxy Rate limit</h3>
             </div>
             <div>
-                <mat-slide-toggle #proxyrate id="isProxyRateLimitActive"
-                    (change)="onToggleChangeStaticResponse($event, proxyrate.id)"></mat-slide-toggle>
+                <mat-slide-toggle formControlName="isProxyRateLimitActive"></mat-slide-toggle>
             </div>
         </div>
-        @if(!isProxyRateLimitActive){
+        @if(!formGroupUpstreamThrottling.value.isProxyRateLimitActive){
             <p>Limits the number of requests KrakenD can do to your backend service /</p>
         }@else{
             <div class="row">

@@ -3,7 +3,7 @@
         <form [formGroup]="formGroup1">
         <div class="col-sm-12">
             <h2>Connectivity Options</h2>
-            <p> KrakenD connects to all backends in parallel. Here you can set special behaviors of this endpoint when
+            <p>KrakenD connects to all backends in parallel. Here you can set special behaviors of this endpoint when
                 connecting to backends, like increasing the pressure to a backend to get better response times, connect
                 one by one, or use WebSockets.</p>
 
@@ -22,13 +22,9 @@
             </div>
         </div>
         <hr class="mt-4">
-        <div class="col-sm-12">
-            <h3>Web Sockets <mat-slide-toggle (change)="onToggleChangeWebSocketResponse($event)"></mat-slide-toggle></h3>
-            @if(!isWebSocketEnabled){
-            <p>Communications using the WebSocket Protocol (RFC-6455) to enable two-way communication between a client
-                to a backend host through the API gateway.</p>
-            }
-            @if(isWebSocketEnabled){
+        <div class="row">
+            <h3>Web Sockets <mat-slide-toggle formControlName="isWebSocketActive"></mat-slide-toggle></h3>
+            @if(formGroup1.value.isWebSocketActive){
             <div class="d-flex">
                 <div class="col-sm-6">
                     <div class="d-flex align-items-center">
@@ -122,13 +118,18 @@
                     
                 </div>
             </div>
+            }@else {
+                <p>Communications using the WebSocket Protocol (RFC-6455) to enable two-way communication between a client
+                    to a backend host through the API gateway.</p>
             }
         </div>
+
         <hr class="mt-4">
-        <div class="col-sm-12">
-            <h3>Sequential proxy<mat-slide-toggle (change)="onToggleChangeSequencialproxy($event)"></mat-slide-toggle>
+
+        <div class="row">
+            <h3>Sequential proxy<mat-slide-toggle formControlName="isSequencialActive"></mat-slide-toggle>
             </h3>
-            @if(isSequencialproxy){
+            @if(formGroup1.value.isSequencialActive){
             <p>Sequential proxy - enabled</p>
             }
             <p>Calls backends sequentially instead of in parallel, so you can inject data from a previous call in

@@ -78,6 +78,8 @@ export class ServiceSettingsComponent {
 
       literalMatchObjectMapValue: [[]],
       regExpMatchObjectMapValue: [[]],
+      uniqueStrategy:[null],
+      headerValue:[null]
     })
   }
 
@@ -182,7 +184,11 @@ export class ServiceSettingsComponent {
   apiData: any;
   entireJsondata: any;
   ngOnInit() {
-
+    this.formGroupService.get('uniqueStrategy')?.valueChanges.subscribe((value) => {
+      if (value === 'ip') {
+        this.formGroupService.get('headerValue')?.reset(); 
+      }
+    });
     this.sharedService.getEntireJsonData$().subscribe(data => {
       this.entireJsondata = data;
 
@@ -205,6 +211,7 @@ export class ServiceSettingsComponent {
       directoryList: this.entireJsondata?.extra_config?.["server/static-filesystem"]?.directory_listing,
       disableZip: this.entireJsondata?.extra_config?.router?.disable_gzip,
       databasePath: this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip?.citydb_path,
+      sharedCacheDuration:this.entireJsondata?.extra_config?.["auth/validator"]?.shared_cache_duration,
       // literalMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.literal,
       // regExpMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.regexp,
       publicKey: this.entireJsondata?.tls?.public_key,

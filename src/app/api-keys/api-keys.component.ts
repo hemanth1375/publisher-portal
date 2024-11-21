@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { SharedDataService } from '../services/shared-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+ 
 @Component({
   selector: 'app-api-keys',
   templateUrl: './api-keys.component.html',
@@ -31,6 +31,9 @@ ngOnInit(){
     this.entireJsonData=data;
     
   })
+  if(this.entireJsonData!=undefined){
+    this.keysArray=this.entireJsonData?.extra_config?.["auth/api-keys"]?.keys
+  }
   this.apiKeysForm.patchValue({
     APIKey:'',
       role:[],

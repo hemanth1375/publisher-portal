@@ -171,8 +171,8 @@ console.log(this.entireJsondata);
     var datadogValue={};
     if(this.telemetryData?.zipkinActive){
       zipkinValue={
-          "collector_url": this.telemetryData?.zipkincollectorURL,
-                "service_name": this.telemetryData?.zipkinServiceName
+          ...(this.telemetryData?.zipkincollectorURL)&& {"collector_url": this.telemetryData?.zipkincollectorURL},
+          ...(this.telemetryData?.zipkinServiceName)&&{"service_name": this.telemetryData?.zipkinServiceName}
         }
     }else{
       zipkinValue={}
@@ -200,13 +200,13 @@ console.log(this.entireJsondata);
     }
     if(this.telemetryData?.datadogActive){
       datadogValue={
-         "namespace": this.telemetryData?.datadogNamespace,
-                "service": this.telemetryData?.datadogService,
-                "trace_address": this.telemetryData?.datadogTraceAdd,
-                "stats_address": this.telemetryData?.datadogStatusAdd,
-                "tags": this.telemetryData?.tagsArrayValue,
-                "global_tags": {},
-                "disable_count_per_buckets": true
+      ...(this.telemetryData?.datadogNamespace) &&{"namespace": this.telemetryData?.datadogNamespace},
+      ...(this.telemetryData?.datadogService) &&{"service": this.telemetryData?.datadogService},
+      ...(this.telemetryData?.datadogTraceAdd) &&{"trace_address": this.telemetryData?.datadogTraceAdd},
+      ...(this.telemetryData?.datadogStatusAdd) &&{"stats_address": this.telemetryData?.datadogStatusAdd},
+      ...(this.telemetryData?.tagsArrayValue) &&{"tags": this.telemetryData?.tagsArrayValue},
+      "global_tags": {},
+      "disable_count_per_buckets": true
         }
     }else{
       datadogValue={}
@@ -230,65 +230,84 @@ console.log(this.entireJsondata);
           "pattern": null,
           "folder": null
         },
-        "tls": {
+        ...(this.serviceSettingData?.isEnableHttpsActive &&{"tls": {
           "public_key": this.serviceSettingData?.publicKey,
           "private_key": this.serviceSettingData?.privateKey
-        },
+        }}),
       
         "extra_config": {
           "id": this.entireJsondata?.extra_config?.id ? this.entireJsondata?.extra_config?.id:null,
-          "grpc": {
+          ...(this.serviceSettingData?.isgRPCActive && {"grpc": {
             "id": this.entireJsondata?.extra_config?.grpc?.id ? this.entireJsondata?.extra_config?.grpc?.id:null,
-            "catalog": this.serviceSettingData?.directoryArrayValue,
-            "server": {
-              "id": this.entireJsondata?.extra_config?.grpc?.server?.id ? this.entireJsondata?.extra_config?.grpc?.server?.id:null,
-              "services": [
-                {
-                  "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id:null,
-                  "name": null,
-                  "methods": [
-                    {
-                      "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id:null,
-                      "name": null,
-                      "input_headers": [
-                        ''
-                      ],
-                      "payload_params": {
-                        "page.cursor": null
-                      },
-                      "backend": [
-                        {
-                          "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id:null,
-                          "host": [
-                            ''
-                          ],
-                          "url_pattern": null,
-                          "extra_config": {
-                            "backend/grpc": {
-                              "use_request_body": true
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          "server/static-filesystem": {
-            "prefix": this.serviceSettingData?.staticServerPrefix,
-            "path": this.serviceSettingData?.staticServerPath,
-            "directory_listing": this.serviceSettingData?.directoryList
-          },
-          "router": {
-            "return_error_msg": true,
+            ...(this.serviceSettingData?.directoryArrayValue.length!=0 &&{"catalog": this.serviceSettingData?.directoryArrayValue}),
+            // "server": {
+            //   "id": this.entireJsondata?.extra_config?.grpc?.server?.id ? this.entireJsondata?.extra_config?.grpc?.server?.id:null,
+            //   "services": [
+            //     {
+            //       "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.id:null,
+            //       "name": null,
+            //       "methods": [
+            //         {
+            //           "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.id:null,
+            //           "name": null,
+            //           "input_headers": [
+            //             ''
+            //           ],
+            //           "payload_params": {
+            //             "page.cursor": null
+            //           },
+            //           "backend": [
+            //             {
+            //               "id": this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id ? this.entireJsondata?.extra_config?.grpc?.server?.services?.[0]?.methods?.[0]?.backend?.[0]?.id:null,
+            //               "host": [
+            //                 ''
+            //               ],
+            //               "url_pattern": null,
+            //               "extra_config": {
+            //                 "backend/grpc": {
+            //                   "use_request_body": true
+            //                 }
+            //               }
+            //             }
+            //           ]
+            //         }
+            //       ]
+            //     }
+            //   ]
+            // }
+          }}),
+          ...(this.serviceSettingData?.isStaticServerActive && {"server/static-filesystem": {
+            ...(this.serviceSettingData?.staticServerPrefix && {"prefix": this.serviceSettingData?.staticServerPrefix}),
+            ...(this.serviceSettingData?.staticServerPath && {"path": this.serviceSettingData?.staticServerPath}),
+            ...(this.serviceSettingData?.directoryList && {"directory_listing": this.serviceSettingData?.directoryList})
+          }}),
+          ...(this.serviceSettingData?.isVirtualHostActive && {"server/virtualhost": {
+              ...(this.serviceSettingData?.virtualHostArrayValue.length!=0 && {"hosts": this.serviceSettingData?.virtualHostArrayValue})
+          }}),
+          ...(this.serviceSettingData?.disablegZip && {"router": {
+            // "return_error_msg": true,
             "disable_gzip": this.serviceSettingData?.disablegZip
-          },
-          "auth/basic": {
+          }}),
+          ...(this.serviceSettingData?.isRateLimitingActive && {
+            "qos/ratelimit/service":{
+              ...(this.serviceSettingData?.rateLimit && {"max_rate": this.serviceSettingData?.rateLimit}),
+              ...(this.serviceSettingData?.every && {"every": this.serviceSettingData?.every}),
+              ...(this.serviceSettingData?.capacity && {"capacity": this.serviceSettingData?.capacity}),
+              ...(this.serviceSettingData?.defaultUserQuota && {"client_max_rate": this.serviceSettingData?.defaultUserQuota}),
+              ...(this.serviceSettingData?.headerValue && {"key": this.serviceSettingData?.headerValue}),
+              ...(this.serviceSettingData?.uniqueStrategy && {"strategy": this.serviceSettingData?.uniqueStrategy}),
+              ...(this.serviceSettingData?.clientCapacity && {"client_capacity": this.serviceSettingData?.clientCapacity})
+            }
+          }),
+          ...(this.serviceSettingData?.isJwkSharedActive && {
+            "auth/validator": {
+              ...(this.serviceSettingData?.sharedCacheDuration && {"shared_cache_duration": this.serviceSettingData?.sharedCacheDuration})
+            }
+          }),
+          ...(this.httpSecurityData?.isBasicAuthActive &&{"auth/basic": {
             "@comment": null,
-            "htpasswd_path": null
-          },
+            ...(this.httpSecurityData?.basicAuthHtpasswdPathForm &&{"htpasswd_path": this.httpSecurityData?.basicAuthHtpasswdPathForm})
+          }}),
           "auth/revoker": {
             "@comment": null,
             "hash_name": null,
@@ -304,33 +323,35 @@ console.log(this.entireJsondata);
             "revoke_server_api_key": null,
             "revoke_server_max_workers": 0
           },
-          "auth/api-keys": {
+          ...(this.apikeysData?.isAPIKeyAuthActive && {"auth/api-keys": {
             "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.id:null,
-            "keys": [
-              {
-                "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id:null,
-                "key": this.apikeysData?.key,
-                "roles": this.apikeysData?.rolesArrayValue,
-                "@description": this.apikeysData?.description
+            "keys":this.apikeysData?.keysArray.map((item:any)=>{
+              return {
+                "id":this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id:null,
+                "key":item.APIKey,
+                "roles":item.rolesArrayValue,
+                ...(item.description &&{"description":item.description})
+
               }
-            ]
-          },
-          "security/cors": {
-            "allow_origins": this.httpSecurityData?.corsAllowedOriginsFormArray,
+            })
+          }}),
+          ...(this.httpSecurityData?.isCorsActive &&{"security/cors": {
+            ...(this.httpSecurityData?.corsAllowedOriginsFormArray.length!=0 &&{"allow_origins": this.httpSecurityData?.corsAllowedOriginsFormArray}),
             "allow_methods": [
               ''
             ],
-            "allow_headers": this.httpSecurityData?.corsAllowedHeadersFormArray,
-            "expose_headers": this.httpSecurityData?.corsExposeHeadersFormArray,
-            "max_age": this.httpSecurityData?.corsMaxAgeForm
-          },
-          "security/bot-detector": {
-            "allow": this.httpSecurityData?.botDetectorAllowFormArray,
-            "cache_size": 0,
-            "deny": this.httpSecurityData?.botDetectorDenyFormArray,
-            "empty_user_agent_is_bot": true,
-            "patterns": this.httpSecurityData?.botDetectorPatternsFormArray
-          },
+            ...(this.httpSecurityData?.corsAllowedHeadersFormArray.length!=0 &&{"allow_headers": this.httpSecurityData?.corsAllowedHeadersFormArray}),
+            ...(this.httpSecurityData?.corsExposeHeadersFormArray.length!=0 &&{"expose_headers": this.httpSecurityData?.corsExposeHeadersFormArray}),
+            ...(this.httpSecurityData?.corsMaxAgeForm &&{"max_age": this.httpSecurityData?.corsMaxAgeForm}),
+            ...(this.httpSecurityData?.corsAllowCredentialsForm &&{"allow_credentials": this.httpSecurityData?.corsAllowCredentialsForm})
+          }}),
+          ...(this.httpSecurityData?.isBotDetectorActive &&{"security/bot-detector": {
+            ...(this.httpSecurityData?.botDetectorAllowFormArray.length!=0 && {"allow": this.httpSecurityData?.botDetectorAllowFormArray}),
+            ...(this.httpSecurityData?.botDetectorCacheSizeForm && {"cache_size": this.httpSecurityData?.botDetectorCacheSizeForm}),
+            ...(this.httpSecurityData?.botDetectorDenyFormArray.length!=0 && {"deny": this.httpSecurityData?.botDetectorDenyFormArray}),
+            ...(this.httpSecurityData?.botDetectorEmptyUsersForm && {"empty_user_agent_is_bot": this.httpSecurityData?.botDetectorEmptyUsersForm}),
+            ...(this.httpSecurityData?.botDetectorPatternsFormArray.length!=0 && {"patterns": this.httpSecurityData?.botDetectorPatternsFormArray})
+          }}),
           "security/http": {
             "allowed_hosts": this.httpSecurityData?.httpSecurityAllowedHostsFormArray,
             "allowed_hosts_are_regex": true,
@@ -352,28 +373,30 @@ console.log(this.entireJsondata);
             "sts_include_subdomains": this.httpSecurityData?.httpSecurityIncSubdomainForm,
             "sts_seconds": this.httpSecurityData?.httpSecurityHSTSForm
           },
-          "plugin/http-server": {
+          ...((this.serviceSettingData?.isUrlRewriteActive || this.httpSecurityData?.isIpFilterActive || this.httpSecurityData?.isMultipleIdentityProviderActive) &&{"plugin/http-server": {
             "name": [
-              ''
+              this.serviceSettingData?.isUrlRewriteActive && 'url-rewrite',
+              this.httpSecurityData?.isIpFilterActive && 'ip-filter',
+              this.httpSecurityData?.isMultipleIdentityProviderActive && 'jwk-aggregator'
             ],
-            "geoip": {
-              "citydb_path":this.serviceSettingData?.databasePath
-            },
-            "url-rewrite": {
+            ...(this.serviceSettingData?.isGeoIpActive &&{"geoip": {
+              ...(this.serviceSettingData?.databasePath &&{"citydb_path":this.serviceSettingData?.databasePath})
+            }}),
+            ...(this.serviceSettingData?.isUrlRewriteActive && {"url-rewrite": {
               "literal": literalObj,
               "regexp": this.serviceSettingData?.regExpMatchObjectMapValue
-            },
-            "ip-filter": {
-              "CIDR": this.httpSecurityData?.ipFilterCIDRFormArray,
+            }}),
+            ...(this.httpSecurityData?.isIpFilterActive && {"ip-filter": {
+              ...(this.httpSecurityData?.ipFilterCIDRFormArray.length!=0 &&{"CIDR": this.httpSecurityData?.ipFilterCIDRFormArray}),
               "allow": this.httpSecurityData?.ipFilterAllowModeForm,
-              "client_ip_headers": this.httpSecurityData?.ipFilterClientIPHeadersFormArray,
-              "trusted_proxies": this.httpSecurityData?.ipFilterTrustedProxiesFormArray
-            },
-            "jwk-aggregator": {
-              "cache": this.httpSecurityData?.multipleIdentityProviderCacheForm,
-              "origins": this.httpSecurityData?.multipleIdentityProviderOriginsFormArray,
-              "port": this.httpSecurityData?.multipleIdentityProviderPortForm
-            },
+              ...(this.httpSecurityData?.ipFilterClientIPHeadersFormArray.length!=0 &&{"client_ip_headers": this.httpSecurityData?.ipFilterClientIPHeadersFormArray}),
+              ...(this.httpSecurityData?.ipFilterTrustedProxiesFormArray.length!=0 &&{"trusted_proxies": this.httpSecurityData?.ipFilterTrustedProxiesFormArray})
+            }}),
+            ...(this.httpSecurityData?.isMultipleIdentityProviderActive &&{"jwk-aggregator": {
+              ...(this.httpSecurityData?.multipleIdentityProviderCacheForm &&{"cache": this.httpSecurityData?.multipleIdentityProviderCacheForm}),
+              ...(this.httpSecurityData?.multipleIdentityProviderOriginsFormArray.length!=0 &&{"origins": this.httpSecurityData?.multipleIdentityProviderOriginsFormArray}),
+              ...(this.httpSecurityData?.multipleIdentityProviderPortForm &&{"port": this.httpSecurityData?.multipleIdentityProviderPortForm})
+            }}),
             "redis-ratelimit": {
               "burst": 0,
               "host": null,
@@ -397,16 +420,24 @@ console.log(this.entireJsondata);
             "wildcard": {
               "endpoints": {}
             }
-          },
-          "documentation/openapi": {
-            "version": this.openApiData?.openApiVersionForm,
-            "contact_name": this.openApiData?.openApiContactNameForm,
-            "contact_email": this.openApiData?.openApiContactEmailForm,
-            "license_name": this.openApiData?.openApiLicenseNameForm,
-            "license_url": this.openApiData?.openApiLicenseUrlForm,
-            "contact_url":this.openApiData?.openApiContactUrlForm,
-          },
-          "telemetry/opentelemetry": {
+          }}),
+          ...(this.openApiData?.isOpenApiActive && {"documentation/openapi": {
+            ...(this.openApiData?.version && {"version": this.openApiData?.openApiVersionForm}),
+            ...(this.openApiData?.version && {"contact_name": this.openApiData?.openApiContactNameForm}),
+            ...(this.openApiData?.version && {"contact_email": this.openApiData?.openApiContactEmailForm}),
+            ...(this.openApiData?.version && {"license_name": this.openApiData?.openApiLicenseNameForm}),
+            ...(this.openApiData?.version && {"license_url": this.openApiData?.openApiLicenseUrlForm}),
+            ...(this.openApiData?.version && {"contact_url":this.openApiData?.openApiContactUrlForm}),
+            ...(this.openApiData?.version && {"host": this.openApiData?.openApiHostForm}),
+            ...(this.openApiData?.version && {"base_path": this.openApiData?.openApiBasePathForm}),
+            ...(this.openApiData?.version && {"description": this.openApiData?.openApiDescriptionForm}),
+            ...(this.openApiData?.version && {"terms_of_service": this.openApiData?.openApiTermsOfServiceForm}),
+            ...(this.openApiData?.version && {"tags": this.openApiData?.openApiTagsFormArray}),
+            ...(this.openApiData?.version && {"schemes": this.openApiData?.openApiSchemesFormArray})
+          }}),
+          ...(this.telemetryData?.isOpenTelActive && 
+          {
+            "telemetry/opentelemetry": {
             "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id:null,
             "service_name": null,
             "metric_reporting_period": this.telemetryData?.OTreportingPeriod,
@@ -417,56 +448,58 @@ console.log(this.entireJsondata);
             ],
             "exporters": {
               "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id:null,
-              "otlp": this.telemetryData?.otlp,
-              "prometheus": this.telemetryData?.prometheus
+              ...(this.telemetryData?.otlp.length!==0)&&{"otlp": this.telemetryData?.otlp},
+              ...(this.telemetryData?.prometheus.length!==0)&&{"prometheus": this.telemetryData?.prometheus}
             },
-            "layers": {
-              "global": {
-                "disable_metrics": true,
-                "disable_propagation": true,
-                "disable_traces": true,
-                "report_headers": true,
-                "traces_static_attributes": [
-                  {}
-                ],
-                "metrics_static_attributes": [
-                  {}
-                ]
-              },
-              "proxy": {
-                "disable_metrics": true,
-                "disable_traces": true,
-                "report_headers": true,
-                "traces_static_attributes": [
-                  {}
-                ],
-                "metrics_static_attributes": [
-                  {}
-                ]
-              },
-              "backend": {
-                "metrics": {
-                  "detailed_connection": true,
-                  "disable_stage": true,
-                  "read_payload": true,
-                  "round_trip": true,
-                  "static_attributes": [
-                    {}
-                  ]
-                },
-                "traces": {
-                  "detailed_connection": true,
-                  "disable_stage": true,
-                  "read_payload": true,
-                  "report_headers": true,
-                  "round_trip": true,
-                  "static_attributes": [
-                    {}
-                  ]
-                }
-              }
-            }
-          },
+            // "layers": {
+            //   "global": {
+            //     "disable_metrics": true,
+            //     "disable_propagation": true,
+            //     "disable_traces": true,
+            //     "report_headers": true,
+            //     "traces_static_attributes": [
+            //       {}
+            //     ],
+            //     "metrics_static_attributes": [
+            //       {}
+            //     ]
+            //   },
+            //   "proxy": {
+            //     "disable_metrics": true,
+            //     "disable_traces": true,
+            //     "report_headers": true,
+            //     "traces_static_attributes": [
+            //       {}
+            //     ],
+            //     "metrics_static_attributes": [
+            //       {}
+            //     ]
+            //   },
+            //   "backend": {
+            //     "metrics": {
+            //       "detailed_connection": true,
+            //       "disable_stage": true,
+            //       "read_payload": true,
+            //       "round_trip": true,
+            //       "static_attributes": [
+            //         {}
+            //       ]
+            //     },
+            //     "traces": {
+            //       "detailed_connection": true,
+            //       "disable_stage": true,
+            //       "read_payload": true,
+            //       "report_headers": true,
+            //       "round_trip": true,
+            //       "static_attributes": [
+            //         {}
+            //       ]
+            //     }
+            //   }
+            // }
+          }
+        }
+        ),
           "telemetry/logging": {
             "format": null,
             "custom_format": this.telemetryData?.logMsgFormat,
@@ -509,26 +542,44 @@ console.log(this.entireJsondata);
             ],
             "should_skip": null
           },
-          "telemetry/opencensus": {
-            "enabled_layers": {
-              "backend": true,
-              "pipe": true,
-              "router": true
-            },
+          
+          ...(this.telemetryData?.openCensusActive && 
+            {
+              "telemetry/opencensus": {
+            // "enabled_layers": {
+            //   "backend": true,
+            //   "pipe": true,
+            //   "router": true
+            // },
             "exporters": {
-              "datadog": {
-                "namespace": null,
-                "service": null,
-                "trace_address": null,
-                "stats_address": null,
-                "tags": [
-                  ''
-                ],
-                "global_tags": {},
-                "disable_count_per_buckets": true
+              ...(this.telemetryData?.datadogActive && {
+                "datadog": {
+                  ...(this.telemetryData?.datadogNamespace) &&{"namespace": this.telemetryData?.datadogNamespace},
+                  ...(this.telemetryData?.datadogService) &&{"service": this.telemetryData?.datadogService},
+                  ...(this.telemetryData?.datadogTraceAdd) &&{"trace_address": this.telemetryData?.datadogTraceAdd},
+                  ...(this.telemetryData?.datadogStatusAdd) &&{"stats_address": this.telemetryData?.datadogStatusAdd},
+                  ...(this.telemetryData?.tagsArrayValue) &&{"tags": this.telemetryData?.tagsArrayValue},
+                  "global_tags": {},
+                  "disable_count_per_buckets": true
               },
-              "influxdb": influxValue,
-              "jaeger": jeagerValue,
+              }),
+              ...(this.telemetryData?.influxDBActive) &&{
+              "influxdb": {
+                ...(this.telemetryData?.influxDBaddress)&&{"address": this.telemetryData?.influxDBaddress},
+                ...(this.telemetryData?.infulxDBdatabase) &&{"db": this.telemetryData?.infulxDBdatabase},
+                // "username": null,
+                // "password": null,
+                ...(this.telemetryData?.influxwriteTimeout)&&{"timeout": this.telemetryData?.influxwriteTimeout}
+              }
+              },
+              ...(this.telemetryData?.jaegerActive) && {
+                "jeager":{
+                //   "agent_endpoint": null,
+                // "buffer_max_count": 0,
+                ...(this.telemetryData?.jeagerEndpoint)&&{"endpoint": this.telemetryData?.jeagerEndpoint},
+                ...(this.telemetryData?.jeagerServiceName)&&{"service_name": this.telemetryData?.jeagerServiceName}
+                }
+              },
               "logger": {
                 "spans": true,
                 "stats": true
@@ -561,11 +612,17 @@ console.log(this.entireJsondata);
                 "secret_access_key": null,
                 "use_env": true
               },
-              "zipkin": zipkinValue
+              ...(this.telemetryData?.zipkinActive) &&
+              {"zipkin": {
+                ...(this.telemetryData?.zipkincollectorURL)&& {"collector_url": this.telemetryData?.zipkincollectorURL},
+          ...(this.telemetryData?.zipkinServiceName)&&{"service_name": this.telemetryData?.zipkinServiceName}
+              }}
             },
             "reporting_period": 0,
             "sample_rate": 0
           },
+            }
+          ),
           "telemetry/newrelic": {
             "debug": this.telemetryData?.newRelicSDKDebug,
             "headers_to_pass": this.telemetryData?.headersToPassArrayValue,
@@ -580,34 +637,34 @@ console.log(this.entireJsondata);
             "router_disabled": this.telemetryData?.metricsDisableRouter
           }
         },
-        "read_timeout": this.serviceSettingData?.httpReadTimeout,
-  "write_timeout": this.serviceSettingData?.httpWriteTimeout,
-  "idle_timeout": this.serviceSettingData?.httpIdleTimeout,
-  "read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout
+        ...(this.serviceSettingData?.httpReadTimeout && {"read_timeout": this.serviceSettingData?.httpReadTimeout}),
+        ...(this.serviceSettingData?.httpWriteTimeout && {"write_timeout": this.serviceSettingData?.httpWriteTimeout}),
+        ...(this.serviceSettingData?.httpIdleTimeout && {"idle_timeout": this.serviceSettingData?.httpIdleTimeout}),
+        ...(this.serviceSettingData?.httpReadHeaderTimeout && {"read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout})
       
     }
 
     console.log(body);
   if(this.cardId==undefined){
-this.apiPageService.createKrakend(body).subscribe({
-  next:(res:any)=>{
-    console.log(res);
-    this._snackBar.open(res.message, 'OK', {
-      duration: 5000
-    });
-    this.router.navigate(['apicards'])
-  }
-})
+// this.apiPageService.createKrakend(body).subscribe({
+//   next:(res:any)=>{
+//     console.log(res);
+//     this._snackBar.open(res.message, 'OK', {
+//       duration: 5000
+//     });
+//     this.router.navigate(['apicards'])
+//   }
+// })
   }else{
-this.apiPageService.updateKrakend(this.cardId,body).subscribe({
-  next:(res:any)=>{
-    console.log(res);
-    this._snackBar.open(res.message, 'OK', {
-      duration: 5000
-    });
-    this.router.navigate(['apicards'])
-  }
-})
+// this.apiPageService.updateKrakend(this.cardId,body).subscribe({
+//   next:(res:any)=>{
+//     console.log(res);
+//     this._snackBar.open(res.message, 'OK', {
+//       duration: 5000
+//     });
+//     this.router.navigate(['apicards'])
+//   }
+// })
   }
   }
   openDialog(): void {

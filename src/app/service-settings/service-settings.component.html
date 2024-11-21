@@ -543,6 +543,20 @@
                         0 for no limitation.</div>
                 </div>
                 <div class="col-sm-12 col-md-4">
+                    <label for="uniqueIdentifier" class="form-label">A Unique user identified by</label>
+                    <div><mat-radio-group aria-label="Select an option" formControlName="uniqueStrategy">
+                        <mat-radio-button value="ip">Its Originating Ip</mat-radio-button>
+                        <mat-radio-button value="header">A header</mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                    @if(this.formGroupService.get('uniqueStrategy')?.value === 'header'){
+                        <div>
+                            <input type="text" class="form-control" formControlName="headerValue"/>
+                        </div>
+                    }
+                    
+                    </div>
+                <div class="col-sm-12 col-md-4">
                     <label for="clientCapacity" class="form-label">Client Capacity</label>
                     <input type="number" class="input-size form-control" id="clientCapacity"
                         formControlName="clientCapacity" />

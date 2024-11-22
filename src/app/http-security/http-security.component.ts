@@ -69,7 +69,7 @@ this.formGroupHttpSecurity.patchValue({
       multipleIdentityProviderCacheForm: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.cache,
       ipFilterCIDRForm: '',
       ipFilterClientIPHeadersForm: '',
-      ipFilterTrustedProxiesForm: '',
+      ipFilterTrustedProxiesForm: '', 
       ipFilterAllowModeForm: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.allow,
       httpSecurityAllowedHostsForm: '',
       httpSecuritySSLOptForceSSLForm: this.entireJsonData?.extra_config["security/http"]?.ssl_redirect,
@@ -97,7 +97,8 @@ this.formGroupHttpSecurity.patchValue({
       ipFilterTrustedProxiesFormArray:  this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies,
       ipFilterClientIPHeadersFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers,
       httpSecurityAllowedHostsFormArray:  this.entireJsonData?.extra_config["security/http"]?.allowed_hosts,
-      objectMapValue: [[]]
+      objectMapValue: [[]],
+      frameOptions: this.entireJsonData?.extra_config["security/http"]?.custom_frame_options_value
 })
 }
 
@@ -281,7 +282,8 @@ this.formGroupHttpSecurity.patchValue({
       ipFilterTrustedProxiesFormArray: [[]],
       ipFilterClientIPHeadersFormArray: [[]],
       httpSecurityAllowedHostsFormArray: [[]],
-      objectMapValue: [[]]
+      objectMapValue: [[]],
+      frameOptions:[null]
     })
   }
   emitValue(){

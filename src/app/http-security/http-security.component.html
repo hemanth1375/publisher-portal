@@ -92,19 +92,18 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <label for="corsMaxAge" class="form-label">Max age</label>
-            <div class="col-sm-12 d-flex">
-              <input type="text" class="form-control input-size input-with-button" id="corsMaxAge"
-                formControlName="corsMaxAgeForm" placeholder="12h">
-              <button type="button" class="btn btn-info button-with-input"
-                (click)="addParameter('corsMaxAgeForm')">+</button>
+            <div class="col-sm-12">
+              <input type="text" class="form-control input-size" id="corsMaxAge" formControlName="corsMaxAgeForm"
+                placeholder="12h"
+                [class.is-invalid]="formGroupHttpSecurity.get('corsMaxAgeForm')?.invalid && formGroupHttpSecurity.get('corsMaxAgeForm')?.touched" />
+              <div class="invalid-feedback"
+                *ngIf="formGroupHttpSecurity.get('corsMaxAgeForm')?.errors?.['pattern'] && formGroupHttpSecurity.get('corsMaxAgeForm')?.touched">
+                Please enter a valid cache TTL (e.g., `10ms`, `5s`, `1h`).
+              </div>
             </div>
+
             <div id="corsMaxAgeHelp" class="form-text">For how long the response can be cached</div>
-            <div class="mt-3 d-flex">
-              <button *ngFor="let attr of corsMaxAgeArray; let i = index" class="parameter-item">
-                {{ attr }}<mat-icon (click)="removeParameter(i,'corsMaxAgeForm')"
-                  class="d-flex align-items-center justify-content-end">close</mat-icon>
-              </button>
-            </div>
+
           </div>
         </div>
 
@@ -488,8 +487,7 @@
             <div class="input-group mb-3" id="frameOptions">
               <span class="input-group-text" id="basic-addon3">X-Frame Options:</span>
               <input type="text" class="form-control" id="xframe-url" aria-describedby="xframe"
-                formControlName="frameOptions"
-                >
+                formControlName="frameOptions">
             </div>
             <div class="form-text" id="httpSecurityHPKPHelp">Allows HTTPS websites to resist impersonation by attackers
               using mis-issued or otherwise fraudulent certificates.
@@ -578,7 +576,7 @@
       <div>
         <!-- <button mat-raised-button (click)="submitForm()">Submit</button> -->
         <button mat-raised-button (click)="emitValue()">Save</button>
-    </div>
+      </div>
     </form>
 
   </div>

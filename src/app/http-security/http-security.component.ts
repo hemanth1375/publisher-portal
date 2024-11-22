@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from '../services/shared-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -31,36 +31,36 @@ export class HttpSecurityComponent {
   httpSecurityAllowedHostsArray: any[] = [];
 
   objectMap: Map<string, string> = new Map();
-entireJsonData:any;
-ngOnInit(){
-  this.sharedService.getEntireJsonData$().subscribe(data=>{
-    this.entireJsonData=data;
-    
-  })
-console.log(this.entireJsonData);
-if(this.entireJsonData!=undefined){
-  this.corsAllowedOriginsArray=this.entireJsonData?.extra_config["security/cors"]?.allow_origins;
-  this.corsAllowedHeadersArray=this.entireJsonData?.extra_config["security/cors"]?.allow_headers;
-    this.corsExposeHeadersArray=this.entireJsonData?.extra_config["security/cors"]?.expose_headers;
-    this.botDetectorAllowArray=this.entireJsonData?.extra_config["security/bot-detector"]?.allow;
-    this.botDetectorDenyArray=this.entireJsonData?.extra_config["security/bot-detector"]?.deny;
-    this.botDetectorPatternsArray=this.entireJsonData?.extra_config["security/bot-detector"]?.patterns;
-    this.multipleIdentityProviderOriginsArray=this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.origins;
-    this.ipFilterCIDRArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.CIDR;
-    this.ipFilterTrustedProxiesArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies;
-    this.ipFilterClientIPHeadersArray= this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers;
-    this.httpSecurityAllowedHostsArray=this.entireJsonData?.extra_config["security/http"]?.allowed_hosts;
-    this.objectMap=this.entireJsonData?.extra_config["security/http"]?.ssl_proxy_headers;
-}
+  entireJsonData: any;
+  ngOnInit() {
+    this.sharedService.getEntireJsonData$().subscribe(data => {
+      this.entireJsonData = data;
 
-this.formGroupHttpSecurity.patchValue({
-  corsAllowedOriginsForm: '',
+    })
+    console.log(this.entireJsonData);
+    if (this.entireJsonData != undefined) {
+      this.corsAllowedOriginsArray = this.entireJsonData?.extra_config["security/cors"]?.allow_origins;
+      this.corsAllowedHeadersArray = this.entireJsonData?.extra_config["security/cors"]?.allow_headers;
+      this.corsExposeHeadersArray = this.entireJsonData?.extra_config["security/cors"]?.expose_headers;
+      this.botDetectorAllowArray = this.entireJsonData?.extra_config["security/bot-detector"]?.allow;
+      this.botDetectorDenyArray = this.entireJsonData?.extra_config["security/bot-detector"]?.deny;
+      this.botDetectorPatternsArray = this.entireJsonData?.extra_config["security/bot-detector"]?.patterns;
+      this.multipleIdentityProviderOriginsArray = this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.origins;
+      this.ipFilterCIDRArray = this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.CIDR;
+      this.ipFilterTrustedProxiesArray = this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies;
+      this.ipFilterClientIPHeadersArray = this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers;
+      this.httpSecurityAllowedHostsArray = this.entireJsonData?.extra_config["security/http"]?.allowed_hosts;
+      this.objectMap = this.entireJsonData?.extra_config["security/http"]?.ssl_proxy_headers;
+    }
+
+    this.formGroupHttpSecurity.patchValue({
+      corsAllowedOriginsForm: '',
       corsAllowedHeadersForm: '',
       corsExposeHeadersForm: '',
-      corsAllowCredentialsForm:this.entireJsonData?.extra_config["security/cors"]?.allow_credentials,
+      corsAllowCredentialsForm: this.entireJsonData?.extra_config["security/cors"]?.allow_credentials,
       corsMaxAgeForm: this.entireJsonData?.extra_config["security/cors"]?.max_age,
       botDetectorAllowForm: '',
-      botDetectorDenyForm:'',
+      botDetectorDenyForm: '',
       botDetectorPatternsForm: '',
       botDetectorCacheSizeForm: this.entireJsonData?.extra_config["security/bot-detector"]?.cache_size,
       botDetectorEmptyUsersForm: this.entireJsonData?.extra_config["security/bot-detector"]?.empty_user_agent_is_bot,
@@ -69,7 +69,7 @@ this.formGroupHttpSecurity.patchValue({
       multipleIdentityProviderCacheForm: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.cache,
       ipFilterCIDRForm: '',
       ipFilterClientIPHeadersForm: '',
-      ipFilterTrustedProxiesForm: '', 
+      ipFilterTrustedProxiesForm: '',
       ipFilterAllowModeForm: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.allow,
       httpSecurityAllowedHostsForm: '',
       httpSecuritySSLOptForceSSLForm: this.entireJsonData?.extra_config["security/http"]?.ssl_redirect,
@@ -94,13 +94,13 @@ this.formGroupHttpSecurity.patchValue({
       botDetectorPatternsFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.patterns,
       multipleIdentityProviderOriginsFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["jwk-aggregator"]?.origins,
       ipFilterCIDRFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.CIDR,
-      ipFilterTrustedProxiesFormArray:  this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies,
+      ipFilterTrustedProxiesFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies,
       ipFilterClientIPHeadersFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers,
-      httpSecurityAllowedHostsFormArray:  this.entireJsonData?.extra_config["security/http"]?.allowed_hosts,
+      httpSecurityAllowedHostsFormArray: this.entireJsonData?.extra_config["security/http"]?.allowed_hosts,
       objectMapValue: [[]],
       frameOptions: this.entireJsonData?.extra_config["security/http"]?.custom_frame_options_value
-})
-}
+    })
+  }
 
 
 
@@ -133,7 +133,7 @@ this.formGroupHttpSecurity.patchValue({
       }
       else if (fieldName === 'corsAllowedHeadersForm') {
         console.log(this.corsAllowedHeadersArray);
-        
+
         this.corsAllowedHeadersArray.push(fieldValue);
         this.formGroupHttpSecurity.get('corsAllowedHeadersFormArray')?.setValue([...this.corsAllowedHeadersArray]);
       } else if (fieldName === 'corsExposeHeadersForm') {
@@ -231,19 +231,19 @@ this.formGroupHttpSecurity.patchValue({
 
 
 
-  constructor(private formBuilder: FormBuilder,private sharedService:SharedDataService,private _snackBar: MatSnackBar ) {
+  constructor(private formBuilder: FormBuilder, private sharedService: SharedDataService, private _snackBar: MatSnackBar) {
     this.formGroupHttpSecurity = this.formBuilder.group({
-      isCorsActive:[false],
-      isBotDetectorActive:[false], 
-      isMultipleIdentityProviderActive:[false] ,
-      isIpFilterActive:[false],
-      isHttpSecurityActive:[false],
-      isBasicAuthActive:[false],
+      isCorsActive: [false],
+      isBotDetectorActive: [false],
+      isMultipleIdentityProviderActive: [false],
+      isIpFilterActive: [false],
+      isHttpSecurityActive: [false],
+      isBasicAuthActive: [false],
       corsAllowedOriginsForm: [null],
       corsAllowedHeadersForm: [null],
       corsExposeHeadersForm: [null],
       corsAllowCredentialsForm: [false],
-      corsMaxAgeForm: [null],
+      corsMaxAgeForm: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
       botDetectorAllowForm: [null],
       botDetectorDenyForm: [null],
       botDetectorPatternsForm: [null],
@@ -283,19 +283,19 @@ this.formGroupHttpSecurity.patchValue({
       ipFilterClientIPHeadersFormArray: [[]],
       httpSecurityAllowedHostsFormArray: [[]],
       objectMapValue: [[]],
-      frameOptions:[null]
+      frameOptions: [null]
     })
   }
-  emitValue(){
+  emitValue() {
     console.log(this.formGroupHttpSecurity.value);
-    if(this.formGroupHttpSecurity.valid){
+    if (this.formGroupHttpSecurity.valid) {
       this._snackBar.open('Saved Successfully', 'OK', {
         duration: 5000
       });
-      
-  this.sharedService.setHttpSecurityData(this.formGroupHttpSecurity.value)
+
+      this.sharedService.setHttpSecurityData(this.formGroupHttpSecurity.value)
     }
- 
+
   }
 
 } 

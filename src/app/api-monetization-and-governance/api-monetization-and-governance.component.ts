@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { SharedDataService } from '../services/shared-data.service';
 
 @Component({
   selector: 'app-api-monetization-and-governance',
@@ -11,7 +12,7 @@ export class ApiMonetizationAndGovernanceComponent {
   formGroupApiMonetization: FormGroup;
 
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder,private sharedSer:SharedDataService) {
     this.formGroupApiMonetization = formBuilder.group({
       isApiMonetizationActive:[false],
       apiMonetizationAppIDForm: [null],
@@ -24,7 +25,7 @@ export class ApiMonetizationAndGovernanceComponent {
   }
 
   apiMonetizationHeadersArray: any[] = [];
-
+ 
 
   addParameter(fieldName: 'apiMonetizationHeadersForm') {
     const fieldValue = this.formGroupApiMonetization.get(fieldName)?.value;
@@ -48,5 +49,7 @@ export class ApiMonetizationAndGovernanceComponent {
     console.log('id', id);
     (this as any)[id] = event.checked;
   }
-
+  emitValue(){
+    this.sharedSer.setApiMonetizationDataData(this.formGroupApiMonetization.value)
+  }
 }

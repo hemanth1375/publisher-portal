@@ -63,4 +63,13 @@ export class SharedDataService {
   getApikeysData$(): Observable<string> {
     return this.apikeysData.asObservable();
   }
+  private apiMonetizationData: ReplaySubject<string> = new ReplaySubject<string>(1);
+
+  setApiMonetizationDataData(data: string): void {
+    this.apiMonetizationData.next(data);
+  }
+
+  getApiMonetizationDataData$(): Observable<string> {
+    return this.apiMonetizationData.asObservable();
+  }
 }

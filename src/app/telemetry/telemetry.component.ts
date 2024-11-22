@@ -105,6 +105,14 @@ export class TelemetryComponent {
   }
 entireJsonData:any
   ngOnInit(){
+
+    this.TelemertyFormGroup.get('useCredFromEnvActice')?.valueChanges.subscribe((value) => {
+      if (value === true) {
+        this.TelemertyFormGroup.get('awsAccessKey')?.reset(); 
+        this.TelemertyFormGroup.get('awsSecretKey')?.reset(); 
+      }
+    });
+
     this.sharedService.getEntireJsonData$().subscribe(data=>{
       this.entireJsonData=data;
       

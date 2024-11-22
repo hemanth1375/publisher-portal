@@ -269,7 +269,8 @@
                         <h3>JWK Shared Cache</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle formControlName="isJwkSharedActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isJwkSharedActive"
+                            (change)="onToggleChangeJwk()"></mat-slide-toggle>
                     </div>
                 </div>
                 @if (!formGroupService.value.isJwkSharedActive) {
@@ -282,7 +283,8 @@
                 <div class="col-sm-12 col-md-4">
                     <label for="sharedCacheDuration" class="form-label">Shared Cache Duration</label>
                     <input type="text" class="input-size form-control" id="sharedCacheDuration"
-                        formControlName="sharedCacheDuration" />
+                        formControlName="sharedCacheDuration"
+                        [class.is-invalid]="formGroupService.get('sharedCacheDuration')?.invalid && formGroupService.get('sharedCacheDuration')?.touched" />
                     <div class="form-text">The cache duration in seconds for the JWK client retrieving the jwk_url. The
                         endpoint must enable the cache option in order to use this cache. The time you set here depends
                         on your key rotation time.</div>
@@ -512,7 +514,8 @@
                         <h3>Rate Limiting</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle formControlName="isRateLimitingActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isRateLimitingActive"
+                            (change)="onToggleChangeRateLimit()"></mat-slide-toggle>
                     </div>
                 </div>
                 @if(!formGroupService.value.isRateLimitingActive){
@@ -520,7 +523,8 @@
                 }@else{
                 <div class="col-sm-12 col-md-4">
                     <label for="rateLimit" class="form-label">Rate Limit</label>
-                    <input type="number" class="input-size form-control" id="rateLimit" formControlName="rateLimit" />
+                    <input type="number" class="input-size form-control" id="rateLimit" formControlName="rateLimit"
+                        [class.is-invalid]="formGroupService.get('rateLimit')?.invalid && formGroupService.get('rateLimit')?.touched" />
                     <div class="form-text">Maximum requests you want to let the service handle in the specified time
                         (every). Leave 0 for no default limit.</div>
                 </div>
@@ -531,35 +535,38 @@
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="capacity" class="form-label">Capacity</label>
-                    <input type="number" class="input-size form-control" id="capacity" formControlName="capacity" />
+                    <input type="number" class="input-size form-control" id="capacity" formControlName="capacity"
+                        [class.is-invalid]="formGroupService.get('capacity')?.invalid && formGroupService.get('capacity')?.touched" />
                     <div class="form-text">Number of tokens you can store in the Token Bucket. Traduces into maximum
                         concurrent requests all users can do.</div>
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="defaultUserQuota" class="form-label">Default user quota</label>
                     <input type="number" class="input-size form-control" id="defaultUserQuota"
-                        formControlName="defaultUserQuota" />
+                        formControlName="defaultUserQuota"
+                        [class.is-invalid]="formGroupService.get('defaultUserQuota')?.invalid && formGroupService.get('defaultUserQuota')?.touched" />
                     <div class="form-text">Maximum requests per second you want to allow to each different API user. Use
                         0 for no limitation.</div>
                 </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="uniqueIdentifier" class="form-label">A Unique user identified by</label>
                     <div><mat-radio-group aria-label="Select an option" formControlName="uniqueStrategy">
-                        <mat-radio-button value="ip">Its Originating Ip</mat-radio-button>
-                        <mat-radio-button value="header">A header</mat-radio-button>
-                      </mat-radio-group>
+                            <mat-radio-button value="ip">Its Originating Ip</mat-radio-button>
+                            <mat-radio-button value="header">A header</mat-radio-button>
+                        </mat-radio-group>
                     </div>
                     @if(this.formGroupService.get('uniqueStrategy')?.value === 'header'){
-                        <div>
-                            <input type="text" class="form-control" formControlName="headerValue"/>
-                        </div>
-                    }
-                    
+                    <div>
+                        <input type="text" class="form-control" formControlName="headerValue" />
                     </div>
+                    }
+
+                </div>
                 <div class="col-sm-12 col-md-4">
                     <label for="clientCapacity" class="form-label">Client Capacity</label>
                     <input type="number" class="input-size form-control" id="clientCapacity"
-                        formControlName="clientCapacity" />
+                        formControlName="clientCapacity"
+                        [class.is-invalid]="formGroupService.get('clientCapacity')?.invalid && formGroupService.get('clientCapacity')?.touched" />
                     <div class="form-text">Number of tokens you can store in the Token Bucket for each individual user.
                         Traduces into maximum concurrent requests KrakenD will accept for the connected user.</div>
                 </div>

@@ -78,9 +78,69 @@ export class ServiceSettingsComponent {
 
       literalMatchObjectMapValue: [[]],
       regExpMatchObjectMapValue: [[]],
-      uniqueStrategy:[null],
-      headerValue:[null]
+      uniqueStrategy: [null],
+      headerValue: [null]
     })
+  }
+  onToggleChangeJwk() {
+    const isActive = this.formGroupService.value.isJwkSharedActive;
+    const sharedCacheDur = this.formGroupService.get('sharedCacheDuration');
+
+    if (isActive) {
+      sharedCacheDur?.setValidators([Validators.required]); // Add required validator
+    } else {
+      sharedCacheDur?.clearValidators(); // Clear all validators
+      sharedCacheDur?.setValue(''); // Optionally reset the field
+    }
+
+    sharedCacheDur?.updateValueAndValidity(); // Update validation state
+    console.log('Validation updated. Current validators:', sharedCacheDur?.validator);
+  }
+  onToggleChangeRateLimit() {
+
+    const isActive = this.formGroupService.value.isRateLimitingActive;
+    const rateLim = this.formGroupService.get('rateLimit');
+    const cap = this.formGroupService.get('capacity');
+    const defUserQuota = this.formGroupService.get('defaultUserQuota');
+    const ccap = this.formGroupService.get('clientCapacity');
+
+
+
+
+    if (isActive) {
+      rateLim?.setValidators([Validators.required]); // Add required validator
+      cap?.setValidators([Validators.required]); // Add required validator
+      defUserQuota?.setValidators([Validators.required]); // Add required validator
+      ccap?.setValidators([Validators.required]); // Add required validator
+
+
+
+
+    } else {
+      rateLim?.clearValidators(); // Clear all validators
+      rateLim?.setValue(''); // Optionally reset the field
+      cap?.clearValidators(); // Clear all validators
+      cap?.setValue(''); // Optionally reset the field
+      defUserQuota?.clearValidators(); // Clear all validators
+      defUserQuota?.setValue(''); // Optionally reset the field
+      ccap?.clearValidators(); // Clear all validators
+      ccap?.setValue(''); // Optionally reset the field
+    }
+
+    rateLim?.updateValueAndValidity(); // Update validation state
+    cap?.updateValueAndValidity(); // Update validation state
+    defUserQuota?.updateValueAndValidity(); // Update validation state
+    ccap?.updateValueAndValidity(); // Update validation state
+
+
+
+    console.log('Validation updated. Current validators:', rateLim?.validator);
+    console.log('Validation updated. Current validators:', cap?.validator);
+    console.log('Validation updated. Current validators:', defUserQuota?.validator);
+    console.log('Validation updated. Current validators:', ccap?.validator);
+
+
+
   }
 
   onToggleChangeStaticResponse(event: any, id: any) {
@@ -184,9 +244,10 @@ export class ServiceSettingsComponent {
   apiData: any;
   entireJsondata: any;
   ngOnInit() {
+
     this.formGroupService.get('uniqueStrategy')?.valueChanges.subscribe((value) => {
       if (value === 'ip') {
-        this.formGroupService.get('headerValue')?.reset(); 
+        this.formGroupService.get('headerValue')?.reset();
       }
     });
     this.sharedService.getEntireJsonData$().subscribe(data => {
@@ -211,7 +272,7 @@ export class ServiceSettingsComponent {
       directoryList: this.entireJsondata?.extra_config?.["server/static-filesystem"]?.directory_listing,
       disableZip: this.entireJsondata?.extra_config?.router?.disable_gzip,
       databasePath: this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip?.citydb_path,
-      sharedCacheDuration:this.entireJsondata?.extra_config?.["auth/validator"]?.shared_cache_duration,
+      sharedCacheDuration: this.entireJsondata?.extra_config?.["auth/validator"]?.shared_cache_duration,
       // literalMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.literal,
       // regExpMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.regexp,
       publicKey: this.entireJsondata?.tls?.public_key,

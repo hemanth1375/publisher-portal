@@ -32,6 +32,8 @@
                         <h3 class="mb-0">Notify the connection event</h3>
                     </div>
                     <p>Notifies in the log when there is the client connect event</p>
+
+                    
                     <div class="mb-3 col-sm-12 col-md-10">
                         <label for="backoffStrategy" class="form-label">Backoff Strategy</label>
                         <select class="form-select" id="backoffStrategy" formControlName="backoffStrategy">
@@ -107,15 +109,16 @@
                 <input type="text" class="form-control" id="pongWait" formControlName="pongWait">
                 <div class="form-text">Sets the maximum time KrakenD will wait until the pong times out.</div>
             </div>
-            <div class="mb-3 col-sm-12 col-md-10"> 
-                <label for="returnErr" class="form-label">Return error details</label>
-                <input type="checkbox" class="form-control" id="returnErr" formControlName="returnErr">
-                <div class="form-text">Provides an error &#123;"error":"reason here" &#125; to the client when KrakenD was unable to
-                    send the message to the backend.</div>
+            <div class="mb-3 col-sm-12 col-md-10">
+
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" id="notifyConnectionEvent" class="me-2" formControlName="returnErr">
+                        <h3 class="mb-0">Notify the connection event</h3>
+                    </div>
+
+                    <p>Provides an error &#123;"error":"reason here" &#125; to the client when KrakenD was unable to
+                        send the message to the backend.</p>
             </div>
-                    
-                    
-                    
                 </div>
             </div>
             }@else {

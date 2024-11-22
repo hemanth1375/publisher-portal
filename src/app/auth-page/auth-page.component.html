@@ -28,9 +28,10 @@
                         <div>
                             <select class="form-select" aria-label="Default select example" id="algorithmselect" formControlName="algorithm">
                                 <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="EdDSA">EdDSA</option>
+                                <option value="HS256">HS256 - HMAC using SHA-256</option>
+                                <option value="HS384">HS384 - HMAC using SHA-384</option>
+                                <option value="HS512">HS512 - HMAC using SHA-512</option>
                             </select>
                         </div>
                         <div class="form-text">Digital signatures and MACs algorithm</div>
@@ -76,9 +77,8 @@
                         <div>
                             <select class="form-select" aria-label="Default select example" id="matcherselect" formControlName="selectedMatcher">
                                 <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="Any">Any</option>
+                                <option value="All">All</option>
                             </select>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                 </div>
 
                 <div class="col-sm-12 heading-with-toggle gap-2 flex-column p-3">
-                    <mat-checkbox class="example-margin">Roles key is nested</mat-checkbox>
+                    <mat-checkbox class="example-margin" formControlName="isRolesKeyActive">Roles key is nested</mat-checkbox>
                     <div class="form-text">If the roles key is using a nested object using the . dot
                         notation, must be checked in order to traverse the object.</div>
                 </div>
@@ -183,12 +183,12 @@
 
                 <div class="col-sm-12 heading-with-toggle gap-2 d-flex p-3">
                     <div class="col-sm-5">
-                        <mat-checkbox class="example-margin">Enable Caching</mat-checkbox>
+                        <mat-checkbox class="example-margin" formControlName="isCachingActive" >Enable Caching</mat-checkbox>
                         <div class="form-text">If this value is set to true validated tokens will be
                             stored in-memory for repeated validations</div>
                     </div>
                     <div class="col-sm-5">
-                        <mat-checkbox class="example-margin">Disable JWK Security</mat-checkbox>
+                        <mat-checkbox class="example-margin" formControlName="isJwkSecActive" >Disable JWK Security</mat-checkbox>
                         <div class="form-text">When you are using an insecure connection (plain http)
                         </div>
                     </div>
@@ -234,9 +234,10 @@
                     <div>
                         <select class="form-select" aria-label="Default select example" id="tokenSignAlgorithmselect" formControlName="tokenSignAlgorithm">
                             <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="EdDSA">EdDSA</option>
+                            <option value="HS256">HS256 - HMAC using SHA-256</option>
+                            <option value="HS384">HS384 - HMAC using SHA-384</option>
+                            <option value="HS512">HS512 - HMAC using SHA-512</option>
                         </select>
                     </div>
                     <div class="form-text">Digital signatures and MACs algorithm</div>
@@ -269,12 +270,12 @@
 
             <div class="col-sm-12 heading-with-toggle gap-2 d-flex p-3">
                 <div class="col-sm-5">
-                    <mat-checkbox class="example-margin">Full Serialization</mat-checkbox>
+                    <mat-checkbox class="example-margin" formControlName="isfullSerializationActive">Full Serialization</mat-checkbox>
                     <div class="form-text">Use JSON format instead of the compact form JWT is giving
                     </div>
                 </div>
                 <div class="col-sm-5">
-                    <mat-checkbox class="example-margin">Disable JWK Security</mat-checkbox>
+                    <mat-checkbox class="example-margin" formControlName="isDisableJWKSecActive">Disable JWK Security</mat-checkbox>
                     <div class="form-text">When you are using an insecure connection (plain http)
                     </div>
                 </div>

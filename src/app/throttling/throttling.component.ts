@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ThrottlingComponent {
 
+  cidrArray:any[]= [];
+  trustedProxiesArray:any[]=[];
+  clientIPHeadersArray:any[]=[];
+
   formGroupThrottling: FormGroup;
   @Input() formData: any;
   @Output() throttlingFormSubmitted = new EventEmitter<any>();
@@ -16,8 +20,12 @@ export class ThrottlingComponent {
       timeout: [''],
       cacheTtl: [''],
       cidr: [''],
+      cidrArrayValue:[[]],
       trustedProxies: [''],
+      trustedProxiesArrayValue:[[]],
       clientIpHeaders: [''],
+      clientIPHeadersArrayValue:[[]],
+      allowModeActive:[false],
       rateLimit: [''],
       every: [''],
       capacity: [''],
@@ -54,6 +62,44 @@ export class ThrottlingComponent {
     if (this.formGroupThrottling.valid) {
       this.throttlingFormSubmitted.emit(this.formGroupThrottling.value)
     }
+  }
+
+  addParameter(fieldName: 'cidr' | 'trustedProxies'| 'clientIpHeaders') {
+    const fieldValue = this.formGroupThrottling.get(fieldName)?.value;
+
+    if (fieldName) {
+      if(fieldName === 'cidr'){
+        this.cidrArray.push(fieldValue);
+        this.formGroupThrottling.get('cidrArrayValue')?.setValue([...this.cidrArray])
+
+      }else if(fieldName ==='trustedProxies'){
+        this.trustedProxiesArray.push(fieldValue);
+        this.formGroupThrottling.get('trustedProxiesArrayValue')?.setValue([...this.trustedProxiesArray])
+
+
+      }else if(fieldName === 'clientIpHeaders'){
+        this.clientIPHeadersArray.push(fieldValue);
+        this.formGroupThrottling.get('clientIPHeadersArrayValue')?.setValue([...this.clientIPHeadersArray])
+
+      }
+
+      this.formGroupThrottling.get(fieldName)?.reset();
+    }
+  }
+
+  removeParameter(index: any, fieldName:'cidr' | 'trustedProxies'| 'clientIpHeaders') {
+    if(fieldName === 'cidr'){
+      this.cidrArray.splice(index,1);
+      this.formGroupThrottling.get('cidrArrayValue')?.setValue([...this.cidrArray]);
+    }else if(fieldName === 'trustedProxies'){
+      this.trustedProxiesArray.splice(index,1);
+      this.formGroupThrottling.get('trustedProxiesArrayValue')?.setValue([...this.trustedProxiesArray]);
+
+    }else if(fieldName === 'clientIpHeaders'){
+      this.clientIPHeadersArray.splice(index, 1);
+      this.formGroupThrottling.get('clientIPHeadersArrayValue')?.setValue([...this.clientIPHeadersArray])
+    }
+
   }
 
  

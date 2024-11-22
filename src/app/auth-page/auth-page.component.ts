@@ -11,8 +11,6 @@ export class AuthPageComponent {
 
   @Input() formData: any;
 
-  
-
   scopesArray:string[]=[];
   audienceArray:string[]=[];
   rolesArray :string[]=[];
@@ -49,8 +47,12 @@ export class AuthPageComponent {
       rolesArrayValue:[[]],
       scopesToValidateArrayValue:[[]],
       keysToSignArrayValue:[[]],
-      fingerprintArrayValue:[[]]
-      
+      fingerprintArrayValue:[[]],
+      isRolesKeyActive:[false],
+      isCachingActive:[false],
+      isJwkSecActive:[false],
+      isfullSerializationActive:[false],
+      isDisableJWKSecActive:[false],
     })
 
   
@@ -64,13 +66,7 @@ export class AuthPageComponent {
     });
   }
 
-  
-  
-  onToggleChangeStaticResponse(event: any, id:any) {
-    console.log('id', id);
-    (this as any)[id] = event.checked;  
-  }
- 
+   
   addParameter(fieldName: 'audience' | 'roles' | 'scopesToValidate' | 'fingerprint' | 'keysToSign') {
     const fieldValue = this.formGroup1.get(fieldName)?.value;
 

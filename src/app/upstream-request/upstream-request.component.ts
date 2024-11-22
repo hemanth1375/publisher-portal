@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-request.component.html',
   styleUrl: './upstream-request.component.css'
 })
-export class UpstreamRequestComponent implements AfterViewInit {
+export class UpstreamRequestComponent implements AfterViewInit , OnInit{
   
   formGroupUpstreamRequest:FormGroup;
   @Input() formData: any;
@@ -23,9 +23,11 @@ export class UpstreamRequestComponent implements AfterViewInit {
       decodeAs:[null],
       staticUrl:[null],
       directory_Listing:[false],
-      bodyEditorTextarea:[null],
-      contentType:[null],
-      path:[null],
+      bodyEditor:['bodyeditor'],
+      template:[''],
+      contentType:[''],
+      debug:[false],
+      path:[''],
       martianDslTextarea:[null],
       host:[null],
       hostArrayValue:[[]]
@@ -55,8 +57,34 @@ export class UpstreamRequestComponent implements AfterViewInit {
       directory_Listing:this.formData?.backend?.[0]?.directory_Listing,
       hostArrayValue:this.formData?.backend?.[0]?.host
 
-    })
+    });
+
+    this.formGroupUpstreamRequest.get('isCollection')?.valueChanges.subscribe((isChecked)=>{
+      const rootObjectControl = this.formGroupUpstreamRequest.get('rootObject');
+
+      if(isChecked){
+        rootObjectControl?.disable();
+      }else{
+        rootObjectControl?.enable();
+      }
+    });
+
+    this.formGroupUpstreamRequest.get('bodyEditor')?.valueChanges.subscribe((value)=>{
+      const bodyEditorControl = this.formGroupUpstreamRequest.get('template');
+      const pathControl = this.formGroupUpstreamRequest.get('path');
+      
+      if(value === 'bodyeditor'){
+        bodyEditorControl?.enable();
+        pathControl?.disable();
+
+      }else if(value === 'external'){
+        bodyEditorControl?.disable();
+        pathControl?.enable();
+      }
+    });
   }
+
+
   hostArray:any=[];
   parameterHeaderArray:any=[];
   updateParametersArray() {

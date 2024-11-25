@@ -102,6 +102,7 @@ this.showSubmitButton=this.router.url.includes('/openAPI')
   cardId:any;
   entireJsondata:any;
   apikeysData:any;
+  apiMonetizationdata:any;
   submitdata(){
     this.apiCardsService.getData$().subscribe(data=>{
       this.cardId=data
@@ -150,7 +151,9 @@ console.log(this.entireJsondata);
       console.log(data);
       this.apikeysData=data;
     })
-
+    this.sharedService.getApiMonetizationDataData$().subscribe((data:any)=>{
+      this.apiMonetizationdata=data;
+    })
     const literalObj = this.serviceSettingData?.literalMatchObjectMapValue?.reduce((acc:any, [key, value]:any) => {
       acc[key] = value;
       return acc;
@@ -158,6 +161,14 @@ console.log(this.entireJsondata);
 
     const sslProxyHeadersObj=this.httpSecurityData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
       acc[key] = value;
+      return acc;
+    })
+    const telStackDriverObj=this.telemetryData?.objectMapValue?.reduce((acc:any,[key,value]:any)=>{
+      acc[key]=value;
+      return acc;
+    })
+    const openCensusAGentObj=this.telemetryData?.headerObjectMapValue?.reduce((acc:any,[key,value]:any)=>{
+      acc[key]=value;
       return acc;
     })
     this.apiCardsService.getData$().subscribe(data=>{
@@ -352,33 +363,33 @@ console.log(this.entireJsondata);
             ...(this.httpSecurityData?.botDetectorEmptyUsersForm && {"empty_user_agent_is_bot": this.httpSecurityData?.botDetectorEmptyUsersForm}),
             ...(this.httpSecurityData?.botDetectorPatternsFormArray.length!=0 && {"patterns": this.httpSecurityData?.botDetectorPatternsFormArray})
           }}),
-          "security/http": {
-            "allowed_hosts": this.httpSecurityData?.httpSecurityAllowedHostsFormArray,
-            "allowed_hosts_are_regex": true,
-            "browser_xss_filter": this.httpSecurityData?.httpSecurityXSSProtectionForm,
-            "content_security_policy": this.httpSecurityData?.httpSecurityConSecPolicyForm,
-            "content_type_nosniff": this.httpSecurityData?.httpSecuritySniffingForm,
-            "custom_frame_options_value": null,
-            "force_sts_header": true,
-            "frame_deny": this.httpSecurityData?.httpSecurityClickjackProtectForm,
-            "host_proxy_headers": [
+          ...(this.httpSecurityData?.isHttpSecurityActive &&{"security/http": {
+            ...(this.httpSecurityData?.httpSecurityAllowedHostsFormArray.length!=0 &&{"allowed_hosts": this.httpSecurityData?.httpSecurityAllowedHostsFormArray}),
+            // "allowed_hosts_are_regex": true,
+            ...(this.httpSecurityData?.httpSecurityXSSProtectionForm &&{"browser_xss_filter": this.httpSecurityData?.httpSecurityXSSProtectionForm}),
+            ...(this.httpSecurityData?.httpSecurityConSecPolicyForm &&{"content_security_policy": this.httpSecurityData?.httpSecurityConSecPolicyForm}),
+            ...(this.httpSecurityData?.httpSecuritySniffingForm &&{"content_type_nosniff": this.httpSecurityData?.httpSecuritySniffingForm}),
+            ...(this.httpSecurityData?.frameOptions &&{"custom_frame_options_value": this.httpSecurityData?.frameOptions}),
+            // "force_sts_header": true,
+            ...(this.httpSecurityData?.httpSecurityClickjackProtectForm &&{"frame_deny": this.httpSecurityData?.httpSecurityClickjackProtectForm}),
+            ...(this.httpSecurityData?.httpSecurityXSSProtectionForm &&{"host_proxy_headers": [
               ''
-            ],
-            "hpkp_public_key": this.httpSecurityData?.httpSecurityHPKPForm,
-            "is_development": true,
-            "referrer_policy": null,
-            "ssl_host": this.httpSecurityData?.httpSecuritySSLOptForm,
-            "ssl_proxy_headers": sslProxyHeadersObj,
-            "ssl_redirect": this.httpSecurityData?.httpSecuritySSLOptForceSSLForm,
-            "sts_include_subdomains": this.httpSecurityData?.httpSecurityIncSubdomainForm,
-            "sts_seconds": this.httpSecurityData?.httpSecurityHSTSForm
-          },
+            ]}),
+            ...(this.httpSecurityData?.httpSecurityHPKPForm &&{"hpkp_public_key": this.httpSecurityData?.httpSecurityHPKPForm}),
+            // "is_development": true,
+            // "referrer_policy": null,
+            ...(this.httpSecurityData?.httpSecuritySSLOptForm &&{"ssl_host": this.httpSecurityData?.httpSecuritySSLOptForm}),
+            ...(this.httpSecurityData?.sslProxyHeadersObj &&{"ssl_proxy_headers": sslProxyHeadersObj}),
+            ...(this.httpSecurityData?.httpSecuritySSLOptForceSSLForm &&{"ssl_redirect": this.httpSecurityData?.httpSecuritySSLOptForceSSLForm}),
+            ...(this.httpSecurityData?.httpSecurityIncSubdomainForm &&{"sts_include_subdomains": this.httpSecurityData?.httpSecurityIncSubdomainForm}),
+            ...(this.httpSecurityData?.httpSecurityHSTSForm &&{"sts_seconds": this.httpSecurityData?.httpSecurityHSTSForm})
+          }}),
           ...((this.serviceSettingData?.isUrlRewriteActive || this.httpSecurityData?.isIpFilterActive || this.httpSecurityData?.isMultipleIdentityProviderActive) &&{"plugin/http-server": {
             "name": [
               this.serviceSettingData?.isUrlRewriteActive && 'url-rewrite',
               this.httpSecurityData?.isIpFilterActive && 'ip-filter',
               this.httpSecurityData?.isMultipleIdentityProviderActive && 'jwk-aggregator'
-            ],
+            ].filter(Boolean),
             ...(this.serviceSettingData?.isGeoIpActive &&{"geoip": {
               ...(this.serviceSettingData?.databasePath &&{"citydb_path":this.serviceSettingData?.databasePath})
             }}),
@@ -439,13 +450,13 @@ console.log(this.entireJsondata);
           {
             "telemetry/opentelemetry": {
             "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id:null,
-            "service_name": null,
-            "metric_reporting_period": this.telemetryData?.OTreportingPeriod,
-            "trace_sample_rate": this.telemetryData?.OTsampleRate,
-            "service_version": null,
-            "skip_paths": [
-              ''
-            ],
+            // "service_name": null,
+            ...(this.telemetryData?.OTreportingPeriod &&{"metric_reporting_period": this.telemetryData?.OTreportingPeriod}),
+            ...(this.telemetryData?.OTsampleRate &&{"trace_sample_rate": this.telemetryData?.OTsampleRate}),
+            // "service_version": null,
+            // "skip_paths": [
+            //   ''
+            // ],
             "exporters": {
               "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id:null,
               ...(this.telemetryData?.otlp.length!==0)&&{"otlp": this.telemetryData?.otlp},
@@ -500,47 +511,44 @@ console.log(this.entireJsondata);
           }
         }
         ),
-          "telemetry/logging": {
-            "format": null,
-            "custom_format": this.telemetryData?.logMsgFormat,
-            "syslog_facility": this.telemetryData?.logSysLogFacility,
-            "level": this.telemetryData?.logginngLevel,
-            "prefix": this.telemetryData?.loggingPrefix,
-            "syslog": this.telemetryData?.logSysLog,
-            "stdout": this.telemetryData?.logStdOut
-          },
+          ...(this.telemetryData?.isLoggingActive &&{"telemetry/logging": {
+            ...(this.telemetryData?.logMsgFormat &&{"format": this.telemetryData?.logMsgFormat}),
+            ...(this.telemetryData?.logSysLogFacility &&{"syslog_facility": this.telemetryData?.logSysLogFacility}),
+            ...(this.telemetryData?.logginngLevel &&{"level": this.telemetryData?.logginngLevel}),
+            ...(this.telemetryData?.loggingPrefix &&{"prefix": this.telemetryData?.loggingPrefix}),
+            ...(this.telemetryData?.logSysLog &&{"syslog": this.telemetryData?.logSysLog}),
+            ...(this.telemetryData?.logStdOut &&{"stdout": this.telemetryData?.logStdOut})
+          }}),
           "telemetry/gelf": {
             "address": null,
             "enable_tcp": true
           },
           "telemetry/moesif": {
-            "@comment": null,
-            "application_id": null,
-            "user_id_headers": [
-              ''
-            ],
-            "user_id_jwt_claim": null,
-            "identify_company": {
-              "jwt_claim": null
-            },
-            "debug": true,
-            "log_body": true,
-            "event_queue_size": 0,
-            "batch_size": 0,
-            "timer_wake_up_seconds": 0,
-            "request_body_masks": [
-              ''
-            ],
-            "request_header_masks": [
-              ''
-            ],
-            "response_body_masks": [
-              ''
-            ],
-            "response_header_masks": [
-              ''
-            ],
-            "should_skip": null
+            // "@comment": null,
+            "application_id": this.apiMonetizationdata?.apiMonetizationAppIDForm,
+            "user_id_headers": this.apiMonetizationdata?.apiMonetizationHeadersFormArray,
+            "user_id_jwt_claim": this.apiMonetizationdata?.apiMonetizationClaimForm,
+            // "identify_company": {
+            //   "jwt_claim": null
+            // },
+            "debug": this.apiMonetizationdata?.apiMonetizationDebugForm,
+            // "log_body": true,
+            // "event_queue_size": 0,
+            // "batch_size": 0,
+            // "timer_wake_up_seconds": 0,
+            // "request_body_masks": [
+            //   ''
+            // ],
+            // "request_header_masks": [
+            //   ''
+            // ],
+            // "response_body_masks": [
+            //   ''
+            // ],
+            // "response_header_masks": [
+            //   ''
+            // ],
+            // "should_skip": null
           },
           
           ...(this.telemetryData?.openCensusActive && 
@@ -559,8 +567,8 @@ console.log(this.entireJsondata);
                   ...(this.telemetryData?.datadogTraceAdd) &&{"trace_address": this.telemetryData?.datadogTraceAdd},
                   ...(this.telemetryData?.datadogStatusAdd) &&{"stats_address": this.telemetryData?.datadogStatusAdd},
                   ...(this.telemetryData?.tagsArrayValue) &&{"tags": this.telemetryData?.tagsArrayValue},
-                  "global_tags": {},
-                  "disable_count_per_buckets": true
+                  ...(this.telemetryData?.globalTagsArrayValue &&{"global_tags": this.telemetryData?.globalTagsArrayValue}),
+                  ...(this.telemetryData?.countPerBuckets &&{"disable_count_per_buckets": this.telemetryData?.countPerBuckets})
               },
               }),
               ...(this.telemetryData?.influxDBActive) &&{
@@ -580,62 +588,75 @@ console.log(this.entireJsondata);
                 ...(this.telemetryData?.jeagerServiceName)&&{"service_name": this.telemetryData?.jeagerServiceName}
                 }
               },
-              "logger": {
-                "spans": true,
-                "stats": true
-              },
-              "ocagent": {
-                "address": null,
-                "enable_compression": true,
-                "headers": {},
-                "insecure": true,
-                "reconnection": null,
-                "service_name": null
-              },
-              "prometheus": {
-                "namespace": null,
+              ...(this.telemetryData?.loggerActive &&
+                {"logger": {
+                // "spans": true,
+                // "stats": true
+              }}),
+              ...(this.telemetryData?.openCensusAgentActive &&
+                {"ocagent": {
+                ...(this.telemetryData?.ocagentCollectorsAddress &&{"address": this.telemetryData?.ocagentCollectorsAddress}),
+                ...(this.telemetryData?.ocagentEnableCompression &&{"enable_compression": this.telemetryData?.ocagentEnableCompression}),
+                ...(this.telemetryData?.headerObjectMapValue&&{"headers": openCensusAGentObj}),
+                ...(this.telemetryData?.ocagentInsecure &&{"insecure": this.telemetryData?.ocagentInsecure}),
+                ...(this.telemetryData?.ocagentReconTime &&{"reconnection": this.telemetryData?.ocagentReconTime}),
+                ...(this.telemetryData?.ocagentServiceName &&{"service_name": this.telemetryData?.ocagentServiceName})
+              }}),
+              ...(this.telemetryData?.prometheusActive &&{
+                "prometheus": {
+                // "namespace": null,
                 "port": 0,
-                "tag_host": true,
-                "tag_method": true,
-                "tag_path": true,
-                "tag_statuscode": true
-              },
-              "stackdriver": {
-                "project_id": null,
-                "default_labels": {},
-                "metric_prefix": null
-              },
-              "xray": {
-                "region": null,
-                "version": null,
-                "access_key_id": null,
-                "secret_access_key": null,
-                "use_env": true
-              },
-              ...(this.telemetryData?.zipkinActive) &&
+                // "tag_host": true,
+                // "tag_method": true,
+                // "tag_path": true,
+                // "tag_statuscode": true
+              }}),
+              ...(this.telemetryData?.googleStkActive &&{
+                "stackdriver": {
+                ...(this.telemetryData?.stkProjectID &&{"project_id": this.telemetryData?.stkProjectID}),
+                ...(this.telemetryData?.objectMapValue &&{"default_labels": telStackDriverObj}),
+                ...(this.telemetryData?.stkMetricsPrefix &&{"metric_prefix": this.telemetryData?.stkMetricsPrefix})
+              }}),
+              ...(this.telemetryData?.awsActice &&{
+                "xray": {
+                ...(this.telemetryData?.awsRegion &&{"region": this.telemetryData?.awsRegion}),
+                ...(this.telemetryData?.awsService &&{"version": this.telemetryData?.awsService}),
+                ...(this.telemetryData?.awsAccessKey &&{"access_key_id": this.telemetryData?.awsAccessKey}),
+                ...(this.telemetryData?.awsSecretKey &&{"secret_access_key": this.telemetryData?.awsSecretKey}),
+                ...(this.telemetryData?.useCredFromEnvActice &&{"use_env": this.telemetryData?.useCredFromEnvActice})
+              }}),
+              ...(this.telemetryData?.zipkinActive &&
               {"zipkin": {
                 ...(this.telemetryData?.zipkincollectorURL)&& {"collector_url": this.telemetryData?.zipkincollectorURL},
-          ...(this.telemetryData?.zipkinServiceName)&&{"service_name": this.telemetryData?.zipkinServiceName}
-              }}
+                ...(this.telemetryData?.zipkinServiceName)&&{"service_name": this.telemetryData?.zipkinServiceName}
+              }}),
+              ...(this.telemetryData?.newRelicActive &&{
+                "newrelic": {
+                ...(this.telemetryData?.relicServiceName &&{"service_name": this.telemetryData?.relicServiceName}),
+                ...(this.telemetryData?.relicApiKey &&{"api_key": this.telemetryData?.relicApiKey}),
+                ...(this.telemetryData?.relicSpansURL &&{"spans_url": this.telemetryData?.relicSpansURL}),
+                ...(this.telemetryData?.relicMetricsURL &&{"metrics_url": this.telemetryData?.relicMetricsURL}),
+                ...(this.telemetryData?.relicsDebug &&{"debug": this.telemetryData?.relicsDebug})
+              }})
             },
-            "reporting_period": 0,
-            "sample_rate": 0
+            "reporting_period": this.telemetryData?.OTreportingPeriod,
+            "sample_rate": this.telemetryData?.OTsampleRate
           },
             }
           ),
-          "telemetry/newrelic": {
-            "debug": this.telemetryData?.newRelicSDKDebug,
-            "headers_to_pass": this.telemetryData?.headersToPassArrayValue,
-            "license": this.telemetryData?.newRelicLicense
-          },
-          "telemetry/metrics": {
-            "backend_disabled": this.telemetryData?.metricsDisableBackend,
-            "collection_time": this.telemetryData?.metricCollecTime,
-            "endpoint_disabled": this.telemetryData?.metricsDisableEndpoint,
-            "listen_address": this.telemetryData?.metricsListenAddress,
-            "proxy_disabled": this.telemetryData?.metricsDisableProxy,
-            "router_disabled": this.telemetryData?.metricsDisableRouter
-          }
+          ...(this.telemetryData?.newRelicNativeSDKActive &&{"telemetry/newrelic": {
+            ...(this.telemetryData?.newRelicSDKDebug &&{"debug": this.telemetryData?.newRelicSDKDebug}),
+            ...(this.telemetryData?.headersToPassArrayValue.length!=0 &&{"headers_to_pass": this.telemetryData?.headersToPassArrayValue}),
+            ...(this.telemetryData?.newRelicLicense &&{"license": this.telemetryData?.newRelicLicense})
+          }}),
+          ...(this.telemetryData?.isMetricsAPiActive &&{"telemetry/metrics": {
+            ...(this.telemetryData?.metricsDisableBackend && {"backend_disabled": this.telemetryData?.metricsDisableBackend}),
+            ...(this.telemetryData?.metricCollecTime && {"collection_time": this.telemetryData?.metricCollecTime}),
+            ...(this.telemetryData?.metricsDisableEndpoint && {"endpoint_disabled": this.telemetryData?.metricsDisableEndpoint}),
+            ...(this.telemetryData?.metricsListenAddress && {"listen_address": this.telemetryData?.metricsListenAddress}),
+            ...(this.telemetryData?.metricsDisableProxy && {"proxy_disabled": this.telemetryData?.metricsDisableProxy}),
+            ...(this.telemetryData?.metricsDisableRouter && {"router_disabled": this.telemetryData?.metricsDisableRouter})
+          }})
         },
         ...(this.serviceSettingData?.httpReadTimeout && {"read_timeout": this.serviceSettingData?.httpReadTimeout}),
         ...(this.serviceSettingData?.httpWriteTimeout && {"write_timeout": this.serviceSettingData?.httpWriteTimeout}),
@@ -646,25 +667,25 @@ console.log(this.entireJsondata);
 
     console.log(body);
   if(this.cardId==undefined){
-// this.apiPageService.createKrakend(body).subscribe({
-//   next:(res:any)=>{
-//     console.log(res);
-//     this._snackBar.open(res.message, 'OK', {
-//       duration: 5000
-//     });
-//     this.router.navigate(['apicards'])
-//   }
-// })
+this.apiPageService.createKrakend(body).subscribe({
+  next:(res:any)=>{
+    console.log(res);
+    this._snackBar.open(res.message, 'OK', {
+      duration: 5000
+    });
+    this.router.navigate(['apicards'])
+  }
+})
   }else{
-// this.apiPageService.updateKrakend(this.cardId,body).subscribe({
-//   next:(res:any)=>{
-//     console.log(res);
-//     this._snackBar.open(res.message, 'OK', {
-//       duration: 5000
-//     });
-//     this.router.navigate(['apicards'])
-//   }
-// })
+this.apiPageService.updateKrakend(this.cardId,body).subscribe({
+  next:(res:any)=>{
+    console.log(res);
+    this._snackBar.open(res.message, 'OK', {
+      duration: 5000
+    });
+    this.router.navigate(['apicards'])
+  }
+})
   }
   }
   openDialog(): void {

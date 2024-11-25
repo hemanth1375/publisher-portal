@@ -2,67 +2,74 @@
     <div class="row">
         <div class="col-sm-12">
             <h2>Parameter Forwarding</h2>
-            <p>TimeOut and Cache TTL</p>
-            <p>All the settings below are defined in the Service configuration, setting one or several values here means
-                overriding the settings for this specific endpoint only</p>
-            <p>Valid time units : ns, us (or µs), ms, s, m, h E.g: 1s</p>
+
             <form [formGroup]="formGroup1">
-            <div>
-                <p>Recognized Query string parameters</p>
-                
-                <div class="d-flex">
-                    <div class="col-sm-5">
-                        <input class="input-size form-control" type="text" formControlName="queryParams"/>
-                        <div id="methodHelp" class="form-text">Query string parameters to be passed to the backends when present. Write only the name of the parameter, no question mark or equal symbols.</div>
+                <div>
+                    <p>Recognized Query string parameters</p>
+
+                    <div class="d-flex">
+                        <div class="col-sm-5">
+                            <input class="input-size form-control" type="text" formControlName="queryParams"
+                                placeholder="parameter_name" />
+                            <div id="methodHelp" class="form-text">Query string parameters to be passed to the backends
+                                when present. Write only the name of the parameter, no question mark or equal symbols.
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <button mat-flat-button class="parameter-button" (click)="addParameter()">Add
+                                Parameter</button>
+                        </div>
+
                     </div>
-                    <div class="col-sm-7">
-                        <button mat-flat-button class="parameter-button"(click)="addParameter()">Add Parameter</button>
+                    <div class="mt-3 d-flex">
+
+                        <button *ngFor="let parameter of parameterArray; let i = index" class="parameter-item">
+                            {{ parameter }}<mat-icon (click)="removeParameter(i)"
+                                class="d-flex align-items-center justify-content-end">close</mat-icon>
+                        </button>
                     </div>
 
-                </div>
-                <div class="mt-3 d-flex">
-                  
-                    <button *ngFor="let parameter of parameterArray; let i = index" class="parameter-item">
-                      {{ parameter }}<mat-icon (click)="removeParameter(i)" class="d-flex align-items-center justify-content-end">close</mat-icon>
-                    </button>
-                </div>
-            
-                <!-- <div class="d-flex align-items-center">
+                    <!-- <div class="d-flex align-items-center">
                     <div class="col-sm-3">
                         <span class="parameter-span-text">Query string parameters to be passed to the backends when present. Write only the name of the parameter, no question mark or equal symbols.</span>
                     </div>
                 </div> -->
-            </div>
-
-            <div class="mt-4">
-                <p>Headers passing to backend</p>
-                <div class="d-flex ">
-                    <div class="col-sm-5">
-                        <input class="input-size form-control" type="text" formControlName="parameterHeader"/>
-                        <div id="methodHelp" class="form-text">Headers sent by the user that will reach your backend (e.g.: Content-Type). Add a single * to forward all headers (not recommended, security concerns)</div>
-                    </div>
-                    <div class="col-sm-7">
-                        <button mat-flat-button class="parameter-button"(click)="addParameterHeader()">Add Header</button>
-                    </div>
-
                 </div>
-                <div class="mt-3 d-flex">
-                  
-                    <button *ngFor="let parameter of parameterHeaderArray; let i = index" class="parameter-item">
-                      {{ parameter }}<mat-icon (click)="removeParameterHeader(i)" class="d-flex align-items-center justify-content-end">close</mat-icon>
-                    </button>
-                </div>
-                <!-- <div class="d-flex align-items-center">
+
+                <div class="mt-4">
+                    <p>Headers passing to backend</p>
+                    <div class="d-flex ">
+                        <div class="col-sm-5">
+                            <input class="input-size form-control" type="text" formControlName="parameterHeader"
+                                placeholder="header_name" />
+                            <div id="methodHelp" class="form-text">Headers sent by the user that will reach your backend
+                                (e.g.: Content-Type). Add a single * to forward all headers (not recommended, security
+                                concerns)</div>
+                        </div>
+                        <div class="col-sm-7">
+                            <button mat-flat-button class="parameter-button" (click)="addParameterHeader()">Add
+                                Header</button>
+                        </div>
+
+                    </div>
+                    <div class="mt-3 d-flex">
+
+                        <button *ngFor="let parameter of parameterHeaderArray; let i = index" class="parameter-item">
+                            {{ parameter }}<mat-icon (click)="removeParameterHeader(i)"
+                                class="d-flex align-items-center justify-content-end">close</mat-icon>
+                        </button>
+                    </div>
+                    <!-- <div class="d-flex align-items-center">
                     <div class="col-sm-3">
                         <span class="parameter-span-text">Headers sent by the user that will reach your backend (e.g.: Content-Type). Add a single * to forward all headers (not recommended, security concerns)</span>
                     </div>
                 </div> -->
-            </div>
-            <!-- <div class="d-flex justify-content-end">
+                </div>
+                <!-- <div class="d-flex justify-content-end">
                 <button mat-raised-button color="primary" (click)="submitForm()">Save</button>
             </div> -->
-            
-        </form>
+
+            </form>
         </div>
     </div>
 </div>

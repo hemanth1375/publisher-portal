@@ -6,18 +6,30 @@
                 <p>TimeOut and Cache TTL</p>
                 <p>All the settings below are defined in the Service configuration, setting one or several values here
                     means overriding the settings for this specific endpoint only</p>
-                <p>Valid time units : ns, us (or µs), ms, s, m, h E.g: 1s</p>
+
                 <div class="d-flex">
                     <div class="col-sm-12 col-md-6">
                         <label for="timeout" class="form-label">Time Out</label>
-                        <input type="text" class="input-size form-control" id="timeout" formControlName="timeout" />
+                        <input type="text" class="input-size form-control" id="timeout" formControlName="timeout"
+                            [class.is-invalid]="formGroupThrottling.get('timeout')?.invalid && formGroupThrottling.get('timeout')?.touched" />
+                        <div class="invalid-feedback"
+                            *ngIf="formGroupThrottling.get('timeout')?.errors?.['pattern'] && formGroupThrottling.get('timeout')?.touched">
+                            The amount of time you want to assign followed by its unit (e.g.: `2s`, `200ms`). <br> Valid
+                            time units are: ns, us, (or µs), ms, s, m, h.
+                        </div>
                         <div id="timeoutHelp" class="form-text">Maximum time you'll wait for the slowest response.</div>
                         <!-- <span class="form-text"></span> -->
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="cacheTtl" class="form-label">Cache TTL</label>
                         <!-- <p></p> -->
-                        <input type="text" class="input-size form-control" id="cacheTtl" formControlName="cacheTtl" />
+                        <input type="text" class="input-size form-control" id="cacheTtl" formControlName="cacheTtl"
+                            [class.is-invalid]="formGroupThrottling.get('cacheTtl')?.invalid && formGroupThrottling.get('cacheTtl')?.touched" />
+                        <div class="invalid-feedback"
+                            *ngIf="formGroupThrottling.get('cacheTtl')?.errors?.['pattern'] && formGroupThrottling.get('cacheTtl')?.touched">
+                            The amount of time you want to assign followed by its unit (e.g.: `2s`, `200ms`). <br> Valid
+                            time units are: ns, us, (or µs), ms, s, m, h.
+                        </div>
                         <div id="timeoutHelp" class="form-text">For how long a proxy can cache a request to this
                             endpoint.</div>
                         <!-- <span class="form-text">For how long a proxy can cache a request to<br> this endpoint</span> -->
@@ -34,74 +46,81 @@
                 </div>
 
                 @if(formGroupThrottling.value.isIpFilterEnabledActive){
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="cidr" class="form-label">CIDR</label>
-                            <div class="input-group mb-3">
-                                <input type="text" id="cidr" class="form-control" placeholder="192.168.0.0/24" aria-label="192.168.0.0/24"
-                                    aria-describedby="button-addon2" formControlName="cidr">
-                                <button class="btn btn-dark" type="button" id="button-addon2" (click)="addParameter('cidr')">Add</button>
-                            </div>
-                            <div id="passwordHelpBlock" class="form-text">
-                                The CIDR blocks (list of IPs) you want to allow or deny. Examples: 192.168.0.0/24, 172.17.2.56/32, 127.0.0.1
-                            </div>
-                            <div class="mt-3 d-flex">
-                                <button *ngFor="let attr of cidrArray; let i = index" class="parameter-item">
-                                    {{ attr }}<mat-icon (click)="removeParameter(i,'cidr')"
-                                        class="d-flex align-items-center justify-content-end">close</mat-icon>
-                                </button>
-                            </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="cidr" class="form-label">CIDR</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="cidr" class="form-control" placeholder="192.168.0.0/24"
+                                aria-label="192.168.0.0/24" aria-describedby="button-addon2" formControlName="cidr">
+                            <button class="btn btn-dark" type="button" id="button-addon2"
+                                (click)="addParameter('cidr')">Add</button>
                         </div>
-                        <div class="col-sm-4">
-                            <label for="cidr" class="form-label">Trusted Proxies</label>
-                            <div class="input-group mb-3">
-                                <input type="text" id="cidr" class="form-control" placeholder="192.168.0.0/24" aria-label="192.168.0.0/24"
-                                    aria-describedby="button-addon2" formControlName="trustedProxies">
-                                <button class="btn btn-dark" type="button" id="button-addon2"
-                                    (click)="addParameter('trustedProxies')">Add</button>
-                            </div>
-                            <div id="passwordHelpBlock" class="form-text">
-                                A custom list of all the recognized machines/balancers that proxy the client to your application. This list
-                                is used to avoid spoofing when trying to get the real IP of the client.
-                            </div>
-                            <div class="mt-3 d-flex">
-                                <button *ngFor="let attr of trustedProxiesArray; let i = index" class="parameter-item">
-                                    {{ attr }}<mat-icon (click)="removeParameter(i,'trustedProxies')"
-                                        class="d-flex align-items-center justify-content-end">close</mat-icon>
-                                </button>
-                            </div>
+                        <div id="passwordHelpBlock" class="form-text">
+                            The CIDR blocks (list of IPs) you want to allow or deny. Examples: 192.168.0.0/24,
+                            172.17.2.56/32, 127.0.0.1
                         </div>
-                        <div class="col-sm-4">
-                            <label for="IPAddress" class="form-label">Client IP Headers</label>
-                            <div class="input-group mb-3">
-                                <input type="text" id="IPAddress" class="form-control" aria-label="192.168.0.0/24"
-                                    aria-describedby="button-addon2" formControlName="clientIpHeaders">
-                                <button class="btn btn-dark" type="button" id="button-addon2"
-                                    (click)="addParameter('clientIpHeaders')">Add</button>
-                            </div>
-                            <div id="passwordHelpBlock" class="form-text">
-                                A custom ordered list of all headers that might contain the real IP of the client. The first matching IP in
-                                the list will be used
-                            </div>
-                            <div class="mt-3 d-flex">
-                                <button *ngFor="let attr of clientIPHeadersArray; let i = index" class="parameter-item">
-                                    {{ attr }}<mat-icon (click)="removeParameter(i,'clientIpHeaders')"
-                                        class="d-flex align-items-center justify-content-end">close</mat-icon>
-                                </button>
-                            </div>
+                        <div class="mt-3 d-flex">
+                            <button *ngFor="let attr of cidrArray; let i = index" class="parameter-item">
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'cidr')"
+                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
+                            </button>
                         </div>
                     </div>
-             
+                    <div class="col-sm-4">
+                        <label for="cidr" class="form-label">Trusted Proxies</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="cidr" class="form-control" placeholder="10.0.0.0/16"
+                                aria-label="192.168.0.0/24" aria-describedby="button-addon2"
+                                formControlName="trustedProxies">
+                            <button class="btn btn-dark" type="button" id="button-addon2"
+                                (click)="addParameter('trustedProxies')">Add</button>
+                        </div>
+                        <div id="passwordHelpBlock" class="form-text">
+                            A custom list of all the recognized machines/balancers that proxy the client to your
+                            application. This list
+                            is used to avoid spoofing when trying to get the real IP of the client.
+                        </div>
+                        <div class="mt-3 d-flex">
+                            <button *ngFor="let attr of trustedProxiesArray; let i = index" class="parameter-item">
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'trustedProxies')"
+                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="IPAddress" class="form-label">Client IP Headers</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="IPAddress" class="form-control" aria-label="192.168.0.0/24"
+                                aria-describedby="button-addon2" formControlName="clientIpHeaders"
+                                placeholder="X-Forwarded-For">
+                            <button class="btn btn-dark" type="button" id="button-addon2"
+                                (click)="addParameter('clientIpHeaders')">Add</button>
+                        </div>
+                        <div id="passwordHelpBlock" class="form-text">
+                            A custom ordered list of all headers that might contain the real IP of the client. The first
+                            matching IP in
+                            the list will be used
+                        </div>
+                        <div class="mt-3 d-flex">
+                            <button *ngFor="let attr of clientIPHeadersArray; let i = index" class="parameter-item">
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'clientIpHeaders')"
+                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-sm-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="allowModeActive">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                            formControlName="allowModeActive">
                         <label class="form-check-label" for="flexCheckDefault">
-                          Allow Mode
+                            Allow Mode
                         </label>
                         <div class="form-text">
                             Check to only allow connections in the CIDR list. Uncheck to deny all IPs from the list.
                         </div>
-                      </div>
+                    </div>
                 </div>
                 }@else {
                 <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP
@@ -120,7 +139,8 @@
                     <p>Rate Limit</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                            <input class="input-size1 form-control" type="number" formControlName="rateLimit" />
+                            <input class="input-size1 form-control" type="number" formControlName="rateLimit"
+                                [class.is-invalid]="formGroupThrottling.get('rateLimit')?.invalid" />
                         </div>
                         <span class="col-sm-9 cidr-span">Maximum requests you want to let this endpoint handle in the
                             specified time (every). Leave 0 for no default limit.</span>
@@ -130,8 +150,16 @@
                     <p>Every</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                            <input class="input-size1 form-control" type="text" formControlName="every" />
+                            <input class="input-size1 form-control" type="text" formControlName="every"
+                                [class.is-invalid]="formGroupThrottling.get('every')?.invalid && formGroupThrottling.get('every')?.touched" />
+                            <div class="invalid-feedback"
+                                *ngIf="formGroupThrottling.get('every')?.errors?.['pattern'] && formGroupThrottling.get('every')?.touched">
+                                The amount of time you want to assign followed by its unit (e.g.: `2s`, `200ms`). <br>
+                                Valid
+                                time units are: ns, us, (or µs), ms, s, m, h.
+                            </div>
                         </div>
+
                         <span class="col-sm-9 cidr-span">Time window where this rate limit applies</span>
                     </div>
                 </div>
@@ -139,7 +167,8 @@
                     <p>Capacity</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                            <input class="input-size1 form-control" type="number" formControlName="capacity" />
+                            <input class="input-size1 form-control" type="number" formControlName="capacity"
+                                [class.is-invalid]="formGroupThrottling.get('capacity')?.invalid" />
                         </div>
                         <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket. Traduces
                             into maximum concurrent requests this endpoint will accept for all users</span>
@@ -149,7 +178,8 @@
                     <p>Default User Quota</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                            <input class="input-size1 form-control" type="number" formControlName="defaultUserQuota" />
+                            <input class="input-size1 form-control" type="number" formControlName="defaultUserQuota"
+                                [class.is-invalid]="formGroupThrottling.get('defaultUserQuota')?.invalid" />
                         </div>
                         <span class="col-sm-9 cidr-span">Maximum requests per second you want to allow to each different
                             API user. This value will be used as default for all the endpoints unless overridden in each
@@ -160,7 +190,8 @@
                     <p>Client Capacity</p>
                     <div class="d-flex">
                         <div class="col-sm-3">
-                            <input class="input-size1 form-control" type="number" formControlName="clientCapacity" />
+                            <input class="input-size1 form-control" type="number" formControlName="clientCapacity"
+                                [class.is-invalid]="formGroupThrottling.get('clientCapacity')?.invalid" />
                         </div>
                         <span class="col-sm-9 cidr-span">Number of tokens you can store in the Token Bucket for each
                             individual user. Traduces into maximum concurrent requests this endpoint will accept for the
@@ -168,9 +199,9 @@
                     </div>
                 </div>
                 }@else {
-                    <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP
-                        address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR
-                        blocks) that are authorized to use the API, or that are denied from using the AP</p>
+                <p>The IP filtering plugin allows you to restrict the traffic to your API gateway based on the IP
+                    address. It works in two different modes (allow or deny) where you define the list of IPs (CIDR
+                    blocks) that are authorized to use the API, or that are denied from using the AP</p>
                 }
             </div>
 
@@ -185,14 +216,16 @@
                     <div class="col-sm-12 col-md-6">
                         <!-- <p>Address</p> -->
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="input-size form-control" id="address" formControlName="address" />
+                        <input type="text" class="input-size form-control" id="address" formControlName="address"
+                            placeholder="192.168.1.1:6379" />
                         <div id="addressHelp" class="form-text">The host and port where your redis is using the
                             format host:port, e.g.: redis:6379</div>
                         <!-- <span class="input-label"></span> -->
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="rate" class="form-label">Rate</label>
-                        <input type="number" class="input-size form-control" id="rate" formControlName="rate" />
+                        <input type="number" class="input-size form-control" id="rate" formControlName="rate"
+                            [class.is-invalid]="formGroupThrottling.get('rate')?.invalid" placeholder="100" />
                         <div id="rateHelp" class="form-text">Number of allowed requests during the observed period.
                         </div>
                         <!-- <span class="input-label"></span> -->
@@ -202,12 +235,19 @@
                 <div class="d-flex mt-3">
                     <div class="col-sm-12 col-md-6">
                         <label for="periods" class="form-label">Periods</label>
-                        <input type="text" class="input-size form-control" id="periods" formControlName="periods" />
+                        <input type="text" class="input-size form-control" id="periods" formControlName="periods"
+                            [class.is-invalid]="formGroupThrottling.get('periods')?.invalid && formGroupThrottling.get('periods')?.touched" />
+                        <div class="invalid-feedback"
+                            *ngIf="formGroupThrottling.get('periods')?.errors?.['pattern'] && formGroupThrottling.get('periods')?.touched">
+                            The amount of time you want to assign followed by its unit (e.g.: `2s`, `200ms`). <br> Valid
+                            time units are: ns, us, (or µs), ms, s, m, h.
+                        </div>
                         <div id="periodHelp" class="form-text">Time window on which the counters take effect.</div>
                     </div>
                     <div class="col-sm-12 col-md-6">
                         <label for="burst" class="form-label">Burst</label>
-                        <input type="number" class="input-size form-control" id="burst" formControlName="burst" />
+                        <input type="number" class="input-size form-control" id="burst" formControlName="burst"
+                            [class.is-invalid]="formGroupThrottling.get('rate')?.invalid" placeholder="10" />
                         <div id="burstHelp" class="form-text">How many requests a client can make above the rate
                             specified during a peak</div>
 
@@ -243,7 +283,8 @@
 
                 </div>
                 }
-                @else {<p>The global rate limit functionality enables a Redis database store to centralize all KrakenD node
+                @else {<p>The global rate limit functionality enables a Redis database store to centralize all KrakenD
+                    node
                     counters. Instead of having each KrakenD node count its hits, the counters are global and stored in
                     the database</p>}
             </div>

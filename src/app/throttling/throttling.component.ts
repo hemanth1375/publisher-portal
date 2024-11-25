@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-throttling',
@@ -8,46 +8,61 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class ThrottlingComponent {
 
-  cidrArray:any[]= [];
-  trustedProxiesArray:any[]=[];
-  clientIPHeadersArray:any[]=[];
+  cidrArray: any[] = [];
+  trustedProxiesArray: any[] = [];
+  clientIPHeadersArray: any[] = [];
 
   formGroupThrottling: FormGroup;
   @Input() formData: any;
   @Output() throttlingFormSubmitted = new EventEmitter<any>();
   constructor(private formBuilder: FormBuilder) {
     this.formGroupThrottling = this.formBuilder.group({
-      timeout: [''],
-      cacheTtl: [''],
+      timeout: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
+      cacheTtl: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
       cidr: [''],
-      cidrArrayValue:[[]],
+      cidrArrayValue: [[]],
       trustedProxies: [''],
-      trustedProxiesArrayValue:[[]],
+      trustedProxiesArrayValue: [[]],
       clientIpHeaders: [''],
-      clientIPHeadersArrayValue:[[]],
-      allowModeActive:[false],
-      rateLimit: [''],
-      every: [''],
+      clientIPHeadersArrayValue: [[]],
+      allowModeActive: [false],
+      rateLimit: ['', Validators.required],
+      every: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
       capacity: [''],
       defaultUserQuota: [''],
       clientCapacity: [''],
       address: [''],
-      rate: [''],
-      periods: [''],
-      burst: [''],
+      rate: ['', Validators.required],
+      periods: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
+      burst: ['', Validators.required],
       tokenizer: [''],
       tokenizerField: [''],
-      isIpFilterEnabledActive:[false],
-      isEndPointRateLimitEnabledActive:[false],
-      isRedisRateLimitEnabledActive:[false]
+      isIpFilterEnabledActive: [false],
+      isEndPointRateLimitEnabledActive: [false],
+      isRedisRateLimitEnabledActive: [false]
     })
   }
-  
+
   ngOnInit() {
     console.log(this.formData);
     this.formGroupThrottling.patchValue({
-      rateLimit: this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate
+      rateLimit: this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate,
+      tokenizer: 'IP',
+      burst: 10
     })
+
+    this.formGroupThrottling.get('rateLimit')?.setValue(0);
+    this.formGroupThrottling.get('capacity')?.setValue(0);
+    this.formGroupThrottling.get('defaultUserQuota')?.setValue(0);
+    this.formGroupThrottling.get('clientCapacity')?.setValue(0);
+    this.formGroupThrottling.get('rate')?.setValue(100);
+    this.formGroupThrottling.get('periods')?.setValue('60s');
+    // this.formGroupThrottling.get('burst')?.setValue(10);
+
+
+
+
+
   }
 
   ngAfterViewInit() {
@@ -64,20 +79,20 @@ export class ThrottlingComponent {
     }
   }
 
-  addParameter(fieldName: 'cidr' | 'trustedProxies'| 'clientIpHeaders') {
+  addParameter(fieldName: 'cidr' | 'trustedProxies' | 'clientIpHeaders') {
     const fieldValue = this.formGroupThrottling.get(fieldName)?.value;
 
     if (fieldName) {
-      if(fieldName === 'cidr'){
+      if (fieldName === 'cidr') {
         this.cidrArray.push(fieldValue);
         this.formGroupThrottling.get('cidrArrayValue')?.setValue([...this.cidrArray])
 
-      }else if(fieldName ==='trustedProxies'){
+      } else if (fieldName === 'trustedProxies') {
         this.trustedProxiesArray.push(fieldValue);
         this.formGroupThrottling.get('trustedProxiesArrayValue')?.setValue([...this.trustedProxiesArray])
 
 
-      }else if(fieldName === 'clientIpHeaders'){
+      } else if (fieldName === 'clientIpHeaders') {
         this.clientIPHeadersArray.push(fieldValue);
         this.formGroupThrottling.get('clientIPHeadersArrayValue')?.setValue([...this.clientIPHeadersArray])
 
@@ -87,21 +102,21 @@ export class ThrottlingComponent {
     }
   }
 
-  removeParameter(index: any, fieldName:'cidr' | 'trustedProxies'| 'clientIpHeaders') {
-    if(fieldName === 'cidr'){
-      this.cidrArray.splice(index,1);
+  removeParameter(index: any, fieldName: 'cidr' | 'trustedProxies' | 'clientIpHeaders') {
+    if (fieldName === 'cidr') {
+      this.cidrArray.splice(index, 1);
       this.formGroupThrottling.get('cidrArrayValue')?.setValue([...this.cidrArray]);
-    }else if(fieldName === 'trustedProxies'){
-      this.trustedProxiesArray.splice(index,1);
+    } else if (fieldName === 'trustedProxies') {
+      this.trustedProxiesArray.splice(index, 1);
       this.formGroupThrottling.get('trustedProxiesArrayValue')?.setValue([...this.trustedProxiesArray]);
 
-    }else if(fieldName === 'clientIpHeaders'){
+    } else if (fieldName === 'clientIpHeaders') {
       this.clientIPHeadersArray.splice(index, 1);
       this.formGroupThrottling.get('clientIPHeadersArrayValue')?.setValue([...this.clientIPHeadersArray])
     }
 
   }
 
- 
+
 
 }

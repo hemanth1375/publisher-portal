@@ -220,8 +220,13 @@
                 <h3 class="main-heading">Options</h3>
                 <div class="col-sm-12 col-md-4">
                     <label for="defaultOutputEncoding" class="form-label">Default Output encoding</label>
-                    <input type="text" class="input-size form-control" id="defaultOutputEncoding"
-                        formControlName="defaultOutputEncoding" />
+                    <select name="" class="form-select" id="defaultOutputEncoding"
+                        formControlName="defaultOutputEncoding">
+                        <option value="json">JSON</option>
+                        <option value="negotiate">Negotiate content</option>
+                        <option value="string">String (text/plain)</option>
+                        <option value="no-op">No-op (just proxy)</option>
+                    </select>
                     <div class="form-text">JSON Encoding used by default in all KrakenD endpoints unless changed per
                         endpoint.</div>
                 </div>

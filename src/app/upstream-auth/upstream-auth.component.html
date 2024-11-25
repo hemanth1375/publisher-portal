@@ -45,11 +45,37 @@
                       <div class="form-text">Comma separated list of scopes needed.</div>
                     </div>
                   </div>
-                  <div class="col-sm-12">
-                    <div class="mb-3">
-                      <label for="parameters" class="form-label">Additional endpoint Parameters</label>
-                      <input type="text" class="form-control" id="parameters" formControlName="parameters">
-                      <div class="form-text">Enter here any additional parameters that you want to include in the payload when requesting the token. For instance, it is frequent to add the audience request parameter that denotes the target API for which the token should be issued.</div>
+                  <div class="row mb-3">
+                    <div class="col-sm-12">
+                      <h4></h4>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                      <label for="rootObject" class="form-label">Original Object</label>
+                      <input type="text" class="form-control" formControlName="endpointKey" id="originalObject"
+                        aria-describedby="audience">
+                    </div>
+
+                    <div class="col-sm-12 col-md-4">
+                      <label for="rootObject" class="form-label">Renamed Object</label>
+                      <input type="text" class="form-control" formControlName="endpointValue" id="renamedObject"
+                        aria-describedby="audience">
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 d-flex align-items-end">
+                      <button type="button" class="btn btn-outline-primary" (click)="addParameter('endpoint_params')">Add</button>
+                    </div>
+            
+                    <div class="col-sm-12">
+                      <div class="form-text">You can rename any attributes returned by the backend and use a name more convenient
+                        for you.
+                      </div>
+                    </div>
+            
+                    <div class=" col-sm-12 mt-3 d-flex">
+                      <button *ngFor="let attr of objectMap | keyvalue" class="parameter-item">
+                        {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'endpoint_params')"
+                          class="d-flex align-items-center justify-content-end">close</mat-icon>
+                      </button>
                     </div>
                   </div>
             </div>
@@ -97,7 +123,7 @@
             <div class="col-sm-12 col-md-6">
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
-                  <input type="text" class="form-control" id="password" formControlName="password">
+                  <input type="password" class="form-control" id="password" formControlName="password">
                   <div class="form-text">The proxy address used to forward the traffic. The address must contain the protocol and the port.</div>
                 </div>
               </div>

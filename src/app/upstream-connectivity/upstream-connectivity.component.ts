@@ -8,18 +8,31 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
   amqpRoutingKeysArray: any[] = [];
+
   objectMap: Map<string, string> = new Map();
+  objectMap1: Map<string, string> = new Map();
 
   formGroupUpstreamConnectivity: FormGroup;
-
-
-
 
   @Input() formData: any;
   @Output() upstreamConnectivityFormSubmitted = new EventEmitter<any>();
 
 
   ngOnInit() {
+
+    this.formGroupUpstreamConnectivity.get('bodyEditor')?.valueChanges.subscribe((value)=>{
+      const bodyEditorControl = this.formGroupUpstreamConnectivity.get('template');
+      const pathControl = this.formGroupUpstreamConnectivity.get('path');
+      
+      if(value === 'bodyeditor'){
+        bodyEditorControl?.enable();
+        pathControl?.disable();
+
+      }else if(value === 'external'){
+        bodyEditorControl?.disable();
+        pathControl?.enable();
+      }
+    });
 
     this.formGroupUpstreamConnectivity.patchValue({
       restTogrpcReqNamingConventionForm: '',
@@ -48,28 +61,40 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
     });
   }
 
-
-
   updateMapControl() {
     // Convert Map to array of key-value pairs
     const mapArray = Array.from(this.objectMap.entries());
     this.formGroupUpstreamConnectivity.get('objectMapValue')?.setValue(mapArray);
+  }
+  updateMapControl1() {
+    // Convert Map to array of key-value pairs
+    const mapArray = Array.from(this.objectMap1.entries());
+    this.formGroupUpstreamConnectivity.get('objectMapValue1')?.setValue(mapArray);
   }
 
   addToMap(key: string, value: string) {
     this.objectMap.set(key, value);
     this.updateMapControl();  // Sync form control with updated Map
   }
+
+  addToMap1(key: string, value: string) {
+    this.objectMap1.set(key, value);
+    this.updateMapControl1();  // Sync form control with updated Map
+  }
+
   removeFromMap(key: string) {
     this.objectMap.delete(key);
     this.updateMapControl();  // Sync form control with updated Map
   }
 
+  removeFromMap1(key: string) {
+    this.objectMap1.delete(key);
+    this.updateMapControl1();  // Sync form control with updated Map
+  }
 
 
 
-
-  addParameter(fieldName: 'amqpConsumerRoutingKeysForm' | 'restToGraphQLMap' | 'inputMappingFieldAndMapAs') {
+  addParameter(fieldName: 'amqpConsumerRoutingKeysForm' | 'restToGraphQLMap' | 'inputMappingFieldAndMapAs' ) {
 
 
     const fieldValue = this.formGroupUpstreamConnectivity.get(fieldName)?.value;
@@ -80,18 +105,16 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
         this.formGroupUpstreamConnectivity.get('amqpConsumerRoutingKeysFormArray')?.setValue([...this.amqpRoutingKeysArray]);
       }
       else if (fieldName === 'restToGraphQLMap') {
-        console.log("clicked");
-
-        const originalObject = this.formGroupUpstreamConnectivity.get('restTographQLVariableForm')?.value;
-        const renamedObject = this.formGroupUpstreamConnectivity.get('restTographQLValueForm')?.value;
+      
+        const originalObject = this.formGroupUpstreamConnectivity.get('restTographQLVariable')?.value;
+        const renamedObject = this.formGroupUpstreamConnectivity.get('restTographQLValue')?.value;
 
         if (originalObject && renamedObject) {
-          this.addToMap(originalObject, renamedObject)
+          this.addToMap1(originalObject, renamedObject)
           console.log(this.objectMap);
 
         }
       } else if (fieldName === 'inputMappingFieldAndMapAs') {
-        console.log("clicked");
 
         const originalObject = this.formGroupUpstreamConnectivity.get('restTogprcInputMappingFieldForm')?.value;
         const renamedObject = this.formGroupUpstreamConnectivity.get('restTogprcInputMappingMapAsForm')?.value;
@@ -111,7 +134,7 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
       this.amqpRoutingKeysArray.splice(index, 1);
       this.formGroupUpstreamConnectivity.get('amqpConsumerRoutingKeysFormArray')?.setValue([...this.amqpRoutingKeysArray]);
     } else if (fieldName == "restToGraphQLMap") {
-      this.removeFromMap(index);
+      this.removeFromMap1(index);
     } else if (fieldName === "inputMappingFieldAndMapAs") {
       this.removeFromMap(index);
     }
@@ -131,18 +154,26 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
       isPublicSubscriberActive:[false],
       isPublicPublisherActive:[false],
       isAMQPproducerActive:[false],
-      contentTypeRestToSoap: [null],
-      enableDebugRestToSoap: [false],
-      pathRestToSoapForm: [null],
+    
+      bodyEditor:['bodyeditor'],
+      template:[''],
+      contentType:[''],
+      debug:[false],
+      path:[''],
+
       connectvWebProxyForm: [null],
       donotFollowRedirectsForm: [false],
       restTographQLOpTypeForm: [null],
       restToGraphqlOpNameForm: [null],
       restTographQLQueryPathForm: [null],
       restTographQLInlineQueryForm: [null],
-      restTographQLVariableForm: [''],
-      restTographQLValueForm: [''],
-      objectMapValue: [[]], 
+      restTographQLVariable: [''],
+      restTographQLValue: [''],
+
+      objectMapValue: [[]],
+      objectMapValue1: [[]],
+      
+    
       amqpConsumerQueueNameForm: [null],
       amqpConsumerExchangeForm: [null],
       amqpConsumerBackOffStratgyForm: [null],

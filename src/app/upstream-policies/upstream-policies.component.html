@@ -8,7 +8,9 @@
             and token
             validation.</h3>
         </div>
+
         <hr class="mt-4">
+
         <div class="col-sm-12">
           <h3>Security Policies &nbsp;&nbsp;<mat-slide-toggle formControlName="isSecPolicyActive" ></mat-slide-toggle></h3>
           <p>Implement all sorts of validations and user access control, from parameter compliance, to RBAC (Role-Based
@@ -157,18 +159,20 @@
           </div>
           <br>
           <br>
+
+
           <div>
             <h3>Debug and performance</h3>
             <br>
             <div class="d-flex">
-              <div class="col-sm-12 col-md-6">
+              <div class="col-sm-12 col-md-4">
                 <div class="d-flex">
                   <input type="checkbox" class="input-size1" formControlName="enableDebug">&nbsp;&nbsp;&nbsp;
                   <h3 class="checkbox-text">Enable Debug</h3><br>
                 </div>
                 <div class="form-text">Evaluation results are printed in the<br> console.</div>
               </div>
-              <div class="col-sm-12 col-md-6">
+              <div class="col-sm-12 col-md-4">
                 <div class="d-flex">
                   <input type="checkbox" class="input-size1" formControlName="autoJoinPolicies">&nbsp;&nbsp;&nbsp;
                   <h3 class="checkbox-text">Auto Join Policies</h3><br>
@@ -178,7 +182,7 @@
   
   
               </div>
-              <div class="col-sm-12 col-md-6">
+              <div class="col-sm-12 col-md-4">
                 <div class="d-flex">
                   <input type="checkbox" class="input-size1" formControlName="disableMacros">&nbsp;&nbsp;&nbsp;
                   <h3 class="checkbox-text">Disable Macros</h3><br>
@@ -208,14 +212,14 @@
               <div class="col-sm-12 col-md-6">
                 <label for="errorMessage" class="form-label">Error Message</label>
                 <input id="errorMessage" type="text" class="input-size form-control"
-                  formControlName="resSchemaValErrorMsg" placeholder="Policies violated" />
+                  formControlName="resSchemaValErrorMsg" />
                 <div class="form-text">The error message you want to show<br> when the validation fails. Leave it
                   empty<br> to show the JSON-schema validation<br> error.</div>
               </div>
               <div class="col-sm-12 col-md-6">
                 <label for="errorStCode3" class="form-label">Error status code</label>
                 <input id="errorStCode3" type="number" class="input-size form-control"
-                  formControlName="resSchemaValErrorStCode" placeholder="Text/Plain" />
+                  formControlName="resSchemaValErrorStCode" placeholder="500" />
                 <div class="form-text">The HTTP status code you want to set<br> back in the response.</div>
               </div>
   

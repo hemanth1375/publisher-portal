@@ -42,6 +42,8 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
       AdvResManipulationActive:[false],
       resManiWithGoTemplActive:[false],
       expression:[''],
+
+
       bodyEditor:['bodyeditor'],
       template:[''],
       contentType:[''],
@@ -232,7 +234,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
         bodyEditorControl?.disable();
         pathControl?.enable();
       }
-    })
+    });
   }
 
     

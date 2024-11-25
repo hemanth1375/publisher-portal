@@ -1,3 +1,15 @@
 .heading-with-toggle h3{
     margin:0px !important;
 }
+
+
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+  }
+  

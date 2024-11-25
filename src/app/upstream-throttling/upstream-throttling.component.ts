@@ -27,6 +27,7 @@ export class UpstreamThrottlingComponent implements OnInit, AfterViewInit {
       logStatusChange: [false]
     })
   }
+  
   ngAfterViewInit(): void {
     this.formGroupUpstreamThrottling.valueChanges.subscribe(value => {
       console.log(value);

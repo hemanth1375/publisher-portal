@@ -629,7 +629,7 @@ export class ViewapipageComponent {
             ...(this.backendData?.upstreamAuthData?.isGoogleCloudActive &&{"auth/gcp": {
               ...(this.backendData?.upstreamAuthData?.audience &&{"audience": this.backendData?.upstreamAuthData?.audience})
             }}),
-            ...(this.backendData?.isNtlmAuthActive &&{"auth/ntlm": {
+            ...(this.backendData?.upstreamAuthData?.isNtlmAuthActive &&{"auth/ntlm": {
               "user": "g",
               "password": "yu"
             }}),

@@ -79,7 +79,8 @@ export class ServiceSettingsComponent {
       literalMatchObjectMapValue: [[]],
       regExpMatchObjectMapValue: [[]],
       uniqueStrategy: [null],
-      headerValue: [null]
+      headerValue: [null],
+      grpcId:[null]
     })
   }
   onToggleChangeJwk() {
@@ -259,10 +260,21 @@ export class ServiceSettingsComponent {
     if (this.entireJsondata != undefined) {
       this.hostArray = this.entireJsondata?.host;
       this.directoryArray=this.entireJsondata?.extra_config?.grpc?.catalog
+      // this.objectMap=this.entireJsondata?.extra_config?.["plugin/http-server"]?.["url-rewrite"]?.literal && Object.entries(this.entireJsondata?.extra_config?.["plugin/http-server"]?.["url-rewrite"]?.literal)
+      // console.log(this.objectMap);
+      
     }
 
     this.formGroupService.patchValue({
       isgRPCActive: !!this.entireJsondata?.extra_config?.grpc,
+      isEnableHttpsActive: !!this.entireJsondata?.tls,
+      isUrlRewriteActive: !!this.entireJsondata?.extra_config?.["plugin/http-server"]?.name?.includes("url-rewrite"),
+      isVirtualHostActive: !!this.entireJsondata?.extra_config?.["server/virtualhost"],
+      isGeoIpActive: !!this.entireJsondata?.extra_config?.["plugin/http-server"]?.name?.includes("geoip"),
+      isStaticServerActive: !!this.entireJsondata?.extra_config?.["server/static-filesystem"],
+      isRateLimitingActive: !!this.entireJsondata?.extra_config?.["qos/ratelimit/service"],
+      isHttpClientSetAdv: false,
+      isJwkSharedActive: !!this.entireJsondata?.extra_config?.["auth/validator"],
       name: this.entireJsondata?.name,
       port: this.entireJsondata?.port,
       hostArrayValue: this.entireJsondata?.host,
@@ -272,7 +284,7 @@ export class ServiceSettingsComponent {
       staticServerPrefix: this.entireJsondata?.extra_config?.["server/static-filesystem"]?.prefix,
       staticServerPath: this.entireJsondata?.extra_config?.["server/static-filesystem"]?.path,
       directoryList: this.entireJsondata?.extra_config?.["server/static-filesystem"]?.directory_listing,
-      disableZip: this.entireJsondata?.extra_config?.router?.disable_gzip,
+      disablegZip: this.entireJsondata?.extra_config?.router?.disable_gzip,
       databasePath: this.entireJsondata?.extra_config?.["plugin/http-server"]?.geoip?.citydb_path,
       sharedCacheDuration: this.entireJsondata?.extra_config?.["auth/validator"]?.shared_cache_duration,
       // literalMatchObjectMapValue:this.entireJsondata["plugin/http-server"]["url-rewrite"]?.literal,
@@ -282,8 +294,41 @@ export class ServiceSettingsComponent {
       httpReadTimeout: this.entireJsondata?.read_timeout,
       httpWriteTimeout: this.entireJsondata?.write_timeout,
       httpIdleTimeout: this.entireJsondata?.idle_timeout,
-      httpReadHeaderTimeout: this.entireJsondata?.read_header_timeout
+      httpReadHeaderTimeout: this.entireJsondata?.read_header_timeout,
+      // host: [null],
+      // directory: [],
+      // virtualHost: [],
+      // virtualHostArrayValue: [[]],
+      // defaultOutputEncoding: [null],
+      // nonRestfulResource: [null],
+      // serverSequential: [null],
+      // enableDebugOptions: [null],
+      // literalReplacement: [null],
+      // literalMatch: [null],
+      // regexpMatch: [null],
+      // endpointReplacement: [null],
+      rateLimit: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.max_rate,
+      every: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.every,
+      capacity: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.capacity,
+      defaultUserQuota: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.client_max_rate,
+      clientCapacity: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.client_capacity,
+      httpClientSetAdvConnTimeoutForm: this.entireJsondata?.idle_connection_timeout ,
+      httpClientSetAdvHeaderTimeoutForm: this.entireJsondata?.response_header_timeout,
+      httpClientSetAdvContinueTimeoutForm: this.entireJsondata?.expect_continue_timeout,
+      httpClientSetAdvMaxIdleConnForm: this.entireJsondata?.max_idle_connections,
+      httpClientSetAdvMaxIdleConnPerHostForm: this.entireJsondata?.max_idle_connections_per_host,
+      httpClientSetAdvAllowInsecureConnsForm: this.entireJsondata?.client_tlS?.allow_insecure_connections,
+      httpClientSetAdvDisableKeepAlivesForm: this.entireJsondata?.disable_keep_alives,
+      httpClientSetAdvDisableCompressionForm: this.entireJsondata?.disable_compression,
+      httpClientSetAdvDialerTimeoutForm: this.entireJsondata?.dialer_timeout,
+      httpClientSetAdvDialerFallerDelayForm: this.entireJsondata?.dialer_fallback_delay,
+      httpClientSetAdvDialerKeepAliveForm: this.entireJsondata?.dialer_keep_alive,
 
+      // literalMatchObjectMapValue: [[]],
+      // regExpMatchObjectMapValue: [[]],
+      uniqueStrategy: this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.strategy,
+      headerValue:  this.entireJsondata?.extra_config?.["qos/ratelimit/service"]?.key,
+      grpcId: this.entireJsondata?.extra_config?.grpc?.id
     })
 
     this.formGroupService.valueChanges.subscribe(value => {

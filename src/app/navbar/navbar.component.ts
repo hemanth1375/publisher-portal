@@ -249,7 +249,8 @@ console.log(this.entireJsondata);
         "extra_config": {
           "id": this.entireJsondata?.extra_config?.id ? this.entireJsondata?.extra_config?.id:null,
           ...(this.serviceSettingData?.isgRPCActive && {"grpc": {
-            "id": this.entireJsondata?.extra_config?.grpc?.id ? this.entireJsondata?.extra_config?.grpc?.id:null,
+            // "id": this.entireJsondata?.extra_config?.grpc?.id ? this.entireJsondata?.extra_config?.grpc?.id:null,
+            "id": this.serviceSettingData?.grpcId ? this.serviceSettingData?.grpcId:null,
             ...(this.serviceSettingData?.directoryArrayValue.length!=0 &&{"catalog": this.serviceSettingData?.directoryArrayValue}),
             // "server": {
             //   "id": this.entireJsondata?.extra_config?.grpc?.server?.id ? this.entireJsondata?.extra_config?.grpc?.server?.id:null,
@@ -408,29 +409,29 @@ console.log(this.entireJsondata);
               ...(this.httpSecurityData?.multipleIdentityProviderOriginsFormArray.length!=0 &&{"origins": this.httpSecurityData?.multipleIdentityProviderOriginsFormArray}),
               ...(this.httpSecurityData?.multipleIdentityProviderPortForm &&{"port": this.httpSecurityData?.multipleIdentityProviderPortForm})
             }}),
-            "redis-ratelimit": {
-              "burst": 0,
-              "host": null,
-              "period": null,
-              "rate": 0,
-              "tokenizer": null,
-              "tokenizer_field": null
-            },
-            "static-filesystem": {
-              "path": null,
-              "prefix": null,
-              "skip": [
-                ''
-              ]
-            },
-            "virtualhost": {
-              "hosts": [
-                ''
-              ]
-            },
-            "wildcard": {
-              "endpoints": {}
-            }
+            // "redis-ratelimit": {
+            //   "burst": 0,
+            //   "host": null,
+            //   "period": null,
+            //   "rate": 0,
+            //   "tokenizer": null,
+            //   "tokenizer_field": null
+            // },
+            // "static-filesystem": {
+            //   "path": null,
+            //   "prefix": null,
+            //   "skip": [
+            //     ''
+            //   ]
+            // },
+            // "virtualhost": {
+            //   "hosts": [
+            //     ''
+            //   ]
+            // },
+            // "wildcard": {
+            //   "endpoints": {}
+            // }
           }}),
           ...(this.openApiData?.isOpenApiActive && {"documentation/openapi": {
             ...(this.openApiData?.version && {"version": this.openApiData?.openApiVersionForm}),
@@ -605,7 +606,7 @@ console.log(this.entireJsondata);
               ...(this.telemetryData?.prometheusActive &&{
                 "prometheus": {
                 // "namespace": null,
-                "port": 0,
+                "port": this.telemetryData?.prometheusPort,
                 // "tag_host": true,
                 // "tag_method": true,
                 // "tag_path": true,
@@ -661,7 +662,23 @@ console.log(this.entireJsondata);
         ...(this.serviceSettingData?.httpReadTimeout && {"read_timeout": this.serviceSettingData?.httpReadTimeout}),
         ...(this.serviceSettingData?.httpWriteTimeout && {"write_timeout": this.serviceSettingData?.httpWriteTimeout}),
         ...(this.serviceSettingData?.httpIdleTimeout && {"idle_timeout": this.serviceSettingData?.httpIdleTimeout}),
-        ...(this.serviceSettingData?.httpReadHeaderTimeout && {"read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout})
+        ...(this.serviceSettingData?.httpReadHeaderTimeout && {"read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout}),
+        ...(this.serviceSettingData?.isHttpClientSetAdv && {
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"idle_connection_timeout": this.serviceSettingData?.httpClientSetAdvConnTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"response_header_timeout": this.serviceSettingData?.httpClientSetAdvHeaderTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"expect_continue_timeout": this.serviceSettingData?.httpClientSetAdvContinueTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"max_idle_connections": this.serviceSettingData?.httpClientSetAdvMaxIdleConnForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"max_idle_connections_per_host": this.serviceSettingData?.httpClientSetAdvMaxIdleConnPerHostForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"client_tls": {
+          "allow_insecure_connections": this.serviceSettingData?.httpClientSetAdvAllowInsecureConnsForm
+        }}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"disable_keep_alives": this.serviceSettingData?.httpClientSetAdvDisableKeepAlivesForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"disable_compression": this.serviceSettingData?.httpClientSetAdvDisableCompressionForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_timeout": this.serviceSettingData?.httpClientSetAdvDialerTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_fallback_delay": this.serviceSettingData?.httpClientSetAdvDialerFallerDelayForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_keep_alive": this.serviceSettingData?.httpClientSetAdvDialerKeepAliveForm})
+        }),
+        
       
     }
 

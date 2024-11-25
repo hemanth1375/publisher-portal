@@ -54,6 +54,12 @@ export class HttpSecurityComponent {
     }
 
     this.formGroupHttpSecurity.patchValue({
+      isCorsActive: !!this.entireJsonData?.extra_config?.["security/cors"],
+      isBotDetectorActive: !!this.entireJsonData?.extra_config?.["security/bot-detector"],
+      isMultipleIdentityProviderActive: !!this.entireJsonData?.extra_config?.["plugin/http-server"]?.name?.includes("jwk-aggregator"),
+      isIpFilterActive: !!this.entireJsonData?.extra_config?.["plugin/http-server"]?.name?.includes("ip-filter"),
+      isHttpSecurityActive: !!this.entireJsonData?.extra_config?.["security/http"],
+      isBasicAuthActive: !!this.entireJsonData?.extra_config?.["auth/basic"],
       corsAllowedOriginsForm: '',
       corsAllowedHeadersForm: '',
       corsExposeHeadersForm: '',
@@ -88,7 +94,7 @@ export class HttpSecurityComponent {
       corsAllowedOriginsFormArray: this.entireJsonData?.extra_config["security/cors"]?.allow_origins,
       corsAllowedHeadersFormArray: this.entireJsonData?.extra_config["security/cors"]?.allow_headers,
       corsExposeHeadersFormArray: this.entireJsonData?.extra_config["security/cors"]?.expose_headers,
-      corsMaxAgeFormArray: [[]],
+      // corsMaxAgeFormArray: [[]],
       botDetectorAllowFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.allow,
       botDetectorDenyFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.deny,
       botDetectorPatternsFormArray: this.entireJsonData?.extra_config["security/bot-detector"]?.patterns,
@@ -97,7 +103,7 @@ export class HttpSecurityComponent {
       ipFilterTrustedProxiesFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.trusted_proxies,
       ipFilterClientIPHeadersFormArray: this.entireJsonData?.extra_config["plugin/http-server"]["ip-filter"]?.client_ip_headers,
       httpSecurityAllowedHostsFormArray: this.entireJsonData?.extra_config["security/http"]?.allowed_hosts,
-      objectMapValue: [[]],
+      // objectMapValue: [[]],
       frameOptions: this.entireJsonData?.extra_config["security/http"]?.custom_frame_options_value
     })
   }

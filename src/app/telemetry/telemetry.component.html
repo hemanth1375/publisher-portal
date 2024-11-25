@@ -8,7 +8,7 @@
                         <h3>Logging</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #logging formControlName="isLoggingActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isLoggingActive"></mat-slide-toggle>
                     </div>
                 </div>
 
@@ -16,7 +16,8 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <label for="level" class="form-label">Level</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="logginngLevel" id="level">
+                        <select class="form-select" aria-label="Default select example" formControlName="logginngLevel"
+                            id="level">
                             <option value="DEBUG">DEBUG</option>
                             <option value="WARNING">WARNING</option>
                             <option value="INFO">INFO</option>
@@ -71,24 +72,25 @@
                 </div>
 
                 @if (TelemertyFormGroup.value.logSysLog) {
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="opType" class="form-label">Syslog Facility</label>
-                            <select class="form-select" aria-label="Default select example" formControlName="logSysLogFacility">
-                                <option value="local1">Local 1</option>
-                                <option value="local2">Local 2</option>
-                                <option value="local3">Local 3</option>
-                                <option value="local4">Local 4</option>
-                                <option value="local5">Local 5</option>
-                                <option value="local6">Local 6</option>
-                                <option value="local7">Local 7</option>
-                                <option value="local8">Local 8</option>
-                                <option value="local9">Local 9</option>
-                            </select>
-                            <div class="form-text">Facility to send the messages as set in the rsyslog standard
-                            </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="opType" class="form-label">Syslog Facility</label>
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="logSysLogFacility">
+                            <option value="local1">Local 1</option>
+                            <option value="local2">Local 2</option>
+                            <option value="local3">Local 3</option>
+                            <option value="local4">Local 4</option>
+                            <option value="local5">Local 5</option>
+                            <option value="local6">Local 6</option>
+                            <option value="local7">Local 7</option>
+                            <option value="local8">Local 8</option>
+                            <option value="local9">Local 9</option>
+                        </select>
+                        <div class="form-text">Facility to send the messages as set in the rsyslog standard
                         </div>
                     </div>
+                </div>
                 }
                 }
             </div>
@@ -96,40 +98,42 @@
             <hr>
 
             <!-- GELF -->
-             @if (TelemertyFormGroup.value.isLoggingActive) {
-                <div class="row gap-3">
-                    <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-                        <div>
-                            <h3>GELF</h3>
-                        </div>
-                        <div>
-                            <mat-slide-toggle #logging formControlName="isGelfActive"></mat-slide-toggle>
-                        </div>
+            @if (TelemertyFormGroup.value.isLoggingActive) {
+            <div class="row gap-3">
+                <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
+                    <div>
+                        <h3>GELF</h3>
                     </div>
-    
-                    @if (TelemertyFormGroup.value.isGelfActive) {
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="GELFAdd" class="form-label">Address</label>
-                            <input type="text" id="GELFAdd" class="form-control" aria-describedby="AddHelpBlock"
-                                formControlName="GELFAdrress">
-                            <div id="AddHelpBlock" class="form-text">
-                                The address (including the port) of your graylog server (or any service that receives gelf inputs).
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-checkbox class="example-margin" formControlName="enableTCP">Enable TCP</mat-checkbox>                           
-                            <div class="form-text">By default uses UDP but you can enable TCP by setting this option to true (not recommended, your performance might suffer).
-                            </div>
-                        </div>
+                    <div>
+                        <mat-slide-toggle formControlName="isGelfActive"></mat-slide-toggle>
                     </div>
-                    }@else {
-                        <p>Writes logs using GELF (Graylog Extended Log Format)</p>
-
-                    }
                 </div>
-             }
-           
+
+                @if (TelemertyFormGroup.value.isGelfActive) {
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="GELFAdd" class="form-label">Address</label>
+                        <input type="text" id="GELFAdd" class="form-control" aria-describedby="AddHelpBlock"
+                            formControlName="GELFAdrress">
+                        <div id="AddHelpBlock" class="form-text">
+                            The address (including the port) of your graylog server (or any service that receives gelf
+                            inputs).
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <mat-checkbox class="example-margin" formControlName="enableTCP">Enable TCP</mat-checkbox>
+                        <div class="form-text">By default uses UDP but you can enable TCP by setting this option to true
+                            (not recommended, your performance might suffer).
+                        </div>
+                    </div>
+                </div>
+                }@else {
+                <p>Writes logs using GELF (Graylog Extended Log Format)</p>
+
+                }
+            </div>
+            }
+
             <hr>
 
             <!-- OpenTelemetry-->
@@ -140,7 +144,7 @@
                         <h3>OpenTelemetry</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #logging formControlName="isOpenTelActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isOpenTelActive"></mat-slide-toggle>
                     </div>
                 </div>
 
@@ -156,8 +160,8 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="reportingPeriod" class="form-label">Reporting period</label>
-                        <input type="number" id="reportingPeriod" class="form-control" aria-describedby="reportingPeriodHelpBlock"
-                            formControlName="OTreportingPeriod">
+                        <input type="number" id="reportingPeriod" class="form-control"
+                            aria-describedby="reportingPeriodHelpBlock" formControlName="OTreportingPeriod">
                         <div id="reportingPeriodHelpBlock" class="form-text">
                             Time between sent reports to the backend
                         </div>
@@ -202,8 +206,8 @@
 
                         <div class="col-sm-4">
                             <label for="otlpPort" class="form-label">Port</label>
-                            <input type="number" id="otlpPort" class="form-control"
-                                aria-describedby="otlpPortHelpBlock" formControlName="port" placeholder="4317">
+                            <input type="number" id="otlpPort" class="form-control" aria-describedby="otlpPortHelpBlock"
+                                formControlName="port" placeholder="4317">
                             <div id="otlpPortHelpBlock" class="form-text">
                                 The port where the collector listens
                             </div>
@@ -220,8 +224,9 @@
                         *ngFor="let config of prometheusArray.controls; let i = index" [formGroupName]="i">
                         <div class="col-sm-4">
                             <label for="prometheusName" class="form-label">Name</label>
-                            <input type="text" id="prometheusName" class="form-control" aria-describedby="prometheusNameHelpBlock"
-                                placeholder="otlp_exporter" formControlName="promethusName">
+                            <input type="text" id="prometheusName" class="form-control"
+                                aria-describedby="prometheusNameHelpBlock" placeholder="otlp_exporter"
+                                formControlName="promethusName">
                             <div id="prometheusNameHelpBlock" class="form-text">
                                 A unique name to identify this exporter.
                             </div>
@@ -230,7 +235,8 @@
                         <div class="col-sm-4">
                             <label for="prometheusPort" class="form-label">Port</label>
                             <input type="number" id="prometheusPort" class="form-control"
-                                aria-describedby="prometheusPortHelpBlock" formControlName="promethusPort" placeholder="9090">
+                                aria-describedby="prometheusPortHelpBlock" formControlName="promethusPort"
+                                placeholder="9090">
                             <div id="prometheusPortHelpBlock" class="form-text">
                                 The port in KrakenD where Prometheus will connect to
                             </div>
@@ -256,19 +262,21 @@
                         <h3>Metrics API</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #logging formControlName="isMetricsAPiActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="isMetricsAPiActive"></mat-slide-toggle>
                     </div>
                 </div>
 
                 @if (TelemertyFormGroup.value.isMetricsAPiActive) {
                 <div class="row">
                     <div class="col-sm-3">
-                        <mat-checkbox class="example-margin" formControlName="metricsDisableEndpoint">Disable Endpoint</mat-checkbox>
+                        <mat-checkbox class="example-margin" formControlName="metricsDisableEndpoint">Disable
+                            Endpoint</mat-checkbox>
                         <div class="form-text">Metrics won't be published but still collected (can be sent to InfluxDB).
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <mat-checkbox class="example-margin" formControlName="metricsDisableProxy">Disable Proxy</mat-checkbox>
+                        <mat-checkbox class="example-margin" formControlName="metricsDisableProxy">Disable
+                            Proxy</mat-checkbox>
                         <div class="form-text">Skip any metrics happening in the proxy layer
                         </div>
                     </div>
@@ -293,13 +301,19 @@
                         <label for="listenAdd" class="form-label">Listen Address</label>
                         <input type="text" id="listenAdd" class="form-control" aria-describedby="listenAddHelpBlock"
                             placeholder=":8090" formControlName="metricsListenAddress">
-                        <div id="listenAddHelpBlock" class="form-text">Change the listen address where the metrics endpoint will be exposed. Defaults to :8090.
+                        <div id="listenAddHelpBlock" class="form-text">Change the listen address where the metrics
+                            endpoint will be exposed. Defaults to :8090.
                         </div>
                     </div>
                     <div class="col-sm-5">
                         <label for="collecTime" class="form-label">Collection Time</label>
                         <input type="text" id="collecTime" class="form-control" aria-describedby="collecTimeHelpBlock"
-                            placeholder="60s"  formControlName="metricCollecTime">
+                            placeholder="60s" formControlName="metricCollecTime"
+                            [class.is-invalid]="TelemertyFormGroup.get('metricCollecTime')?.invalid && TelemertyFormGroup.get('metricCollecTime')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="TelemertyFormGroup.get('metricCollecTime')?.errors?.['pattern'] && TelemertyFormGroup.get('metricCollecTime')?.touched">
+                            Please enter a valid cache TTL (e.g., `10ms`, `5s`, `1h`).
+                        </div>
                         <div id="collecTimeHelpBlock" class="form-text">
                             Prepend a string before the the log lines
                         </div>
@@ -321,7 +335,7 @@
                         <h3>Opencensus</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #logging formControlName="openCensusActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="openCensusActive"></mat-slide-toggle>
                     </div>
                 </div>
 
@@ -466,8 +480,8 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="zServiceName" class="form-label">Service Name</label>
-                        <input type="text" id="zServiceName" class="form-control"
-                            placeholder="e.g:KrakenD" formControlName="zipkinServiceName">
+                        <input type="text" id="zServiceName" class="form-control" placeholder="e.g:KrakenD"
+                            formControlName="zipkinServiceName">
                     </div>
                 </div>
                 }
@@ -480,13 +494,13 @@
 
                     <div class="col-sm-4">
                         <label for="jEndpoint" class="form-label">Endpoint</label>
-                        <input type="text" id="jEndpoint" class="form-control" 
-                            placeholder="otlp_exporter" formControlName="jeagerEndpoint">
+                        <input type="text" id="jEndpoint" class="form-control" placeholder="otlp_exporter"
+                            formControlName="jeagerEndpoint">
                     </div>
                     <div class="col-sm-4">
                         <label for="jService" class="form-label">Service Name</label>
-                        <input type="text" id="jService" class="form-control"
-                            placeholder="otlp_exporter" formControlName="jeagerServiceName">
+                        <input type="text" id="jService" class="form-control" placeholder="otlp_exporter"
+                            formControlName="jeagerServiceName">
                     </div>
                 </div>
                 }
@@ -497,19 +511,24 @@
                 </div>
                 <div class="col-sm-8">
                     <label for="influxAdd" class="form-label">Address</label>
-                    <input type="text" id="influxAdd" class="form-control" 
-                        placeholder="e.g:http://192.168.99.100:8086" formControlName="influxDBaddress">
+                    <input type="text" id="influxAdd" class="form-control" placeholder="e.g:http://192.168.99.100:8086"
+                        formControlName="influxDBaddress">
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
                         <label for="influxDB" class="form-label">Database</label>
-                        <input type="text" id="influxDB" class="form-control" 
-                            placeholder="otlp_exporter" formControlName="infulxDBdatabase">
+                        <input type="text" id="influxDB" class="form-control" placeholder="otlp_exporter"
+                            formControlName="infulxDBdatabase">
                     </div>
                     <div class="col-sm-4">
                         <label for="influxTimeout" class="form-label">Write Timeout</label>
-                        <input type="text" id="influxTimeout" class="form-control"
-                            placeholder="otlp_exporter" formControlName="influxwriteTimeout">
+                        <input type="text" id="influxTimeout" class="form-control" placeholder="otlp_exporter"
+                            formControlName="influxwriteTimeout"
+                            [class.is-invalid]="TelemertyFormGroup.get('influxwriteTimeout')?.invalid && TelemertyFormGroup.get('influxwriteTimeout')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="TelemertyFormGroup.get('influxwriteTimeout')?.errors?.['pattern'] && TelemertyFormGroup.get('influxwriteTimeout')?.touched">
+                            Please enter a valid cache TTL (e.g., `10ms`, `5s`, `1h`).
+                        </div>
                     </div>
                 </div>
                 }
@@ -521,8 +540,8 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="promPort" class="form-label">Port</label>
-                        <input type="number" id="promPort" class="form-control"
-                            placeholder="e.g:9091" formControlName="prometheusPort">
+                        <input type="number" id="promPort" class="form-control" placeholder="e.g:9091"
+                            formControlName="prometheusPort">
                     </div>
                 </div>
                 }
@@ -537,15 +556,13 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <label for="awsReg" class="form-label">Region</label>
-                            <input type="number" id="awsReg" class="form-control"
-                                aria-describedby="passwordHelpBlock" placeholder="e.g:eu-west-1"
-                                formControlName="awsRegion">
+                            <input type="number" id="awsReg" class="form-control" aria-describedby="passwordHelpBlock"
+                                placeholder="e.g:eu-west-1" formControlName="awsRegion">
                         </div>
                         <div class="col-sm-5">
                             <label for="awsServ" class="form-label">Your service version</label>
-                            <input type="number" id="awsServ" class="form-control"
-                                aria-describedby="passwordHelpBlock" placeholder="e.g:1.2.3"
-                                formControlName="awsService">
+                            <input type="number" id="awsServ" class="form-control" aria-describedby="passwordHelpBlock"
+                                placeholder="e.g:1.2.3" formControlName="awsService">
                         </div>
                     </div>
                     <div class="row">
@@ -581,13 +598,13 @@
                     <div class="row">
                         <div class="col-sm-5">
                             <label for="projID" class="form-label">Project ID</label>
-                            <input type="text" id="projID" class="form-control"
-                                placeholder="Your GCE project ID" formControlName="stkProjectID">
+                            <input type="text" id="projID" class="form-control" placeholder="Your GCE project ID"
+                                formControlName="stkProjectID">
                         </div>
                         <div class="col-sm-5">
                             <label for="prefix" class="form-label">Metrics Prefix</label>
-                            <input type="text" id="prefix" class="form-control"
-                                placeholder="Krackend" formControlName="stkMetricsPrefix">
+                            <input type="text" id="prefix" class="form-control" placeholder="Krackend"
+                                formControlName="stkMetricsPrefix">
                         </div>
                     </div>
 
@@ -598,27 +615,27 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <input type="text" id="labName" class="form-control" aria-describedby="passwordHelpBlock"
-                               formControlName="labelName">
+                                formControlName="labelName" placeholder="label-name">
                         </div>
                         <div class="col-sm-4">
                             <input type="text" id="labvalue" class="form-control" aria-describedby="passwordHelpBlock"
-                               formControlName="labelValue">
+                                formControlName="labelValue" placeholder="Value">
                         </div>
                         <div class="col-sm-2">
                             <button type="button" class="btn btn-dark" (click)="addParameter('label')">Add</button>
                         </div>
                     </div>
-                    
+
                     <div class="col-sm-12">
                         <p>Enter here any label that will be assigned by default to the reported metric so you can
                             filter later on Stack Driver.</p>
                     </div>
                     <div class=" col-sm-12 mt-3 d-flex">
                         <button *ngFor="let attr of objectMap | keyvalue" class="parameter-item">
-                          {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'label')"
-                            class="d-flex align-items-center justify-content-end">close</mat-icon>
+                            {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'label')"
+                                class="d-flex align-items-center justify-content-end">close</mat-icon>
                         </button>
-                      </div>
+                    </div>
                 </div>
                 }
 
@@ -637,8 +654,9 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="datadogService" class="form-label">Service</label>
-                        <input type="text" id="datadogService" class="form-control" aria-describedby="datadogServiceHelpBlock"
-                            formControlName="datadogService" placeholder="KrackendSRVC">
+                        <input type="text" id="datadogService" class="form-control"
+                            aria-describedby="datadogServiceHelpBlock" formControlName="datadogService"
+                            placeholder="KrackendSRVC">
                         <div id="datadogServiceHelpBlock" class="form-text">
                             Service specifies the service name used for tracing.
                         </div>
@@ -647,8 +665,9 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <label for="datadogTrace" class="form-label">Trace Address</label>
-                        <input type="text" id="datadogTrace" class="form-control" aria-describedby="datadogTraceHelpBlock"
-                            formControlName="datadogTraceAdd" placeholder="localhost:8126">
+                        <input type="text" id="datadogTrace" class="form-control"
+                            aria-describedby="datadogTraceHelpBlock" formControlName="datadogTraceAdd"
+                            placeholder="localhost:8126">
                         <div id="datadogTraceHelpBlock" class="form-text">
                             The host[:port] address of the Datadog Trace Agent. It defaults to localhost:8126
                         </div>
@@ -670,17 +689,18 @@
                             <input type="text" id="datadogTags" class="form-control" placeholder="Tag"
                                 aria-label="Recipient's username" aria-describedby="button-addon2"
                                 formControlName="datadogTag">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="addParameter('datadogTag')">Add</button>
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                (click)="addParameter('datadogTag')">Add</button>
                         </div>
                         <div id="passwordHelpBlock" class="form-text">
                             Set of global tags to attach to each metric
                         </div>
                         <div class="mt-3 d-flex">
                             <button *ngFor="let attr of tagsArray; let i = index" class="parameter-item">
-                              {{ attr }}<mat-icon (click)="removeParameter(i,'datadogTag')"
-                                class="d-flex align-items-center justify-content-end">close</mat-icon>
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'datadogTag')"
+                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
                             </button>
-                          </div>
+                        </div>
                     </div>
                     <div class="col-sm-4">
                         <label for="datadogGlobalTags" class="form-label">Global Tags</label>
@@ -688,17 +708,18 @@
                             <input type="text" id="datadogGlobalTags" class="form-control" placeholder="Tag"
                                 aria-label="Recipient's username" aria-describedby="button-addon2"
                                 formControlName="globalTag">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="addParameter('globalTag')">Add</button>
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                (click)="addParameter('globalTag')">Add</button>
                         </div>
                         <div id="passwordHelpBlock" class="form-text">
                             Set of tags applied to all exported spans
                         </div>
                         <div class="mt-3 d-flex">
                             <button *ngFor="let attr of globalTagsArray; let i = index" class="parameter-item">
-                              {{ attr }}<mat-icon (click)="removeParameter(i,'globalTag')"
-                                class="d-flex align-items-center justify-content-end">close</mat-icon>
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'globalTag')"
+                                    class="d-flex align-items-center justify-content-end">close</mat-icon>
                             </button>
-                          </div>
+                        </div>
                     </div>
                 </div>
 
@@ -740,8 +761,8 @@
                         <label for="opType" class="form-label">Spans URL</label>
                         <select class="form-select" aria-label="Default select example" formControlName="relicSpansURL">
                             <option selected>Open this select menu</option>
-                            <option value="1">US</option>
-                            <option value="2">EU</option>
+                            <option value="https://trace-api.newrelic.com/trace/v1">US</option>
+                            <option value="https://trace-api.eu.newrelic.com/trace/v1">EU</option>
                         </select>
                         <div class="form-text">New Relic might use different endpoints to report traces from its
                             customers depending on the location of their accounts
@@ -749,10 +770,11 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="opType" class="form-label">Metrics URL</label>
-                        <select class="form-select" aria-label="Default select example" formControlName="relicMetricsURL">
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="relicMetricsURL">
                             <option selected>Open this select menu</option>
-                            <option value="1">US</option>
-                            <option value="2">EU</option>
+                            <option value="https://trace-api.newrelic.com/trace/v1">US</option>
+                            <option value="https://trace-api.eu.newrelic.com/trace/v1">EU</option>
                         </select>
                         <div class="form-text">New Relic might use different endpoints to report metrics from its
                             customers depending on the location of their accounts
@@ -790,8 +812,12 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="reconTime" class="form-label">Reconnection Time</label>
-                        <input type="text" id="reconTime" class="form-control"
-                            formControlName="ocagentReconTime">
+                        <input type="text" id="reconTime" class="form-control" formControlName="ocagentReconTime"
+                            [class.is-invalid]="TelemertyFormGroup.get('ocagentReconTime')?.invalid && TelemertyFormGroup.get('ocagentReconTime')?.touched">
+                        <div class="invalid-feedback"
+                            *ngIf="TelemertyFormGroup.get('ocagentReconTime')?.errors?.['pattern'] && TelemertyFormGroup.get('ocagentReconTime')?.touched">
+                            Please enter a valid cache TTL (e.g., `10ms`, `5s`, `1h`).
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -811,6 +837,7 @@
                     <div class="col-sm-4">
                         <input type="text" id="logprefix" class="form-control" aria-describedby="passwordHelpBlock"
                             formControlName="headerKey">
+                        <div class="form-text">Sent headers with its values.</div>
                     </div>
                     <div class="col-sm-4">
                         <input type="text" id="logprefix" class="form-control" aria-describedby="passwordHelpBlock"
@@ -841,46 +868,52 @@
                         <h3>New Relic(Native SDK)</h3>
                     </div>
                     <div>
-                        <mat-slide-toggle #logging formControlName="newRelicNativeSDKActive"></mat-slide-toggle>
+                        <mat-slide-toggle formControlName="newRelicNativeSDKActive"></mat-slide-toggle>
                     </div>
                 </div>
 
                 @if (TelemertyFormGroup.value.newRelicNativeSDKActive) {
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="logprefix" class="form-label">License</label>
-                            <input type="text" id="logprefix" class="form-control" aria-describedby="passwordHelpBlock"
-                                formControlName="newRelicLicense">
-                            <div id="levelHelpBlock" class="form-text">
-                                Prepend a string before the the log lines
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <mat-checkbox class="example-margin" formControlName="newRelicSDKDebug">Enable TCP</mat-checkbox>                           
-                            <div class="form-text">By default uses UDP but you can enable TCP by setting this option to true (not recommended, your performance might suffer).
-                            </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="logprefix" class="form-label">License</label>
+                        <input type="text" id="logprefix" class="form-control" aria-describedby="passwordHelpBlock"
+                            formControlName="newRelicLicense" placeholder="XXXX">
+                        <div id="levelHelpBlock" class="form-text">
+                            The API key provided by New Relic to push data into your account.
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label for="headertopass" class="form-label">Headers to pass</label>
-                            <div class="input-group mb-3">
-                                <input type="text" id="headertopass" class="form-control" placeholder="Tag"
-                                    aria-label="Recipient's username" aria-describedby="button-addon2"
-                                    formControlName="headersToPass">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="addParameter('headersToPass')">Add</button>
-                            </div>
-                            <div id="passwordHelpBlock" class="form-text">
-                                Set of tags applied to all exported spans
-                            </div>
-                            <div class="mt-3 d-flex">
-                                <button *ngFor="let attr of headersToPassArray; let i = index" class="parameter-item">
-                                  {{ attr }}<mat-icon (click)="removeParameter(i,'headersToPass')"
+                    <div class="col-sm-4">
+                        <mat-checkbox class="example-margin" formControlName="newRelicSDKDebug">Debug</mat-checkbox>
+                        <div class="form-text">Set to true when configuring New Relic for the first time while in
+                            development, to see the activity in the logs. Set to false in production.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="headertopass" class="form-label">Headers to pass</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="headertopass" class="form-control" placeholder="my-indexing"
+                                aria-label="Recipient's username" aria-describedby="button-addon2"
+                                formControlName="headersToPass">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                                (click)="addParameter('headersToPass')">Add</button>
+                        </div>
+                        <div id="passwordHelpBlock" class="form-text">
+                            Defines an explicit list of headers sent during the client request that will be reported to
+                            NewRelic, in addition to the default headers NewRelic sets. Setting the * value will send
+                            all headers sent by the client to NewRelic. Whether you declare this setting or not, you
+                            will usually receive from the NewRelic SDK the Accept, Content-Type, User-Agent, and Referer
+                            headers.
+                        </div>
+                        <div class="mt-3 d-flex">
+                            <button *ngFor="let attr of headersToPassArray; let i = index" class="parameter-item">
+                                {{ attr }}<mat-icon (click)="removeParameter(i,'headersToPass')"
                                     class="d-flex align-items-center justify-content-end">close</mat-icon>
-                                </button>
-                              </div>
+                            </button>
                         </div>
                     </div>
+                </div>
                 }
             </div>
             <div class="row">

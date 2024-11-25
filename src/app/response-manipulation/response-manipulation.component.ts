@@ -26,9 +26,9 @@ export class ResponseManipulationComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupResponseManipulation = this.formBuilder.group({
-      response: [''],
-      strategy: [''],
-      expression: [''],
+      response: [null],
+      strategy: [null],
+      expression: [null],
 
       contentReplacerKey:[''],
       contentReplacer: this.formBuilder.group({}),

@@ -11,3 +11,16 @@
 .example-span-text{
     color:rgba(21, 20, 23, 0.74);
 }
+.parameter-item {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    background-color: black;
+    color: white;
+    border-radius:5px;
+    border: none;
+  }
+
+  .parameter-item mat-icon {
+    font-size: 16px;
+  }

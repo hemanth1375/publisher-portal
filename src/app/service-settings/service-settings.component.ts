@@ -20,7 +20,7 @@ export class ServiceSettingsComponent {
   @Output() serviceSettingsFormSubmitted = new EventEmitter<any>();
   constructor(private formBuilder: FormBuilder, private apiPageService: ApiPageService, private apiCardsService: ApicardsService, private sharedService: SharedDataService, private _snackBar: MatSnackBar) {
     this.formGroupService = this.formBuilder.group({
-      isgRPCActive: [false],
+      isgRPCActive: [false], 
       isEnableHttpsActive: [false],
       isUrlRewriteActive: [false],
       isVirtualHostActive: [false],
@@ -257,10 +257,12 @@ export class ServiceSettingsComponent {
     console.log(this.entireJsondata);
     console.log(this.entireJsondata?.extra_config?.["server/static-filesystem"]?.prefix);
     if (this.entireJsondata != undefined) {
-      this.hostArray = this.entireJsondata?.host
+      this.hostArray = this.entireJsondata?.host;
+      this.directoryArray=this.entireJsondata?.extra_config?.grpc?.catalog
     }
 
     this.formGroupService.patchValue({
+      isgRPCActive: !!this.entireJsondata?.extra_config?.grpc,
       name: this.entireJsondata?.name,
       port: this.entireJsondata?.port,
       hostArrayValue: this.entireJsondata?.host,

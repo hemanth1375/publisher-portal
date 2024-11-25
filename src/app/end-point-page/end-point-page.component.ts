@@ -19,9 +19,9 @@ export class EndPointPageComponent implements OnInit ,AfterViewInit {
 
   constructor(private formBuilder:FormBuilder,private apiPageService:ApiPageService,private _snackBar: MatSnackBar){
     this.formGroupEndPoint=this.formBuilder.group({
-      endPointUri:['',[Validators.required]],
-      selectedMethod:[''],
-      selectedOutput:['']
+      endPointUri:[null,[Validators.required]],
+      selectedMethod:[null],
+      selectedOutput:[null]
     })
   }
 

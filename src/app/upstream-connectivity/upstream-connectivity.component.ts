@@ -125,7 +125,7 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
       isRestToSoapActive:[false],
       isHttpClientSettingActive:[false],
       isRestToGraphqlActive:[false],
-      isAMQPconsumerActive:[false],
+      isAMQPconsumerActive:[false], 
       isAWSlambdaActive:[false],
       isrestToGRPCActive:[false],
       isPublicSubscriberActive:[false],

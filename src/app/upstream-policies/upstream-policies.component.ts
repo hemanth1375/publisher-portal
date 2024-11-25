@@ -24,7 +24,7 @@ export class UpstreamPoliciesComponent {
       isSecPolicyActive:[false],
       isResSchValidatorActive:[false],
       securityReqPolicy: [null],
-      secReqErrorStCode: [null],
+      secReqErrorStCode: [null], 
       secReqErrorBody: [null],
       secReqErrorContentType: [null],
       securityResPolicy: [null],
@@ -39,7 +39,8 @@ export class UpstreamPoliciesComponent {
       resSchemaValErrorStCode: [null],
       secReqPolicyArrayValue: [[]],
       secResPolicyArrayValue: [[]],
-      jwtReqPolicyArrayValue: [[]]
+      jwtReqPolicyArrayValue: [[]],
+      responseSchema:[null]
     })
   }
 

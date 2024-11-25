@@ -251,57 +251,131 @@ export class ViewapipageComponent {
               "allow": [
                 ''
               ],
-              "mapping": renamingObj,
+              ...(this.backendData?.upstreamResponseData?.objectMapValue &&{"mapping": renamingObj}),
               "group": this.backendData?.upstreamResponseData?.wrappingGroup,
               "is_collection": this.backendData?.upstreamResponseData?.isCollection,
               "encoding": this.backendData?.upstreamRequestData?.decodeAs,
               "extra_config": {
                 "id": null,
-                "qos/circuit-breaker": {
-                  "interval": this.backendData?.upstreamAuthData?.interval,
-                  "name": this.backendData?.upstreamAuthData?.circuitBreakerName,
-                  "timeout":  this.backendData?.upstreamAuthData?.timeout,
-                  "max_errors": this.backendData?.upstreamAuthData?.maxError,
-                  "log_status_change": this.backendData?.upstreamAuthData?.logStatusChange
-                },
-                "plugin/req-resp-modifier": {
+                ...(this.backendData?.upstreamThrottlingData?.isCircuitBreakerActive &&{"qos/circuit-breaker": {
+                  ...(this.backendData?.upstreamThrottlingData?.interval && {"interval": this.backendData?.upstreamThrottlingData?.interval}),
+                  ...(this.backendData?.upstreamThrottlingData?.circuitBreakerName && {"name": this.backendData?.upstreamThrottlingData?.circuitBreakerName}),
+                  ...(this.backendData?.upstreamThrottlingData?.timeout && {"timeout":  this.backendData?.upstreamThrottlingData?.timeout}),
+                  ...(this.backendData?.upstreamThrottlingData?.maxError && {"max_errors": this.backendData?.upstreamThrottlingData?.maxError}),
+                  ...(this.backendData?.upstreamThrottlingData?.logStatusChange && {"log_status_change": this.backendData?.upstreamThrottlingData?.logStatusChange})
+                }}),
+                ...((this.backendData?.upstreamResponseData?.regexConReplacerActive ||this.backendData?.upstreamPoliciesData?.isResSchValidatorActive) &&{"plugin/req-resp-modifier": {
                   "name": [
-                    "content-replacer"
-                  ],
-                  "content-replacer": this.backendData?.upstreamResponseData?.contentReplacer
-                },
-                "qos/ratelimit/proxy": {
-                  "max_rate": this.backendData?.upstreamAuthData?.maxRateLimit,
-                  "capacity": this.backendData?.upstreamAuthData?.capacity
-                },
-                "qos/http-cache": {
-                  "shared": this.backendData?.upstreamResponseData?.isSharedCacheActive
-                },
-                "backend/graphql": {
-                  "type": this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm,
-                  "query": this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm,
-                  "variables": {}
-                },
-                "backend/soap": {
-                  "@comment": null,
-                  "path": this.backendData?.upstreamConnectivityData?.pathRestToSoapForm
-                },
-                "backend/grpc": {
-                  "input_mapping": inputMapObj,
-                  "response_naming_convention": this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm,
-                  "output_enum_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm,
-                  "output_timestamp_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm,
-                  "output_duration_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm,
-                  "client_tls": {
-                    "allow_insecure_connections": true
-                  },
-                  "output_remove_unset_values": this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm,
-                  "use_request_body": this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm
-                },
-                "backend/static-filesystem": {
-                  "directory_listing": this.backendData?.upstreamRequestData?.directory_Listing,
-                  "path": this.backendData?.upstreamRequestData?.staticUrl
+                    this.backendData?.upstreamResponseData?.regexConReplacerActive && 'content-replacer',
+                    this.backendData?.upstreamPoliciesData?.isResSchValidatorActive && 'response-schema-validator'
+                  ].filter(Boolean),
+                  ...(this.backendData?.upstreamResponseData?.regexConReplacerActive &&{"content-replacer": this.backendData?.upstreamResponseData?.contentReplacer}),
+                  ...(this.backendData?.upstreamPoliciesData?.isResSchValidatorActive &&{"response-schema-validator": {
+                "schema": this.backendData?.upstreamPoliciesData?.responseSchema,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.resSchemaValErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.resSchemaValErrorMsg
                 }
+              }})
+                }}),
+               ...(this.backendData?.upstreamThrottlingData?.isProxyRateLimitActive &&{"qos/ratelimit/proxy": {
+                  "max_rate": this.backendData?.upstreamThrottlingData?.maxRateLimit,
+                  "capacity": this.backendData?.upstreamThrottlingData?.capacity,
+                  "every": this.backendData?.upstreamThrottlingData?.every
+                }}),
+                ...(this.backendData?.upstreamResponseData?.isCachingActive &&{"qos/http-cache": {
+                  "shared": this.backendData?.upstreamResponseData?.isSharedCacheActive
+                }}),
+                ...(this.backendData?.upstreamAuthData?.isAuthActive &&{"auth/client-credentials": {
+              "endpoint_params": {
+                "5t": "ji"
+              },
+              ...(this.backendData?.upstreamAuthData?.clientId &&{"client_id": this.backendData?.upstreamAuthData?.clientId}),
+              ...(this.backendData?.upstreamAuthData?.clientSecret &&{"client_secret": this.backendData?.upstreamAuthData?.clientSecret}),
+              ...(this.backendData?.upstreamAuthData?.tokenUrl &&{"token_url": this.backendData?.upstreamAuthData?.tokenUrl}),
+              ...(this.backendData?.upstreamAuthData?.scopes &&{"scopes": this.backendData?.upstreamAuthData?.scopes})
+            }}),
+            ...(this.backendData?.upstreamAuthData?.isGoogleCloudActive &&{"auth/gcp": {
+              ...(this.backendData?.upstreamAuthData?.audience &&{"audience": this.backendData?.upstreamAuthData?.audience})
+            }}),
+            ...(this.backendData?.isNtlmAuthActive &&{"auth/ntlm": {
+              "user": "g",
+              "password": "yu"
+            }}),
+            ...(this.backendData?.upstreamPoliciesData?.isSecPolicyActive &&{"security/policies": {
+              "req": {
+                "policies": this.backendData?.upstreamPoliciesData?.secReqPolicyArrayValue,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.secReqErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.secReqErrorBody,
+                  "content_type": this.backendData?.upstreamPoliciesData?.secReqErrorContentType
+                }
+              },
+              "resp": {
+                "policies": this.backendData?.upstreamPoliciesData?.secResPolicyArrayValue,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.secResErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.secResErrorBody,
+                  "content_type": this.backendData?.upstreamPoliciesData?.secResErrorContentType
+                }
+              },
+              "jwt": {
+                "policies": this.backendData?.upstreamPoliciesData?.jwtReqPolicyArrayValue
+              },
+              "debug": this.backendData?.upstreamPoliciesData?.enableDebug,
+              "auto_join_policies": this.backendData?.upstreamPoliciesData?.autoJoinPolicies,
+              "disable_macros": this.backendData?.upstreamPoliciesData?.disableMacros
+            }}),
+                ...(this.backendData?.upstreamConnectivityData?.isRestToGraphqlActive &&{"backend/graphql": {
+                  ...(this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm &&{"type": this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm &&{"query": this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm}),
+                  "variables": {},
+              ...(this.backendData?.upstreamConnectivityData?.restToGraphqlOpNameForm &&{"operationName": this.backendData?.upstreamConnectivityData?.restToGraphqlOpNameForm}),
+              ...(this.backendData?.upstreamConnectivityData?.restTographQLQueryPathForm &&{"query_path": this.backendData?.upstreamConnectivityData?.restTographQLQueryPathForm}),
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isRestToSoapActive &&{"backend/soap": {
+                  "@comment": null,
+                  "template": "",
+              "content_type": this.backendData?.upstreamConnectivityData?.contentTypeRestToSoap,
+              "debug": this.backendData?.upstreamConnectivityData?.enableDebugRestToSoap,
+                  "path": this.backendData?.upstreamConnectivityData?.pathRestToSoapForm
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isrestToGRPCActive &&{"backend/grpc": {
+                  ...(this.backendData?.upstreamConnectivityData?.objectMapValue &&{"input_mapping": inputMapObj}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm &&{"response_naming_convention": this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm &&{"output_enum_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm &&{"output_timestamp_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm &&{"output_duration_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm}),
+                  // "client_tls": {
+                  //   "allow_insecure_connections": true
+                  // },
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm &&{"output_remove_unset_values": this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm &&{"use_request_body": this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm})
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isHttpClientSettingActive &&{"backend/http/client": {
+              ...(this.backendData?.upstreamConnectivityData?.connectvWebProxyForm &&{"proxy_address": this.backendData?.upstreamConnectivityData?.connectvWebProxyForm}),
+              "no_redirect": this.backendData?.upstreamConnectivityData?.donotFollowRedirectsForm
+            }}),
+                ...(this.backendData?.upstreamRequestData?.isStaticServerActive &&{"backend/static-filesystem": {
+                  "directory_listing": this.backendData?.upstreamRequestData?.directory_Listing,
+                  ...(this.backendData?.upstreamRequestData?.staticUrl &&{"path": this.backendData?.upstreamRequestData?.staticUrl})
+                }}),
+                ...(this.backendData?.upstreamRequestData?.isBodymanipulationActive &&{"modifier/body-generator": {
+              ...(this.backendData?.upstreamRequestData?.bodyEditor &&{"template": this.backendData?.upstreamRequestData?.bodyEditor}),
+              ...(this.backendData?.upstreamRequestData?.contentType &&{"content_type": this.backendData?.upstreamRequestData?.contentType}),
+              ...(this.backendData?.upstreamRequestData?.debug &&{"debug": this.backendData?.upstreamRequestData?.debug}),
+              ...(this.backendData?.upstreamRequestData?.path &&{"path": this.backendData?.upstreamRequestData?.path})
+            }}),
+            ...( this.backendData?.upstreamRequestData?.isMartianActive &&{"modifier/martian": this.backendData?.upstreamRequestData?.martianDslTextarea}),
+            ...(this.backendData?.upstreamResponseData?.AdvResManipulationActive &&{"modifier/jmespath": {
+              "expr": this.backendData?.upstreamResponseData?.expression
+            }}),
+            ...(this.backendData?.upstreamResponseData?.resManiWithGoTemplActive &&{"modifier/response-body-generator": {
+              ...(this.backendData?.upstreamResponseData?.contentType &&{"content_type": this.backendData?.upstreamResponseData?.contentType}),
+              ...(this.backendData?.upstreamResponseData?.debug &&{"debug": this.backendData?.upstreamResponseData?.debug}),
+              ...(this.backendData?.upstreamResponseData?.path &&{"path": this.backendData?.upstreamResponseData?.path}),
+              ...(this.backendData?.upstreamResponseData?.template &&{"template": this.backendData?.upstreamResponseData?.template})
+            }})
               },
               "target": null,
               "method": this.backendData?.upstreamRequestData?.method,
@@ -315,91 +389,157 @@ export class ViewapipageComponent {
           ],
           "extra_config": {
             "id": null,
-            "documentation/openapi": {
-              "summary": this.openApiData?.summary,
-              "description": this.openApiData?.description,
-              "tags": [
-                ''
-              ]
-            },
-            "modifier/jmespath": {
-              "@comment": null,
-              "expr": null
-            },
-            "security/policies": {
-              "req": {
+            ...(this.openApiData?.isDocumentationActive && {"documentation/openapi": {
+              ...(this.openApiData?.summary &&{"summary": this.openApiData?.summary}),
+              ...(this.openApiData?.description &&{"description": this.openApiData?.description}),
+              ...(this.openApiData?.tagsArrayValue.length!=0 &&{"tags": this.openApiData?.tagsArrayValue})
+            }}),
+            ...(this.responseData?.isAdvanceResponseActive &&{"modifier/jmespath": {
+              // "@comment": null,
+              ...(this.responseData?.expression &&{"expr": this.responseData?.expression})
+            }}),
+            // "security/policies": {
+            //   "req": {
+            //     "policies": this.policiesData?.secReqPolicyArrayValue,
+            //     "error": {
+            //       "body": this.policiesData?.secReqErrorBody,
+            //       "status": this.policiesData?.secReqErrorStCode
+            //     }
+            //   }
+            // },
+            ...(this.policiesData?.isSpFilterActive &&{"security/policies": {
+          "req": {
                 "policies": this.policiesData?.secReqPolicyArrayValue,
                 "error": {
                   "body": this.policiesData?.secReqErrorBody,
                   "status": this.policiesData?.secReqErrorStCode
                 }
-              }
-            },
-            "qos/ratelimit/router": {
-              "max_rate": this.throttlingData?.rateLimit
-            },
+              },
+          "resp": {
+            "policies": this.policiesData?.secResPolicyArrayValue,
+            "error": {
+              "status": this.policiesData?.secResErrorStCode,
+              "body": this.policiesData?.secResErrorBody,
+              "content_type": this.policiesData?.secResErrorContentType
+            }
+          },
+          "jwt": {
+            "policies": this.policiesData?.jwtReqPolicyArrayValue
+          },
+          "debug": this.policiesData?.enableDebug,
+          "auto_join_policies": this.policiesData?.autoJoinPolicies,
+          "disable_macros": this.policiesData?.disableMacros
+        }}),
+            ...(this.throttlingData?.isEndPointRateLimitEnabledActive &&{"qos/ratelimit/router": {
+              ...(this.throttlingData?.rateLimit &&{"max_rate": this.throttlingData?.rateLimit}),
+              ...(this.throttlingData?.defaultUserQuota &&{"client_max_rate": this.throttlingData?.defaultUserQuota}),
+              "strategy": "ip",
+              ...(this.throttlingData?.capacity &&{"capacity": this.throttlingData?.capacity}),
+              ...(this.throttlingData?.every &&{"every": this.throttlingData?.every}),
+              ...(this.throttlingData?.clientCapacity &&{"client_capacity": this.throttlingData?.clientCapacity})
+            }}),
+            ...(this.throttlingData?.isRedisRateLimitEnabledActive &&{"plugin/http-server": {
+          "name": [
+            this.throttlingData?.isRedisRateLimitEnabledActive && "redis-ratelimit"
+          ].filter(Boolean),
+          ...(this.throttlingData?.isRedisRateLimitEnabledActive &&{"redis-ratelimit": {
+            ...(this.throttlingData?.address &&{"Host": this.throttlingData?.address}),
+            ...(this.throttlingData?.tokenizer &&{"Tokenizer": this.throttlingData?.tokenizer}),
+            ...(this.throttlingData?.burst &&{"Burst": this.throttlingData?.burst}),
+            ...(this.throttlingData?.rate &&{"Rate": this.throttlingData?.rate}),
+            ...(this.throttlingData?.periods &&{"Period": this.throttlingData?.periods}),
+            ...(this.throttlingData?.tokenizerField &&{"TokenizerField": this.throttlingData?.tokenizerField})
+          }})
+        }}),
             "proxy": {
-              "sequential": true,
-              "static": {
+              "sequential": this.connectivityData?.isSequencialActive,
+              ...(this.responseData?.isStaticResponseActive &&{"static": {
                 "data": this.responseData?.response,
                 "strategy": this.responseData?.strategy
-              }
+              }})
             },
+            ...((this.responseData?.regexConReplacerActive || this.policiesData?.isResponseSchValidatorFiltrActive || this.throttlingData?.isIpFilterEnabledActive) &&{"plugin/req-resp-modifier": {
+              "name": [
+                this.responseData?.regexConReplacerActive && "content-replacer",
+                this.policiesData?.isResponseSchValidatorFiltrActive && "response-schema-validator",
+                this.throttlingData?.isIpFilterEnabledActive && "ip-filter"
+              ].filter(Boolean),
+              ...(this.responseData?.regexConReplacerActive &&{"content-replacer": this.responseData?.contentReplacer}),
+              ...(this.policiesData?.isResponseSchValidatorFiltrActive && {"response-schema-validator": {
+            "schema": this.policiesData?.resJSONSchema,
+            "error": {
+              "status": this.policiesData?.resSchemaValErrorStCode,
+              "body": this.policiesData?.resSchemaValErrorMsg
+            }
+          }}),
+          ...(this.throttlingData?.isIpFilterEnabledActive&& {"ip-filter": {
+            ...(this.throttlingData?.allowModeActive &&{"allow": this.throttlingData?.allowModeActive}),
+            ...(this.throttlingData?.clientIPHeadersArrayValue.length!=0 &&{"client_ip_headers": this.throttlingData?.clientIPHeadersArrayValue}),
+            ...(this.throttlingData?.cidrArrayValue.length!=0 &&{"CIDR": this.throttlingData?.cidrArrayValue}),
+            ...(this.throttlingData?.trustedProxiesArrayValue.length!=0 &&{"trusted_proxies": this.throttlingData?.trustedProxiesArrayValue})
+          }})
+            }}),
+            ...(this.responseData?.isAdvanceResponseGoActive &&{"modifier/response-body-generator": {
+          "template": this.responseData?.bodyEditor,
+          "content_type": this.responseData?.contentType,
+          "debug": this.responseData?.debug
+        }}),
+        ...(this.policiesData?.isRequestSchValidatorFiltrActive &&{"validation/json-schema": this.policiesData?.reqJSONSchema}),
             "@comment": null,
-            "auth/basic": {
+            ...(this.authPageData?.isBasicAuthActive &&{"auth/basic": {
               "@comment": null,
               "htpasswd_path": null
-            },
+            }}),
             "validation/cel": [
               {
                 "id": null,
                 "check_expr": null
               }
             ],
-            "auth/validator": {
-              "alg": this.authPageData?.algorithm,
-              "audience": this.authPageData?.audienceArrayValue,
-              "roles_key": this.authPageData?.rolesKey,
-              "roles": this.authPageData?.rolesArrayValue,
-              "jwk_url": this.authPageData?.jwkUri,
-              "issuer": this.authPageData?.issuer,
+            ...(this.authPageData?.isTokenValidationActive &&{"auth/validator": {
+              ...(this.authPageData?.algorithm &&{"alg": this.authPageData?.algorithm}),
+              ...(this.authPageData?.audienceArrayValue.length!=0 &&{"audience": this.authPageData?.audienceArrayValue}),
+              ...(this.authPageData?.rolesKey &&{"roles_key": this.authPageData?.rolesKey}),
+              ...(this.authPageData?.rolesArrayValue.length!=0 &&{"roles": this.authPageData?.rolesArrayValue}),
+              ...(this.authPageData?.jwkUri &&{"jwk_url": this.authPageData?.jwkUri}),
+              ...(this.authPageData?.issuer &&{"issuer": this.authPageData?.issuer}),
               "jwk_local_path": null,
-              "disable_jwk_security": true
-            },
-            "auth/signer": {
-              "alg": this.authPageData?.tokenSignAlgorithm,
-              "kid": this.authPageData?.keyId,
-              "keys_to_sign": this.authPageData?.keysToSignArrayValue,
-              "jwk_local_path": null,
-              "disable_jwk_security": true
-            },
+              ...(this.authPageData?.isDisableJWKSecActive &&{"disable_jwk_security": this.authPageData?.isDisableJWKSecActive})
+            }}),
+            ...(this.authPageData?.isTokenSigningActive &&{"auth/signer": {
+              ...(this.authPageData?.tokenSignAlgorithm &&{"alg": this.authPageData?.tokenSignAlgorithm}),
+              ...(this.authPageData?.keyId &&{"kid": this.authPageData?.keyId}),
+              ...(this.authPageData?.keysToSignArrayValue.length!=0 &&{"keys_to_sign": this.authPageData?.keysToSignArrayValue}),
+              // "jwk_local_path": null,
+              // "disable_jwk_security": true
+            }}),
             "auth/api-keys": {
               "roles": [
                 ''
               ]
             },
-            "websocket": {
-              "input_headers": this.connectivityData?.inputHeaderArray,
-              "connect_event": this.connectivityData?.connectEvent,
-              "disconnect_event": this.connectivityData?.disconnectEvent,
-              "read_buffer_size": this.connectivityData?.readBufferSize,
-              "write_buffer_size": this.connectivityData?.writeBufferSize,
-              "message_buffer_size": this.connectivityData?.messageBufferSize,
-              "max_message_size": this.connectivityData?.maxWriteBufferSize,
-              "write_wait": this.connectivityData?.writeWait,
-              "pong_wait": this.connectivityData?.pongWait,
-              "ping_period": null,
-              "max_retries": this.connectivityData?.maxRetries,
-              "backoff_strategy": this.connectivityData?.backoffStrategy,
-              "enable_direct_communication": true,
-              "return_error_details": this.connectivityData?.returnErr,
-              "timeout": null
-            }
+            ...(this.connectivityData?.isWebSocketActive &&{"websocket": {
+              ...(this.connectivityData?.inputHeaderArray.length!=0&&{"input_headers": this.connectivityData?.inputHeaderArray}),
+              ...(this.connectivityData?.connectEvent &&{"connect_event": this.connectivityData?.connectEvent}),
+              ...(this.connectivityData?.disconnectEvent &&{"disconnect_event": this.connectivityData?.disconnectEvent}),
+              ...(this.connectivityData?.readBufferSize &&{"read_buffer_size": this.connectivityData?.readBufferSize}),
+              ...(this.connectivityData?.writeBufferSize &&{"write_buffer_size": this.connectivityData?.writeBufferSize}),
+              ...(this.connectivityData?.messageBufferSize &&{"message_buffer_size": this.connectivityData?.messageBufferSize}),
+              ...(this.connectivityData?.maxWriteBufferSize &&{"max_message_size": this.connectivityData?.maxWriteBufferSize}),
+              ...(this.connectivityData?.writeWait &&{"write_wait": this.connectivityData?.writeWait}),
+              ...(this.connectivityData?.pongWait &&{"pong_wait": this.connectivityData?.pongWait}),
+              // "ping_period": null,
+              ...(this.connectivityData?.maxRetries &&{"max_retries": this.connectivityData?.maxRetries}),
+              ...(this.connectivityData?.backoffStrategy &&{"backoff_strategy": this.connectivityData?.backoffStrategy}),
+              // "enable_direct_communication": true,
+              ...(this.connectivityData?.returnErr &&{"return_error_details": this.connectivityData?.returnErr}),
+              // "timeout": null
+            }})
           },
           "output_encoding": this.endPointData?.selectedOutput,
           "@test_with": null,
           "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
-          "concurrent_calls": 0,
+          ...(this.connectivityData?.concurrentCalls &&{"concurrent_calls": this.connectivityData?.concurrentCalls}),
           "method": this.endPointData?.selectedMethod,
           "input_query_strings": this.parameterForwardingData?.parameterArrays,
           "timeout":this.throttlingData?.timeout,
@@ -422,6 +562,14 @@ export class ViewapipageComponent {
     
   }
   updateEndpoint(){
+    const renamingObj = this.backendData?.upstreamResponseData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+    const inputMapObj = this.backendData?.upstreamConnectivityData?.objectMapValue?.reduce((acc:any, [key, value]:any) => {
+      acc[key] = value;
+      return acc;
+    }, {});
     const resultantFormData={
       "id": this.receivedData?.id,
       "@comment": null,
@@ -429,67 +577,137 @@ export class ViewapipageComponent {
       "backend": [
         {
           "id": this.receivedData?.backend?.[0]?.id,
-          "host": [
-            ''
-          ],
-          "url_pattern": null,
+          "host": this.backendData?.upstreamRequestData?.hostArrayValue,
+              "url_pattern": this.backendData?.upstreamRequestData?.endpointUrl,
           "allow": [
             ''
           ],
-          "mapping": {
-            "blog": null,
-            "collection": null,
-            "CapitalCityResult": null
-          },
-          "group": null,
-          "is_collection": true,
-          "encoding": null,
-          "extra_config": {
-            "id": this.receivedData?.backend?.[0]?.extra_config?.id,
-            "plugin/req-resp-modifier": {
-              "name": [
-                ''
-              ],
-              "content-replacer": {}
-            },
-            "qos/ratelimit/proxy": {
-              "max_rate": 0,
-              "capacity": 0
-            },
-            "qos/http-cache": {
-              "shared": true
-            },
-            "backend/graphql": {
-              "type": null,
-              "query": null,
-              "variables": {}
-            },
-            "backend/soap": {
-              "@comment": null,
-              "path": null
-            },
-            "backend/grpc": {
-              "input_mapping": {
-                "lat": null,
-                "lon": null,
-                "Id_flight": null,
-                "Main_passenger": null
+          ...(this.backendData?.upstreamResponseData?.objectMapValue &&{"mapping": renamingObj}),
+          "group": this.backendData?.upstreamResponseData?.wrappingGroup,
+              "is_collection": this.backendData?.upstreamResponseData?.isCollection,
+              "encoding": this.backendData?.upstreamRequestData?.decodeAs,
+              "extra_config": {
+                "id": this.receivedData?.backend?.[0]?.extra_config?.id,
+                ...(this.backendData?.upstreamThrottlingData?.isCircuitBreakerActive &&{"qos/circuit-breaker": {
+                  ...(this.backendData?.upstreamThrottlingData?.interval && {"interval": this.backendData?.upstreamThrottlingData?.interval}),
+                  ...(this.backendData?.upstreamThrottlingData?.circuitBreakerName && {"name": this.backendData?.upstreamThrottlingData?.circuitBreakerName}),
+                  ...(this.backendData?.upstreamThrottlingData?.timeout && {"timeout":  this.backendData?.upstreamThrottlingData?.timeout}),
+                  ...(this.backendData?.upstreamThrottlingData?.maxError && {"max_errors": this.backendData?.upstreamThrottlingData?.maxError}),
+                  ...(this.backendData?.upstreamThrottlingData?.logStatusChange && {"log_status_change": this.backendData?.upstreamThrottlingData?.logStatusChange})
+                }}),
+                ...((this.backendData?.upstreamResponseData?.regexConReplacerActive || this.backendData?.upstreamPoliciesData?.isResSchValidatorActive) &&{"plugin/req-resp-modifier": {
+                  "name": [
+                    this.backendData?.upstreamResponseData?.regexConReplacerActive && 'content-replacer',
+                    this.backendData?.upstreamPoliciesData?.isResSchValidatorActive && 'response-schema-validator'
+                  ].filter(Boolean),
+                  ...(this.backendData?.upstreamResponseData?.regexConReplacerActive &&{"content-replacer": this.backendData?.upstreamResponseData?.contentReplacer}),
+                  ...(this.backendData?.upstreamPoliciesData?.isResSchValidatorActive &&{"response-schema-validator": {
+                "schema": this.backendData?.upstreamPoliciesData?.responseSchema,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.resSchemaValErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.resSchemaValErrorMsg
+                }
+              }})
+                }}),
+               ...(this.backendData?.upstreamThrottlingData?.isProxyRateLimitActive &&{"qos/ratelimit/proxy": {
+                  "max_rate": this.backendData?.upstreamThrottlingData?.maxRateLimit,
+                  "capacity": this.backendData?.upstreamThrottlingData?.capacity,
+                  "every": this.backendData?.upstreamThrottlingData?.every
+                }}),
+                ...(this.backendData?.upstreamResponseData?.isCachingActive &&{"qos/http-cache": {
+                  "shared": this.backendData?.upstreamResponseData?.isSharedCacheActive
+                }}),
+                ...(this.backendData?.upstreamAuthData?.isAuthActive &&{"auth/client-credentials": {
+              "endpoint_params": {
+                "5t": "ji"
               },
-              "response_naming_convention": null,
-              "output_enum_as_string": true,
-              "output_timestamp_as_string": true,
-              "output_duration_as_string": true,
-              "client_tls": {
-                "allow_insecure_connections": true
+              ...(this.backendData?.upstreamAuthData?.clientId &&{"client_id": this.backendData?.upstreamAuthData?.clientId}),
+              ...(this.backendData?.upstreamAuthData?.clientSecret &&{"client_secret": this.backendData?.upstreamAuthData?.clientSecret}),
+              ...(this.backendData?.upstreamAuthData?.tokenUrl &&{"token_url": this.backendData?.upstreamAuthData?.tokenUrl}),
+              ...(this.backendData?.upstreamAuthData?.scopes &&{"scopes": this.backendData?.upstreamAuthData?.scopes})
+            }}),
+            ...(this.backendData?.upstreamAuthData?.isGoogleCloudActive &&{"auth/gcp": {
+              ...(this.backendData?.upstreamAuthData?.audience &&{"audience": this.backendData?.upstreamAuthData?.audience})
+            }}),
+            ...(this.backendData?.isNtlmAuthActive &&{"auth/ntlm": {
+              "user": "g",
+              "password": "yu"
+            }}),
+            ...(this.backendData?.upstreamPoliciesData?.isSecPolicyActive &&{"security/policies": {
+              "req": {
+                "policies": this.backendData?.upstreamPoliciesData?.secReqPolicyArrayValue,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.secReqErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.secReqErrorBody,
+                  "content_type": this.backendData?.upstreamPoliciesData?.secReqErrorContentType
+                }
               },
-              "output_remove_unset_values": true,
-              "use_request_body": true
-            },
-            "backend/static-filesystem": {
-              "directory_listing": true,
-              "path": null
-            }
-          },
+              "resp": {
+                "policies": this.backendData?.upstreamPoliciesData?.secResPolicyArrayValue,
+                "error": {
+                  "status": this.backendData?.upstreamPoliciesData?.secResErrorStCode,
+                  "body": this.backendData?.upstreamPoliciesData?.secResErrorBody,
+                  "content_type": this.backendData?.upstreamPoliciesData?.secResErrorContentType
+                }
+              },
+              "jwt": {
+                "policies": this.backendData?.upstreamPoliciesData?.jwtReqPolicyArrayValue
+              },
+              "debug": this.backendData?.upstreamPoliciesData?.enableDebug,
+              "auto_join_policies": this.backendData?.upstreamPoliciesData?.autoJoinPolicies,
+              "disable_macros": this.backendData?.upstreamPoliciesData?.disableMacros
+            }}),
+                ...(this.backendData?.upstreamConnectivityData?.isRestToGraphqlActive &&{"backend/graphql": {
+                  ...(this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm &&{"type": this.backendData?.upstreamConnectivityData?.restTographQLOpTypeForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm &&{"query": this.backendData?.upstreamConnectivityData?.restTographQLInlineQueryForm}),
+                  "variables": {},
+              ...(this.backendData?.upstreamConnectivityData?.restToGraphqlOpNameForm &&{"operationName": this.backendData?.upstreamConnectivityData?.restToGraphqlOpNameForm}),
+              ...(this.backendData?.upstreamConnectivityData?.restTographQLQueryPathForm &&{"query_path": this.backendData?.upstreamConnectivityData?.restTographQLQueryPathForm}),
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isRestToSoapActive &&{"backend/soap": {
+                  "@comment": null,
+                  "template": "",
+              "content_type": this.backendData?.upstreamConnectivityData?.contentTypeRestToSoap,
+              "debug": this.backendData?.upstreamConnectivityData?.enableDebugRestToSoap,
+                  "path": this.backendData?.upstreamConnectivityData?.pathRestToSoapForm
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isrestToGRPCActive &&{"backend/grpc": {
+                  ...(this.backendData?.upstreamConnectivityData?.objectMapValue &&{"input_mapping": inputMapObj}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm &&{"response_naming_convention": this.backendData?.upstreamConnectivityData?.restTogrpcResNamingConventionForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm &&{"output_enum_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcEnumsAsStrgsForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm &&{"output_timestamp_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcTimestmpAsStrgsForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm &&{"output_duration_as_string": this.backendData?.upstreamConnectivityData?.restTogrpcDurationAsStrgsForm}),
+                  // "client_tls": {
+                  //   "allow_insecure_connections": true
+                  // },
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm &&{"output_remove_unset_values": this.backendData?.upstreamConnectivityData?.restTogrpcRemoveUnsetValForm}),
+                  ...(this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm &&{"use_request_body": this.backendData?.upstreamConnectivityData?.restTogrpcUseReqBodyForm})
+                }}),
+                ...(this.backendData?.upstreamConnectivityData?.isHttpClientSettingActive &&{"backend/http/client": {
+              ...(this.backendData?.upstreamConnectivityData?.connectvWebProxyForm &&{"proxy_address": this.backendData?.upstreamConnectivityData?.connectvWebProxyForm}),
+              "no_redirect": this.backendData?.upstreamConnectivityData?.donotFollowRedirectsForm
+            }}),
+                ...(this.backendData?.upstreamRequestData?.isStaticServerActive &&{"backend/static-filesystem": {
+                  "directory_listing": this.backendData?.upstreamRequestData?.directory_Listing,
+                  ...(this.backendData?.upstreamRequestData?.staticUrl &&{"path": this.backendData?.upstreamRequestData?.staticUrl})
+                }}),
+                ...(this.backendData?.upstreamRequestData?.isBodymanipulationActive &&{"modifier/body-generator": {
+              ...(this.backendData?.upstreamRequestData?.bodyEditor &&{"template": this.backendData?.upstreamRequestData?.bodyEditor}),
+              ...(this.backendData?.upstreamRequestData?.contentType &&{"content_type": this.backendData?.upstreamRequestData?.contentType}),
+              ...(this.backendData?.upstreamRequestData?.debug &&{"debug": this.backendData?.upstreamRequestData?.debug}),
+              ...(this.backendData?.upstreamRequestData?.path &&{"path": this.backendData?.upstreamRequestData?.path})
+            }}),
+            ...( this.backendData?.upstreamRequestData?.isMartianActive &&{"modifier/martian": this.backendData?.upstreamRequestData?.martianDslTextarea}),
+            ...(this.backendData?.upstreamResponseData?.AdvResManipulationActive &&{"modifier/jmespath": {
+              "expr": this.backendData?.upstreamResponseData?.expression
+            }}),
+            ...(this.backendData?.upstreamResponseData?.resManiWithGoTemplActive &&{"modifier/response-body-generator": {
+              ...(this.backendData?.upstreamResponseData?.contentType &&{"content_type": this.backendData?.upstreamResponseData?.contentType}),
+              ...(this.backendData?.upstreamResponseData?.debug &&{"debug": this.backendData?.upstreamResponseData?.debug}),
+              ...(this.backendData?.upstreamResponseData?.path &&{"path": this.backendData?.upstreamResponseData?.path}),
+              ...(this.backendData?.upstreamResponseData?.template &&{"template": this.backendData?.upstreamResponseData?.template})
+            }})
+              },
           "target": null,
           "method": this.backendData?.upstreamRequestData?.method,
           "deny": [
@@ -502,91 +720,148 @@ export class ViewapipageComponent {
       ],
       "extra_config": {
         "id": this.receivedData?.extra_config?.id,
-        "documentation/openapi": {
-          "summary": this.openApiData?.summary,
-          "description": this.openApiData?.description,
-          "tags": [
-            ''
-          ]
-        },
-        "modifier/jmespath": {
-          "@comment": null,
-          "expr": null
-        },
-        "security/policies": {
+        ...(this.openApiData?.isDocumentationActive && {"documentation/openapi": {
+          ...(this.openApiData?.summary &&{"summary": this.openApiData?.summary}),
+          ...(this.openApiData?.description &&{"description": this.openApiData?.description}),
+          ...(this.openApiData?.tagsArrayValue.length!=0 &&{"tags": this.openApiData?.tagsArrayValue})
+        }}),
+        ...(this.responseData?.isAdvanceResponseActive &&{"modifier/jmespath": {
+          // "@comment": null,
+          ...(this.responseData?.expression &&{"expr": this.responseData?.expression})
+        }}),
+        ...(this.policiesData?.isSpFilterActive &&{"security/policies": {
           "req": {
-            "policies": this.policiesData?.secReqPolicyArrayValue,
+                "policies": this.policiesData?.secReqPolicyArrayValue,
+                "error": {
+                  "body": this.policiesData?.secReqErrorBody,
+                  "status": this.policiesData?.secReqErrorStCode
+                }
+              },
+          "resp": {
+            "policies": this.policiesData?.secResPolicyArrayValue,
             "error": {
-              "body": this.policiesData?.secReqErrorBody,
-              "status": this.policiesData?.secReqErrorStCode
+              "status": this.policiesData?.secResErrorStCode,
+              "body": this.policiesData?.secResErrorBody,
+              "content_type": this.policiesData?.secResErrorContentType
             }
-          }
-        },
-        "qos/ratelimit/router": {
-          "max_rate": this.throttlingData?.rateLimit
-        },
-        "proxy": {
-          "sequential": true,
-          "static": {
-            "data": this.responseData?.response,
-            "strategy": this.responseData?.strategy
-          }
-        },
+          },
+          "jwt": {
+            "policies": this.policiesData?.jwtReqPolicyArrayValue
+          },
+          "debug": this.policiesData?.enableDebug,
+          "auto_join_policies": this.policiesData?.autoJoinPolicies,
+          "disable_macros": this.policiesData?.disableMacros
+        }}),
+            ...(this.throttlingData?.isEndPointRateLimitEnabledActive &&{"qos/ratelimit/router": {
+              ...(this.throttlingData?.rateLimit &&{"max_rate": this.throttlingData?.rateLimit}),
+              ...(this.throttlingData?.defaultUserQuota &&{"client_max_rate": this.throttlingData?.defaultUserQuota}),
+              "strategy": "ip",
+              ...(this.throttlingData?.capacity &&{"capacity": this.throttlingData?.capacity}),
+              ...(this.throttlingData?.every &&{"every": this.throttlingData?.every}),
+              ...(this.throttlingData?.clientCapacity &&{"client_capacity": this.throttlingData?.clientCapacity})
+            }}),
+            ...(this.throttlingData?.isRedisRateLimitEnabledActive &&{"plugin/http-server": {
+          "name": [
+            this.throttlingData?.isRedisRateLimitEnabledActive && "redis-ratelimit"
+          ].filter(Boolean),
+          ...(this.throttlingData?.isRedisRateLimitEnabledActive &&{"redis-ratelimit": {
+            ...(this.throttlingData?.address &&{"Host": this.throttlingData?.address}),
+            ...(this.throttlingData?.tokenizer &&{"Tokenizer": this.throttlingData?.tokenizer}),
+            ...(this.throttlingData?.burst &&{"Burst": this.throttlingData?.burst}),
+            ...(this.throttlingData?.rate &&{"Rate": this.throttlingData?.rate}),
+            ...(this.throttlingData?.periods &&{"Period": this.throttlingData?.periods}),
+            ...(this.throttlingData?.tokenizerField &&{"TokenizerField": this.throttlingData?.tokenizerField})
+          }})
+        }}),
+       "proxy": {
+              "sequential": this.connectivityData?.isSequencialActive,
+              ...(this.responseData?.isStaticResponseActive &&{"static": {
+                "data": this.responseData?.response,
+                "strategy": this.responseData?.strategy
+              }})
+            },
+            ...((this.responseData?.regexConReplacerActive || this.policiesData?.isResponseSchValidatorFiltrActive || this.throttlingData?.isIpFilterEnabledActive) &&{"plugin/req-resp-modifier": {
+              "name": [
+                this.responseData?.regexConReplacerActive && "content-replacer",
+                this.policiesData?.isResponseSchValidatorFiltrActive && "response-schema-validator",
+                this.throttlingData?.isIpFilterEnabledActive && "ip-filter"
+              ].filter(Boolean),
+              ...(this.responseData?.regexConReplacerActive &&{"content-replacer": this.responseData?.contentReplacer}),
+              ...(this.policiesData?.isResponseSchValidatorFiltrActive && {"response-schema-validator": {
+            "schema": this.policiesData?.resJSONSchema,
+            "error": {
+              "status": this.policiesData?.resSchemaValErrorStCode,
+              "body": this.policiesData?.resSchemaValErrorMsg
+            }
+          }}),
+          ...(this.throttlingData?.isIpFilterEnabledActive&& {"ip-filter": {
+            ...(this.throttlingData?.allowModeActive &&{"allow": this.throttlingData?.allowModeActive}),
+            ...(this.throttlingData?.clientIPHeadersArrayValue.length!=0 &&{"client_ip_headers": this.throttlingData?.clientIPHeadersArrayValue}),
+            ...(this.throttlingData?.cidrArrayValue.length!=0 &&{"CIDR": this.throttlingData?.cidrArrayValue}),
+            ...(this.throttlingData?.trustedProxiesArrayValue.length!=0 &&{"trusted_proxies": this.throttlingData?.trustedProxiesArrayValue})
+          }})
+            }}),
+            ...(this.responseData?.isAdvanceResponseGoActive &&{"modifier/response-body-generator": {
+          "template": this.responseData?.bodyEditor,
+          "content_type": this.responseData?.contentType,
+          "debug": this.responseData?.debug
+        }}),
+        ...(this.policiesData?.isRequestSchValidatorFiltrActive &&{"validation/json-schema": this.policiesData?.reqJSONSchema}),
         "@comment": null,
-        "auth/basic": {
+        ...(this.authPageData?.isBasicAuthActive &&{"auth/basic": {
           "@comment": null,
           "htpasswd_path": null
-        },
+        }}),
         "validation/cel": [
           {
             "id": this.receivedData?.extra_config?.["validation/cel"]?.[0]?.id,
             "check_expr": null
           }
         ],
-        "auth/validator": {
-          "alg": this.authPageData?.algorithm,
-          "audience": this.authPageData?.audienceArrayValue,
-          "roles_key": this.authPageData?.rolesKey,
-          "roles": this.authPageData?.rolesArrayValue,
-          "jwk_url": this.authPageData?.jwkUri,
-          "issuer": this.authPageData?.issuer,
+        ...(this.authPageData?.isTokenValidationActive &&{"auth/validator": {
+          ...(this.authPageData?.algorithm &&{"alg": this.authPageData?.algorithm}),
+          ...(this.authPageData?.audienceArrayValue.length!=0 &&{"audience": this.authPageData?.audienceArrayValue}),
+          ...(this.authPageData?.rolesKey &&{"roles_key": this.authPageData?.rolesKey}),
+          ...(this.authPageData?.rolesArrayValue.length!=0 &&{"roles": this.authPageData?.rolesArrayValue}),
+          ...(this.authPageData?.jwkUri &&{"jwk_url": this.authPageData?.jwkUri}),
+          ...(this.authPageData?.issuer &&{"issuer": this.authPageData?.issuer}),
           "jwk_local_path": null,
-          "disable_jwk_security": true
-        },
-        "auth/signer": {
-          "alg": this.authPageData?.tokenSignAlgorithm,
-          "kid": this.authPageData?.keyId,
-          "keys_to_sign": this.authPageData?.keysToSignArrayValue,
-          "jwk_local_path": null,
-          "disable_jwk_security": true
-        },
+          ...(this.authPageData?.isDisableJWKSecActive &&{"disable_jwk_security": this.authPageData?.isDisableJWKSecActive})
+        }}),
+        ...(this.authPageData?.isTokenSigningActive &&{"auth/signer": {
+          ...(this.authPageData?.tokenSignAlgorithm &&{"alg": this.authPageData?.tokenSignAlgorithm}),
+          ...(this.authPageData?.keyId &&{"kid": this.authPageData?.keyId}),
+          ...(this.authPageData?.keysToSignArrayValue.length!=0 &&{"keys_to_sign": this.authPageData?.keysToSignArrayValue}),
+          // "jwk_local_path": null,
+          // "disable_jwk_security": true
+        }}),
         "auth/api-keys": {
           "roles": [
             ''
           ]
         },
-        "websocket": {
-          "input_headers": this.connectivityData?.inputHeaderArray,
-          "connect_event": this.connectivityData?.connectEvent,
-          "disconnect_event": this.connectivityData?.disconnectEvent,
-          "read_buffer_size": this.connectivityData?.readBufferSize,
-          "write_buffer_size": this.connectivityData?.writeBufferSize,
-          "message_buffer_size": this.connectivityData?.messageBufferSize,
-          "max_message_size": this.connectivityData?.maxWriteBufferSize,
-          "write_wait": this.connectivityData?.writeWait,
-          "pong_wait": this.connectivityData?.pongWait,
-          "ping_period": null,
-          "max_retries": this.connectivityData?.maxRetries,
-          "backoff_strategy": this.connectivityData?.backoffStrategy,
-          "enable_direct_communication": true,
-          "return_error_details": this.connectivityData?.returnErr,
-          "timeout": null
-        }
+        ...(this.connectivityData?.isWebSocketActive &&{"websocket": {
+          ...(this.connectivityData?.inputHeaderArray.length!=0&&{"input_headers": this.connectivityData?.inputHeaderArray}),
+          ...(this.connectivityData?.connectEvent &&{"connect_event": this.connectivityData?.connectEvent}),
+          ...(this.connectivityData?.disconnectEvent &&{"disconnect_event": this.connectivityData?.disconnectEvent}),
+          ...(this.connectivityData?.readBufferSize &&{"read_buffer_size": this.connectivityData?.readBufferSize}),
+          ...(this.connectivityData?.writeBufferSize &&{"write_buffer_size": this.connectivityData?.writeBufferSize}),
+          ...(this.connectivityData?.messageBufferSize &&{"message_buffer_size": this.connectivityData?.messageBufferSize}),
+          ...(this.connectivityData?.maxWriteBufferSize &&{"max_message_size": this.connectivityData?.maxWriteBufferSize}),
+          ...(this.connectivityData?.writeWait &&{"write_wait": this.connectivityData?.writeWait}),
+          ...(this.connectivityData?.pongWait &&{"pong_wait": this.connectivityData?.pongWait}),
+          // "ping_period": null,
+          ...(this.connectivityData?.maxRetries &&{"max_retries": this.connectivityData?.maxRetries}),
+          ...(this.connectivityData?.backoffStrategy &&{"backoff_strategy": this.connectivityData?.backoffStrategy}),
+          // "enable_direct_communication": true,
+          ...(this.connectivityData?.returnErr &&{"return_error_details": this.connectivityData?.returnErr}),
+          // "timeout": null
+        }})
       },
       "output_encoding": this.endPointData?.selectedOutput,
       "@test_with": null,
       "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
-      "concurrent_calls": 0,
+       ...(this.connectivityData?.concurrentCalls &&{"concurrent_calls": this.connectivityData?.concurrentCalls}),
       "method": this.endPointData?.selectedMethod,
       "input_query_strings": this.parameterForwardingData?.parameterArrays,
       "timeout":this.throttlingData?.timeout,

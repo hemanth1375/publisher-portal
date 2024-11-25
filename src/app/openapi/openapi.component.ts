@@ -20,15 +20,22 @@ export class OpenapiComponent {
       tags: [''],
       audiences: [''],
       example: [''],
-      isDocumentationActive:[false]
+      isDocumentationActive:[false],
+      tagsArrayValue:[[]],
+      audienceArrayValue:[[]]
     })
   }
-
+  tagsArray:string[]=[];
+  audienceArray:string[]=[];
   ngOnInit() {
     console.log(this.formData);
+    if(this.formData!=undefined){
+      this.tagsArray=this.formData?.extra_config?.["documentation/openapi"]?.tags
+    }
     this.formGroupOpenapi.patchValue({
       summary: this.formData?.extra_config?.["documentation/openapi"]?.summary,
       description: this.formData?.extra_config?.["documentation/openapi"]?.description,
+      tagsArrayValue:this.formData?.extra_config?.["documentation/openapi"]?.tags
     })
 
     this.formGroupOpenapi.valueChanges.subscribe(value => {
@@ -37,7 +44,35 @@ export class OpenapiComponent {
       this.openapiFormSubmitted.emit(value);
     });
   }
-  
+  addParameter(fieldName: 'audiences' | 'tags') {
+    const fieldValue = this.formGroupOpenapi.get(fieldName)?.value;
+console.log(fieldName);
+
+    if (fieldName) {
+      if(fieldName === 'audiences'){
+        this.audienceArray.push(fieldValue);
+        this.formGroupOpenapi.get('audienceArrayValue')?.setValue([...this.audienceArray]);
+      
+    }else if(fieldName === 'tags'){
+      this.tagsArray.push(fieldValue);
+      console.log(this.tagsArray);
+      
+      this.formGroupOpenapi.get('tagsArrayValue')?.setValue([...this.tagsArray]);
+    }
+    this.formGroupOpenapi.get(fieldName)?.reset();
+  }
+}
+  removeParameter(index: number, fieldName:'audiences' | 'tags') {
+    if(fieldName === "audiences"){
+      this.audienceArray.splice(index,1);
+      this.formGroupOpenapi.get('audienceArrayValue')?.setValue([...this.audienceArray]);
+    }else if(fieldName === 'tags'){
+      this.tagsArray.splice(index,1);
+      this.formGroupOpenapi.get('tagsArrayValue')?.setValue([...this.tagsArray]);
+    }
+  }
+
+
   saveForm() {
     if (this.formGroupOpenapi.valid) {
       this.openapiFormSubmitted.emit(this.formGroupOpenapi.value)

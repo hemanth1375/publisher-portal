@@ -37,10 +37,13 @@ export class ConnectivityOptionsComponent {
   @Output() connectivityFormSubmitted = new EventEmitter<any>();
   ngOnInit() {
     console.log(this.formData);
+    if(this.formData!=undefined){
+      this.parameterArray=this.formData?.extra_config?.websocket.input_headers
+    }
     this.formGroup1.patchValue({
       writeBufferSize: this.formData?.extra_config?.websocket.write_buffer_size,
       inputHeader: '',
-      concurrentCalls: '',
+      concurrentCalls: this.formData?.concurrent_calls,
       backoffStrategy: this.formData?.extra_config?.websocket.backoff_strategy,
       readBufferSize: this.formData?.extra_config?.websocket.read_buffer_size,
       writeWait: this.formData?.extra_config?.websocket.write_wait,

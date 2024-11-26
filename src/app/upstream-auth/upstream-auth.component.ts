@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './upstream-auth.component.html',
   styleUrl: './upstream-auth.component.css'
 })
-export class UpstreamAuthComponent {
+export class UpstreamAuthComponent implements OnInit, AfterViewInit{
 
   formGroupUpstreamAuth: FormGroup;
   @Input() formData: any;
@@ -19,7 +19,6 @@ export class UpstreamAuthComponent {
       clientSecret: [null],
       tokenUrl: [null],
       scopes: [null],
-      parameters: [null],
       audience: [null],
       user: [null],
       password: [null],
@@ -32,6 +31,13 @@ export class UpstreamAuthComponent {
 
       
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.formGroupUpstreamAuth.valueChanges.subscribe(value => {
+      console.log(value);
+      this.upstreamAuthFormSubmitted.emit(value); // Emit form data on every change
+    });
   }
 
   addParameter(fieldName:'endpoint_params') {
@@ -80,13 +86,21 @@ getMapFromControl(): Map<string, string> {
 }
 
   ngOnInit() {
-    console.log(this.formData);
-
-    this.formGroupUpstreamAuth.valueChanges.subscribe(value => {
-      console.log(value);
-
-      this.upstreamAuthFormSubmitted.emit(value); // Emit form data on every change
-    });
+    this.formGroupUpstreamAuth.patchValue({
+      clientId: this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"]?.client_id,
+      clientSecret: this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"]?.client_secret,
+      tokenUrl: this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"]?.token_url,
+      scopes: this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"]?.scopes,
+      audience: this.formData?.backend?.[0]?.extra_config?.["auth/gcp"]?.audience,
+      user: this.formData?.backend?.[0]?.extra_config?.["auth/ntlm"]?.user,
+      password: this.formData?.backend?.[0]?.extra_config?.["auth/ntlm"]?.password,
+      isAuthActive:!!this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"],
+      isGoogleCloudActive:!!this.formData?.backend?.[0]?.extra_config?.["auth/gcp"],
+      isNtlmAuthActive:!!this.formData?.backend?.[0]?.extra_config?.["auth/ntlm"],
+      // objectMapValue:this.formData?.backend?.[0]?.extra_config?.["auth/client-credentials"]?.endpoint_params,
+      endpointValue:'',
+      endpointKey:'',
+    })
   }
 
   saveForm() {

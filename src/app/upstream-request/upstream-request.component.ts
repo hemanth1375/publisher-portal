@@ -55,7 +55,18 @@ export class UpstreamRequestComponent implements AfterViewInit , OnInit{
       decodeAs:this.formData?.backend?.[0]?.encoding,
       staticUrl:this.formData?.backend?.[0]?.path,
       directory_Listing:this.formData?.backend?.[0]?.directory_Listing,
-      hostArrayValue:this.formData?.backend?.[0]?.host
+      hostArrayValue:this.formData?.backend?.[0]?.host,
+      isStaticServerActive:!!this.formData?.backend?.[0]?.extra_config?.['backend/static-filesystem'],
+      isBodymanipulationActive:!!this.formData?.backend?.[0]?.extra_config?.['modifier/body-generator'],
+      isMartianActive:!!this.formData?.backend?.[0]?.extra_config?.['modifier/martian'],
+      sanitization:this.formData?.backend?.[0]?.disable_host_sanitize,
+      // bodyEditor:'',
+      template:this.formData?.backend?.[0]?.extra_config?.['modifier/body-generator']?.template,
+      contentType:this.formData?.backend?.[0]?.extra_config?.['modifier/body-generator']?.content_type,
+      debug:this.formData?.backend?.[0]?.extra_config?.['modifier/body-generator']?.debug,
+      path:this.formData?.backend?.[0]?.extra_config?.['modifier/body-generator']?.path,
+      martianDslTextarea:this.formData?.[0]?.extra_config?.['modifier/martian'],
+      host:'',
 
     });
 

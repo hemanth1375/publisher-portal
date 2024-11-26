@@ -312,7 +312,7 @@ const body= {
       ...(this.upstreamRequestData?.staticUrl &&{"path": this.upstreamRequestData?.staticUrl})
     }}),
     ...(this.upstreamRequestData?.isBodymanipulationActive &&{"modifier/body-generator": {
-  ...(this.upstreamRequestData?.bodyEditor &&{"template": this.upstreamRequestData?.bodyEditor}),
+  ...(this.upstreamRequestData?.template &&{"template": this.upstreamRequestData?.template}),
   ...(this.upstreamRequestData?.contentType &&{"content_type": this.upstreamRequestData?.contentType}),
   ...(this.upstreamRequestData?.debug &&{"debug": this.upstreamRequestData?.debug}),
   ...(this.upstreamRequestData?.path &&{"path": this.upstreamRequestData?.path})
@@ -335,7 +335,7 @@ const body= {
   ],
   "@comment": null,
   "@test_with": null,
-  "disable_host_sanitize": true
+  "disable_host_sanitize": this.upstreamRequestData?.sanitization
 }
 
 if(this.formData?.backend?.[0].id){

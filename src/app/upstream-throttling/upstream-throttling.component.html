@@ -1,107 +1,125 @@
 <div class="container">
-    <div class="row">
-        <form [formGroup]="formGroupUpstreamThrottling">
-    <div class="row">
+  <div class="row">
+    <form [formGroup]="formGroupUpstreamThrottling">
+      <div class="row">
         <h3>Control and limit the interaction between KrakenD and your service.</h3>
         <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-            <div>
-                <h3>Circuit Breaker</h3>
-            </div>
-            <div>
-                <mat-slide-toggle formControlName="isCircuitBreakerActive"></mat-slide-toggle>
-            </div>
+          <div>
+            <h3>Circuit Breaker</h3>
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="isCircuitBreakerActive"></mat-slide-toggle>
+          </div>
         </div>
-        
-            @if(!formGroupUpstreamThrottling.value.isCircuitBreakerActive){
-          <p>Watches the state of the connections to your backend and when it sees more than the configured number of consecutive failures within an interval it stops temporarily all the interaction with the backend.
-          </p>
+
+        @if(!formGroupUpstreamThrottling.value.isCircuitBreakerActive){
+        <p>Watches the state of the connections to your backend and when it sees more than the configured number of
+          consecutive failures within an interval it stops temporarily all the interaction with the backend.
+        </p>
         }@else{
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Name</label>
-                      <input type="text" class="form-control" id="name" formControlName="circuitBreakerName">
-                      <div class="form-text">How this circuit breaker is shown in the logging.</div>
-                    </div>
-                  </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="maxerr" class="form-label">Maximum Errors</label>
-                      <input type="number" class="form-control" id="maxerr" formControlName="maxError">
-                      <div class="form-text">Consecutive failures from the backend to stop sending traffic to it</div>
-                    </div>
-                  </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="inteval" class="form-label">Interval</label>
-                      <input type="number" class="form-control" id="interval" formControlName="interval">
-                      <div class="form-text">Time window where this circuit breaker counts errors</div>
-                    </div>
-                  </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="timeout" class="form-label">Timeout</label>
-                      <input type="number" class="form-control" id="timeout" formControlName="timeout">
-                      <div class="form-text">Time to wait before stressing again a failing backend</div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <!-- <label class="form-label">Resolution</label> -->
-                      <div class="form-check mt-4">
-                        <input class="form-check-input" type="checkbox" value="" id="logState" formControlName="logStatusChange">
-                        <label class="form-check-label" for="logState">
-                          Log state changes
-                        </label>
-                      </div>
-                      <div  class="form-text">Write in the logs when the circuit changes its state (open/closed).</div>
-                      
-                    </div>
-                  </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" formControlName="circuitBreakerName">
+              <div class="form-text">How this circuit breaker is shown in the logging. <br>
+                A friendly name to follow this circuit breaker's activity in the logs.
+                <br>Example: "cb-backend-1"
+              </div>
             </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="maxerr" class="form-label">Maximum Errors</label>
+              <input type="number" class="form-control" id="maxerr" formControlName="maxError"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('maxError')?.invalid">
+              <div class="form-text">Consecutive failures from the backend to stop sending traffic to it</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="inteval" class="form-label">Interval</label>
+              <input type="number" class="form-control" id="interval" formControlName="interval"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('interval')?.invalid">
+              <div class="form-text">Time window where this circuit breaker counts errors</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="timeout" class="form-label">Timeout</label>
+              <input type="number" class="form-control" id="timeout" formControlName="timeout"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('timeout')?.invalid">
+              <div class="form-text">Time to wait before stressing again a failing backend</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <!-- <label class="form-label">Resolution</label> -->
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" value="" id="logState"
+                  formControlName="logStatusChange">
+                <label class="form-check-label" for="logState">
+                  Log state changes
+                </label>
+              </div>
+              <div class="form-text">Write in the logs when the circuit changes its state (open/closed).</div>
+
+            </div>
+          </div>
+        </div>
         }
-    </div>
-    <hr>
-    <div class="row">
+      </div>
+      <hr>
+      <div class="row">
         <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-            <div>
-                <h3>Proxy Rate limit</h3>
-            </div>
-            <div>
-                <mat-slide-toggle formControlName="isProxyRateLimitActive"></mat-slide-toggle>
-            </div>
+          <div>
+            <h3>Proxy Rate limit</h3>
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="isProxyRateLimitActive"></mat-slide-toggle>
+          </div>
         </div>
         @if(!formGroupUpstreamThrottling.value.isProxyRateLimitActive){
-            <p>Limits the number of requests KrakenD can do to your backend service /</p>
+        <p>Limits the number of requests KrakenD can do to your backend service /</p>
         }@else{
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="maxRateLimit" class="form-label">MaxRateLimit</label>
-                      <input type="number" class="form-control" id="maxRateLimit" formControlName="maxRateLimit">
-                      <div class="form-text">Maximum requests you want to let this backend handle in the specified time (every)</div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="every" class="form-label">Every</label>
-                      <input type="text" class="form-control" id="every" formControlName="every">
-                      <div class="form-text">Time window where this rate limit applies.</div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="capacity" class="form-label">Capacity(Burst size)</label>
-                      <input type="number" class="form-control" id="capacity" formControlName="capacity">
-                      <div class="form-text">Recommended value capacity=max_rate. A token bucket algorithm is used with a bucket capacity == tokens added per second. KrakenD is able to allow bursting on the request rates.</div>
-                    </div>
-                  </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="maxRateLimit" class="form-label">MaxRateLimit</label>
+              <input type="number" class="form-control" id="maxRateLimit" formControlName="maxRateLimit"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('maxRateLimit')?.invalid">
+              <div class="form-text">Maximum requests you want to let this backend handle in the specified time (every)
+              </div>
             </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="every" class="form-label">Every</label>
+              <input type="text" class="form-control" id="every" formControlName="every"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('every')?.invalid && formGroupUpstreamThrottling.get('every')?.touched">
+              <div class="invalid-feedback"
+                *ngIf="formGroupUpstreamThrottling.get('every')?.errors?.['pattern'] && formGroupUpstreamThrottling.get('every')?.touched">
+                The amount of time you want to assign followed by its unit (e.g.: `2s`, `200ms`). <br> Valid time units
+                are: ns, us, (or µs), ms, s, m, h.
+              </div>
+              <div class="form-text">Time window where this rate limit applies.</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="capacity" class="form-label">Capacity(Burst size)</label>
+              <input type="number" class="form-control" id="capacity" formControlName="capacity"
+                [class.is-invalid]="formGroupUpstreamThrottling.get('capacity')?.invalid">
+              <div class="form-text">Recommended value capacity=max_rate. A token bucket algorithm is used with a bucket
+                capacity == tokens added per second. KrakenD is able to allow bursting on the request rates.</div>
+            </div>
+          </div>
+        </div>
         }
         <div class="col-sm-12 d-flex justify-content-end">
-            <!-- <button mat-raised-button color="primary" (click)="saveForm()">Save</button> -->
+          <!-- <button mat-raised-button color="primary" (click)="saveForm()">Save</button> -->
         </div>
-    </div>
-</form>
-</div>
+      </div>
+    </form>
+  </div>
 </div>

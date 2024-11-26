@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-upstream-throttling',
@@ -15,19 +15,19 @@ export class UpstreamThrottlingComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupUpstreamThrottling = formBuilder.group({
-      isCircuitBreakerActive:[false],
-      isProxyRateLimitActive:[false],
+      isCircuitBreakerActive: [false],
+      isProxyRateLimitActive: [false],
       circuitBreakerName: [null],
-      maxError: [null],
-      interval: [null],
-      timeout: [null],
-      maxRateLimit: [null],
-      every: [null],
-      capacity: [null],
+      maxError: ['', Validators.required],
+      interval: ['', Validators.required],
+      timeout: ['', Validators.required],
+      maxRateLimit: ['', Validators.required],
+      every: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
+      capacity: ['', Validators.required],
       logStatusChange: [false]
     })
   }
-  
+
   ngAfterViewInit(): void {
     this.formGroupUpstreamThrottling.valueChanges.subscribe(value => {
       console.log(value);
@@ -46,9 +46,19 @@ export class UpstreamThrottlingComponent implements OnInit, AfterViewInit {
       every: [null],
       capacity: this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"]?.capacity,
       logStatusChange: this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.log_status_change,
-      isCircuitBreakerActive:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"],
-      isProxyRateLimitActive:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"],
+      isCircuitBreakerActive: this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"],
+      isProxyRateLimitActive: this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"],
     })
+    this.formGroupUpstreamThrottling.get('maxError')?.setValue(1);
+    this.formGroupUpstreamThrottling.get('interval')?.setValue(60);
+    this.formGroupUpstreamThrottling.get('timeout')?.setValue(10);
+    this.formGroupUpstreamThrottling.get('maxRateLimit')?.setValue(10);
+
+    this.formGroupUpstreamThrottling.get('capacity')?.setValue(10);
+
+
+
+
   }
 
   onToggleChangeStaticResponse(event: any, id: any) {

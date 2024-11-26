@@ -4,47 +4,52 @@
             <h1>Endpoint</h1>
             <p>Endpoints are the paths of the API contract you are about to create for someone else to rely on.</p>
             <form [formGroup]="formGroupEndPoint">
-            <div class="row">
-                <div class="col-sm-12 col-md-4">
-                    <label for="endPoint" class="form-label">Krakend Endpoint</label>
-                    <input type="text" class="form-control" id="endPoint" placeholder="endpoint" formControlName="endPointUri"
-                    [class.is-invalid]="formGroupEndPoint.get('endPointUri')?.invalid" />
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <label for="endPoint" class="form-label">Krakend Endpoint</label>
+                        <input type="text" class="form-control" id="endPoint" placeholder="endpoint"
+                            formControlName="endPointUri"
+                            [class.is-invalid]="formGroupEndPoint.get('endPointUri')?.invalid" />
                         <div *ngIf="formGroupEndPoint.get('endPointUri')?.invalid" class="text-danger">
                             Endpoint is required !
                         </div>
-                    <div id="endpointHelp" class="form-text">This is the URI your clients will connect to. Must start with slash. Use curly braces to insert &#123;endpoint_parameters&#125; that can be passed to the backends. URLs ending in /* are treated as wildcards.</div>
-                  </div>
-                  <div class="col-sm-12 col-md-4">
-                    <label for="method" class="form-label">Method</label>
-                    <select class="form-select" aria-label="Default select example" id="method" formControlName="selectedMethod">
-                        <option selected>Select Method</option>
-                        <option value="GET">GET</option>
-                        <option value="POST">POST</option>
-                        <option value="PUT">PUT</option>
-                        <option value="PATCH">PATCH</option>
-                        <option value="DELETE">DELETE</option>
-                      </select>
-                    <div id="methodHelp" class="form-text">Method</div>
+                        <div id="endpointHelp" class="form-text">This is the URI your clients will connect to. Must
+                            start with slash. Use curly braces to insert &#123;endpoint_parameters&#125; that can be
+                            passed to the backends. URLs ending in /* are treated as wildcards.</div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label for="method" class="form-label">Method</label>
+                        <select class="form-select" aria-label="Default select example" id="method"
+                            formControlName="selectedMethod">
+                            <option selected>Select Method</option>
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="PATCH">PATCH</option>
+                            <option value="DELETE">DELETE</option>
+                        </select>
+                        <div id="methodHelp" class="form-text">Method</div>
 
-                  </div>
-                  <div class="col-sm-12 col-md-4">
-                    <label for="outputJson" class="form-label">Output</label>
-                    <select class="form-select" aria-label="Default select example" id="outputJson" formControlName="selectedOutput">
-                        <option selected>Select Output</option>
-                        <option value="JSON Object">JSON Object</option>
-                        <option value="JSON Array">JSON Array</option>
-                        <option value="Fast JSON(EE)">Fast JSON(EE)</option>
-                        <option value="Negotiate content">Negotiate content</option>
-                        <option value="String(text/plain)">String(text/plain)</option>
-                        <option value="No-op(just proxy)">No-op(just proxy)</option>
-                      </select>
-                      <div id="outputHelp" class="form-text">Encode response as...</div>
-                  </div>
-                  
-            </div>
-        </form>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label for="outputJson" class="form-label">Output</label>
+                        <select class="form-select" aria-label="Default select example" id="outputJson"
+                            formControlName="selectedOutput">
+                            <option selected>Select Output</option>
+                            <option value="json" selected="selected">JSON object</option>
+                            <option value="json-collection">JSON array</option>
+                            <option value="fast-json">Fast JSON (EE)</option>
+                            <option value="negotiate">Negotiate content</option>
+                            <option value="string">String (text/plain)</option>
+                            <option value="no-op">No-op (just proxy)</option>
+                        </select>
+                        <div id="outputHelp" class="form-text">Encode response as...</div>
+                    </div>
+
+                </div>
+            </form>
         </div>
-<!-- <div class="col-sm-12 mt-2 d-flex justify-content-end">
+        <!-- <div class="col-sm-12 mt-2 d-flex justify-content-end">
     <button mat-raised-button color="primary" (click)="submitForm()">Save</button>
 </div> -->
     </div>

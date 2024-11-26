@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedDataService } from '../services/shared-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-telemetry',
@@ -16,7 +17,7 @@ export class TelemetryComponent {
 
   TelemertyFormGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private sharedService: SharedDataService) {
+  constructor(private fb: FormBuilder, private sharedService: SharedDataService, private _snackBar: MatSnackBar) {
     this.TelemertyFormGroup = this.fb.group({
       isLoggingActive: [false],
       logginngLevel: [],
@@ -99,7 +100,9 @@ export class TelemetryComponent {
       newRelicLicense: [],
       newRelicSDKDebug: [false],
       headersToPass: [],
-      headersToPassArrayValue: [[]]
+      headersToPassArrayValue: [[]],
+      openTelId:[null],
+      openTelExporterId:[null]
     });
 
   }
@@ -202,13 +205,24 @@ export class TelemetryComponent {
       newRelicLicense: this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.license,
       newRelicSDKDebug: this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.debug,
       // headersToPass: [],
-      headersToPassArrayValue: this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.headers_to_pass
+      headersToPassArrayValue: this.entireJsonData?.extra_config?.["telemetry/newrelic"]?.headers_to_pass,
+      openTelId:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.id,
+      openTelExporterId:this.entireJsonData?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id
     })
   }
   emitValue() {
     console.log(this.TelemertyFormGroup.value);
-
-    this.sharedService.setTelemetryData(this.TelemertyFormGroup.value)
+if(this.TelemertyFormGroup.valid){
+  this.sharedService.setTelemetryData(this.TelemertyFormGroup.value)
+  this._snackBar.open('Saved Successfully', 'OK', {
+    duration: 3000
+  });
+}else{
+  this._snackBar.open('Please fill required details', 'OK', {
+    duration: 3000
+  });
+}
+    
   }
   addParameter(fieldName: 'label' | 'datadogTag' | 'globalTag' | 'header' | 'headersToPass') {
     const fieldValue = this.TelemertyFormGroup.get(fieldName)?.value;
@@ -301,9 +315,10 @@ export class TelemetryComponent {
     const mapArray = this.TelemertyFormGroup.get('objectMapValue')?.value || [];
     return new Map(mapArray);
   }
-
+ 
   createOtlpConfigGroup(): FormGroup {
     return this.fb.group({
+      id:null,
       name: ['otlp_exporter', Validators.required],
       host: ['otlp.yourprovider.net', Validators.required],
       port: [4317, Validators.required],
@@ -315,6 +330,7 @@ export class TelemetryComponent {
 
   createPrometheusConfigGroup(): FormGroup {
     return this.fb.group({
+      id:null,
       name: [],
       port: []
     })

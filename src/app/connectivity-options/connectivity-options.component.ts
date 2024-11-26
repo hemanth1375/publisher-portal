@@ -38,23 +38,23 @@ export class ConnectivityOptionsComponent {
   ngOnInit() {
     console.log(this.formData);
     if (this.formData != undefined) {
-      this.parameterArray = this.formData?.extra_config?.websocket.input_headers
+      this.parameterArray = this.formData?.extra_config?.websocket?.input_headers
     }
     this.formGroup1.patchValue({
-      writeBufferSize: this.formData?.extra_config?.websocket.write_buffer_size,
+      writeBufferSize: this.formData?.extra_config?.websocket?.write_buffer_size,
       inputHeader: '',
       concurrentCalls: this.formData?.concurrent_calls,
-      backoffStrategy: this.formData?.extra_config?.websocket.backoff_strategy,
-      readBufferSize: this.formData?.extra_config?.websocket.read_buffer_size,
-      writeWait: this.formData?.extra_config?.websocket.write_wait,
-      maxRetries: this.formData?.extra_config?.websocket.max_retries,
-      messageBufferSize: this.formData?.extra_config?.websocket.message_buffer_size,
-      maxWriteBufferSize: this.formData?.extra_config?.websocket.max_message_size,
-      pongWait: this.formData?.extra_config?.websocket.pong_wait,
-      inputHeaderArray: this.formData?.extra_config?.websocket.input_headers,
-      connectEvent: this.formData?.extra_config?.websocket.connect_event,
-      disconnectEvent: this.formData?.extra_config?.websocket.disconnect_event,
-      returnErr: this.formData?.extra_config?.websocket.return_error_details,
+      backoffStrategy: this.formData?.extra_config?.websocket?.backoff_strategy,
+      readBufferSize: this.formData?.extra_config?.websocket?.read_buffer_size,
+      writeWait: this.formData?.extra_config?.websocket?.write_wait,
+      maxRetries: this.formData?.extra_config?.websocket?.max_retries,
+      messageBufferSize: this.formData?.extra_config?.websocket?.message_buffer_size,
+      maxWriteBufferSize: this.formData?.extra_config?.websocket?.max_message_size,
+      pongWait: this.formData?.extra_config?.websocket?.pong_wait,
+      inputHeaderArray: this.formData?.extra_config?.websocket?.input_headers,
+      connectEvent: this.formData?.extra_config?.websocket?.connect_event,
+      disconnectEvent: this.formData?.extra_config?.websocket?.disconnect_event,
+      returnErr: this.formData?.extra_config?.websocket?.return_error_details,
       isWebSocketActive: !!this.formData?.extra_config?.websocket,
       isSequencialActive: !!this.formData?.extra_config?.proxy?.sequential,
     })

@@ -22,7 +22,8 @@ export class ApiKeysComponent{
       role:[],
       rolesArrayValue:[[]],
       description:[],
-      keysArray:[[]]
+      keysArray:[[]],
+      apiKeyAuthId:[null]
     })
   }
   entireJsonData:any;
@@ -41,7 +42,8 @@ ngOnInit(){
       role:[],
       rolesArrayValue:[[]],
       description:[],
-      keysArray:this.entireJsonData?.extra_config?.["auth/api-keys"]?.keys
+      keysArray:this.entireJsonData?.extra_config?.["auth/api-keys"]?.keys,
+      apiKeyAuthId:this.entireJsonData?.extra_config?.["auth/api-keys"]?.id
   })
 }
   

@@ -498,12 +498,12 @@ export class ViewapipageComponent {
               "@comment": null,
               "htpasswd_path": null
             }}),
-            "validation/cel": [
-              {
-                "id": null,
-                "check_expr": null
-              }
-            ],
+            // "validation/cel": [
+            //   {
+            //     "id": null,
+            //     "check_expr": null
+            //   }
+            // ],
             ...(this.authPageData?.isTokenValidationActive &&{"auth/validator": {
               ...(this.authPageData?.algorithm &&{"alg": this.authPageData?.algorithm}),
               ...(this.authPageData?.audienceArrayValue.length!=0 &&{"audience": this.authPageData?.audienceArrayValue}),
@@ -523,11 +523,11 @@ export class ViewapipageComponent {
               // "jwk_local_path": null,
               // "disable_jwk_security": true
             }}),
-            "auth/api-keys": {
-              "roles": [
-                ''
-              ]
-            },
+            // "auth/api-keys": {
+            //   "roles": [
+            //     ''
+            //   ]
+            // },
             ...(this.connectivityData?.isWebSocketActive &&{"websocket": {
               ...(this.connectivityData?.inputHeaderArray.length!=0&&{"input_headers": this.connectivityData?.inputHeaderArray}),
               ...(this.connectivityData?.connectEvent &&{"connect_event": this.connectivityData?.connectEvent}),
@@ -825,12 +825,12 @@ export class ViewapipageComponent {
           "@comment": null,
           "htpasswd_path": null
         }}),
-        "validation/cel": [
-          {
-            "id": this.receivedData?.extra_config?.["validation/cel"]?.[0]?.id,
-            "check_expr": null
-          }
-        ],
+        // "validation/cel": [
+        //   {
+        //     "id": this.receivedData?.extra_config?.["validation/cel"]?.[0]?.id,
+        //     "check_expr": null
+        //   }
+        // ],
         ...(this.authPageData?.isTokenValidationActive &&{"auth/validator": {
           ...(this.authPageData?.algorithm &&{"alg": this.authPageData?.algorithm}),
           ...(this.authPageData?.audienceArrayValue.length!=0 &&{"audience": this.authPageData?.audienceArrayValue}),
@@ -848,11 +848,11 @@ export class ViewapipageComponent {
           // "jwk_local_path": null,
           // "disable_jwk_security": true
         }}),
-        "auth/api-keys": {
-          "roles": [
-            ''
-          ]
-        },
+        // "auth/api-keys": {
+        //   "roles": [
+        //     ''
+        //   ]
+        // },
         ...(this.connectivityData?.isWebSocketActive &&{"websocket": {
           ...(this.connectivityData?.inputHeaderArray.length!=0&&{"input_headers": this.connectivityData?.inputHeaderArray}),
           ...(this.connectivityData?.connectEvent &&{"connect_event": this.connectivityData?.connectEvent}),
@@ -871,14 +871,14 @@ export class ViewapipageComponent {
           // "timeout": null
         }})
       },
-      "output_encoding": this.endPointData?.selectedOutput,
+      ...(this.endPointData?.selectedOutput &&{"output_encoding": this.endPointData?.selectedOutput}),
       "@test_with": null,
       "input_headers": this.parameterForwardingData?.parameterHeaderArrays,
        ...(this.connectivityData?.concurrentCalls &&{"concurrent_calls": this.connectivityData?.concurrentCalls}),
-      "method": this.endPointData?.selectedMethod,
-      "input_query_strings": this.parameterForwardingData?.parameterArrays,
-      "timeout":this.throttlingData?.timeout,
-      "cache_ttl":this.throttlingData?.cacheTtl
+      ...(this.endPointData?.selectedMethod &&{"method": this.endPointData?.selectedMethod}),
+      ...(this.parameterForwardingData?.parameterArrays.length!=0 &&{"input_query_strings": this.parameterForwardingData?.parameterArrays}),
+      ...(this.throttlingData?.timeout &&{"timeout":this.throttlingData?.timeout}),
+      ...(this.throttlingData?.cache_ttl &&{"cache_ttl":this.throttlingData?.cacheTtl})
     }
 
     this.viewapiPageService.updateEndPoint(this.receivedData.id,resultantFormData).subscribe({

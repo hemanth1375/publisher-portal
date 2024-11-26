@@ -258,8 +258,8 @@ export class ServiceSettingsComponent {
     console.log(this.entireJsondata);
     console.log(this.entireJsondata?.extra_config?.["server/static-filesystem"]?.prefix);
     if (this.entireJsondata != undefined) {
-      this.hostArray = this.entireJsondata?.host;
-      this.directoryArray=this.entireJsondata?.extra_config?.grpc?.catalog
+      this.hostArray = this.entireJsondata?.host ?? [];
+      this.directoryArray=this.entireJsondata?.extra_config?.grpc?.catalog ?? [];
       // this.objectMap=this.entireJsondata?.extra_config?.["plugin/http-server"]?.["url-rewrite"]?.literal && Object.entries(this.entireJsondata?.extra_config?.["plugin/http-server"]?.["url-rewrite"]?.literal)
       // console.log(this.objectMap);
       

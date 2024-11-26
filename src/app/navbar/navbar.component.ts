@@ -167,6 +167,8 @@ console.log(this.entireJsondata);
       acc[key]=value;
       return acc;
     })
+    console.log(telStackDriverObj);
+    
     const openCensusAGentObj=this.telemetryData?.headerObjectMapValue?.reduce((acc:any,[key,value]:any)=>{
       acc[key]=value;
       return acc;
@@ -230,17 +232,17 @@ console.log(this.entireJsondata);
         "version": 3,
         "name": this.serviceSettingData?.name,
         "port": this.serviceSettingData?.port,
-        "host": this.serviceSettingData?.hostArrayValue,
-        "timeout": this.serviceSettingData?.backendTimeout,
-        "cache_ttl": this.serviceSettingData?.defaultCache,
-        "output_encoding": null,
-        "debug_endpoint": true,
-        "sequential_start": true,
-        "disable_rest": true,
-        "plugin": {
-          "pattern": null,
-          "folder": null
-        },
+        ...(this.serviceSettingData?.hostArrayValue?.length!=0 &&{"host": this.serviceSettingData?.hostArrayValue}),
+        ...(this.serviceSettingData?.backendTimeout &&{"timeout": this.serviceSettingData?.backendTimeout}),
+        ...(this.serviceSettingData?.defaultCache &&{"cache_ttl": this.serviceSettingData?.defaultCache}),
+        // "output_encoding": null,
+        // "debug_endpoint": true,
+        // "sequential_start": true,
+        // "disable_rest": true,
+        // "plugin": {
+        //   "pattern": null,
+        //   "folder": null
+        // },
         ...(this.serviceSettingData?.isEnableHttpsActive &&{"tls": {
           "public_key": this.serviceSettingData?.publicKey,
           "private_key": this.serviceSettingData?.privateKey
@@ -320,23 +322,23 @@ console.log(this.entireJsondata);
             "@comment": null,
             ...(this.httpSecurityData?.basicAuthHtpasswdPathForm &&{"htpasswd_path": this.httpSecurityData?.basicAuthHtpasswdPathForm})
           }}),
-          "auth/revoker": {
-            "@comment": null,
-            "hash_name": null,
-            "N": 0,
-            "P": 0,
-            "port": 0,
-            "token_keys": [
-              ''
-            ],
-            "TTL": 0,
-            "revoke_server_ping_url": null,
-            "revoke_server_ping_interval": null,
-            "revoke_server_api_key": null,
-            "revoke_server_max_workers": 0
-          },
+          // "auth/revoker": {
+          //   "@comment": null,
+          //   "hash_name": 'hash',
+          //   "N": 0,
+          //   "P": 0,
+          //   "port": 0,
+          //   "token_keys": [
+          //     'abcd'
+          //   ],
+          //   "TTL": 0,
+          //   "revoke_server_ping_url": null,
+          //   "revoke_server_ping_interval": null,
+          //   "revoke_server_api_key": null,
+          //   "revoke_server_max_workers": 0
+          // },
           ...(this.apikeysData?.isAPIKeyAuthActive && {"auth/api-keys": {
-            "id": this.entireJsondata?.extra_config?.["auth/api-keys"]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.id:null,
+            "id": this.apikeysData?.apiKeyAuthId ? this.apikeysData?.apiKeyAuthId:null,
             "keys":this.apikeysData?.keysArray.map((item:any)=>{
               return {
                 "id":this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id ? this.entireJsondata?.extra_config?.["auth/api-keys"]?.keys?.[0]?.id:null,
@@ -450,7 +452,7 @@ console.log(this.entireJsondata);
           ...(this.telemetryData?.isOpenTelActive && 
           {
             "telemetry/opentelemetry": {
-            "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.id:null,
+            "id": this.telemetryData?.openTelId ? this.telemetryData?.openTelId:null,
             // "service_name": null,
             ...(this.telemetryData?.OTreportingPeriod &&{"metric_reporting_period": this.telemetryData?.OTreportingPeriod}),
             ...(this.telemetryData?.OTsampleRate &&{"trace_sample_rate": this.telemetryData?.OTsampleRate}),
@@ -459,7 +461,7 @@ console.log(this.entireJsondata);
             //   ''
             // ],
             "exporters": {
-              "id": this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id ? this.entireJsondata?.extra_config?.["telemetry/opentelemetry"]?.exporters?.id:null,
+              "id": this.telemetryData?.openTelExporterId ? this.telemetryData?.openTelExporterId:null,
               ...(this.telemetryData?.otlp.length!==0)&&{"otlp": this.telemetryData?.otlp},
               ...(this.telemetryData?.prometheus.length!==0)&&{"prometheus": this.telemetryData?.prometheus}
             },
@@ -520,11 +522,11 @@ console.log(this.entireJsondata);
             ...(this.telemetryData?.logSysLog &&{"syslog": this.telemetryData?.logSysLog}),
             ...(this.telemetryData?.logStdOut &&{"stdout": this.telemetryData?.logStdOut})
           }}),
-          "telemetry/gelf": {
-            "address": null,
-            "enable_tcp": true
-          },
-          "telemetry/moesif": {
+          ...(this.telemetryData?.isGelfActive && {"telemetry/gelf": {
+            ...(this.telemetryData?.GELFAdrress &&{"address": this.telemetryData?.GELFAdrress}),
+            ...(this.telemetryData?.enableTCP &&{"enable_tcp": this.telemetryData?.enableTCP})
+          }}),
+          ...(this.apiMonetizationdata?.isApiMonetizationActive &&{"telemetry/moesif": {
             // "@comment": null,
             "application_id": this.apiMonetizationdata?.apiMonetizationAppIDForm,
             "user_id_headers": this.apiMonetizationdata?.apiMonetizationHeadersFormArray,
@@ -550,7 +552,7 @@ console.log(this.entireJsondata);
             //   ''
             // ],
             // "should_skip": null
-          },
+          }}),
           
           ...(this.telemetryData?.openCensusActive && 
             {
@@ -701,6 +703,12 @@ this.apiPageService.updateKrakend(this.cardId,body).subscribe({
       duration: 5000
     });
     this.router.navigate(['apicards'])
+  },
+  error:(err:any)=>{
+    console.log(err);
+    this._snackBar.open(err?.error?.error, 'OK', {
+      duration: 5000
+    });
   }
 })
   }

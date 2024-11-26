@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-connectivity-options',
@@ -16,19 +16,19 @@ export class ConnectivityOptionsComponent {
       inputHeader: [null],
       concurrentCalls: [null],
       backoffStrategy: [null],
-      readBufferSize: [null],
-      writeWait: [null],
-      maxRetries: [null],
-      messageBufferSize: [null],
-      writeBufferSize: [null],
-      maxWriteBufferSize: [null],
-      pongWait: [null],
+      readBufferSize: ['', Validators.required],
+      writeWait: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
+      maxRetries: ['', Validators.required],
+      messageBufferSize: ['', Validators.required],
+      writeBufferSize: ['', Validators.required],
+      maxWriteBufferSize: ['', Validators.required],
+      pongWait: ['', Validators.pattern("^[0-9]+(ns|ms|us|µs|s|m|h)$")],
       inputHeaderArray: [[]],
       connectEvent: [false],
       disconnectEvent: [false],
       returnErr: [false],
-      isWebSocketActive:[false], // Initially false
-      isSequencialActive:[false],
+      isWebSocketActive: [false], // Initially false
+      isSequencialActive: [false],
     })
   }
   queryParams: any;
@@ -37,8 +37,8 @@ export class ConnectivityOptionsComponent {
   @Output() connectivityFormSubmitted = new EventEmitter<any>();
   ngOnInit() {
     console.log(this.formData);
-    if(this.formData!=undefined){
-      this.parameterArray=this.formData?.extra_config?.websocket.input_headers
+    if (this.formData != undefined) {
+      this.parameterArray = this.formData?.extra_config?.websocket.input_headers
     }
     this.formGroup1.patchValue({
       writeBufferSize: this.formData?.extra_config?.websocket.write_buffer_size,
@@ -60,6 +60,22 @@ export class ConnectivityOptionsComponent {
 
       this.connectivityFormSubmitted.emit(value); // Emit form data on every change
     });
+
+    this.formGroup1.get('readBufferSize')?.setValue(1024);
+    this.formGroup1.get('writeBufferSize')?.setValue(1024);
+    this.formGroup1.get('messageBufferSize')?.setValue(256);
+    this.formGroup1.get('maxWriteBufferSize')?.setValue(512);
+    this.formGroup1.get('pongWait')?.setValue('60s');
+    this.formGroup1.get('writeWait')?.setValue('10s');
+    this.formGroup1.get('maxRetries')?.setValue(0);
+    this.formGroup1.get('concurrentCalls')?.setValue(1);
+
+
+
+
+
+
+
   }
 
   saveForm() {

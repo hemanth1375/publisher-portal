@@ -9,7 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ResponseManipulationComponent implements OnInit, AfterViewInit {
   // Initially false
 
-  isKeyCreated: boolean = false; 
+  isKeyCreated: boolean = false;
 
   formGroupResponseManipulation: FormGroup;
   @Input() formData: any;
@@ -30,20 +30,20 @@ export class ResponseManipulationComponent implements OnInit, AfterViewInit {
       strategy: [null],
       expression: [null],
 
-      contentReplacerKey:[''],
+      contentReplacerKey: [''],
       contentReplacer: this.formBuilder.group({}),
-      regexConReplacerActive:[false],
+      regexConReplacerActive: [false],
 
       isStaticResponseActive: [false],
       isAdvanceResponseActive: [false],
-     
+
       isAdvanceResponseGoActive: [false],
 
-      bodyEditor:['bodyeditor'],
-      template:[''],
-      contentType:[''],
-      debug:[false],
-      path:[''],
+      bodyEditor: ['bodyeditor'],
+      template: [''],
+      contentType: [''],
+      debug: [false],
+      path: [''],
     })
   }
 
@@ -94,15 +94,15 @@ export class ResponseManipulationComponent implements OnInit, AfterViewInit {
       strategy: this.formData?.extra_config?.proxy?.static?.strategy
     });
 
-    this.formGroupResponseManipulation.get('bodyEditor')?.valueChanges.subscribe((value)=>{
+    this.formGroupResponseManipulation.get('bodyEditor')?.valueChanges.subscribe((value) => {
       const bodyEditorControl = this.formGroupResponseManipulation.get('template');
       const pathControl = this.formGroupResponseManipulation.get('path');
-      
-      if(value === 'bodyeditor'){
+
+      if (value === 'bodyeditor') {
         bodyEditorControl?.enable();
         pathControl?.disable();
 
-      }else if(value === 'external'){
+      } else if (value === 'external') {
         bodyEditorControl?.disable();
         pathControl?.enable();
       }

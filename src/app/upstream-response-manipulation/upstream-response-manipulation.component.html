@@ -393,13 +393,13 @@
         <div class="col-sm-3">
           <label for="originlObj" class="form-label">Original Object</label>
           <input type="text" id="originlObj" class="form-control" aria-describedby="passwordHelpBlock"
-            formControlName="flatmapOriginalObj">
+            formControlName="flatmapOriginalObj" placeholder="object.*.uninteresting">
         </div>
         @if (!(formGroupResManipulation.value.operationType === 'delete')) {
         <div class="col-sm-3">
           <label for="targetObj" class="form-label">Target Object</label>
           <input type="text" id="targetObj" class="form-control" aria-describedby="passwordHelpBlock"
-            formControlName="flatmapTargetObj">
+            formControlName="flatmapTargetObj" placeholder="object.*.new_element">
         </div>
         }
 

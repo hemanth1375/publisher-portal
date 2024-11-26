@@ -45,7 +45,9 @@ export class UpstreamThrottlingComponent implements OnInit, AfterViewInit {
       maxRateLimit: this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"]?.max_rate,
       every: [null],
       capacity: this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"]?.capacity,
-      logStatusChange: this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.log_status_change
+      logStatusChange: this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"]?.log_status_change,
+      isCircuitBreakerActive:this.formData?.backend?.[0]?.extra_config?.["qos/circuit-breaker"],
+      isProxyRateLimitActive:this.formData?.backend?.[0]?.extra_config?.["qos/ratelimit/proxy"],
     })
   }
 

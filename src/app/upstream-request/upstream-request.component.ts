@@ -36,13 +36,13 @@ export class UpstreamRequestComponent implements AfterViewInit , OnInit{
   }
   ngAfterViewInit(): void {
   
-    
     this.formGroupUpstreamRequest.valueChanges.subscribe(value => {
       console.log(value);
       
       this.upstreamRequestFormSubmitted.emit(value); 
     });
   }
+  
   ngOnInit(){
     console.log(this.formData);
     if(this.formData){

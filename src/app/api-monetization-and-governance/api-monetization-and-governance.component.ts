@@ -13,7 +13,7 @@ export class ApiMonetizationAndGovernanceComponent {
 
 
   constructor(private formBuilder: FormBuilder,private sharedSer:SharedDataService) {
-    this.formGroupApiMonetization = formBuilder.group({
+    this.formGroupApiMonetization = this.formBuilder.group({
       isApiMonetizationActive:[false],
       apiMonetizationAppIDForm: [null],
       apiMonetizationDebugForm: [false],

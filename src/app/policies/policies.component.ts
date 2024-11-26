@@ -53,11 +53,35 @@ export class PoliciesComponent implements OnInit,AfterViewInit {
     
   }
   ngOnInit(){
+    if(this.formData){
+      this.parameterArraySecReqPolicy= this.formData?.extra_config?.["security/policies"]?.req?.policies;
+  this.parameterArraySecResPolicy= this.formData?.extra_config?.["security/policies"]?.resp?.policies;
+  this.parameterArrayJwtValReqPolicy= this.formData?.extra_config?.["security/policies"]?.jwt?.policies;
+    }
     console.log(this.formData);
     this.formGroupPolicies.patchValue({
       secReqPolicyArrayValue:this.formData?.extra_config?.["security/policies"]?.req?.policies,
       secReqErrorBody:this.formData?.extra_config?.["security/policies"]?.req?.error?.body,
-      secReqErrorStCode:this.formData?.extra_config?.["security/policies"]?.req?.error?.status
+      secReqErrorStCode:this.formData?.extra_config?.["security/policies"]?.req?.error?.status,
+      // securityReqPolicy: [null],
+      secReqErrorContentType:this.formData?.extra_config?.["security/policies"]?.req?.error?.content_type ,
+      // securityResPolicy: [null],
+      secResErrorStCode: this.formData?.extra_config?.["security/policies"]?.resp?.error?.status,
+      secResErrorBody: this.formData?.extra_config?.["security/policies"]?.resp?.error?.body,
+      secResErrorContentType: this.formData?.extra_config?.["security/policies"]?.resp?.error?.content_type,
+      jwtReqPolicy: '',
+      enableDebug: this.formData?.extra_config?.["security/policies"]?.debug,
+      autoJoinPolicies: this.formData?.extra_config?.["security/policies"]?.auto_join_policies,
+      disableMacros: this.formData?.extra_config?.["security/policies"]?.disable_macros,
+      resSchemaValErrorMsg: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["response-schema-validator"]?.error?.body,
+      resSchemaValErrorStCode: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["response-schema-validator"]?.error?.status,
+      secResPolicyArrayValue: this.formData?.extra_config?.["security/policies"]?.resp?.policies,
+      jwtReqPolicyArrayValue: this.formData?.extra_config?.["security/policies"]?.jwt?.policies,
+      isSpFilterActive:!!this.formData?.extra_config?.["security/policies"],
+      isRequestSchValidatorFiltrActive:!!this.formData?.extra_config?.["validation/json-schema"],
+      isResponseSchValidatorFiltrActive:!!this.formData?.extra_config?.["plugin/req-resp-modifier"]?.name?.includes("response-schema-validator"),
+      reqJSONSchema:this.formData?.extra_config?.["validation/json-schema"],
+      resJSONSchema:this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["response-schema-validator"]?.schema
     })
     
   }

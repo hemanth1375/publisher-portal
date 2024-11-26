@@ -32,13 +32,16 @@ ngOnInit(){
     
   })
   if(this.entireJsonData!=undefined){
+    
     this.keysArray=this.entireJsonData?.extra_config?.["auth/api-keys"]?.keys
   }
   this.apiKeysForm.patchValue({
+    isAPIKeyAuthActive: !!this.entireJsonData?.extra_config?.["auth/api-keys"],
     APIKey:'',
       role:[],
       rolesArrayValue:[[]],
-      description:[]
+      description:[],
+      keysArray:this.entireJsonData?.extra_config?.["auth/api-keys"]?.keys
   })
 }
   

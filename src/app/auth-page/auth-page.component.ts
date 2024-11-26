@@ -57,13 +57,47 @@ export class AuthPageComponent {
 
   
   }
-
+ 
   ngOnInit(){
+    console.log(this.formData);
+    
     this.formGroup1.valueChanges.subscribe(value => {
       console.log(value);
       
       this.authPageFormSubmitted.emit(value); // Emit form data on every change
     });
+    this.formGroup1.patchValue({
+      isTokenValidationActive: !!this.formData?.extra_config?.["auth/validator"],
+      isTokenSigningActive:!!this.formData?.extra_config?.["auth/signer"],
+      isBasicAuthActive:!!this.formData?.extra_config?.["auth/basic"],
+      // isCustomChiperSuiteActive:false,
+      algorithm:this.formData?.extra_config?.["auth/validator"]?.alg,
+      jwkUri:this.formData?.extra_config?.["auth/validator"]?.jwk_url,
+      // selectedMatcher:[null],
+      // scopesKey:[null],
+      issuer:this.formData?.extra_config?.["auth/validator"]?.issuer,
+      rolesKey:this.formData?.extra_config?.["auth/validator"]?.roles_key,
+      // cookieName:[null],
+      // customChiperSuite:[null],
+      // tokenSignJwkUri:[null],
+      tokenSignAlgorithm:this.formData?.extra_config?.["auth/signer"]?.alg,
+      keyId:this.formData?.extra_config?.["auth/signer"]?.kid,
+      // audience:[null],
+      // roles:[null],
+      // scopesToValidate:[null],
+      keysToSign:[null],
+      fingerprint:[null],
+      audienceArrayValue:this.formData?.extra_config?.["auth/validator"]?.audience,
+      rolesArrayValue:this.formData?.extra_config?.["auth/validator"]?.roles,
+      // scopesToValidateArrayValue:[[]],
+      keysToSignArrayValue:this.formData?.extra_config?.["auth/signer"]?.keys_to_sign,
+      // fingerprintArrayValue:[[]],
+      isRolesKeyActive:this.formData?.extra_config?.["auth/validator"]?.roles_key_is_nested,
+      isCachingActive:this.formData?.extra_config?.["auth/validator"]?.cache,
+      // isJwkSecActive:[false],
+      // isfullSerializationActive:[false],
+       isDisableJWKSecActive:this.formData?.extra_config?.["auth/validator"]?.disable_jwk_security,
+    })
   }
 
    

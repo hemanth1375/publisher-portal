@@ -435,17 +435,17 @@ console.log(this.entireJsondata);
           }}),
           ...(this.openApiData?.isOpenApiActive && {"documentation/openapi": {
             ...(this.openApiData?.version && {"version": this.openApiData?.openApiVersionForm}),
-            ...(this.openApiData?.version && {"contact_name": this.openApiData?.openApiContactNameForm}),
-            ...(this.openApiData?.version && {"contact_email": this.openApiData?.openApiContactEmailForm}),
-            ...(this.openApiData?.version && {"license_name": this.openApiData?.openApiLicenseNameForm}),
-            ...(this.openApiData?.version && {"license_url": this.openApiData?.openApiLicenseUrlForm}),
-            ...(this.openApiData?.version && {"contact_url":this.openApiData?.openApiContactUrlForm}),
-            ...(this.openApiData?.version && {"host": this.openApiData?.openApiHostForm}),
-            ...(this.openApiData?.version && {"base_path": this.openApiData?.openApiBasePathForm}),
-            ...(this.openApiData?.version && {"description": this.openApiData?.openApiDescriptionForm}),
-            ...(this.openApiData?.version && {"terms_of_service": this.openApiData?.openApiTermsOfServiceForm}),
-            ...(this.openApiData?.version && {"tags": this.openApiData?.openApiTagsFormArray}),
-            ...(this.openApiData?.version && {"schemes": this.openApiData?.openApiSchemesFormArray})
+            ...(this.openApiData?.openApiContactNameForm && {"contact_name": this.openApiData?.openApiContactNameForm}),
+            ...(this.openApiData?.openApiContactEmailForm && {"contact_email": this.openApiData?.openApiContactEmailForm}),
+            ...(this.openApiData?.openApiLicenseNameForm && {"license_name": this.openApiData?.openApiLicenseNameForm}),
+            ...(this.openApiData?.openApiLicenseUrlForm && {"license_url": this.openApiData?.openApiLicenseUrlForm}),
+            ...(this.openApiData?.openApiContactUrlForm && {"contact_url":this.openApiData?.openApiContactUrlForm}),
+            ...(this.openApiData?.openApiHostForm && {"host": this.openApiData?.openApiHostForm}),
+            ...(this.openApiData?.openApiBasePathForm && {"base_path": this.openApiData?.openApiBasePathForm}),
+            ...(this.openApiData?.openApiDescriptionForm && {"description": this.openApiData?.openApiDescriptionForm}),
+            ...(this.openApiData?.openApiTermsOfServiceForm && {"terms_of_service": this.openApiData?.openApiTermsOfServiceForm}),
+            ...(this.openApiData?.openApiTagsFormArray.length!=0 && {"tags": this.openApiData?.openApiTagsFormArray}),
+            ...(this.openApiData?.openApiSchemesFormArray.length!=0 && {"schemes": this.openApiData?.openApiSchemesFormArray})
           }}),
           ...(this.telemetryData?.isOpenTelActive && 
           {
@@ -665,18 +665,18 @@ console.log(this.entireJsondata);
         ...(this.serviceSettingData?.httpReadHeaderTimeout && {"read_header_timeout": this.serviceSettingData?.httpReadHeaderTimeout}),
         ...(this.serviceSettingData?.isHttpClientSetAdv && {
         ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"idle_connection_timeout": this.serviceSettingData?.httpClientSetAdvConnTimeoutForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"response_header_timeout": this.serviceSettingData?.httpClientSetAdvHeaderTimeoutForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"expect_continue_timeout": this.serviceSettingData?.httpClientSetAdvContinueTimeoutForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"max_idle_connections": this.serviceSettingData?.httpClientSetAdvMaxIdleConnForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"max_idle_connections_per_host": this.serviceSettingData?.httpClientSetAdvMaxIdleConnPerHostForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"client_tls": {
+        ...(this.serviceSettingData?.httpClientSetAdvHeaderTimeoutForm &&{"response_header_timeout": this.serviceSettingData?.httpClientSetAdvHeaderTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvContinueTimeoutForm &&{"expect_continue_timeout": this.serviceSettingData?.httpClientSetAdvContinueTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvMaxIdleConnForm &&{"max_idle_connections": this.serviceSettingData?.httpClientSetAdvMaxIdleConnForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvMaxIdleConnPerHostForm &&{"max_idle_connections_per_host": this.serviceSettingData?.httpClientSetAdvMaxIdleConnPerHostForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvAllowInsecureConnsForm &&{"client_tls": {
           "allow_insecure_connections": this.serviceSettingData?.httpClientSetAdvAllowInsecureConnsForm
         }}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"disable_keep_alives": this.serviceSettingData?.httpClientSetAdvDisableKeepAlivesForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"disable_compression": this.serviceSettingData?.httpClientSetAdvDisableCompressionForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_timeout": this.serviceSettingData?.httpClientSetAdvDialerTimeoutForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_fallback_delay": this.serviceSettingData?.httpClientSetAdvDialerFallerDelayForm}),
-        ...(this.serviceSettingData?.httpClientSetAdvConnTimeoutForm &&{"dialer_keep_alive": this.serviceSettingData?.httpClientSetAdvDialerKeepAliveForm})
+        ...(this.serviceSettingData?.httpClientSetAdvDisableKeepAlivesForm &&{"disable_keep_alives": this.serviceSettingData?.httpClientSetAdvDisableKeepAlivesForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvDisableCompressionForm &&{"disable_compression": this.serviceSettingData?.httpClientSetAdvDisableCompressionForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvDialerTimeoutForm &&{"dialer_timeout": this.serviceSettingData?.httpClientSetAdvDialerTimeoutForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvDialerFallerDelayForm &&{"dialer_fallback_delay": this.serviceSettingData?.httpClientSetAdvDialerFallerDelayForm}),
+        ...(this.serviceSettingData?.httpClientSetAdvDialerKeepAliveForm &&{"dialer_keep_alive": this.serviceSettingData?.httpClientSetAdvDialerKeepAliveForm})
         }),
         
       

@@ -37,13 +37,26 @@ export class OpenApiComponent {
       
     })
 console.log(this.entireJsonData);
+if(this.entireJsonData!=undefined){
+  this.openApiTagsArray=this.entireJsonData?.extra_config?.["documentation/openapi"]?.tags;
+  this.openApiSchemesArray=this.entireJsonData?.extra_config?.["documentation/openapi"]?.schemes;
+}
 this.formGroupOpenAPI.patchValue({
   openApiVersionForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.version,
       openApiContactNameForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_name,
       openApiContactEmailForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_email,
       openApiContactUrlForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.contact_url,
       openApiLicenseNameForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.license_name,
-      openApiLicenseUrlForm:this.entireJsonData?.extra_config?.["documentation/openapi"]?.license_url
+      openApiLicenseUrlForm:this.entireJsonData?.extra_config?.["documentation/openapi"]?.license_url,
+      isOpenApiActive: !!this.entireJsonData?.extra_config?.["documentation/openapi"],
+      openApiHostForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.host,
+      openApiBasePathForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.base_path,
+      openApiDescriptionForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.description,
+      openApiTermsOfServiceForm: this.entireJsonData?.extra_config?.["documentation/openapi"]?.terms_of_service,
+      // openApiTagsForm: '',
+      // openApiSchemesForm: '',
+      openApiTagsFormArray: this.entireJsonData?.extra_config?.["documentation/openapi"]?.tags,
+      openApiSchemesFormArray: this.entireJsonData?.extra_config?.["documentation/openapi"]?.schemes
 })
   }
   emitValue(){

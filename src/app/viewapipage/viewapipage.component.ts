@@ -81,8 +81,14 @@ export class ViewapipageComponent {
         this.showCreateButton=true;
        }
        this.endPointData=this.receivedData;
+       this.parameterForwardingData=this.receivedData;
        this.connectivityData=this.receivedData;
        this.backendData=this.receivedData;
+       this.authPageData=this.receivedData;
+       this.throttlingData=this.receivedData;
+       this.openApiData=this.receivedData;
+       this.responseData=this.receivedData;
+       this.policiesData=this.receivedData
      });
      //  this.addChildComponents(this.receivedData.backend.length);
      this.selectedItem = this.items[8];
@@ -303,7 +309,7 @@ export class ViewapipageComponent {
               "password": "yu"
             }}),
             ...(this.backendData?.upstreamPoliciesData?.isSecPolicyActive &&{"security/policies": {
-              "req": {
+              "req": { 
                 "policies": this.backendData?.upstreamPoliciesData?.secReqPolicyArrayValue,
                 "error": {
                   "status": this.backendData?.upstreamPoliciesData?.secReqErrorStCode,
@@ -412,7 +418,8 @@ export class ViewapipageComponent {
                 "policies": this.policiesData?.secReqPolicyArrayValue,
                 "error": {
                   "body": this.policiesData?.secReqErrorBody,
-                  "status": this.policiesData?.secReqErrorStCode
+                  "status": this.policiesData?.secReqErrorStCode,
+                  "content_type": this.policiesData?.secReqErrorContentType
                 }
               },
           "resp": {
@@ -504,7 +511,9 @@ export class ViewapipageComponent {
               ...(this.authPageData?.jwkUri &&{"jwk_url": this.authPageData?.jwkUri}),
               ...(this.authPageData?.issuer &&{"issuer": this.authPageData?.issuer}),
               "jwk_local_path": null,
-              ...(this.authPageData?.isDisableJWKSecActive &&{"disable_jwk_security": this.authPageData?.isDisableJWKSecActive})
+              ...(this.authPageData?.isDisableJWKSecActive &&{"disable_jwk_security": this.authPageData?.isDisableJWKSecActive}),
+              ...(this.authPageData?.isRolesKeyActive && {"roles_key_is_nested": this.authPageData?.isRolesKeyActive}),
+              ...(this.authPageData?.isCachingActive &&{"cache": this.authPageData?.isCachingActive})
             }}),
             ...(this.authPageData?.isTokenSigningActive &&{"auth/signer": {
               ...(this.authPageData?.tokenSignAlgorithm &&{"alg": this.authPageData?.tokenSignAlgorithm}),
@@ -734,7 +743,9 @@ export class ViewapipageComponent {
                 "policies": this.policiesData?.secReqPolicyArrayValue,
                 "error": {
                   "body": this.policiesData?.secReqErrorBody,
-                  "status": this.policiesData?.secReqErrorStCode
+                  "status": this.policiesData?.secReqErrorStCode,
+                  "content_type": this.policiesData?.secReqErrorContentType
+                  
                 }
               },
           "resp": {

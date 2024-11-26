@@ -45,10 +45,36 @@ export class ThrottlingComponent {
 
   ngOnInit() {
     console.log(this.formData);
+    if(this.formData){
+      this.cidrArray=this.formData?.["plugin/req-resp-modifier"]?.["ip-filter"]?.CIDR;
+      this.trustedProxiesArray=this.formData?.["plugin/req-resp-modifier"]?.["ip-filter"]?.trusted_proxies;
+      this.clientIPHeadersArray=this.formData?.["plugin/req-resp-modifier"]?.["ip-filter"]?.client_ip_headers;
+    }
     this.formGroupThrottling.patchValue({
       rateLimit: this.formData?.extra_config?.["qos/ratelimit/router"]?.max_rate,
-      tokenizer: 'IP',
-      burst: 10
+      tokenizer: this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.tokenizer,
+      burst: this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.burst,
+      timeout: this.formData?.timeout,
+      cacheTtl: this.formData?.cache_ttl,
+      // cidr: [''],
+      cidrArrayValue: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["ip-filter"]?.CIDR,
+      // trustedProxies: [''],
+      trustedProxiesArrayValue:  this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["ip-filter"]?.trusted_proxies,
+      clientIpHeaders: [''],
+      clientIPHeadersArrayValue: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["ip-filter"]?.client_ip_headers,
+      allowModeActive: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["ip-filter"]?.allow,
+      every:this.formData?.extra_config?.["qos/ratelimit/router"]?.every,
+      capacity: this.formData?.extra_config?.["qos/ratelimit/router"]?.capacity,
+      defaultUserQuota: this.formData?.extra_config?.["qos/ratelimit/router"]?.client_max_rate,
+      clientCapacity:this.formData?.extra_config?.["qos/ratelimit/router"]?.client_capacity,
+      address: this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.host,
+      rate:  this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.rate,
+      periods:  this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.Period,
+     
+      tokenizerField:  this.formData?.extra_config?.["plugin/http-server"]?.["redis-ratelimit"]?.TokenizerField,
+      isIpFilterEnabledActive: !!this.formData?.extra_config?.["plugin/req-resp-modifier"]?.name.includes("ip-filter"),
+      isEndPointRateLimitEnabledActive: !!this.formData?.extra_config?.["qos/ratelimit/router"],
+      isRedisRateLimitEnabledActive: !!this.formData?.extra_config?.["plugin/http-server"]?.name.includes("redis-ratelimit")
     })
 
     this.formGroupThrottling.get('rateLimit')?.setValue(0);

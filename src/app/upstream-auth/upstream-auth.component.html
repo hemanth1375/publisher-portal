@@ -1,137 +1,150 @@
 <div class="container">
-    <div class="row">
-        <form [formGroup]="formGroupUpstreamAuth">
-    <div class="row">
+  <div class="row">
+    <form [formGroup]="formGroupUpstreamAuth">
+      <div class="row">
         <div class="col-sm-12">
-            <h3>Set authentication requirements between KrakenD and your services. If you'd like to pass JWT tokens to the backend as well, add the Authorization header in the endpoint's parameter forwarding.</h3>
-            
+          <h3>Set authentication requirements between KrakenD and your services. If you'd like to pass JWT tokens to the
+            backend as well, add the Authorization header in the endpoint's parameter forwarding.</h3>
+
         </div>
         <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-            <div>
-                <h3>Auth: Client Credentials</h3>
-            </div>
-            <div>
-                <mat-slide-toggle formControlName="isAuthActive"></mat-slide-toggle>
-            </div>
+          <div>
+            <h3>Auth: Client Credentials</h3>
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="isAuthActive"></mat-slide-toggle>
+          </div>
         </div>
         @if(!formGroupUpstreamAuth.value.isAuthActive){
-            <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching the backend's protected resources. The token refreshes when needed.</p>
+        <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching
+          the backend's protected resources. The token refreshes when needed.</p>
         }@else{
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="clientId" class="form-label">CLIENT ID</label>
-                      <input type="text" class="form-control" id="clientId" formControlName="clientId">
-                      <div class="form-text">The Client ID as it will provided to the Auth server</div>
-                    </div>
-                  </div><div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="clientSecret" class="form-label">CLIENT SECRET</label>
-                      <input type="text" class="form-control" id="clientSecret" formControlName="clientSecret">
-                      <div class="form-text">The Client secret as it will provided to the Auth server</div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="tokenUrl" class="form-label">Token URL</label>
-                      <input type="text" class="form-control" id="tokenUrl" formControlName="tokenUrl">
-                      <div class="form-text">The URL where the negotiation of the token will happen</div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
-                    <div class="mb-3">
-                      <label for="scopes" class="form-label">Scopes</label>
-                      <input type="text" class="form-control" id="scopes" formControlName="scopes">
-                      <div class="form-text">Comma separated list of scopes needed.</div>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-sm-12">
-                      <h4></h4>
-                    </div>
-                    <div class="col-sm-12 col-md-4">
-                      <label for="rootObject" class="form-label">Original Object</label>
-                      <input type="text" class="form-control" formControlName="endpointKey" id="originalObject"
-                        aria-describedby="audience">
-                    </div>
-
-                    <div class="col-sm-12 col-md-4">
-                      <label for="rootObject" class="form-label">Renamed Object</label>
-                      <input type="text" class="form-control" formControlName="endpointValue" id="renamedObject"
-                        aria-describedby="audience">
-                    </div>
-
-                    <div class="col-sm-12 col-md-4 d-flex align-items-end">
-                      <button type="button" class="btn btn-outline-primary" (click)="addParameter('endpoint_params')">Add</button>
-                    </div>
-            
-                    <div class="col-sm-12">
-                      <div class="form-text">You can rename any attributes returned by the backend and use a name more convenient
-                        for you.
-                      </div>
-                    </div>
-            
-                    <div class=" col-sm-12 mt-3 d-flex">
-                      <button *ngFor="let attr of objectMap | keyvalue" class="parameter-item">
-                        {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'endpoint_params')"
-                          class="d-flex align-items-center justify-content-end">close</mat-icon>
-                      </button>
-                    </div>
-                  </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="clientId" class="form-label">CLIENT ID</label>
+              <input type="text" class="form-control" id="clientId" formControlName="clientId">
+              <div class="form-text">The Client ID as it will provided to the Auth server</div>
             </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="clientSecret" class="form-label">CLIENT SECRET</label>
+              <input type="text" class="form-control" id="clientSecret" formControlName="clientSecret">
+              <div class="form-text">The Client secret as it will provided to the Auth server</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="tokenUrl" class="form-label">Token URL</label>
+              <input type="text" class="form-control" id="tokenUrl" formControlName="tokenUrl">
+              <div class="form-text">The URL where the negotiation of the token will happen</div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="mb-3">
+              <label for="scopes" class="form-label">Scopes</label>
+              <input type="text" class="form-control" id="scopes" formControlName="scopes">
+              <div class="form-text">Comma separated list of scopes needed.</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-sm-12">
+              <h4>Additional endpoint parameters</h4>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <!-- <label for="rootObject" class="form-label">Original Object</label> -->
+              <input type="text" class="form-control" formControlName="endpointKey" id="originalObject"
+                aria-describedby="audience" placeholder="name">
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <!-- <label for="rootObject" class="form-label">Renamed Object</label> -->
+              <input type="text" class="form-control" formControlName="endpointValue" id="renamedObject"
+                aria-describedby="audience" placeholder="value ">
+            </div>
+
+            <div class="col-sm-12 col-md-4 d-flex align-items-end">
+              <button type="button" class="btn btn-outline-primary"
+                (click)="addParameter('endpoint_params')">Add</button>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-text">You can rename any attributes returned by the backend and use a name more
+                convenient
+                for you.
+              </div>
+            </div>
+
+            <div class=" col-sm-12 mt-3 d-flex">
+              <button *ngFor="let attr of objectMap | keyvalue" class="parameter-item">
+                {{ attr.key }} -> {{attr.value}}<mat-icon (click)="removeParameter(attr.key ,'endpoint_params')"
+                  class="d-flex align-items-center justify-content-end">close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
         }
         <hr class="mt-4">
         <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-            <div>
-                <h3>Google Cloud Service Account</h3>
-            </div>
-            <div>
-                <mat-slide-toggle formControlName="isGoogleCloudActive"></mat-slide-toggle>
-                   
-            </div>
+          <div>
+            <h3>Google Cloud Service Account</h3>
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="isGoogleCloudActive"></mat-slide-toggle>
+
+          </div>
         </div>
         @if(!formGroupUpstreamAuth.value.isGoogleCloudActive){
-            <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching the backend's protected resources. The token refreshes when needed.</p>
+        <p>Enable a 2-legged OAuth2 flow, making the gateway request a token to an authorization server before reaching
+          the backend's protected resources. The token refreshes when needed.</p>
         }@else{
-            <div class="col-sm-12 col-md-6">
-                <div class="mb-3">
-                  <label for="audience" class="form-label">Audience</label>
-                  <input type="text" class="form-control" id="audience" formControlName="audience">
-                  <div class="form-text">The audience in GCP looks like an URL, and contains the destination service you will ask a token for. Most of the times this URL will match exactly with the host entry. Credentials are taken from the environment variable GOOGLE_APPLICATION_CREDENTIALS, which Cloud Run passes automatically.</div>
-                </div>
-              </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="mb-3">
+            <label for="audience" class="form-label">Audience</label>
+            <input type="text" class="form-control" id="audience" formControlName="audience"
+              placeholder="https://hello-there.a.run.app">
+            <div class="form-text">The audience in GCP looks like an URL, and contains the destination service you will
+              ask a token for. Most of the times this URL will match exactly with the host entry. Credentials are taken
+              from the environment variable GOOGLE_APPLICATION_CREDENTIALS, which Cloud Run passes automatically.</div>
+          </div>
+        </div>
         }
         <hr class="mt-4">
         <div class="col-sm-12 heading-with-toggle d-flex align-items-center gap-2">
-            <div>
-                <h3>NLTM Authentication</h3>
-            </div>
-            <div>
-                <mat-slide-toggle  formControlName="isNtlmAuthActive"></mat-slide-toggle>
-            </div>
+          <div>
+            <h3>NLTM Authentication</h3>
+          </div>
+          <div>
+            <mat-slide-toggle formControlName="isNtlmAuthActive"></mat-slide-toggle>
+          </div>
         </div>
         @if(!formGroupUpstreamAuth.value.isNtlmAuthActive){
-            <p>NTLM (NT Lan Manager) is a suite of Microsoft security protocols used for authentication, integrity, and confidentiality of network communications. It is primarily used for authentication on Windows-based systems.</p>
+        <p>NTLM (NT Lan Manager) is a suite of Microsoft security protocols used for authentication, integrity, and
+          confidentiality of network communications. It is primarily used for authentication on Windows-based systems.
+        </p>
         }@else{
-            <div class="col-sm-12 col-md-6">
-                <div class="mb-3">
-                  <label for="user" class="form-label">User</label>
-                  <input type="text" class="form-control" id="user" formControlName="user">
-                  <div class="form-text">The proxy address used to forward the traffic. The address must contain the protocol and the port.</div>
-                </div>
-              </div>
-            <div class="col-sm-12 col-md-6">
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="password" formControlName="password">
-                  <div class="form-text">The proxy address used to forward the traffic. The address must contain the protocol and the port.</div>
-                </div>
-              </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="mb-3">
+            <label for="user" class="form-label">User</label>
+            <input type="text" class="form-control" id="user" formControlName="user">
+            <div class="form-text">The proxy address used to forward the traffic. The address must contain the protocol
+              and the port.</div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password">
+            <div class="form-text">The proxy address used to forward the traffic. The address must contain the protocol
+              and the port.</div>
+          </div>
+        </div>
         }
         <div class="col-sm-12 d-flex justify-content-end mt-3">
-            <!-- <button mat-raised-button color="primary" (click)="saveForm()">Save</button> -->
+          <!-- <button mat-raised-button color="primary" (click)="saveForm()">Save</button> -->
         </div>
-    </div>
-</form>
-</div>
+      </div>
+    </form>
+  </div>
 </div>

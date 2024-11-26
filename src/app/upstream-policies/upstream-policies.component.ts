@@ -21,10 +21,10 @@ export class UpstreamPoliciesComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.formGroupUpstreamPolicies = this.formBuilder.group({
-      isSecPolicyActive:[false],
-      isResSchValidatorActive:[false],
+      isSecPolicyActive: [false],
+      isResSchValidatorActive: [false],
       securityReqPolicy: [null],
-      secReqErrorStCode: [null], 
+      secReqErrorStCode: [null],
       secReqErrorBody: [null],
       secReqErrorContentType: [null],
       securityResPolicy: [null],
@@ -40,7 +40,7 @@ export class UpstreamPoliciesComponent {
       secReqPolicyArrayValue: [[]],
       secResPolicyArrayValue: [[]],
       jwtReqPolicyArrayValue: [[]],
-      responseSchema:[null]
+      responseSchema: [null]
     })
   }
 
@@ -54,6 +54,7 @@ export class UpstreamPoliciesComponent {
 
       this.upstreamPoliciesFormSubmitted.emit(value); // Emit form data on every change
     });
+    this.formGroupUpstreamPolicies.get('resSchemaValErrorStCode')?.setValue(500)
   }
 
   addParameter(fieldName: 'securityReqPolicy' | 'securityResPolicy' | 'jwtReqPolicy') {

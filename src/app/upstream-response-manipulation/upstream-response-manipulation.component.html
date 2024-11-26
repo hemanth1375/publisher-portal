@@ -1,6 +1,7 @@
 <div class="container">
   <form [formGroup]="formGroupResManipulation">
     <div class="row">
+      <h3>Basic Manipulation</h3>
 
       <div class="col-sm-12">
         <h3>You can modify the structure of the data before you return it to the endpoint where is aggregated with other
@@ -9,7 +10,8 @@
       <div class="row mb-3">
         <div class="col-sm-6">
           <label for="rootObject" class="form-label">Root Object</label>
-          <input type="text" id="rootObject" class="form-control" formControlName="rootObject">
+          <input type="text" id="rootObject" class="form-control" formControlName="rootObject"
+            placeholder="Leave blank to use all the reponse">
           <div id="rootObjectHelpBlock" class="form-text">
             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces,
             special
@@ -54,7 +56,7 @@
             <div class="mb-3">
               <div class="d-flex gap-2">
                 <input type="text" class="form-control" formControlName="deniedAttr" id="audience"
-                  aria-describedby="audience">
+                  aria-describedby="audience" placeholder="attribute_name">
                 <button type="button" class="btn btn-outline-primary" (click)="addParameter('deniedAttr')">Add</button>
               </div>
               <div class="form-text">If you want to filter the response, choose between allowing or denying attributes.
@@ -74,7 +76,7 @@
             <div class="mb-3">
               <div class="d-flex gap-2">
                 <input type="text" class="form-control" formControlName="allowedAttr" id="audience"
-                  aria-describedby="audience">
+                  aria-describedby="audience" placeholder="attribute_name">
                 <button type="button" class="btn btn-outline-primary" (click)="addParameter('allowedAttr')">Add</button>
               </div>
               <div class="form-text">If you want to filter the response, choose between allowing or denying attributes.
@@ -96,7 +98,8 @@
       <div class="row mb-3">
         <div class="col-sm-6">
           <label for="rootObject" class="form-label">Wrapping Group</label>
-          <input type="text" id="rootObject" class="form-control" formControlName="wrappingGroup">
+          <input type="text" id="rootObject" class="form-control" formControlName="wrappingGroup"
+            placeholder="my-group">
           <div id="rootObjectHelpBlock" class="form-text">
             Fill only if you want to capture all the response and encapsulate inside an attribute name.
           </div>
@@ -109,12 +112,12 @@
         <div class="col-sm-12 col-md-4">
           <label for="rootObject" class="form-label">Original Object</label>
           <input type="text" class="form-control" formControlName="originalObj" id="originalObject"
-            aria-describedby="audience">
+            aria-describedby="audience" placeholder="id_imported_user">
         </div>
         <div class="col-sm-12 col-md-4">
           <label for="rootObject" class="form-label">Renamed Object</label>
           <input type="text" class="form-control" formControlName="renamedObj" id="renamedObject"
-            aria-describedby="audience">
+            aria-describedby="audience" placeholder="id">
         </div>
         <div class="col-sm-12 col-md-4 d-flex justify-items-end">
           <button type="button" class="btn btn-outline-primary" (click)="addParameter('renaming')">Add</button>
@@ -182,7 +185,8 @@
 
       <div class="col-sm-6">
         <label for="exp" class="form-label">Expression</label>
-        <input type="text" id="exp" class="form-control" formControlName="expression">
+        <input type="text" id="exp" class="form-control" formControlName="expression"
+          placeholder="people[?age > `20`].[name, age]">
         <div id="expHelpBlock" class="form-text">
           JMESpath query to execute on returned results of /
         </div>
@@ -221,9 +225,9 @@
         </div>
       </div>
       }@else {
-        <div class="col-sm-12">
-          <p>Manipulate the response dataset after the aggregation layer using a JSON Query language.</p>
-        </div>
+      <div class="col-sm-12">
+        <p>Manipulate the response dataset after the aggregation layer using a JSON Query language.</p>
+      </div>
       }
     </div>
 
@@ -265,7 +269,8 @@
       <div class="row">
         <div class="col-sm-6">
           <label for="conType" class="form-label">Content Type</label>
-          <input type="text" id="conType" class="form-control" formControlName="contentType">
+          <input type="text" id="conType" class="form-control" formControlName="contentType"
+            placeholder="application/json">
           <div id="conTypeBlock" class="form-text">
             The Content-Type that you are coding in the template. Defaults to application/json
           </div>
@@ -281,7 +286,7 @@
 
       <div class="col-sm-6">
         <label for="path" class="form-label">Path</label>
-        <input type="text" id="path" class="form-control" formControlName="path">
+        <input type="text" id="path" class="form-control" formControlName="path" placeholder="./file.tmpl.xml">
         <div id="conTypeBlock" class="form-text">
           The Content-Type that you are coding in the template. Defaults to application/json
         </div>
@@ -289,7 +294,9 @@
 
 
       }@else {
-        <p>The response body generator lets you write a whole new payload using a template that has access to all the response data. In addition to the payload from the backend, you can incorporate other information such as headers, status codes, query strings, or URL parameters.</p>
+      <p>The response body generator lets you write a whole new payload using a template that has access to all the
+        response data. In addition to the payload from the backend, you can incorporate other information such as
+        headers, status codes, query strings, or URL parameters.</p>
       }
     </div>
 
@@ -358,58 +365,61 @@
         </div>
       </div>
       }@else {
-        <p>The content replacer plugin allows you to modify the response of your services by doing literal replacements or more sophisticated replacements with regular expressions.</p>
+      <p>The content replacer plugin allows you to modify the response of your services by doing literal replacements or
+        more sophisticated replacements with regular expressions.</p>
       }
     </div>
 
     <hr>
 
     <div class="row gap-1">
-        <div class="col-sm-12">
-          <h4>Flatmap Manipulation</h4>
-        </div>
-        <div class="col-sm-12">
-          <p>Responses using arrays need a special treatment. Add here your desired manipulations</p>
-        </div>
+      <div class="col-sm-12">
+        <h4>Flatmap Manipulation</h4>
+      </div>
+      <div class="col-sm-12">
+        <p>Responses using arrays need a special treatment. Add here your desired manipulations</p>
+      </div>
 
-        <div class="row gap-3">
-          <div class="col-sm-3">
-            <label for="opType" class="form-label">Operation Type</label>
-            <select class="form-select" aria-label="Default select example" formControlName="operationType" id="opType">
-              <option selected>Open this select menu</option>
-              <option value="move">Move</option>
-              <option value="delete">Delete</option>
-              <option value="append">Append</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <label for="originlObj" class="form-label" >Original Object</label>
-            <input type="text" id="originlObj" class="form-control" aria-describedby="passwordHelpBlock" formControlName="flatmapOriginalObj">
-          </div>
-          @if (!(formGroupResManipulation.value.operationType === 'delete')) {
-            <div class="col-sm-3">
-              <label for="targetObj" class="form-label">Target Object</label>
-              <input type="text" id="targetObj" class="form-control" aria-describedby="passwordHelpBlock" formControlName="flatmapTargetObj">
-            </div>
+      <div class="row gap-3">
+        <div class="col-sm-3">
+          <label for="opType" class="form-label">Operation Type</label>
+          <select class="form-select" aria-label="Default select example" formControlName="operationType" id="opType">
+            <option selected>Open this select menu</option>
+            <option value="move">Move</option>
+            <option value="del">Delete </option>
+            <option value="append">Append </option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <label for="originlObj" class="form-label">Original Object</label>
+          <input type="text" id="originlObj" class="form-control" aria-describedby="passwordHelpBlock"
+            formControlName="flatmapOriginalObj">
+        </div>
+        @if (!(formGroupResManipulation.value.operationType === 'delete')) {
+        <div class="col-sm-3">
+          <label for="targetObj" class="form-label">Target Object</label>
+          <input type="text" id="targetObj" class="form-control" aria-describedby="passwordHelpBlock"
+            formControlName="flatmapTargetObj">
+        </div>
+        }
+
+      </div>
+
+      <div class=" col-sm-12 mt-3 d-flex">
+        <button *ngFor="let attr of faltMapArr ; let i = index" class="parameter-item">
+          {{ attr?.type }} -> [ "{{ attr?.args[0] !== null && attr?.args[0] !== undefined ? attr.args[0] : '' }}"
+          @if (attr?.args[1] !== null && attr?.args[1]!== undefined) {
+          ,
+          "{{ attr?.args[1] !== null && attr?.args[1] !== undefined ? attr.args[1] : '' }}"
           }
-         
-        </div>
-
-        <div class=" col-sm-12 mt-3 d-flex">
-          <button *ngFor="let attr of faltMapArr ; let i = index" class="parameter-item">
-            {{ attr?.type }} -> [ "{{ attr?.args[0] !== null && attr?.args[0] !== undefined ? attr.args[0] : '' }}" 
-            @if (attr?.args[1] !== null && attr?.args[1]!== undefined) {
-              ,
-              "{{ attr?.args[1] !== null && attr?.args[1] !== undefined ? attr.args[1] : '' }}"
-            }
-            ]<mat-icon (click)="removeParameter(i,'flatMap')"
-              class="d-flex align-items-center justify-content-end">close</mat-icon>
+          ]<mat-icon (click)="removeParameter(i,'flatMap')"
+            class="d-flex align-items-center justify-content-end">close</mat-icon>
         </button>
 
-        </div>
-        <div class="col-sm-12">
-          <button type="button" class="btn btn-dark" (click)="addParameter('flatMap')">Add Operation</button>
-        </div>
+      </div>
+      <div class="col-sm-12">
+        <button type="button" class="btn btn-dark" (click)="addParameter('flatMap')">Add Operation</button>
+      </div>
 
     </div>
 
@@ -424,14 +434,15 @@
         </div>
       </div>
       @if (formGroupResManipulation.value.martianActive) {
-        <div class="col-sm-8">
-          <label for="exampleFormControlTextarea1" class="form-label">Body Editor</label>
-          <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"
-            formControlName="martian"></textarea>
-          <div class="form-text">Paste here your JSON configuration to be used in the martian modifier.</div>
-        </div>
+      <div class="col-sm-8">
+        <label for="exampleFormControlTextarea1" class="form-label">Body Editor</label>
+        <textarea class="form-control fingerprint" id="exampleFormControlTextarea1" rows="3"
+          formControlName="martian"></textarea>
+        <div class="form-text">Paste here your JSON configuration to be used in the martian modifier.</div>
+      </div>
       }@else {
-        <p>Transform requests and responses through a simple DSL definition. The input must be a JSON object with Martian format</p>
+      <p>Transform requests and responses through a simple DSL definition. The input must be a JSON object with Martian
+        format</p>
       }
     </div>
 

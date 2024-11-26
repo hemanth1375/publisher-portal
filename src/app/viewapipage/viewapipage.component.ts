@@ -398,7 +398,8 @@ export class ViewapipageComponent {
             ...(this.openApiData?.isDocumentationActive && {"documentation/openapi": {
               ...(this.openApiData?.summary &&{"summary": this.openApiData?.summary}),
               ...(this.openApiData?.description &&{"description": this.openApiData?.description}),
-              ...(this.openApiData?.tagsArrayValue.length!=0 &&{"tags": this.openApiData?.tagsArrayValue})
+              ...(this.openApiData?.tagsArrayValue?.length!=0 &&{"tags": this.openApiData?.tagsArrayValue}),
+              ...(this.openApiData?.audienceArrayValue?.length!=0 &&{"audience": this.openApiData?.audienceArrayValue})
             }}),
             ...(this.responseData?.isAdvanceResponseActive &&{"modifier/jmespath": {
               // "@comment": null,
@@ -732,7 +733,8 @@ export class ViewapipageComponent {
         ...(this.openApiData?.isDocumentationActive && {"documentation/openapi": {
           ...(this.openApiData?.summary &&{"summary": this.openApiData?.summary}),
           ...(this.openApiData?.description &&{"description": this.openApiData?.description}),
-          ...(this.openApiData?.tagsArrayValue.length!=0 &&{"tags": this.openApiData?.tagsArrayValue})
+          ...(this.openApiData?.tagsArrayValue.length!=0 &&{"tags": this.openApiData?.tagsArrayValue}),
+          ...(this.openApiData?.audienceArrayValue?.length!=0 &&{"audience": this.openApiData?.audienceArrayValue})
         }}),
         ...(this.responseData?.isAdvanceResponseActive &&{"modifier/jmespath": {
           // "@comment": null,
@@ -813,7 +815,7 @@ export class ViewapipageComponent {
           }})
             }}),
             ...(this.responseData?.isAdvanceResponseGoActive &&{"modifier/response-body-generator": {
-          "template": this.responseData?.bodyEditor,
+          "template": this.responseData?.template,
           "content_type": this.responseData?.contentType,
           "debug": this.responseData?.debug
         }}),

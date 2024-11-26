@@ -35,7 +35,12 @@ export class OpenapiComponent {
     this.formGroupOpenapi.patchValue({
       summary: this.formData?.extra_config?.["documentation/openapi"]?.summary,
       description: this.formData?.extra_config?.["documentation/openapi"]?.description,
-      tagsArrayValue:this.formData?.extra_config?.["documentation/openapi"]?.tags
+      tagsArrayValue:this.formData?.extra_config?.["documentation/openapi"]?.tags,
+      // tags: [''],
+      // audiences: [''],
+      // example: [''],
+      isDocumentationActive: !!this.formData?.extra_config?.["documentation/openapi"],
+      audienceArrayValue:this.formData?.extra_config?.["documentation/openapi"]?.audience
     })
 
     this.formGroupOpenapi.valueChanges.subscribe(value => {

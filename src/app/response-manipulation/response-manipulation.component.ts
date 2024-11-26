@@ -90,8 +90,25 @@ export class ResponseManipulationComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     console.log(this.formData);
     this.formGroupResponseManipulation.patchValue({
+      
       response: this.formData?.extra_config?.proxy?.static?.data,
-      strategy: this.formData?.extra_config?.proxy?.static?.strategy
+      strategy: this.formData?.extra_config?.proxy?.static?.strategy,
+      expression: this.formData?.extra_config?.["modifier/jmespath"]?.expr,
+
+      // contentReplacerKey:'',
+      contentReplacer: this.formData?.extra_config?.["plugin/req-resp-modifier"]?.["content-replacer"],
+      regexConReplacerActive:!!this.formData?.extra_config?.["plugin/req-resp-modifier"]?.name.includes("content-replacer"),
+
+      isStaticResponseActive: !!this.formData?.extra_config?.["proxy"]?.["static"],
+      isAdvanceResponseActive: !!this.formData?.extra_config?.["modifier/jmespath"],
+     
+      isAdvanceResponseGoActive: !!this.formData?.extra_config?.["modifier/response-body-generator"],
+
+      // bodyEditor:['bodyeditor'],
+      template:this.formData?.extra_config?.["modifier/response-body-generator"]?.template,
+      contentType:this.formData?.extra_config?.["modifier/response-body-generator"]?.content_type,
+      debug:this.formData?.extra_config?.["modifier/response-body-generator"]?.debug,
+      // path:[''],
     });
 
     this.formGroupResponseManipulation.get('bodyEditor')?.valueChanges.subscribe((value) => {

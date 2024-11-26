@@ -53,7 +53,10 @@ export class ConnectivityOptionsComponent {
       pongWait: this.formData?.extra_config?.websocket.pong_wait,
       inputHeaderArray: this.formData?.extra_config?.websocket.input_headers,
       connectEvent: this.formData?.extra_config?.websocket.connect_event,
-      disconnectEvent: this.formData?.extra_config?.websocket.disconnect_event
+      disconnectEvent: this.formData?.extra_config?.websocket.disconnect_event,
+      returnErr: this.formData?.extra_config?.websocket.return_error_details,
+      isWebSocketActive: !!this.formData?.extra_config?.websocket,
+      isSequencialActive: !!this.formData?.extra_config?.proxy?.sequential,
     })
     this.formGroup1.valueChanges.subscribe(value => {
       console.log(value);

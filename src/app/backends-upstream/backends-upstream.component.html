@@ -43,7 +43,7 @@
                <app-upstream-response-manipulation [formData]="upstreamResponseData" (upstreamResponseFormSubmitted)="onFormChange('upstreamResponse',$event)"></app-upstream-response-manipulation>
             </div>
             <div class="tab-pane fade" id="upstreamConnectivity" role="tabpanel" aria-labelledby="upstreamConnectivity-tab">
-               <app-upstream-connectivity [formData]="upstreamConnectivityData" (upstreamResponseFormSubmitted)="onFormChange('upstreamConnectivity',$event)"></app-upstream-connectivity>
+               <app-upstream-connectivity [formData]="upstreamConnectivityData" (upstreamConnectivityFormSubmitted)="onFormChange('upstreamConnectivity',$event)"></app-upstream-connectivity>
                <div class="mt-3">
                 <button mat-raised-button color="primary" (click)="submitForm()">
                   @if(isUpdate){

@@ -17,8 +17,86 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
   @Input() formData: any;
   @Output() upstreamConnectivityFormSubmitted = new EventEmitter<any>();
 
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroupUpstreamConnectivity = formBuilder.group({
+      isRestToSoapActive:[false],
+      isHttpClientSettingActive:[false],
+      isRestToGraphqlActive:[false],
+      isAMQPconsumerActive:[false],
+      isAWSlambdaActive:[false],
+      isrestToGRPCActive:[false],
+      isPublicSubscriberActive:[false],
+      isPublicPublisherActive:[false],
+      isAMQPproducerActive:[false],
+    
+      bodyEditor:['bodyeditor'],
+      template:[''],
+      contentType:[''],
+      debug:[false],
+      path:[''],
+
+      connectvWebProxyForm: [null],
+      donotFollowRedirectsForm: [false],
+   
+      objectMapValue: [[]],
+      objectMapValue1: [[]],
+
+      restTogrpcReqNamingConventionForm: [null],
+      restTogrpcResNamingConventionForm: [null],
+      restTogrpcUseReqBodyForm: [false],
+      restTogrpcAllowInsecureConForm: [null],
+      restTogrpcRemoveUnsetValForm: [false],
+      restTogrpcEnumsAsStrgsForm: [false],
+      restTogrpcTimestmpAsStrgsForm: [false],
+      restTogrpcDurationAsStrgsForm: [false],
+      restTogrpcDisableQueryParamForm: [null],
+
+      restTogprcInputMappingFieldForm: [null],
+      restTogprcInputMappingMapAsForm: [null],
+
+      restTographQLOpTypeForm:[null],
+      restTographQLInlineQueryForm:[],
+      restToGraphqlOpNameForm: [],
+      restTographQLQueryPathForm:[],
+      restTographQLVariable: [],
+      restTographQLValue: [],
+      
+    
+      amqpConsumerQueueNameForm: [null],
+      amqpConsumerExchangeForm: [null],
+      amqpConsumerBackOffStratgyForm: [null],
+      amqpConsumerRoutingKeysForm: [],
+      amqpConsumerRoutingKeysFormArray: [[]],
+      amqpConsumerPrefetchCntForm: [null],
+      amqpConsumerDurableForm: [null],
+      amqpConsumerNoLocalForm: [null],
+      amqpRoutingKeysArray:[false], 
+
+      awsLambdaFunctionNameForm: [null],
+      awsLambdaFunctionParamNameForm: [null],
+      awsLambdaRegionForm: [null],
+      awsLambdaMaxRetriesForm: [null],
+      awsLambdaEndpointForm: [null],
+
+
+      
+
+      publicSubSubscriptionTypeForm: [null],
+      publicSubSubscriptionURLForm: [null],
+      publicPubSubscriptionTypeForm: [null],
+      publicPubTopicURLForm: [null],
+      amqpProducerQueueNameForm: [null],
+      amqpProducerExchangeForm: [null],
+      amqpProducerBackoffStrategyForm: [null],
+      amqpProducerDurableForm: [null]
+
+
+    })
+  }
 
   ngOnInit() {
+    console.log(this.formData);
+    
 
     this.formGroupUpstreamConnectivity.get('bodyEditor')?.valueChanges.subscribe((value)=>{
       const bodyEditorControl = this.formGroupUpstreamConnectivity.get('template');
@@ -34,23 +112,91 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
       }
     });
 
-    this.formGroupUpstreamConnectivity.patchValue({
-      restTogrpcReqNamingConventionForm: '',
-      restTogrpcResNamingConventionForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].response_naming_convention,
-      restTogrpcUseReqBodyForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].use_request_body,
-      restTogrpcRemoveUnsetValForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_remove_unset_values,
-      restTogrpcEnumsAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_enum_as_string,
-      restTogrpcTimestmpAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_timestamp_as_string,
-      restTogrpcDurationAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"].output_duration_as_string,
-      restTographQLOpTypeForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"].type,
-      restTographQLInlineQueryForm:this.formData?.backend?.[0]?.extra_config?.["backend/graphql"].query,
-    })
+    if (this.formData) {
+      this.formGroupUpstreamConnectivity.patchValue({
 
-    this.formGroupUpstreamConnectivity.patchValue({
-      pathRestToSoapForm:this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.path
-    })
-    // this.formGroupUpstreamConnectivity.get('restToGraphqlOpTypeForm')?.setValue('query');
-    
+        restTogrpcReqNamingConventionForm:this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.request_naming_convention,
+        restTogrpcResNamingConventionForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.response_naming_convention,
+        restTogrpcUseReqBodyForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.use_request_body,
+        restTogrpcRemoveUnsetValForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.output_remove_unset_values,
+        restTogrpcEnumsAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.output_enum_as_string,
+        restTogrpcTimestmpAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.output_timestamp_as_string,
+        restTogrpcDurationAsStrgsForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.output_duration_as_string,
+        restTogrpcAllowInsecureConForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.allow_insecure_connections,
+        restTogrpcDisableQueryParamForm: this.formData?.backend?.[0]?.extra_config?.["backend/grpc"]?.disable_query_params,
+
+        restTogprcInputMappingFieldForm: "",
+        restTogprcInputMappingMapAsForm: "",
+
+        restTographQLOpTypeForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"]?.type,
+        restTographQLInlineQueryForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"]?.query,
+        restToGraphqlOpNameForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"]?.operationName,
+        restTographQLQueryPathForm: this.formData?.backend?.[0]?.extra_config?.["backend/graphql"]?.query_path,
+        restTographQLVariable: '',
+        restTographQLValue: '',
+
+        //rest to soap starting
+        isRestToSoapActive: !!this.formData?.backend?.[0]?.extra_config?.["backend/soap"],
+        bodyEditor: ['bodyeditor'],
+        template: this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.template,
+        contentType: this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.content_type,
+        debug: this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.debug,
+        path: this.formData?.backend?.[0]?.extra_config?.["backend/soap"]?.path,
+        //rest to soap ending
+
+
+        //client settings starting
+        isHttpClientSettingActive: !!this.formData?.backend?.[0]?.extra_config?.["backend/http/client"],
+
+
+        isRestToGraphqlActive: !!this.formData?.backend?.[0]?.extra_config?.["backend/graphql"],
+        isAMQPconsumerActive: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"],
+        isAWSlambdaActive: !!this.formData?.backend?.[0]?.extra_config?.["backend/lambda"],
+        isrestToGRPCActive: !!this.formData?.backend?.[0]?.extra_config?.["backend/grpc"],
+        // isPublicSubscriberActive:!!this.formData?.backend?.[0]?.extra_config?.["backend/soap"],
+        // isPublicPublisherActive:[false],
+        // isAMQPproducerActive:[false],
+
+
+
+        connectvWebProxyForm: this.formData?.backend?.[0]?.extra_config?.["backend/http/client"]?.proxy_address,
+        donotFollowRedirectsForm: this.formData?.backend?.[0]?.extra_config?.["backend/http/client"]?.no_redirect,
+
+
+        // objectMapValue: [[]],
+        // objectMapValue1: [[]],
+
+
+        amqpConsumerQueueNameForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.name,
+        amqpConsumerExchangeForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.exchange,
+        amqpConsumerBackOffStratgyForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.backoff_strategy,
+        amqpConsumerRoutingKeysForm: '',
+        amqpConsumerRoutingKeysFormArray: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.routing_key,
+        amqpConsumerPrefetchCntForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.prefetch_count,
+        amqpConsumerDurableForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.durable,
+        amqpConsumerNoLocalForm: this.formData?.backend?.[0]?.extra_config?.["backend/amqp/consumer"]?.no_local,
+
+
+        awsLambdaFunctionNameForm: this.formData?.backend?.[0]?.extra_config?.["backend/lambda"]?.function_name,
+        awsLambdaFunctionParamNameForm: this.formData?.backend?.[0]?.extra_config?.["backend/lambda"]?.function_param_name,
+        awsLambdaRegionForm: this.formData?.backend?.[0]?.extra_config?.["backend/lambda"]?.region,
+        awsLambdaMaxRetriesForm: this.formData?.backend?.[0]?.extra_config?.["backend/lambda"]?.max_retries,
+        awsLambdaEndpointForm: this.formData?.backend?.[0]?.extra_config?.["backend/lambda"]?.endpoint,
+
+        publicSubSubscriptionTypeForm: '',
+        publicSubSubscriptionURLForm:'',
+
+        publicPubSubscriptionTypeForm:'',
+        publicPubTopicURLForm:'',
+        
+        amqpProducerQueueNameForm:'',
+        amqpProducerExchangeForm:'',
+        amqpProducerBackoffStrategyForm:'',
+        amqpProducerDurableForm:''
+
+      })
+    }
+        
   }
 
   ngAfterViewInit(): void {
@@ -138,77 +284,6 @@ export class UpstreamConnectivityComponent implements OnInit,AfterViewInit{
     } else if (fieldName === "inputMappingFieldAndMapAs") {
       this.removeFromMap(index);
     }
-  }
-
-
-
-
-  constructor(private formBuilder: FormBuilder) {
-    this.formGroupUpstreamConnectivity = formBuilder.group({
-      isRestToSoapActive:[false],
-      isHttpClientSettingActive:[false],
-      isRestToGraphqlActive:[false],
-      isAMQPconsumerActive:[false], 
-      isAWSlambdaActive:[false],
-      isrestToGRPCActive:[false],
-      isPublicSubscriberActive:[false],
-      isPublicPublisherActive:[false],
-      isAMQPproducerActive:[false],
-    
-      bodyEditor:['bodyeditor'],
-      template:[''],
-      contentType:[''],
-      debug:[false],
-      path:[''],
-
-      connectvWebProxyForm: [null],
-      donotFollowRedirectsForm: [false],
-      restTographQLOpTypeForm: [null],
-      restToGraphqlOpNameForm: [null],
-      restTographQLQueryPathForm: [null],
-      restTographQLInlineQueryForm: [null],
-      restTographQLVariable: [''],
-      restTographQLValue: [''],
-
-      objectMapValue: [[]],
-      objectMapValue1: [[]],
-      
-    
-      amqpConsumerQueueNameForm: [null],
-      amqpConsumerExchangeForm: [null],
-      amqpConsumerBackOffStratgyForm: [null],
-      amqpConsumerRoutingKeysForm: [],
-      amqpConsumerRoutingKeysFormArray: [[]],
-      amqpConsumerPrefetchCntForm: [null],
-      amqpConsumerDurableForm: [null],
-      amqpConsumerNoLocalForm: [null],
-      awsLambdaFunctionNameForm: [null],
-      awsLambdaFunctionParamNameForm: [null],
-      awsLambdaRegionForm: [null],
-      awsLambdaMaxRetriesForm: [null],
-      awsLambdaEndpointForm: [null],
-      restTogrpcReqNamingConventionForm: [null],
-      restTogrpcResNamingConventionForm: [null],
-      restTogrpcUseReqBodyForm: [false],
-      restTogrpcAllowInsecureConForm: [null],
-      restTogrpcRemoveUnsetValForm: [false],
-      restTogrpcEnumsAsStrgsForm: [false],
-      restTogrpcTimestmpAsStrgsForm: [false],
-      restTogrpcDurationAsStrgsForm: [false],
-      restTogrpcDisableQueryParamForm: [null],
-      restTogprcInputMappingFieldForm: [null],
-      restTogprcInputMappingMapAsForm: [null],
-      publicSubSubscriptionTypeForm: [null],
-      publicSubSubscriptionURLForm: [null],
-      publicPubSubscriptionTypeForm: [null],
-      publicPubTopicURLForm: [null],
-      amqpProducerQueueNameForm: [null],
-      amqpProducerExchangeForm: [null],
-      amqpProducerBackoffStrategyForm: [null],
-      amqpProducerDurableForm: [null]
-
-
-    })
   }
 
 

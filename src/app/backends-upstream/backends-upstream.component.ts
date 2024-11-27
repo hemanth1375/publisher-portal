@@ -314,7 +314,7 @@ export class BackendsUpstreamComponent {
             ...(this.upstreamConnectivityData?.amqpConsumerExchangeForm && { "exchange": this.upstreamConnectivityData?.amqpConsumerExchangeForm }),
             ...(this.upstreamConnectivityData?.amqpConsumerBackOffStratgyForm && { "backoff_strategy": this.upstreamConnectivityData?.amqpConsumerBackOffStratgyForm }),
             ...(this.upstreamConnectivityData?.amqpConsumerDurableForm && { "durable": this.upstreamConnectivityData?.amqpConsumerDurableForm }),
-            ...(this.upstreamConnectivityData?.amqpConsumerRoutingKeysFormArray?.length() > 0 && { "routing_key": this.upstreamConnectivityData?.amqpConsumerRoutingKeysFormArray }),
+            ...(this.upstreamConnectivityData?.amqpConsumerRoutingKeysFormArray?.length > 0 && { "routing_key": this.upstreamConnectivityData?.amqpConsumerRoutingKeysFormArray }),
             ...(this.upstreamConnectivityData?.amqpConsumerPrefetchCntForm && { "prefetch_count": this.upstreamConnectivityData?.amqpConsumerPrefetchCntForm }),
             ...(this.upstreamConnectivityData?.amqpConsumerNoLocalForm && { "no_local": this.upstreamConnectivityData?.amqpConsumerNoLocalForm })
           }
@@ -333,10 +333,10 @@ export class BackendsUpstreamComponent {
         ...(this.upstreamConnectivityData?.isRestToSoapActive && {
           "backend/soap": {
             "@comment": null,
-            "template": "",
-            "content_type": this.upstreamConnectivityData?.contentTypeRestToSoap,
-            "debug": this.upstreamConnectivityData?.enableDebugRestToSoap,
-            "path": this.upstreamConnectivityData?.pathRestToSoapForm
+            "template": this.upstreamConnectivityData?.template,
+            "content_type": this.upstreamConnectivityData?.contentType,
+            "debug": this.upstreamConnectivityData?.debug,
+            "path": this.upstreamConnectivityData?.path
           }
         }),
         ...(this.upstreamConnectivityData?.isrestToGRPCActive && {

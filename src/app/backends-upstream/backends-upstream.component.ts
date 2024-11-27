@@ -202,6 +202,7 @@ export class BackendsUpstreamComponent {
               this.upstreamPoliciesData?.isResSchValidatorActive && 'response-schema-validator'
             ].filter(Boolean),
             ...(this.upstreamResponseData?.regexConReplacerActive && { "content-replacer": this.upstreamResponseData?.contentReplacer }),
+
             ...(this.upstreamPoliciesData?.isResSchValidatorActive && {
               "response-schema-validator": {
                 "schema": this.upstreamPoliciesData?.responseSchema,
@@ -213,6 +214,7 @@ export class BackendsUpstreamComponent {
             })
           }
         }),
+        
         ...(this.upstreamThrottlingData?.isProxyRateLimitActive && {
           "qos/ratelimit/proxy": {
             "max_rate": this.upstreamThrottlingData?.maxRateLimit,

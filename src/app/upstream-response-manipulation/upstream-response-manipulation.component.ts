@@ -28,7 +28,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
 
     this.formGroupResManipulation = this.formBuilder.group({
       isCollection:[false],
-      rootObject:[{value:'', disabled:false}],
+      rootObject:[{value:'', disabled:false}], 
       deniedAttr:[[]],
       allowedAttr:[[]],
       deniedAttributesArrValue:[[]],
@@ -37,10 +37,12 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
       originalObj:[''],
       renamedObj:[''],
       objectMapValue:[[]],
+
       isCachingActive:[false],
       isSharedCacheActive:[false], 
       AdvResManipulationActive:[false],
       resManiWithGoTemplActive:[false],
+
       expression:[''],
 
 
@@ -54,17 +56,91 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
       contentReplacerKey:[''],
 
       
-      regexConReplacerActive:[true],
+      regexConReplacerActive:[false],
 
 
       operationType:[''],
       flatmapTargetObj:[''],
       flatmapOriginalObj:[''],
       flatmapFilterArr:[[]],
-      martianActive:[true],
+      martianActive:[false],
       martian:[''] 
     })
 
+  }
+
+  ngOnInit(): void {
+
+    this.formGroupResManipulation.patchValue({
+      isCollection:this.formData?.backend?.[0]?.is_collection,
+      wrappingGroup:this.formData?.backend?.[0]?.group,
+      // rootObject:[], 
+      // deniedAttr:[[]],
+      // allowedAttr:[[]],
+
+      // deniedAttributesArrValue:[[]],
+      // allowedAttributesArrValue:[[]],
+      // originalObj:[''],
+      // renamedObj:[''],
+      // objectMapValue:[[]],
+
+      // isSharedCacheActive:[false],
+
+      isCachingActive:!!this.formData?.backend?.[0]?.extra_config?.["qos/http-cache"],
+ 
+      AdvResManipulationActive:!!this.formData?.backend?.[0]?.extra_config?.["modifier/jmespath"],
+      resManiWithGoTemplActive:!!this.formData?.backend?.[0]?.extra_config?.["modifier/response-body-generator"],
+      martianActive:!!this.formData?.backend?.[0]?.extra_config?.["modifier/martian"],
+      regexConReplacerActive:!!this.formData?.backend?.[0]?.extra_config?.["plugin/req-resp-modifier"],
+
+
+      // expression:[''],
+
+      // bodyEditor:['bodyeditor'],
+      // template:[''],
+      // contentType:[''],
+      // debug:[false],
+      // path:[''],
+
+      // contentReplacer: this.formBuilder.group({}),
+      // contentReplacerKey:[''],
+
+  
+      // operationType:[''],
+      // flatmapTargetObj:[''],
+      // flatmapOriginalObj:[''],
+      // flatmapFilterArr:[[]],
+     
+      // martian:[''] 
+    })
+   
+
+    this.selectedItem = this.items[0];
+    this.formGroupResManipulation.get('path')?.disable();
+
+    this.formGroupResManipulation.get('isCollection')?.valueChanges.subscribe((isChecked)=>{
+      const rootObjectControl = this.formGroupResManipulation.get('rootObject');
+
+      if(isChecked){
+        rootObjectControl?.disable();
+      }else{
+        rootObjectControl?.enable();
+      }
+    });
+
+    this.formGroupResManipulation.get('bodyEditor')?.valueChanges.subscribe((value)=>{
+      const bodyEditorControl = this.formGroupResManipulation.get('template');
+      const pathControl = this.formGroupResManipulation.get('path');
+      
+      if(value === 'bodyeditor'){
+        bodyEditorControl?.enable();
+        pathControl?.disable();
+
+      }else if(value === 'external'){
+        bodyEditorControl?.disable();
+        pathControl?.enable();
+      }
+    });
   }
   
   ngAfterViewInit(): void {
@@ -201,41 +277,7 @@ export class UpstreamResponseManipulationComponent implements OnInit, AfterViewI
   }
 
 
-  ngOnInit(): void {
 
-    this.formGroupResManipulation.patchValue({
-      isCollection:this.formData?.backend?.[0]?.is_collection,
-      wrappingGroup:this.formData?.backend?.[0]?.group
-    })
-   
-
-    this.selectedItem = this.items[0];
-    this.formGroupResManipulation.get('path')?.disable();
-
-    this.formGroupResManipulation.get('isCollection')?.valueChanges.subscribe((isChecked)=>{
-      const rootObjectControl = this.formGroupResManipulation.get('rootObject');
-
-      if(isChecked){
-        rootObjectControl?.disable();
-      }else{
-        rootObjectControl?.enable();
-      }
-    });
-
-    this.formGroupResManipulation.get('bodyEditor')?.valueChanges.subscribe((value)=>{
-      const bodyEditorControl = this.formGroupResManipulation.get('template');
-      const pathControl = this.formGroupResManipulation.get('path');
-      
-      if(value === 'bodyeditor'){
-        bodyEditorControl?.enable();
-        pathControl?.disable();
-
-      }else if(value === 'external'){
-        bodyEditorControl?.disable();
-        pathControl?.enable();
-      }
-    });
-  }
 
     
 

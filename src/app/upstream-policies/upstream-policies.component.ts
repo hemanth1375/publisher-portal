@@ -49,11 +49,39 @@ export class UpstreamPoliciesComponent {
   }
 
   ngOnInit() {
+
+    if(this.formData){
+      this.formGroupUpstreamPolicies.patchValue({
+        isSecPolicyActive:!!this.formData?.backend?.[0]?.extra_config?.["security/policies"],
+      isResSchValidatorActive:!!this.formData?.backend?.[0]?.extra_config?.["plugin/req-resp-modifier"]?.name.includes("response-schema-validator"),
+      // securityReqPolicy: [null],
+      // secReqErrorStCode: [null],
+      // secReqErrorBody: [null],
+      // secReqErrorContentType: [null],
+      // securityResPolicy: [null],
+      // secResErrorStCode: [null],
+      // secResErrorBody: [null],
+      // secResErrorContentType: [null],
+      // jwtReqPolicy: [null],
+      // enableDebug: [false],
+      // autoJoinPolicies: [false],
+      // disableMacros: [false],
+      // resSchemaValErrorMsg: [null],
+      // resSchemaValErrorStCode: [null],
+      // secReqPolicyArrayValue: [[]],
+      // secResPolicyArrayValue: [[]],
+      // jwtReqPolicyArrayValue: [[]],
+      // responseSchema: [null]
+      })
+    }
+
     this.formGroupUpstreamPolicies.valueChanges.subscribe(value => {
       console.log(value);
 
       this.upstreamPoliciesFormSubmitted.emit(value); // Emit form data on every change
     });
+
+
     this.formGroupUpstreamPolicies.get('resSchemaValErrorStCode')?.setValue(500)
   }
 
